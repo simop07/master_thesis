@@ -188,4 +188,48 @@ $$y(z) = y_0 + t_y\,(z - z_0)$$
 
 where $(x,y)$ and $(x_0,y_0)$ represent respectively the measured position and the fit position. This is the starting point of my analysis work.
 
-## Pull distribution and alignmen
+## Pull distribution and alignment
+
+The basic idea is the following. In the absence of a magnetic field, residuals and pull distributions can be investigated rather straightforwardly. By comparing the measured coordinates $(x,y)$ with the fitted coordinates $(x_0,y_0)$, one obtains residual distributions that are expected to be centered around zero and approximately Gaussian. While residuals are useful for a first evaluation of the detector performance, pull distributions provide a more rigorous diagnostic tool.
+
+The pull is defined as
+
+$$
+\mathrm{Pull}_x = \frac{x_{\mathrm{meas}} - x_0}{\sqrt{\sigma_{\mathrm{meas}}^2 - \sigma_{\mathrm{fit}}^2}},
+$$
+
+and analogously for the $y$ coordinate. The subtraction in the denominator arises because the fit uncertainty depends on the measured uncertainty, meaning that the two quantities are correlated. With this definition, the pull distribution should ideally follow a standard normal distribution, with mean equal to zero and standard deviation equal to one.
+
+However, the analysis of these distributions, particularly for the Vertex detector, reveals some interesting features. Several pull distributions are not centered around zero. This is a clear indication of detector misalignment. Referring to the track extrapolation equations above, if the assumed detector position differs from its true position along the beam axis, systematic shifts are introduced in the reconstructed transverse coordinates. Consequently, a non-zero pull mean directly signals a geometrical misalignment of the detector planes.
+
+Indeed, during the June data-taking campaign in Bologna, a misalignment of the second Vertex detector plane was identified through this analysis and subsequently corrected. After the correction, the pull means moved significantly closer to zero, confirming the effectiveness of the alignment procedure.
+
+A second issue concerns the width of the pull distributions. While the pull standard deviation should ideally be equal to one, values around two are observed for carbon ions and for most fragmentation products. A pull width larger than one indicates that the uncertainties assigned to the measurements are underestimated. In other words, the actual fluctuations of the residuals are larger than expected from the error model currently used in the reconstruction.
+
+Before the alignment correction, an even stronger dependence of the pull width on the fragment charge was observed. For the lightest fragments, the pull standard deviation could reach values as large as six. This behavior was likely related to the broader angular distributions of low-charge fragments. Since lighter fragments are emitted with larger scattering angles, their trajectories deviate more significantly from the beam direction, making the reconstruction more sensitive to imperfections in the detector geometry and uncertainty modeling.
+
+The alignment correction substantially reduced the charge dependence of the pull widths, representing an important improvement in the overall reconstruction performance. Nevertheless, the remaining excess width still indicates that the uncertainty model requires further refinement.
+
+Several approaches can be considered to address this issue. A straightforward solution is the introduction of scale factors applied to the estimated uncertainties, effectively rescaling the pull distributions toward unit width. This constitutes one of the main topics that I will investigate in the next phase of the project. However, such scale factors should be regarded only as temporary corrections. A deeper understanding of their physical origin is required.
+
+Ultimately, the goal is to develop more realistic, data-driven estimators for both hit positions and their associated uncertainties. In particular, customized three-dimensional estimators based on the detector geometry, the measured hit distributions, and the corresponding uncertainties in all spatial coordinates could provide a more accurate description of the detector response and significantly improve the pull distributions.
+
+This represents the main idea behind my thesis work. If time permits, an additional analysis of fragmentation data and fragment identification will also be carried out starting in September.
+
+## Chi-squared p-value distribution
+
+An additional indication that the uncertainties are currently underestimated comes from the distribution of the $\chi^2$ p-value. In an ideal reconstruction, where the residuals are correctly modeled and the uncertainties are properly estimated, the p-value distribution should be uniform in the interval $[0,1]$. At present, however, the reconstructed $\chi^2$ values tend to be systematically larger than expected, causing the p-value distribution to accumulate near zero. This behavior is consistent with the observations from the pull distributions: a larger-than-expected $\chi^2$ indicates that the residuals are not fully accounted for by the assigned uncertainties, providing further evidence that the current error estimates are underestimated.
+
+As a first step toward understanding these effects, I developed a $\chi^2$ minimization procedure with respect to the detector position along the $z$ axis. In this approach, $z$ represents the longitudinal position of the Vertex detector planes. By minimizing the track $\chi^2$ with respect to this parameter, it is possible to estimate corrections to the detector geometry directly from the data. The resulting distributions exhibit several interesting features and provide an independent handle on the detector alignment.
+
+The corresponding estimate of the longitudinal displacement is given by
+
+$$
+\Delta z = z - z_0 = \frac{\displaystyle\sum_i \frac{(x_i - x_{i,0})\, t_{x,i}}{\sigma_i^2}}{\displaystyle\sum_i \frac{t_{x,i}^2}{\sigma_i^2}},
+$$
+
+where $x_i$ and $x_{i,0}$ denote the measured and fitted positions, respectively, $t_{x,i}$ is the track slope, and $\sigma_i$ is the measurement uncertainty.
+
+A complication arises from the fact that the software alignment in the transverse coordinates ($x$ and $y$) depends on the assumed detector positions along $z$. Since a correction to the $z$ coordinates has recently been introduced, the entire alignment procedure must be repeated using the updated geometry. For this reason, residual signatures of misalignment can still be observed in some of the current Vertex detector distributions. A complete reprocessing of the data with the updated geometry is therefore required before drawing definitive conclusions regarding the detector alignment performance.
+
+The next step of the project will be the introduction and study of scale factors applied to the estimated uncertainties. The objective is to bring the pull distributions closer to the ideal standard normal behavior, namely a mean of zero and a standard deviation of one. Once these scale factors have been determined, it will be important to understand whether they can be justified by the detector response and reconstruction model, or whether a more sophisticated and physically motivated uncertainty estimation procedure is required.
