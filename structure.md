@@ -151,7 +151,7 @@ This step performs custom analysis and extracts the information of interest from
 Navigate to the scripts folder:
 
 ```bash
-cd $MYSWDIR/shoe_glbAnalysis/shoe/build/Reconstruction/scripts
+cd $MYSWDIR/shoe_glbAnalysis/shoe/Reconstruction/scripts
 ```
 
 Inspect the batch script:
