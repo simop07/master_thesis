@@ -154,6 +154,11 @@ Navigate to the scripts folder:
 cd $MYSWDIR/shoe_glbAnalysis/shoe/Reconstruction/scripts
 ```
 
+or directly do:
+```bash
+cd $MYCDRDIR
+```
+
 Inspect the batch script:
 
 ```bash
@@ -163,11 +168,7 @@ less runShoeBatchT1.sh
 Submit a batch production:
 
 ```bash
-./runShoeBatchT1.sh \
-  -i /storage/gpfs_data/foot/shared/DataCNAO2025sync/ \
-  -o $MYDATADIR/error \
-  -c CNAO2025 \
-  -r 8040
+./runShoeBatchT1.sh -i /storage/gpfs_data/foot/shared/DataCNAO2025sync/ -o $MYDATADIR/{folder name} -c CNAO2025 -r 8040
 ```
 
 Monitor jobs:
