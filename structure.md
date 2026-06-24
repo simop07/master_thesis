@@ -260,3 +260,8 @@ If, in general, we want to REBUILD everything, also the cpp and hpp files then r
 ```bash
 cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON
 ```
+
+Once `cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON` command is executed, we need to set again the FOOT global parameters. For instance, these needs to be changed in the build directory, where git is disabled. The path to FOOT configuration file is `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/build/Reconstruction/config/CNAO2025/FootGlobal.par`, and the current modification I had for the 8040 run without magnetic field is:
+- IncludeDI: n
+- IncludeKalman: y
+- Tracking Systems Considered: VT MSD TW
