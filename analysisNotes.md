@@ -246,9 +246,9 @@ What do we expect from a MIMOSA-28 with binary readout: charges with low Z have 
 
 Other thing I have discovered: the number of clusters processed by each vertex plane is different. For instance, the 4th plane is the least efficient one (indeed the average number of pixels per cluster is 20 and not 40 as in the other planes). But that is not important, as the track reconstruction requires 3 cluster as minimum to generate a VT tracklet.
 
-Another problem which arose during the analysis was an underestimate of the cluster error in the VT. This was corrected by comparing the cluster error (computed from the weighted positional variance) with the intrinsic detector resolution, given by the pixel pitch divided by \(\sqrt{12}\). The requirement is that the cluster uncertainty should not be lower than this limit, which is set by the finite size of the VT pixels.
+Another problem which arose during the analysis was an underestimate of the cluster error in the VT. This was corrected by comparing the cluster error (computed from the weighted positional variance) with the intrinsic detector resolution, given by the pixel pitch divided by $\sqrt{12}$. The requirement is that the cluster uncertainty should not be lower than this limit, which is set by the finite size of the VT pixels.
 
-For the VT, with a pixel pitch of \(20.7~\mu\mathrm{m}\), the correction is implemented as
+For the VT, with a pixel pitch of $20.7~\mu\mathrm{m}$, the correction is implemented as
 
 $$
 \sigma_{\mathrm{cluster}} = \max\left(\sigma_{\mathrm{cluster}}, \frac{20.7~\mu\mathrm{m}}{\sqrt{12}}\right),
@@ -262,7 +262,7 @@ $$
 
 My correction consisted of applying the lower limit directly to the standard deviation, whereas previously the lower limit was applied to the variance.
 
-A similar procedure was already implemented in the MSD. In that case, with a strip pitch of \(150~\mu\mathrm{m}\), the cluster variance was compared with the square of the intrinsic detector resolution:
+A similar procedure was already implemented in the MSD. In that case, with a strip pitch of $150~\mu\mathrm{m}$, the cluster variance was compared with the square of the intrinsic detector resolution:
 
 $$
 \sigma_{\mathrm{cluster}}^2 = \max\left(\sigma_{\mathrm{cluster}}^2, \left(\frac{150~\mu\mathrm{m}}{\sqrt{12}}\right)^2\right).
@@ -279,3 +279,50 @@ $$
 $$
 
 Therefore, the large reduction in the track reconstruction efficiency cannot be explained simply by the choice of comparing variances instead of standard deviations.
+
+## Update 25/06/2026
+The problem concerning the MSD cluster error is produced by negative energy loss values affecting the individual strips. These values, which represent the weights of the variance computation, are negative because they are computed with a baseline/noise pedestal removal. This means that if the energy in a strip is slighly lower than the baseline, we have negative values. To address this issue, negative values are removed from the COG computation and its error calculation. Updates will follow $\rightarrow$ maybe the pull will vary a little with this change?
+
+Cluster analysis update: the study of the cluster shape in FOOT is useless, at least for the electronic setup where the angular acceptance is roughly $10^\circ$ (if one considers the angles of the TOF Wall, otherwise is $6^\circ$). Now, to explain this issue briefly, you should look at the elongation plot and at the cluster plots. Even if tracks are tilted, they do not produce evident asymmetric clusters - it is not possible to eyeball them as in the MIMOSA-5 paper, despite it is possible to eyeball the track inclination in both $\theta$ and $\phi$ angles. This is connected to the fact that the elongation is not large in FOOT, due to the low values of $\theta$, which in the MIMOSA-5 paper start from $60^\circ$! The interesting plots are the elongation expressed as a function of $\sigma_L$ (increasing function) and $\sigma_T$ (constant function), proving what the MIMOSA-5 paper stated: the cluster elongation happens only in the projection of the particle direction onto the detector plane, not in the perpendicular component. Moreover, plotting the elongation as a function of $\theta$, we can attest the fact that the elongation does not very with $\theta$. This is the proof of what we were saying before: in FOOT elongation is not important. For carbon ions, there is a slight increase of the elongation with the number of pixels, showing to us the fact that as the pixels increase in size the elongation increase. If we look at the elongation plots as a function of theta with the cut in the number of pixels, the increase of the elongation with the number of pixels - which actually can be seen JUST for the carbons - does not mean that the elongation increases when the tracks are tilted. I mean, there is no connection between the number of pixels and the track inclination. There is, instead, the phenomenon we were describing before: as the number of pixel increases, it is easier to measure the elongation - this is why wiht protons we have the problem that elongation is constant: the horizontal lines of the proton suggest that the proton elongation is being computed from essentially the same values of $\lambda_L$ and $\lambda_T$, indicating that protons rarely activate peripheral pixels because of their lower energy deposition. As a result, elongation is not a particularly descriptive variable for proton and low-Z ions. In conclusion, both $\sigma_{fit}$ and $\sigma{meas}$ increase slighly with the elognation, showing the fact that FOOT reconstruction algorithm considers the fact that the residuals on x and on y may be different; in other words, the anisotropicity of the cluster is, somehow, already considered in our code. *Last but not least, the following paragraph gives an additional reason on why elongation study is FOOT is not greatly informative.
+
+The lateral projection of the particle track (in cx or in y) must be approximately equal to one pixel pitch:
+$$
+\Delta x = t \tan\theta \sim p
+\Delta y = t \tan\theta \sim p
+$$
+therefore,
+$$
+\tan\theta \sim \frac{p}{t}.
+$$
+With:
+$$
+p = 20\,\mu\mathrm{m}, \qquad t = 50\,\mu\mathrm{m},
+$$
+we obtain:
+$$
+\theta \sim \arctan\!\left(\frac{20}{50}\right)
+= \arctan(0.4)
+\simeq 21.8^\circ.
+$$
+Therefore, the minimum angle at which the track is expected to cross from one pixel to the next is approximately
+$$
+\boxed{\theta \sim 22^\circ}
+$$
+with respect to the normal to the sensor plane.
+For comparison:
+$$
+\Delta x(10^\circ) = 50 \tan 10^\circ \simeq 8.8\,\mu\mathrm{m}
+$$
+which is less than half a pixel.
+$$
+\Delta x(20^\circ) = 50 \tan 20^\circ \simeq 18.2\,\mu\mathrm{m}
+$$
+which is nearly one pixel.
+$$
+\Delta x(40^\circ) = 50 \tan 40^\circ \simeq 42\,\mu\mathrm{m}
+$$
+which corresponds to about two pixels. Thus, below $10^\circ$ the geometrical effect is relatively small, while above $20^\circ$ it becomes clearly observable.
+
+Actually, to conclude with a positive message, other than the error on the MSD without the negative energy values, the elongation study has proved two things:
+1. The elongation in FOOT is not a very informative parameter, due to the low inclination of tracks. Consider that a $10^\circ$ inclination makes a particle travel instead of the $50~\mu\mathrm{m}$ (VT thickness) exaclty $50.1~\mu\mathrm{m}$... which is a very small difference. In a sense, this study may be considered consistent with the MIMOSA-5 paper, which shows that at its lowest angle ($60^\circ$) the elongation is $\approx 60^\circ$.
+2. The principal axis analysis of the elongation, that is, the eigenvalues of the elongation, when rotated, they yield exaclty the distribution matrix. And is the distribution matrix interesting? Yes it is: the $\sigma_{meas}$ provided by the weighted variance computation in the VT detector acutally already includes slightly the elongation description, as we can see from the plots (this error as well as the $\sigma_{fit}$ error increase with the elongation), but this variance computation does not include the $\sigma_{xy}$ instead contained in the distribution matrix. This covariance essentially describes how the x and y measurement are correlated - which needs to be considered a a sort of in information on elongation. In GENFIT we can add this covariance! This may help - not greatly as we expect the covariance not to be large, as the elongation takes on values between 1 and 2 - but still, it is something that may produce a more comprehensive analyisis of the VT cluster reconstruction. Updates will follow $\rightarrow$ maybe the pull will vary a little with this change?
