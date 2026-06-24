@@ -236,3 +236,46 @@ The next step of the project will be the introduction and study of scale factors
 
 ## Cluster error update (16/06/2026)
 Check Ubaldi slides in the material of my Master's thesis to check why the $1/\sqrt(2)$ factor was used and why the variance of the mean was used. He explains that this factor was used to correct the pulls of the vertex tracklet - at that time decoupled with the global tracks later developed in FOOT.
+
+## Update 24/06/2026
+After creating the function $\Delta z$ defined two paragraphs above, we are still waiting for the software-based alignment procedure. The idea is that once we update a geometric parameter, such as the distance of the first two VT planes $\Delta z_{1,2}$, we need to perform again the software alignment of the whole experimental setup. Why? Because the Global Reconstruction algorithm has to know the relative position and angular displacement of all detectors. In other words, the "digital twin" of the real experimental setup has to move with the real detectors. To perform the software-based alignment, a detector plane is firstly chosen as reference in the alignment procedure. Then, a coordinate transformation matrix **dynamically adjusts the 3D position and rotation of each detector plane** relative to the chosen reference detector. We are waiting for this software alignment procedure.
+
+In the meanwhile, I developed code to study the cluster shape of the VT detector by following the paper on MIMOSA-5, located in my Master's thesis folder. The Global Reconstruction algorithm relies on the accurate determination of the position associated with each detector cluster. Specifically, the fitting procedure (Kalman Filter) is based on how precisely the cluster position are determined. Indeed, as described in [this section](#step-4-update), the uncertainty of the cluster prosition influence the relative weight that the measurement has on the fit: the more accurate a measured position is with respect to the fit measurement, the larger will be the weight on the measurement. In particles crossing the detector approximately orthogonally, the generated clusters are typically compact and nearly symmetric, allowing a straightforward estimation of the hit position and its uncertainty. **From now on, follow the ClusterVertex.pdf file in my mMaster's thesis to understand theoretically what I have developed**. The following paragraphs will simply provide a description of what I did on the code and the expected results.
+
+What do we expect from a MIMOSA-28 with binary readout: charges with low Z have a small cluster size. The inferior pixel number is caused by the fact that lighter particles do not have a sufficient energy to fire the peripheral pixels needed to generate the elongated cluster shape. Therefore, the elongated structure is more prone to vanish in smaller clusters. At the same time, lighter particles scatter at larger angles, and from the paper above we expect larger incidence angle to create more elongated clusters.
+
+Other thing I have discovered: the number of clusters processed by each vertex plane is different. For instance, the 4th plane is the least efficient one (indeed the average number of pixels per cluster is 20 and not 40 as in the other planes). But that is not important, as the track reconstruction requires 3 cluster as minimum to generate a VT tracklet.
+
+Another problem which arose during the analysis was an underestimate of the cluster error in the VT. This was corrected by comparing the cluster error (computed from the weighted positional variance) with the intrinsic detector resolution, given by the pixel pitch divided by \(\sqrt{12}\). The requirement is that the cluster uncertainty should not be lower than this limit, which is set by the finite size of the VT pixels.
+
+For the VT, with a pixel pitch of \(20.7~\mu\mathrm{m}\), the correction is implemented as
+
+$$
+\sigma_{\mathrm{cluster}} = \max\left(\sigma_{\mathrm{cluster}}, \frac{20.7~\mu\mathrm{m}}{\sqrt{12}}\right),
+$$
+
+or equivalently
+
+$$
+\sigma_{\mathrm{cluster}}^2 = \max\left(\sigma_{\mathrm{cluster}}^2, \left(\frac{20.7~\mu\mathrm{m}}{\sqrt{12}}\right)^2\right).
+$$
+
+My correction consisted of applying the lower limit directly to the standard deviation, whereas previously the lower limit was applied to the variance.
+
+A similar procedure was already implemented in the MSD. In that case, with a strip pitch of \(150~\mu\mathrm{m}\), the cluster variance was compared with the square of the intrinsic detector resolution:
+
+$$
+\sigma_{\mathrm{cluster}}^2 = \max\left(\sigma_{\mathrm{cluster}}^2, \left(\frac{150~\mu\mathrm{m}}{\sqrt{12}}\right)^2\right).
+$$
+
+The current issue, which is still not understood, is that the MSD correction significantly reduces the number of reconstructed tracks. This behavior is not expected, since comparing variances is mathematically equivalent to comparing standard deviations:
+
+$$
+\sigma_{\mathrm{cluster}}^2 >
+\left(\frac{150~\mu\mathrm{m}}{\sqrt{12}}\right)^2
+\quad \Longleftrightarrow \quad
+\sigma_{\mathrm{cluster}} >
+\frac{150~\mu\mathrm{m}}{\sqrt{12}}.
+$$
+
+Therefore, the large reduction in the track reconstruction efficiency cannot be explained simply by the choice of comparing variances instead of standard deviations.
