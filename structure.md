@@ -248,3 +248,10 @@ cd Reconstruction
 ./../bin/DecodeGlb ... # Or use Condor to gain computational power
 ./../bin/DecodeGlbAnalysis ...
 ```
+
+## 8. Modifying cofiguration files
+If a config file needs to be changed, then it is necessary to run a command to copy the changes into the `build` directory. For instance, if we need to change a line of code in `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`, then after hte change we have to run:
+```bash
+cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON
+```
+so that this config file is copied into `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/build/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`. The flag `FILECOPY=ON` is used to copy the modified files into the build directory.
