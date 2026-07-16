@@ -273,7 +273,7 @@ Once `cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON` command is executed, we
 The detector analysis configuration is stored in:
 
 ```text
-Reconstruction/config/CNAO2025/TANADetector.cfg
+shoe/Reconstruction/config/CNAO2025/TANADetector.cfg
 ```
 
 The relevant section of the configuration file is:
@@ -314,3 +314,12 @@ The parameters to enable depend on the type of analysis being performed:
   ```
 
 Only the required option should be enabled for the corresponding analysis.
+
+---
+
+## 9. Where the 'cuts' are defined (Exp_cuts)
+The cuts for experimental data are stored in this file:
+
+```text
+shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg
+```
