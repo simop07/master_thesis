@@ -265,3 +265,52 @@ Once `cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON` command is executed, we
 - IncludeDI: n
 - IncludeKalman: y
 - Tracking Systems Considered: VT MSD TW
+
+---
+
+## 8. `TANADetector.cfg` settings for QualityPlots
+
+The detector analysis configuration is stored in:
+
+```text
+Reconstruction/config/CNAO2025/TANADetector.cfg
+```
+
+The relevant section of the configuration file is:
+
+```text
+// -+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+-
+// -+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+-
+//
+// This is a Configuration File for FOOT analysis
+//
+// Campaign CNAO2024
+
+// -+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+-
+// Parameters for Analysis
+// -+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+--+-+-+-+-+-
+//
+// Using DecodeGlb file as input:
+PtReso:        0
+ThetaReso:     0
+MSDetaFunc:    0
+DataReduction: 1
+
+// Using DataReduction file as input:
+MassReso:      0
+CrossSection:  0
+```
+
+The parameters to enable depend on the type of analysis being performed:
+
+- **QualityPlots analysis**:
+  ```text
+  DataReduction: 1
+  ```
+
+- **MSD η-function analysis**:
+  ```text
+  MSDetaFunc: 1
+  ```
+
+Only the required option should be enabled for the corresponding analysis.
