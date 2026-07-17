@@ -338,4 +338,37 @@ Something that I found difficult to understand is the fact that the $\eta$ varia
 Now, I have finally implemented the $\eta$ function. To understand the physics behind it, follow the Turchetta paper absolutely. Effectively, the $\eta$ algorithm provides a uniformly distributed $x_{\eta}=P\cdot f(\eta)$, which is our objective. The interesting plots I had are the linearization of the spatial distribution and the actual $f(\eta)$ functions. At the moment **I have implemented this $\eta$ algorithm for each of the 6 MSD planes** (SO AT THE MOMENT I DON'T HAVE AN $\eta$ FOR EACH $150~\mu\mathrm{m}$-PITCH). Through this integral method we wanted to linearize the spatial distribution. It is also possible to implement a laser-based algorithm - follow my presentation for the PhD admission (backup slides) - but of course it was impossible to implement it. The integral method offers the advantage that we can find the $x_{\eta}=P\cdot f(\eta)$ directly from data, and the fact that we can associate a $\sigma_{x_{\eta}}$ to the spatial position $x_{\eta}$ using an algorithm already explained by Turchetta. This is really interesting for us because we are aiming to reduce the overestimated errors of the MSD in FOOT. It is expected that this $\eta$ algorithm will finally provide a better resolution for the spatial uncertainty of the MSD. Updates will follow $\rightarrow$ Check [here](#update-14072026).
 
 ## Update 14/07/2026
-So, now the situation is the following: we have one $f(\eta)_p$ for each plane $p$, and an $f(\eta)_{all}$ for all planes. The parameters of $f(\eta)_{all}$ are compatible with the $f(\eta)$ defined by averaging all the parameters of $f(\eta)_p$. All these functions are a linear combinations of error function (belonging to the group of the sigmoid functions). As the discrepancy between the highest and the lowest $f(\eta)$ is about $2~\mu\mathrm{m}$ (**interesting, it could be used as systematics**), and there is compatibility between the $f(\eta)_{all}$ and the $f(\eta)$ from averaged parameters, we can directly implement the position model and the uncertainty model with $f(\eta)_{all}$. Updates will follow.
+So, now the situation is the following: we have one $f(\eta)_p$ for each plane $p$, and an $f(\eta)_{all}$ for all planes. The parameters of $f(\eta)_{all}$ are compatible with the $f(\eta)$ defined by averaging all the parameters of $f(\eta)_p$. All these functions are a linear combinations of error function (belonging to the group of the sigmoid functions). As the discrepancy between the highest and the lowest $f(\eta)$ is about $2~\mu\mathrm{m}$ (**interesting, it could be used as systematics**), and there is compatibility between the $f(\eta)_{all}$ and the $f(\eta)$ from averaged parameters, we can directly implement the position model and the uncertainty model with $f(\eta)_{all}$. Updates will follow in the following days.
+
+## Update 17/07/2026
+### Vertex Tracker update
+In Quality Plots analysis I have represented the **residuals of the VT** (for each tracking plane) (x and y views) **as a function of the cluster position** (x and y), to **check for possible rotations** of the detector plane. Four 2D histograms were produced:
+
+   - Residual x vs x_clus (VT1x)
+   - Residual x vs y_clus (VT1x)
+   - Residual y vs x_clus (VT1y)
+   - Residual y vs y_clus (VT1y)
+
+The "direct" plots (*residual x vs x_clus*, *residual y vs y_clus*) **are flat**, **with mean ≈ 0**, indicating no significant scale/pitch error. The "cross" plots (*residual x vs y_clus*, *residual y vs x_clus*) instead **show a clear linear trend**, **with slopes of opposite sign and similar magnitude** (~10⁻³ rad). This is the typical signature of a small **rotation of the VT1 sensor plane around the beam axis (z)**, rather than a translation or scale error.
+
+**Mathematical explanation (rotation misalignment)**: the sensor's local axes (x′, y′) are rotated by a small angle $\theta$ with respect to the true experimental frame (x, y). For a point at true position (x, y), the coordinate measured by the rotated sensor is obtained from the standard rotation:
+$$
+x' = x\cos\theta + y\sin\theta
+$$
+$$
+y' = -x\sin\theta + y\cos\theta
+$$
+For small $\theta$ (as is the case here, $\theta \sim 10^{-3}$ rad), using $\cos\theta
+\approx 1$ and $\sin\theta \approx \theta$:
+$$
+x' \approx x + \theta \cdot y
+$$
+$$
+y' \approx y - \theta \cdot x
+$$
+The physical hit position does not move - only the axis along which the sensor measures it
+is tilted. The reconstructed residual is:
+$$
+\text{residual}_x = x' - x \approx \theta \cdot y
+$$
+This explains why **residual_x grows linearly with y_clus**, and residual_y grows linearly with x_clus, with slopes of opposite sign: both are set by the same rotation angle $\theta$, extracted directly from the observed slopes (~10⁻³ rad, i.e. ~0.05–0.06°).
