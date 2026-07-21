@@ -7,9 +7,9 @@ The aim of the notes that will follow is to present a comprehensive and chronolo
 The motivation behind the VT work lies in the investigation of its pull distributions. To thoroughly understand what a **pull distirbution** is, and its connection to the **Kalman Filter** algorithm, check the folder "Material" in my Thesis directory in Windows. In next paragraphs, just a summary of these concepts will be provided to motivate my undergoing work.
 
 ### Tracking particles
-In a tracking/vertexing system, parallel detector planes are employed to measure the positional information of a particle. When a particle traverses a detector (whether it is a pixel or a strip detector), it fires a sensor. Usually, the hit sensor is not a single pixel, it is rather a cluster of pixels or a family of strips. Specifically, FOOT VT detector gives a hit/no hit information (hence, it is a binary readout, not an analog one). When the VT detector fires, a positional measurement $\vec{x}_{meas}$ is given. In the particular case of the VT detector, we have $4$ parallel planes which provide $4$ $\vec{x}_{meas}$. These points, together with additional hit points fournished by the other tracking detectors (Inner Tracker, Micro Strip Detector and TOF Wall), provide a family of hits which follow the (bended) track of a particle.
+In a tracking/vertexing system, parallel detector planes are employed to measure the positional information of a particle. When a particle traverses a detector (whether it is a pixel or a strip detector), it fires a sensor. Usually, the hit sensor is not a single pixel, it is rather a cluster of pixels or a family of strips. Specifically, FOOT VT detector gives a hit/no hit information (hence, it is a binary readout, not an analog one). When the VT detector fires, a positional measurement $x_{meas}$ is given. In the particular case of the VT detector, we have $4$ parallel planes which provide $4$ $x_{meas}$. These points, together with additional hit points fournished by the other tracking detectors (Inner Tracker, Micro Strip Detector and TOF Wall), provide a family of hits which follow the (bended) track of a particle.
 
-These position measurements do not lie exactly on the true particle trajectory, due to finite detector uncertainties and possible plane misalignements, and particles suffering from multiple coulomb scattering happening within the detectors' bulk or in air. Hence, the collected measurements $\vec{x}_{meas,i}$ represent just an approximation of the true particle track.
+These position measurements do not lie exactly on the true particle trajectory, due to finite detector uncertainties and possible plane misalignements, and particles suffering from multiple coulomb scattering happening within the detectors' bulk or in air. Hence, the collected measurements $x_{meas,i}$ represent just an approximation of the true particle track.
 
 ### Track representation, fitting and global reconstruction
 Premise: to thoroughly understand the track reconstruction in FOOT experiment, refer to Chapter 3 of **Roberto Zarrella PhD thesis**. Now, we have a family of hits representing the particle track. Of course, it is unphysical to simply connect these consecutive points via a polyline. Hence, a reconstruction/fitting algorithm is used to reconstruct the physical, smooth trajectory followed by a particle in FOOT experimental setup.
@@ -84,21 +84,37 @@ State at plane k-1
 Predicted state at plane k
 ```
 The result is the predicted state vector $\tilde{\mathbf{x}}_k$ and its covariance:
-$$\tilde{C}_k = J\, C_{k-1}\, J^T + N$$
+
+$$
+\tilde{C}_k = J\, C_{k-1}\, J^T + N
+$$
+
 where:
 - $J$ is the **Jacobian matrix describing error propagation**,
 - $N$ is the **process noise matrix** accounting for **multiple scattering**, **energy loss**, and other propagation uncertainties.
 
 #### Step 3: Residual Calculation
 At detector plane $k$, a measurement $\mathbf{m}_k$ is available. The difference between measurement and prediction is called the **residual**:
-$$\mathbf{r}_k = \mathbf{m}_k - H_k\, \tilde{\mathbf{x}}_k$$
+
+$$
+\mathbf{r}_k = \mathbf{m}_k - H_k\, \tilde{\mathbf{x}}_k
+$$
+
 The matrix $H_k$ converts the state vector into measurable detector coordinates.
 
 #### Step 4: Update
 The predicted track and the detector measurement are combined. The **Kalman Gain**:
-$$K_k = \tilde{C}_k H_k^T \left( H_k \tilde{C}_k H_k^T + V_k \right)^{-1}$$
+
+$$
+K_k = \tilde{C}_k H_k^T \left( H_k \tilde{C}_k H_k^T + V_k \right)^{-1}
+$$
+
 determines how much the measurement should influence the updated state. The updated state becomes:
-$$\mathbf{x}_k = \tilde{\mathbf{x}}_k + K_k\, \mathbf{r}_k$$
+
+$$
+\mathbf{x}_k = \tilde{\mathbf{x}}_k + K_k\, \mathbf{r}_k
+$$
+
 Conceptually:
 ```
 Prediction  = 10.0 ± 1.0 mm
@@ -286,41 +302,57 @@ The problem concerning the MSD cluster error is produced by negative energy loss
 Cluster analysis update: the study of the cluster shape in FOOT is useless, at least for the electronic setup where the angular acceptance is roughly $10^\circ$ (if one considers the angles of the TOF Wall, otherwise is $6^\circ$). Now, to explain this issue briefly, you should look at the elongation plot and at the cluster plots. Even if tracks are tilted, they do not produce evident asymmetric clusters - it is not possible to eyeball them as in the MIMOSA-5 paper, despite it is possible to eyeball the track inclination in both $\theta$ and $\phi$ angles. This is connected to the fact that the elongation is not large in FOOT, due to the low values of $\theta$, which in the MIMOSA-5 paper start from $60^\circ$! The interesting plots are the elongation expressed as a function of $\sigma_L$ (increasing function) and $\sigma_T$ (constant function), proving what the MIMOSA-5 paper stated: the cluster elongation happens only in the projection of the particle direction onto the detector plane, not in the perpendicular component. Moreover, plotting the elongation as a function of $\theta$, we can attest the fact that the elongation does not very with $\theta$. This is the proof of what we were saying before: in FOOT elongation is not important. For carbon ions, there is a slight increase of the elongation with the number of pixels, showing to us the fact that as the pixels increase in size the elongation increase. If we look at the elongation plots as a function of theta with the cut in the number of pixels, the increase of the elongation with the number of pixels - which actually can be seen JUST for the carbons - does not mean that the elongation increases when the tracks are tilted. I mean, there is no connection between the number of pixels and the track inclination. There is, instead, the phenomenon we were describing before: as the number of pixel increases, it is easier to measure the elongation - this is why wiht protons we have the problem that elongation is constant: the horizontal lines of the proton suggest that the proton elongation is being computed from essentially the same values of $\lambda_L$ and $\lambda_T$, indicating that protons rarely activate peripheral pixels because of their lower energy deposition. As a result, elongation is not a particularly descriptive variable for proton and low-Z ions. In conclusion, both $\sigma_{fit}$ and $\sigma_{meas}$ increase slighly with the elognation, showing the fact that FOOT reconstruction algorithm considers the fact that the residuals on x and on y may be different; in other words, the anisotropicity of the cluster is, somehow, already considered in our code. *Last but not least, the following paragraph gives an additional reason on why elongation study is FOOT is not greatly informative.
 
 The lateral projection of the particle track (in cx or in y) must be approximately equal to one pixel pitch:
+
 $$
 \Delta x = t \tan\theta \sim p
 \Delta y = t \tan\theta \sim p
 $$
+
 therefore,
+
 $$
 \tan\theta \sim \frac{p}{t}.
 $$
+
 With:
+
 $$
 p = 20\,\mu\mathrm{m}, \qquad t = 50\,\mu\mathrm{m},
 $$
+
 we obtain:
+
 $$
 \theta \sim \arctan\!\left(\frac{20}{50}\right)
 = \arctan(0.4)
 \simeq 21.8^\circ.
 $$
+
 Therefore, the minimum angle at which the track is expected to cross from one pixel to the next is approximately
+
 $$
 \boxed{\theta \sim 22^\circ}
 $$
+
 with respect to the normal to the sensor plane.
 For comparison:
+
 $$
 \Delta x(10^\circ) = 50 \tan 10^\circ \simeq 8.8\,\mu\mathrm{m}
 $$
+
 which is less than half a pixel.
+
 $$
 \Delta x(20^\circ) = 50 \tan 20^\circ \simeq 18.2\,\mu\mathrm{m}
 $$
+
 which is nearly one pixel.
+
 $$
 \Delta x(40^\circ) = 50 \tan 40^\circ \simeq 42\,\mu\mathrm{m}
 $$
+
 which corresponds to about two pixels. Thus, below $10^\circ$ the geometrical effect is relatively small, while above $20^\circ$ it becomes clearly observable.
 
 Actually, to conclude with a positive message, other than the error on the MSD without the negative energy values, the elongation study has proved two things:
@@ -338,7 +370,7 @@ Something that I found difficult to understand is the fact that the $\eta$ varia
 Now, I have finally implemented the $\eta$ function. To understand the physics behind it, follow the Turchetta paper absolutely. Effectively, the $\eta$ algorithm provides a uniformly distributed $x_{\eta}=P\cdot f(\eta)$, which is our objective. The interesting plots I had are the linearization of the spatial distribution and the actual $f(\eta)$ functions. At the moment **I have implemented this $\eta$ algorithm for each of the 6 MSD planes** (SO AT THE MOMENT I DON'T HAVE AN $\eta$ FOR EACH $150~\mu\mathrm{m}$-PITCH). Through this integral method we wanted to linearize the spatial distribution. It is also possible to implement a laser-based algorithm - follow my presentation for the PhD admission (backup slides) - but of course it was impossible to implement it. The integral method offers the advantage that we can find the $x_{\eta}=P\cdot f(\eta)$ directly from data, and the fact that we can associate a $\sigma_{x_{\eta}}$ to the spatial position $x_{\eta}$ using an algorithm already explained by Turchetta. This is really interesting for us because we are aiming to reduce the overestimated errors of the MSD in FOOT. It is expected that this $\eta$ algorithm will finally provide a better resolution for the spatial uncertainty of the MSD. Updates will follow $\rightarrow$ Check [here](#update-14072026).
 
 ## Update 14/07/2026
-So, now the situation is the following: we have one $f(\eta)_p$ for each plane $p$, and an $f(\eta)_{all}$ for all planes. The parameters of $f(\eta)_{all}$ are compatible with the $f(\eta)$ defined by averaging all the parameters of $f(\eta)_p$. All these functions are a linear combinations of error function (belonging to the group of the sigmoid functions). As the discrepancy between the highest and the lowest $f(\eta)$ is about $2~\mu\mathrm{m}$ (**interesting, it could be used as systematics**), and there is compatibility between the $f(\eta)_{all}$ and the $f(\eta)$ from averaged parameters, we can directly implement the position model and the uncertainty model with $f(\eta)_{all}$. Updates will follow in the following days.
+So, now the situation is the following: we have one $f(\eta)^p$ for each plane $p$, and an $f(\eta)^{all}$ for all planes. The parameters of $f(\eta)^{all}$ are compatible with the $f(\eta)$ defined by averaging all the parameters of $f(\eta)^p$. All these functions are a linear combinations of error function (belonging to the group of the sigmoid functions). As the discrepancy between the highest and the lowest $f(\eta)$ is about $2~\mu\mathrm{m}$ (**interesting, it could be used as systematics**), and there is compatibility between the $f(\eta)^{all}$ and the $f(\eta)$ from averaged parameters, we can directly implement the position model and the uncertainty model with $f(\eta)^{all}$. Updates will follow in the following days.
 
 ## Update 17/07/2026
 ### Vertex Tracker update
@@ -352,23 +384,31 @@ In Quality Plots analysis I have represented the **residuals of the VT** (for ea
 The "direct" plots (*residual x vs x_clus*, *residual y vs y_clus*) **are flat**, **with mean ≈ 0**, indicating no significant scale/pitch error. The "cross" plots (*residual x vs y_clus*, *residual y vs x_clus*) instead **show a clear linear trend**, **with slopes of opposite sign and similar magnitude** (~10⁻³ rad). This is the typical signature of a small **rotation of the VT1 sensor plane around the beam axis (z)**, rather than a translation or scale error.
 
 **Mathematical explanation (rotation misalignment)**: the sensor's local axes (x′, y′) are rotated by a small angle $\theta$ with respect to the true experimental frame (x, y). For a point at true position (x, y), the coordinate measured by the rotated sensor is obtained from the standard rotation:
+
 $$
 x' = x\cos\theta + y\sin\theta
 $$
+
 $$
 y' = -x\sin\theta + y\cos\theta
 $$
+
 For small $\theta$ (as is the case here, $\theta \sim 10^{-3}$ rad), using $\cos\theta
 \approx 1$ and $\sin\theta \approx \theta$:
+
 $$
 x' \approx x + \theta \cdot y
 $$
+
 $$
 y' \approx y - \theta \cdot x
 $$
+
 The physical hit position does not move - only the axis along which the sensor measures it
 is tilted. The reconstructed residual is:
+
 $$
 \text{residual}_x = x' - x \approx \theta \cdot y
 $$
+
 This explains why **residual_x grows linearly with y_clus**, and residual_y grows linearly with x_clus, with slopes of opposite sign: both are set by the same rotation angle $\theta$, extracted directly from the observed slopes (~10⁻³ rad, i.e. ~0.05–0.06°).
