@@ -370,7 +370,7 @@ Something that I found difficult to understand is the fact that the $\eta$ varia
 Now, I have finally implemented the $\eta$ function. To understand the physics behind it, follow the Turchetta paper absolutely. Effectively, the $\eta$ algorithm provides a uniformly distributed $x_{\eta}=P\cdot f(\eta)$, which is our objective. The interesting plots I had are the linearization of the spatial distribution and the actual $f(\eta)$ functions. At the moment **I have implemented this $\eta$ algorithm for each of the 6 MSD planes** (SO AT THE MOMENT I DON'T HAVE AN $\eta$ FOR EACH $150~\mu\mathrm{m}$-PITCH). Through this integral method we wanted to linearize the spatial distribution. It is also possible to implement a laser-based algorithm - follow my presentation for the PhD admission (backup slides) - but of course it was impossible to implement it. The integral method offers the advantage that we can find the $x_{\eta}=P\cdot f(\eta)$ directly from data, and the fact that we can associate a $\sigma_{x_{\eta}}$ to the spatial position $x_{\eta}$ using an algorithm already explained by Turchetta. This is really interesting for us because we are aiming to reduce the overestimated errors of the MSD in FOOT. It is expected that this $\eta$ algorithm will finally provide a better resolution for the spatial uncertainty of the MSD. Updates will follow $\rightarrow$ Check [here](#update-14072026).
 
 ## Update 14/07/2026
-So, now the situation is the following: we have one $f(\eta)^p$ for each plane $p$, and an $f(\eta)^{all}$ for all planes. The parameters of $f(\eta)^{all}$ are compatible with the $f(\eta)$ defined by averaging all the parameters of $f(\eta)^p$. All these functions are a linear combinations of error function (belonging to the group of the sigmoid functions). As the discrepancy between the highest and the lowest $f(\eta)$ is about $2~\mu\mathrm{m}$ (**interesting, it could be used as systematics**), and there is compatibility between the $f(\eta)^{all}$ and the $f(\eta)$ from averaged parameters, we can directly implement the position model and the uncertainty model with $f(\eta)^{all}$. Updates will follow in the following days.
+So, now the situation is the following: we have one $f(\eta)^p$ for each plane $p$, and an $f(\eta)^{all}$ for all planes. The parameters of $f(\eta)^{all}$ are compatible with the $f(\eta)$ defined by averaging all the parameters of $f(\eta)^p$. All these functions are a linear combinations of error function (belonging to the group of the sigmoid functions). As the discrepancy between the highest and the lowest $f(\eta)$ is about $2~\mu\mathrm{m}$ (**interesting, it could be used as systematics**), and there is compatibility between the $f(\eta)^{all}$ and the $f(\eta)$ from averaged parameters, we can directly implement the position model and the uncertainty model with $f(\eta)^{all}$. Updates will follow in the following days (check [here](#update-22072026)).
 
 ## Update 17/07/2026
 ### Vertex Tracker update
@@ -426,6 +426,72 @@ Note that the above results for the pulls are obtained considering the following
    1. $\sigma_{eta}$ is the error directly found in the Turchetta algorithm
    2. $\sigma_{diff} = 10~\mu\mathrm{m}$ is a constant diffusion error due to the fact that charge deposit fluctuations could occur while charge deposit energy in the strips. Instead of setting this value to a fixed number (which is equal to the typical width of the diffusion cloud in silicon strips), it would be more accurate to use a per-fragment error based on the spread of the ADC signal generated in the strips. **The diffusion error would then be the $\sigma$ of the energy deposition distrubution for each fragment**.
 
-So, on one hand, the situation of the pull has **improved a lot**. This **improved also the chi-squared distribution** (by shifting the peak (for carbons!) from $\approx0.8$ to $\approx1.$ something and reducing the events in the tail of the chi-squared PDF (always for carbon!)). The **p-value distribution** (always analyzed for carbons due to the higher statistics) shifted a little bit towards the left (due to the fact that the chi-squared has shifted towards the right); I would say that the fact that the number of high p-values has decreased is given by the fact that now the MSD error have been decreased (reaching from tens to hundreds of micrometers (actually **MSD2 plane has an eviednt problem** that needs to be addressed: the errors reach $\approx300~\mu\mathrm{m}$, something which is completely wrong. The fact that the MSD2 reaches these errors is probably due to the $\frac{df}{d\eta}$ values, which reach 362.)).
+So, on one hand, the situation of the pull has **improved a lot**. This **improved also the chi-squared distribution** (by shifting the peak (for carbons!) from $\approx0.8$ to $\approx1.$ something and reducing the events in the tail of the chi-squared PDF (always for carbon!)). The **p-value distribution** (always analyzed for carbons due to the higher statistics) shifted a little bit towards the left (due to the fact that the chi-squared has shifted towards the right); I would say that the fact that the number of high p-values has decreased is given by the fact that now the MSD error have been decreased (reaching from tens to hundreds of micrometers (actually **MSD2 plane has an eviednt problem** that needs to be addressed: the errors reach $\approx300~\mu\mathrm{m}$, something which is completely wrong. The fact that the MSD2 reaches these errors is not due to the $\frac{df}{d\eta}$ values, which by the way is currently fixed at 362, but it is due to the noise pedestal of MSD2 sensor. Indeed, with another campaign (the 8028 of CNAO2025) charachterized by roughly uniform MSD noise pedestal, the errors do not reach such high values)). Note that the majority of events (more than 95%) has an associated MSD error of $10~\mu\mathrm{m}$. **The fact that the pull distribution have improved when the average error is $10~\mu\mathrm{m}$, means that somehow GENFIT expects the right measured error (nor overestimated, neither underestimated) to be $\approx10~\mu\mathrm{m}$**, which is **VERY VERY SMALL**. To understand whether this order of magnitude of $10~\mu\mathrm{m}$ is right or wrong, I have computed the residuals in the middle x and y planes (MSD2 and MSD3, respectively). This residual is shown as a function of $f(\eta)$. The idea is: if the residual spread has an order of magnitude of approximately $10~\mu\mathrm{m}$, then effectively we can trust the $10~\mu\mathrm{m}$ estimate for the MSD error currently used in GENFIT, that is, the $10~\mu\mathrm{m}$ error is physically reasonable. Note that, for simplicity, instead of computing the residual between the measured and the fit position from GENFIT, I have used the difference between the measured and the expected position **obtained from a linear interpolation of the track between the outer MSD planes**. For the **MSD2 x-coordinate**, the expected position is obtained by interpolating the x-coordinate between MSD1 and MSD5:
 
-I have added also two plots: the pull as a function of $f(\eta)$ and the $\sigma_{eta}$ as a function of the $f(\eta)$. While the first plot is interesting because it is another way to see that the $f(\eta)$ distribution is flat (valid for carbons, less valid for Helium fragments - probably because the $f(\eta)$ we are using have been calibrated on carbon ions!!), the second one is interesting because it shows the fact that the error increases with $\frac{df}{d\eta}$ (in other words, in correspondance with the readout and floating strips, the higher number of entries of the $\eta$ generate larger errors).
+$$
+x_{\mathrm{exp}}^{\mathrm{MSD2}} =
+x_{\mathrm{MSD1}}+
+(z_{\mathrm{MSD2}}-z_{\mathrm{MSD1}})
+\frac{x_{\mathrm{MSD5}}-x_{\mathrm{MSD1}}}
+{z_{\mathrm{MSD5}}-z_{\mathrm{MSD1}}}
+$$
+
+Similarly, for the **MSD3 y-coordinate**, the expected position is obtained by interpolating between MSD2 and MSD6:
+
+$$
+y_{\mathrm{exp}}^{\mathrm{MSD3}} =
+y_{\mathrm{MSD2}}+
+(z_{\mathrm{MSD3}}-z_{\mathrm{MSD2}})
+\frac{y_{\mathrm{MSD6}}-y_{\mathrm{MSD2}}}
+{z_{\mathrm{MSD6}}-z_{\mathrm{MSD2}}}
+$$
+
+The residuals are then computed as:
+
+$$
+\mathrm{Residual}_{x}^{\mathrm{MSD2}} =
+(x_{\mathrm{exp}}^{\mathrm{MSD2}}-x_{\mathrm{meas}}^{\mathrm{MSD2}})
+$$
+
+and
+
+$$
+\mathrm{Residual}_{y}^{\mathrm{MSD3}} =
+(y_{\mathrm{exp}}^{\mathrm{MSD3}}-y_{\mathrm{meas}}^{\mathrm{MSD3}})
+$$
+
+The obtained residuals are then studied as a function of the cluster position inside the sensor pitch, expressed through the $f(\eta)$. This allows one to **verify whether the intrinsic spatial resolution depends on the position of the charge sharing inside the strip pitch**, and if **the $10~\mu\mathrm{m}$ error is compatible with the residual of the inner plane in each coordinate**. Updates will follow.
+
+I have added also two plots: the pull as a function of $f(\eta)$ and the $\sigma_{eta}$ as a function of the $f(\eta)$. While the first plot is interesting because it is another way to see that the $f(\eta)$ distribution is flat (valid for carbons, less valid for Helium fragments - probably because the $f(\eta)$ we are using have been calibrated on carbon ions...), the second one is interesting because it shows the fact that the error increases with $\frac{df}{d\eta}$ (in other words, in correspondance with the readout and floating strips, the higher number of entries of the $\eta$ generate larger errors).
+
+## Update 04/08/2026
+### Detector coordinate system
+The detector coordinate system is defined as follows:
+
+- **Beam direction:** $z$-axis (longitudinal direction).
+- **Magnetic field:** $y$-axis (vertical direction).
+- **Bending direction:** $x$-axis (horizontal direction).
+
+The Lorentz force acting on a charged particle is
+
+$$
+\vec{F} = q\,\vec{v}\times\vec{B},
+$$
+
+where the particle velocity is approximately parallel to the $z$-axis and the magnetic field is parallel to the $y$-axis. Consequently,
+
+$$
+\vec{v}\parallel\hat{z}, \qquad
+\vec{B}\parallel\hat{y}
+\quad\Longrightarrow\quad
+\vec{F}\parallel\hat{x},
+$$
+
+meaning that the particle trajectory is bent in the **$x$ direction**.
+
+Since the MSD geometry alternates the measured coordinates,
+
+- **even MSD layers** measure the **$x$ coordinate**,
+- **odd MSD layers** measure the **$y$ coordinate**,
+
+any observed asymmetry between the residuals (or resolutions) of the even and odd layers could naturally originate from the detector geometry. In particular, the **$x$ coordinate corresponds to the bending plane**, where the track curvature induced by the magnetic field is present, whereas the **$y$ coordinate is a non-bending direction**. Therefore, systematic differences between the performances of the even ($x$) and odd ($y$) layers are not necessarily unexpected and may be related to the track bending itself.
