@@ -1,26 +1,211 @@
-\chapter{The FOOT experiment}\label{cap:foot_experiment}
-As described in (??), measuring the impact of nuclear fragmentation processes is essential to improve the reliability of treatment planning systems for particle therapy (PT) as well as to optimize the shielding structures of spacecraft for space radiation protection (SRP). The absence of a fundamental theory describing nuclear interactions has led scientists to develop semi-empirical models using deterministic transport codes and Monte Carlo simulations \cite{Kramer2010,Sommerer_2006,Sato2009-db,Bohlen2010-em,Bolst2017-db}, to characterize nucleus-nucleus interactions. Nevertheless, due to the lack of fragmentation cross section data, these computational approaches are poorly constrained, and their validity is compromised by a limited experimental accuracy \cite{measurement_impact_foot}.
+\documentclass[12pt,a4paper,twoside]{report}
 
-Nowadays, the scarcity of both projectile and target fragmentation data represents one of the main challenges in PT and SRP research. In recent years, some experiments attempted to measure \ce{^{12}C} projectile fragmentation, however only few energy-target combinations have been explored \cite{DeNapoli_2012,PhysRevC.89.064615,PhysRevC.93.064601}. On the other hand, target fragmentation, which is the only relevant nuclear process occurring in proton therapy, 
+% ==========================================
+% 1. GRAPHICAL LAYOUT (FIXED HEADERS & MARGINS)
+% ==========================================
+\usepackage[footskip=0.8cm, hmargin={20mm,20mm}, top=25mm, bottom=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{fancyhdr}
 
-In addition to the challenges associated with \ce{^{12}C} and protons, the poor data availability of \ce{^{16}O} and \ce{^{4}He} beams in PT \cite{Tommasino2016-af} contributes to hinder the potential attractiveness of these two ion species. Indeed, despite being less convenient in aerobic conditions, \ce{^{16}O} proves more effective than \ce{^{12}C} and protons in damaging hypoxic tumors (see ?? OER). Regarding \ce{^{4}He}, its limited multiple Coulomb scattering offers a more precise dose release compared to protons. Furthermore, \ce{^{4}He} inherent stability reduces the projectile fragmentation probability with respect to \ce{^{12}C}, an important condition in the treatment of pediatric tumors \cite{articleIndelicato}. Lastly, the production of \ce{^{4}He} beams is more cost-effective than higher-LET radiations \cite{Marafini_2017,Rovituso_2017}.
+\pagestyle{fancy}
+\fancyhf{} % Clear header and footer fields
 
-Conversely to project fragmentation, the landscape of target fragmentation is completely different
+% Define Chapter mark: updates \leftmark and resets \rightmark
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{CH.\ \thechapter\ --\ #1}}{}}
 
+% Headers layout
+\fancyhead[LO]{\footnotesize \textsl{\rightmark}} % Odd (Right) pages: Section Title
+\fancyhead[RE]{\footnotesize \textsl{\leftmark}}  % Even (Left) pages: Chapter Title
+\fancyhead[LE,RO]{\footnotesize \thepage}         % Page numbers on outer corners
 
+% Footers and lines
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headwidth}{15cm}
 
+% ==========================================
+% 2. LANGUAGE & BASIC TOOLS
+% ==========================================
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{lipsum}
 
+% ==========================================
+% 3. MATHEMATICS & PHYSICS PACKAGES
+% ==========================================
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{braket}
+\usepackage{mathcomp}
+\usepackage{siunitx}
+\newcommand{\matr}[1]{\boldsymbol{#1}}
+\newcommand{\transp}[1]{{#1}^{\mathsf{T}}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
 
-To address this data deficit, ...
+% ==========================================
+% 4. GRAPHICS, DIAGRAMS & TABLES
+% ==========================================
+\graphicspath{{images/}}
+\usepackage[export]{adjustbox}[2011/08/13]
+\usepackage{subcaption}
+\usepackage{caption}
+\captionsetup[figure]{labelfont={bf},name={Figure}}
+\captionsetup[table]{labelfont={bf},name={Table}}
 
-%in alcuni esperimenti, si `e misurata la frammentazione del proiettile degli
-%ioni di 12C, tuttavia tali misure coprono solo la parte inferiore dei range energetici
-%sopra citati [123, 124]. Inoltre, esistono alcune misure riguardanti i processi di
-%frammentazione del target, che per`o si limitano alla produzione di frammenti molto
-%leggeri (Z < 3) e sono caratterizzate da una bassa accuratezza, dovuta soprattutto
-%al corto raggio (≈ μm) dei frammenti del target che non consente di misurare le
-%loro propriet`a con tecniche di rivelazione convenzionali. Tali problematiche hanno
-%portato a un progressivo abbandono degli studi afferenti alla frammentazione del
-%target, specialmente quella indotta da fasci protonici; sempre per tali motivi, vi `e
-%una grande scarsit`a di dati anche per i frammenti generati da bersagli pi`u pesanti,
-%dotati di maggiori A e Z [18].
+\usepackage{longtable}
+\usepackage[version=4]{mhchem}
+\usepackage{tikz-feynman}
+\tikzfeynmanset{warn luatex=false, compat=1.1.0}
+
+\usepackage{tabularx}
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\renewcommand{\arraystretch}{1.3}
+\usepackage{multirow}
+\usepackage{tablefootnote}
+
+% ==========================================
+% 5. CITATIONS & BIBLIOGRAPHY
+% ==========================================
+\usepackage[backend=bibtex,
+style=numeric-comp,
+sorting=none,
+url=false,
+isbn=false,
+doi=false,
+eprint=false,
+giveninits=true]{biblatex}
+\usepackage[style=american]{csquotes}
+
+\newbibmacro{string+doiurlisbn}[1]{%
+	\iffieldundef{doi}{%
+		\iffieldundef{url}{%
+			\iffieldundef{isbn}{%
+				\iffieldundef{issn}{#1}{%
+					\href{http://books.google.com/books?vid=ISSN\thefield{issn}}{#1}%
+				}%
+			}{%
+				\href{http://books.google.com/books?vid=ISBN\thefield{isbn}}{#1}%
+			}%
+		}{%
+			\href{\thefield{url}}{#1}%
+		}%
+	}{%
+		\href{http://dx.doi.org/\thefield{doi}}{#1}%
+	}%
+}
+\DeclareFieldFormat{title}{\usebibmacro{string+doiurlisbn}{\mkbibemph{#1}}}
+\DeclareFieldFormat[article,book,conference,phdthesis,misc]{title}{%
+	\usebibmacro{string+doiurlisbn}{\mkbibquote{#1}}%
+}
+\renewbibmacro{in:}{}
+\addbibresource{bibliography.bib}
+
+% ==========================================
+% 6. DOCUMENT MACROS & HYPERREF
+% ==========================================
+\newenvironment{dedication}{
+	\clearpage
+	\thispagestyle{empty}
+	\vspace*{\stretch{1}}
+	\itshape
+	\raggedleft
+}{%
+	\par
+	\vspace{\stretch{3}}
+	\clearpage
+}
+
+\usepackage[toc,page]{appendix}
+\renewcommand\appendixname{Appendix}
+\renewcommand\appendixtocname{Appendix}
+\renewcommand\appendixpagename{Appendix}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,         % Attiva i colori per i link (invece dei riquadri colorati)
+	linkcolor=blue,          % Colore dei link interni (indice, figure, tabelle, sezioni)
+	citecolor=blue,          % Colore delle citazioni bibliografiche
+	urlcolor=blue,           % Colore dei collegamenti ipertestuali esterni (siti web)
+	bookmarks=true,          % Forza la creazione dei segnalibri (l'indice laterale nel visualizzatore PDF)
+	bookmarksnumbered=true,  % Include i numeri delle sezioni (es. 1.1, 2.3.1) nell'indice laterale del PDF
+	pdfpagemode=UseOutlines, % Impone al lettore PDF di aprire automaticamente i segnalibri all'avvio del file
+	breaklinks=true,         % Permette ai link molto lunghi (es. URL nella bibliografia) di andare a capo senza rompersi
+	pdfstartview=FitH,       % Allinea la pagina del PDF alla larghezza dello schermo all'apertura del file
+	%
+	% Metadati
+	pdftitle={TO BE DECIDED}, % Titolo della tesi
+	pdfauthor={Simone Pasquini}, % Nome e cognome
+	pdfsubject={Master's Thesis}, % Oggetto del documento (es. Tesi di Laurea Triennale/Magistrale)
+	pdfkeywords={FOOT, Hadrontherapy, Nuclear Physics, Kalman Filter, Tracking Algorithm, Vertex Tracker, Microstrip Silicon Detector, Data Analysis, C++, ROOT} % Parole chiave separate da virgola (utile per l'indicizzazione)
+}
+
+\AtBeginDocument{
+	\renewcommand\figureautorefname{Fig.}
+	\renewcommand\sectionautorefname{Sec.}
+	\renewcommand\subsectionautorefname{Sec.}
+	\renewcommand\subsubsectionautorefname{Sec.}
+	\renewcommand\equationautorefname{Eq.}
+	\renewcommand\tableautorefname{Tab.}
+}
+
+% ==========================================
+% MAIN DOCUMENT BODY
+% ==========================================
+\begin{document}
+
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	\input{Title page/titlepage}
+	\onehalfspacing
+	\newgeometry{top=4cm,bottom=4cm,left=3cm,right=3cm}
+
+	% ==========================================
+	% EPIGRAPH - QUOTATION
+	% ==========================================
+	%	\cleardoublepage
+	%	\thispagestyle{empty} 
+	%	\hspace{0pt}
+	%	\vfill
+	%	\begin{flushright}
+	%		\textit{The important thing is not to stop questioning. Curiosity has its own reason for existing. One cannot help but be in awe when one contemplates the mysteries of eternity, of life, of the marvellous structure of reality. It is enough if one tries to comprehend only a little of this mystery every day.}\\
+	%		\vspace{0.3em}
+	%		\large{Albert Einstein}
+	%	\end{flushright}
+	%	\vfill
+	%	\hspace{0pt}
+	
+	\input{Abstract/abstract}
+
+	\tableofcontents
+	
+	\addcontentsline{toc}{chapter}{List of Figures}
+	\listoffigures
+	\clearpage
+	
+	\addcontentsline{toc}{chapter}{List of Tables}
+	\listoftables
+	\clearpage
+
+	\pagenumbering{arabic} 
+	\setcounter{page}{1}
+	\pagestyle{fancy} % REQUIRED: Re-activate fancy style after \pagenumbering resets it!
+	
+	\input{Chapters/Chapter 1/chapter_1}
+	
+	\input{Chapters/Chapter 2/chapter_2}
+	
+	\input{Chapters/Chapter 3/chapter_3}
+	
+	\input{Acknowledgement/acknowledgement}
+
+	\input{Appendix/appendix}
+	
+	\printbibliography[heading=bibintoc]
+	
+\end{document}
