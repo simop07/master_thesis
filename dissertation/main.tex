@@ -6,6 +6,8 @@
 \usepackage[footskip=0.8cm, hmargin={20mm,20mm}, top=25mm, bottom=25mm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{setspace}
+%\usepackage{parskip}
+\setlength{\parskip}{0.4em} % Aggiungi piccolo spazio tra un paragrafo e l'altro
 \usepackage{fancyhdr}
 
 \pagestyle{fancy}
@@ -100,7 +102,7 @@ giveninits=true]{biblatex}
 	}%
 }
 \DeclareFieldFormat{title}{\usebibmacro{string+doiurlisbn}{\mkbibemph{#1}}}
-\DeclareFieldFormat[article,book,conference,phdthesis,misc]{title}{%
+\DeclareFieldFormat[article,book,inbook,incollection,inproceedings,conference,thesis,mastersthesis,phdthesis,report,misc,online,unpublished]{title}{%
 	\usebibmacro{string+doiurlisbn}{\mkbibquote{#1}}%
 }
 \renewbibmacro{in:}{}
@@ -142,7 +144,7 @@ giveninits=true]{biblatex}
 	pdftitle={TO BE DECIDED}, % Titolo della tesi
 	pdfauthor={Simone Pasquini}, % Nome e cognome
 	pdfsubject={Master's Thesis}, % Oggetto del documento (es. Tesi di Laurea Triennale/Magistrale)
-	pdfkeywords={FOOT, Hadrontherapy, Nuclear Physics, Kalman Filter, Tracking Algorithm, Vertex Tracker, Microstrip Silicon Detector, Data Analysis, C++, ROOT} % Parole chiave separate da virgola (utile per l'indicizzazione)
+	pdfkeywords={FOOT,Hadrontherapy,Nuclear Physics,Kalman Filter,Tracking Algorithm,Vertex Tracker,Microstrip Silicon Detector,Data Analysis,C++,ROOT,Nuclear Fragmentation,Projectile Fragmentation,Target Fragmentation} % Parole chiave separate da virgola (utile per l'indicizzazione)
 }
 
 \AtBeginDocument{
