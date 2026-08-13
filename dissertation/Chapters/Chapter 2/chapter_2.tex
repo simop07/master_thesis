@@ -1,40 +1,134 @@
 \chapter{The FOOT experiment}\label{cap:foot_experiment}
-\section{Scientific motivation}
+\section{Scientific motivation}\label{sec:foot_motivation}
 As described in (??SEZIONE TPS/PT), measuring the impact of nuclear fragmentation processes is essential to improve the reliability of Treatment Planning Systems (TPS) for Particle Therapy (PT) as well as to optimize the shielding structures of spacecraft for Space Radiation Protection (SRP). The absence of a fundamental theory describing nuclear interactions has led scientists to develop semi-empirical models using deterministic transport codes and Monte Carlo simulations \cite{Kramer2010,Sommerer_2006,Sato2009-db,Bohlen2010-em,Bolst2017-db}, to characterize nucleus-nucleus interactions. Nevertheless, due to the lack of fragmentation cross section data, these computational approaches are poorly constrained, and their validity is compromised by a limited experimental accuracy \cite{measurement_impact_foot}.
 
 Nowadays, the scarcity of both projectile and target fragmentation data represents one of the main challenges in PT and SRP research. In recent years, some experiments attempted to measure \ce{^{12}C} projectile fragmentation, however only few energy-target combinations have been explored \cite{DeNapoli_2012,PhysRevC.89.064615,PhysRevC.93.064601}. On the other hand, target fragmentation, which is the only relevant nuclear process occurring in proton therapy, has been almost completely neglected so far, except for some available measurements of light fragment ($Z<3$) \cite{foot_cdr}. Proton-induced target fragmentation was addressed several years ago by \cite{articleLETPainting}, however, it was abandoned in the following years, as the short-range emission ($10$--$100\,\mu\mathrm{m}$) of target fragments makes their detection particularly ambitious, achievable only through unconventional experimental techniques.
 
 In addition to the experimental challenges associated with both projectile and target fragmentation in \ce{^{12}C} therapy and target fragmentation in proton therapy, the poor data availability of \ce{^{16}O} and \ce{^{4}He} beams for PT \cite{Tommasino2016-af} contributes to hinder the potential attractiveness of these two ion species. Indeed, despite being less convenient in aerobic conditions, \ce{^{16}O} proves more effective than \ce{^{12}C} and protons in damaging hypoxic tumors (see ?? OER). Regarding \ce{^{4}He}, its limited multiple Coulomb scattering offers a more precise dose release compared to protons. Furthermore, \ce{^{4}He} inherent stability reduces the projectile fragmentation probability with respect to \ce{^{12}C}, an important condition in the treatment of pediatric tumors \cite{articleIndelicato}. Lastly, the production of \ce{^{4}He} beams is more cost-effective than higher-LET radiations \cite{Marafini_2017,Rovituso_2017}.
-\section{Scientific goals and applications}\label{sec:scientific_goals}
+\section{Scientific goals and applications}\label{sec:foot_aim}
 To compensate for the above-mentioned data deficit, the FOOT (FragmentatiOn Of Target) experiment aims to precisely measure nuclear fragment double differential cross sections in both fragment production angle and kinetic energy, addressing the critical scarcity of reliable fragmentation cross section data. The FOOT experiment focuses on ions with nuclear charge number $Z\leq8$ and kinetic energies $100$--$800\,\mathrm{MeV/u}$, relevant for both PT and SRP. Specifically, the FOOT approach is to track and identify all charged fragments produced in ion collisions, measure the relative kinematic quantities through a fixed-target experimental setup (see ?? sec exp setup) and utilize this information not only to obtain elemental cross section measurements, but also differential ones. As outlined in (?? double diff), the exact knowledge of differential cross sections is required by the transport codes used to propagate radiation through human tissues (for PT) and shielding materials (for SRP). In particular, the FOOT experiment was conceived to measure:
 \begin{itemize}
 	\item differential cross sections either with respect to the kinetic energy ($d\sigma/dE_{\text{kin}}$) or with respect to the angle ($d\sigma/d\Omega$) for the target fragmentation process, with an accuracy better than $10\%$;
 	\item double differential cross sections ($d^2\sigma/d\Omega\cdot dE_{\text{kin}}$) for the projectile fragmentation process with an accuracy better than $5\%$ \cite{measurement_impact_foot}.
 \end{itemize}
-As seen in (?? ssec PT), when the irradiation beam interacts with the atomic nuclei of the patient tissues, nuclear fragments are generated. These secondary particles release unwanted energy deposits along the beam path and beyond the Bragg Peak, potentially damaging healthy tissues located in the vicinity of the tumor. Hence, nuclear fragmentation may induce alterations in the dose distribution originally determined in TPS, resulting in possible radiation-induced hazards whose biological consequences have yet to be fully assessed. In this landscape, the FOOT experiment plays a key role in optimizing TPS by comprehensively measuring differential cross section of the target fragmentation in proton-Nucleus (p-N) interactions (relevant for proton therapy) and both target and projectile fragmentation in Nucleus-Nucleus (N-N) reactions (pertinent to ion therapy). To achieve this objective, FOOT analyzes the interactions of \ce{^{4}He}, \ce{^{12}C} and \ce{^{16}O} beams with thin targets made of graphite (\ce{C}), polyethylene (\ce{C2H4}) or methyl methacrylate (PMMA, \ce{C5O2H8}), materials composed by the most abundant elements in human tissues.\footnote{The chemical composition of a $70\,\mathrm{kg}$ man is: $61\%$ \ce{^{16}O}, $23\%$ \ce{^{12}C} and $10\%$ \ce{^{1}H}. These three elements alone constitute approximately $94\%$ of the total body mass \cite{haynes2016crc}.} Specifically, the FOOT detector measures target fragmentation through an innovative inverse kinematic approach (see \autoref{sec:inv_dir_kin}), which addresses the challenging detection of very short-range target fragments. In addition to the fragmentation of target, FOOT can measure projectile fragmentation induced by heavy ions applying a direct reconstruction technique to the interactions of \ce{^{4}He}, \ce{^{12}C} and \ce{^{16}O} beams with the aforementioned targets. Summarizing, the FOOT experiment investigates both target and projectile fragments produced in the relevant PT range $100$--$400\,\mathrm{MeV/u}$, aiming to keep the dose-delivery uncertainty below the required limit of $3$--$5\%$ for radiotherapy applications \cite{vanDeMerwe02012017,Thwaites_2013,PLESKAC2012130}.
-
+As seen in (?? ssec PT), when the irradiation beam interacts with the atomic nuclei of the patient tissues, nuclear fragments are generated. These secondary particles release unwanted energy deposits along the beam path and beyond the Bragg Peak, potentially damaging healthy tissues located in the vicinity of the tumor. Hence, nuclear fragmentation may induce alterations in the dose distribution originally determined in TPS, resulting in possible radiation-induced hazards whose biological consequences have yet to be fully assessed. In this landscape, the FOOT experiment plays a key role in optimizing TPS by comprehensively measuring differential cross section of the target fragmentation in proton-Nucleus (p-N) interactions (relevant for proton therapy) and both target and projectile fragmentation in Nucleus-Nucleus (N-N) reactions (pertinent to ion therapy). To achieve this objective, FOOT analyzes the interactions of \ce{^{4}He}, \ce{^{12}C} and \ce{^{16}O} beams with thin targets made of graphite (\ce{C}), polyethylene (\ce{C2H4}) or methyl methacrylate (PMMA, \ce{C5O2H8}), materials composed by the most abundant elements in human tissues.\footnote{The chemical composition of a $70\,\mathrm{kg}$ man is: $61\%$ \ce{^{16}O}, $23\%$ \ce{^{12}C} and $10\%$ \ce{^{1}H}. These three elements alone constitute approximately $94\%$ of the total body mass \cite{haynes2016crc}.} Specifically, the FOOT detector measures target fragmentation through an innovative inverse kinematic approach (see \autoref{sec:inv_dir_kin}), which addresses the challenging detection of very short-range target fragments. In addition to the fragmentation of target, FOOT can measure projectile fragmentation induced by heavy ions applying a direct reconstruction technique to the interactions of \ce{^{4}He}, \ce{^{12}C} and \ce{^{16}O} beams with the aforementioned targets, as schematized in \autoref{tab:foot_program}. Summarizing, the FOOT experiment investigates both target and projectile fragments produced in the relevant PT range $100$--$400\,\mathrm{MeV/u}$, aiming to keep the dose-delivery uncertainty below the required limit of $3$--$5\%$ for radiotherapy applications \cite{vanDeMerwe02012017,Thwaites_2013,PLESKAC2012130}.
+\begin{table}[H]
+	\centering
+	{\footnotesize
+		\begin{tabular}{M{2.5cm} M{1.cm} M{1.cm} M{2.8cm} M{2cm} M{2.3cm}}
+			\hline
+			\textbf{Fragmentation} &
+			\textbf{Field} &
+			\textbf{Beam} &
+			\textbf{Target} &
+			\textbf{$E_\text{kin}\,[\text{MeV/u}]$} &
+			\textbf{Kinematic} \\
+			\hline
+			Target &
+			PT &
+			\ce{^{12}C} &
+			\ce{C, C2H4} &
+			200 &
+			Inverse \\
+			Target &
+			PT &
+			\ce{^{16}O} &
+			\ce{C, C2H4} &
+			200 &
+			Inverse \\
+			\hline
+			Projectile &
+			PT &
+			\ce{^{4}He} &
+			\ce{C, C2H4, PMMA} &
+			250 &
+			Direct \\
+			Projectile &
+			PT &
+			\ce{^{12}C} &
+			\ce{C, C2H4, PMMA} &
+			400 &
+			Direct \\
+			Projectile &
+			PT &
+			\ce{^{16}O} &
+			\ce{C, C2H4, PMMA} &
+			500 &
+			Direct \\
+			\hline
+			Projectile &
+			SRP &
+			\ce{^{4}He} &
+			\ce{C, C2H4, PMMA} &
+			800 &
+			Direct \\
+			Projectile &
+			SRP &
+			\ce{^{12}C} &
+			\ce{C, C2H4, PMMA} &
+			800 &
+			Direct \\
+			Projectile &
+			SRP &
+			\ce{^{16}O} &
+			\ce{C, C2H4, PMMA} &
+			800 &
+			Direct \\	
+			\hline
+	\end{tabular}}
+	\caption{FOOT physics program, extrapolated from \cite{measurement_impact_foot}.}
+	\label{tab:foot_program}
+\end{table}
 Alongside PT, nuclear fragmentation is hugely pertinent to the field of SRP (see ?? ssec SRP), which focuses on developing protective materials that shield against ionizing radiation coming from cosmic sources, mainly Solar Particle Events (SPE), Galactic Cosmic Rays (GCR) and geomagnetically trapped particles. Contrary to PT, these secondary fragments pose a threat not only to human health but also to the electronic equipment deployed in long-term space missions \cite{RevModPhys.83.1245}. Consequently, national space agencies such as ESA and NASA are increasingly supporting nuclear fragmentation measurements \cite{Luoni2025}, driven by their arising interest in space missions beyond the Low Earth Orbit, which include manned missions to Mars \cite{DURANTE20142}. To fill the existing gaps in SRP experimental data \cite{Norbury2012} and upgrade the Monte Carlo transport codes currently used in SRP \cite{HEINBOCKEL20111079}, the FOOT experiment will study the fragmentation cross sections of protons, \ce{^{4}He}, \ce{^{12}C} and \ce{^{16}O} (some of the most abundant particles in space, see ??ssec SRP??) interacting with different types of shielding materials in the range $100$--$800\,\mathrm{MeV/u}$, precisely where light SPE protons, Van Allen trapped protons and GCR are found. In particular, the FOOT experiment will measure differential cross section using low-$Z$ target materials containing \ce{H} and \ce{C}. Indeed, as explained in (?? ssec SRP), these light targets are presently among the preferred solutions for shielding applications in space due to their reduced neutron yield \cite{articleShielding}.
+
+As schematically reported in \autoref{tab:foot_program}, the FOOT experiment will fill the gaps of fragmentation cross section in order to enhance the PT and SRP sectors, two fields which are separated only on the surface. Conversely, they are profoundly interconnected by the same fragmentation physics, sharing similar energies, irradiation beams and target materials.
 \section{Inverse and direct kinematics}\label{sec:inv_dir_kin}
-The main experimental challenge of the FOOT experiment is measuring target fragmentation induced by proton-Nucleus collisions (p-N). Indeed, as seen in (?? tab range), the kinetic energies at which target fragments are produced are so low (few MeV) that fragments remain trapped within the target itself, irrespective of its thinness. The short range ($10$--$100\,\mu\mathrm{m}$) of target fragments compromises their detection, making it unfeasible to achieve the cross section accuracy requirements indicated in \autoref{sec:scientific_goals}. Therefore, instead of investigating target fragmentation through a direct p-N collision where the target nuclei are at rest, FOOT implements an inverse kinematic approach (already explored in \cite{PhysRevC.88.024606,PhysRevC.41.520}), where protons (\ce{H}) are at rest, and the studied reaction becomes N-p, as schematized in \autoref{fig:inverse_kin}. Naturally, to evaluate the relevant physical quantities of target fragments in the original frame of reference where nuclei are at rest (p-N reaction), relativistic transformations are applied. Although these Lorentz boost inevitably introduce additional uncertainties, the proposed inverse kinematic method provides cross section measurements which would have been impossible otherwise \cite{measurement_impact_foot}.
+The main experimental challenge of the FOOT experiment is measuring target fragmentation induced by proton-Nucleus collisions (p-N). Indeed, as seen in (?? tab range), the kinetic energies at which target fragments are produced are so low (few MeV) that fragments remain trapped within the target itself, irrespective of its thinness. The short range ($10$--$100\,\mu\mathrm{m}$) of target fragments compromises their detection, making it unfeasible to achieve the cross section accuracy requirements indicated in \autoref{sec:foot_aim}. Therefore, instead of investigating target fragmentation through a direct p-N collision where the target nuclei are at rest, FOOT implements an inverse kinematic approach (already explored in \cite{PhysRevC.88.024606,PhysRevC.41.520}), where protons (\ce{H}) are at rest, and the studied reaction becomes N-p, as schematized in \autoref{fig:inverse_kin}. Naturally, to evaluate the relevant physical quantities of target fragments in the original frame of reference where nuclei are at rest (p-N reaction), relativistic transformations are applied.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{inverse_kin.pdf}
 	\caption{On the left, a p-N reaction (direct kinematic), with the colliding nucleus at rest. On the right, a N-p reaction (inverse kinematic), with the colliding proton (\ce{H}) at rest.}
 	\label{fig:inverse_kin}
 \end{figure}
-Actually, the inverse kinematic approach followed by the FOOT experiment is slightly more complicated than the one illustrated in \autoref{fig:inverse_kin}. Indeed, rather than using a fixed target composed of protons (\ce{H}), a fixed, hydrogen-enriched target is employed, still irradiated with \ce{^{4}He}, \ce{^{12}C} or \ce{^{16}O} beams. Solid hydrogenated materials (such as polyethylene, i.e., \ce{C2H4}) are preferred to pure hydrogen targets, primarily for technical reasons. Indeed, a dedicated liquid or gaseous hydrogen target requires extreme cryogenic conditions (around $T\simeq20\,\mathrm{K}$ for liquid \ce{H}) and cautious handling (due to \ce{H} flammability), both leading to potential safety and stability issues. Furthermore, liquid and gaseous \ce{H} need to be operated at pressures causing very low target densities, which result in inefficient measurements and, consequently, long-lasting beam times with increased experimental costs \cite{17nq-3ddt}. Hence, to circumvents these technical difficulties, the hydrogen target contribution to the p-N cross section is determined through the weighted subtraction method given by \autoref{eq:c2h4}, which exploits complementary data acquired on \ce{C2H4} and \ce{C} targets. For example, denoting with $X$ either the fragment kinetic energy $E_\text{kin}$ or its emission angle $\Omega$, the differential cross section for a \ce{H} target can be extracted as:
+Actually, the inverse kinematic approach followed by the FOOT experiment is slightly more complicated than the one illustrated in \autoref{fig:inverse_kin}. Indeed, rather than using a fixed target composed of protons (\ce{H}), a fixed, hydrogen-enriched target is employed, still irradiated with \ce{^{4}He}, \ce{^{12}C} or \ce{^{16}O} beams. Solid hydrogenated materials (such as polyethylene, i.e., \ce{C2H4}) are preferred to pure hydrogen targets, primarily for technical reasons. Indeed, a dedicated liquid or gaseous hydrogen target requires extreme cryogenic conditions (around $T\simeq20\,\mathrm{K}$ for liquid \ce{H}) and cautious handling (due to \ce{H} flammability), both leading to potential safety and stability issues. Furthermore, liquid and gaseous \ce{H} need to be operated at pressures causing very low target densities, which result in inefficient measurements and, consequently, excessively long beam times with increased experimental costs \cite{17nq-3ddt}. Hence, to circumvent these technical difficulties, the hydrogen contribution to the N-p differential cross section is determined through a weighted subtraction method employing mono-atomic (e.g. graphite, \ce{C}) and composite targets (e.g. \ce{C2H4} or \ce{C5O2H8}). For example, \autoref{eq:c2h4} exploits complementary data acquired on \ce{C2H4} and \ce{C} targets:
 \begin{equation}
-	\left(\frac{d\sigma}{dX}\right)_{\ce{H}}
-	=
-	\frac{1}{4}
-	\left[
-	\left(\frac{d\sigma}{dX}\right)_{\ce{C2H4}}
-	-
-	2\left(\frac{d\sigma}{dX}\right)_{\ce{C}}
-	\right],
+	\begin{aligned}
+		\left(\frac{d\sigma}{d\Omega}\right)_{\ce{H}}
+		&=
+		\frac{1}{4}
+		\left[
+		\left(\frac{d\sigma}{d\Omega}\right)_{\ce{C2H4}}
+		-
+		2\left(\frac{d\sigma}{d\Omega}\right)_{\ce{C}}
+		\right],
+		\\[0.5ex]
+		\left(\frac{d\sigma}{dE_{\text{kin}}}\right)_{\ce{H}}
+		&=
+		\frac{1}{4}
+		\left[
+		\left(\frac{d\sigma}{dE_{\text{kin}}}\right)_{\ce{C2H4}}
+		-
+		2\left(\frac{d\sigma}{dE_{\text{kin}}}\right)_{\ce{C}}
+		\right],
+	\end{aligned}
 	\label{eq:c2h4}
 \end{equation}
-where $\text{k}$ indicates a specific produced fragment $\text{k}$ and the numbers $4$ and $2$ label the stoichiometric coefficients of \ce{C2H4}.
+where differential cross sections for producing a specific fragment $\text{k}$ with kinetic energy $E_{\text{kin}}$ and emission angle $\Omega$ are used. In \autoref{eq:c2h4}, the numbers $4$ and $2$ derive from the stoichiometric coefficients of \ce{C2H4}. The cross sections obtained from the difference method in \autoref{eq:c2h4} are compatible with the cross sections on pure hydrogen target, as shown by FLUKA simulations \cite{Ferrari:2005zk,BOHLEN2014211} presented in \cite{foot_cdr}, proving the validity of inverse kinematic.
+
+Naturally, both PT and SRP applications require fragmentation cross section measurements for the original p-N interaction, therefore relativistic boost are eventually applied to \autoref{eq:c2h4}. These Lorentz transformations worsen the resolution on cross section measurements, not only because the physical quantities used to perform the boost have a limited precision, but also for the subtraction method itself. Indeed, the uncertainty propagation in \autoref{eq:c2h4} produces a quadratic sum of the errors obtained from each individual target measurement. Despite inevitably introducing additional uncertainties, the proposed inverse kinematic approach provides cross section measurements which would have been impossible otherwise \cite{measurement_impact_foot}. Another advantage of this method is that irradiating hydrogenated material with \ce{^{4}He}, \ce{^{12}C} or \ce{^{16}O} beams allows to study target fragmentation in parallel with projectile fragmentation, using respectively an inverse and a direct kinematic approach.
+\section{Experimental setup}\label{sec:experimental_setup}
+The FOOT experimental setup was carefully devised taking into account various radiobiological constraints, mainly driven by the physics of target and projectile fragmentation, and structural requirements. To address these requisites, extensive Monte Carlo simulations were implemented via the FLUKA software, whose nuclear fragmentation models were deemed sufficiently robust to drive the design of FOOT apparatus. An example of The FOOT detector was conceived also with the prior experience of FIRST experiment at GSI \cite{PhysRevC.93.064601}.
+
+The stringent requirements (see \autoref{sec:foot_aim}) on differential cross sections accuracy compel the FOOT experiment to perform charge and isotopic identification with a precision level of $2$--$3\%$ and $5\%$, respectively. In addition, the supplementary uncertainties introduced by inverse kinematic (see \autoref{sec:inv_dir_kin}) further constrain the uncertainties on fragment momentum and kinetic energy up to the few percent and demand a resolution of the mrad on the fragment emission angle with respect to the beam direction \cite{foot_cdr}. To limit the uncertainties even more, the FOOT apparatus is characterized by subdetector redundancies, which means that the same physical quantity is measured multiple times to reduce background noise and, accordingly, reconstruction artifacts.
+
+%To minimize the multiple
+%scattering impact and the probability of secondary fragmentation
+%inside the target, its overall density weighted thickness has to be of
+%the order of 2-4 g/cm2, limiting the fragmentation probability
+%to ∼10−2.
+
+
+
 
 % out of target fragmentation is a problem: was used to evaluate the background due to the
 %fragmentation of the beam occurring outside the target, in the
