@@ -32,7 +32,8 @@
 % 2. LANGUAGE & BASIC TOOLS
 % ==========================================
 \usepackage[english]{babel}
-\usepackage{color}
+\babelhyphenation[english]{hadron-ther-a-py radio-bi-ol-o-gy radiopro-tec-tion re-flect-ance stoi-chi-o-met-ric sub-de-tec-tor trans-port-abil-i-ty}
+\usepackage{xcolor}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{etoolbox}
@@ -53,7 +54,7 @@
 % 4. GRAPHICS, DIAGRAMS & TABLES
 % ==========================================
 \graphicspath{{images/}}
-\usepackage[export]{adjustbox}[2011/08/13]
+\usepackage[export]{adjustbox}
 \usepackage{subcaption}
 \usepackage{caption}
 \captionsetup[figure]{labelfont={bf},name={Figure}}
@@ -76,7 +77,7 @@
 % ==========================================
 % 5. CITATIONS & BIBLIOGRAPHY
 % ==========================================
-\usepackage[backend=bibtex,
+\usepackage[backend=biber,
 style=numeric-comp,
 sorting=none,
 url=false,
@@ -125,18 +126,21 @@ giveninits=true]{biblatex}
 	\clearpage
 }
 
-\usepackage[toc,page]{appendix}
-\renewcommand\appendixname{Appendix}
-\renewcommand\appendixtocname{Appendix}
-\renewcommand\appendixpagename{Appendix}
+\AtBeginDocument{
+	\renewcommand\figureautorefname{Fig.}
+	\renewcommand\sectionautorefname{Sec.}
+	\renewcommand\subsectionautorefname{Sec.}
+	\renewcommand\subsubsectionautorefname{Sec.}
+	\renewcommand\equationautorefname{Eq.}
+	\renewcommand\tableautorefname{Tab.}
+}
 
-\usepackage{hyperref}
+\usepackage[bookmarks=true]{hyperref} % Forza la creazione dei segnalibri (l'indice laterale nel visualizzatore PDF)
 \hypersetup{
 	colorlinks=true,         % Attiva i colori per i link (invece dei riquadri colorati)
 	linkcolor=blue,          % Colore dei link interni (indice, figure, tabelle, sezioni)
 	citecolor=blue,          % Colore delle citazioni bibliografiche
 	urlcolor=blue,           % Colore dei collegamenti ipertestuali esterni (siti web)
-	bookmarks=true,          % Forza la creazione dei segnalibri (l'indice laterale nel visualizzatore PDF)
 	bookmarksnumbered=true,  % Include i numeri delle sezioni (es. 1.1, 2.3.1) nell'indice laterale del PDF
 	pdfpagemode=UseOutlines, % Impone al lettore PDF di aprire automaticamente i segnalibri all'avvio del file
 	breaklinks=true,         % Permette ai link molto lunghi (es. URL nella bibliografia) di andare a capo senza rompersi
@@ -146,16 +150,7 @@ giveninits=true]{biblatex}
 	pdftitle={TO BE DECIDED}, % Titolo della tesi
 	pdfauthor={Simone Pasquini}, % Nome e cognome
 	pdfsubject={Master's Thesis}, % Oggetto del documento (es. Tesi di Laurea Triennale/Magistrale)
-	pdfkeywords={FOOT,Hadrontherapy,Nuclear Physics,Kalman Filter,Tracking Algorithm,Vertex Tracker,Microstrip Silicon Detector,Data Analysis,C++,ROOT,Nuclear Fragmentation,Projectile Fragmentation,Target Fragmentation} % Parole chiave separate da virgola (utile per l'indicizzazione)
-}
-
-\AtBeginDocument{
-	\renewcommand\figureautorefname{Fig.}
-	\renewcommand\sectionautorefname{Sec.}
-	\renewcommand\subsectionautorefname{Sec.}
-	\renewcommand\subsubsectionautorefname{Sec.}
-	\renewcommand\equationautorefname{Eq.}
-	\renewcommand\tableautorefname{Tab.}
+	pdfkeywords={FOOT,Hadrontherapy,Particle Therapy,Charged Particle,Nuclear Physics,Kalman Filter,Tracking Algorithm,Vertex Tracker,Microstrip Silicon Detector,Data Analysis,C++,ROOT,Nuclear Fragmentation,Projectile Fragmentation,Target Fragmentation} % Parole chiave separate da virgola (utile per l'indicizzazione)
 }
 
 % ==========================================
@@ -168,7 +163,7 @@ giveninits=true]{biblatex}
 	\input{Title page/titlepage}
 	\onehalfspacing
 	\newgeometry{top=4cm,bottom=4cm,left=3cm,right=3cm}
-
+	
 	% ==========================================
 	% EPIGRAPH - QUOTATION
 	% ==========================================
@@ -188,15 +183,15 @@ giveninits=true]{biblatex}
 
 	\tableofcontents
 	
-	\addcontentsline{toc}{chapter}{List of Figures}
 	\listoffigures
+	\addcontentsline{toc}{chapter}{List of Figures}
 	\clearpage
 	
-	\addcontentsline{toc}{chapter}{List of Tables}
 	\listoftables
+	\addcontentsline{toc}{chapter}{List of Tables}
 	\clearpage
 
-	\pagenumbering{arabic} 
+	\pagenumbering{arabic}
 	\setcounter{page}{1}
 	\pagestyle{fancy} % REQUIRED: Re-activate fancy style after \pagenumbering resets it!
 	
