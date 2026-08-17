@@ -1,2 +1,78 @@
-\chapter*{Appendix}
-\addcontentsline{toc}{chapter}{Appendix}
+\appendix
+\renewcommand{\chaptermark}[1]{%
+	\markboth{\MakeUppercase{APPENDIX\ \thechapter\ --\ #1}}{}
+}
+\chapter{$\chi^2$ minimization method}\label{ch:chi_squared_min}
+The $\chi^2$ minimization method is founded on the $\chi^2$ test, a probabilistic test that provides criteria for verifying the consistency of theoretical hypotheses with a set of experimental data. Specifically, the $\chi^2$ test is based on the evaluation of the $\chi^2$ function, reported in \autoref{eq:chi_square_method}, which expresses the discrepancy between theory and experimental data. This deviation is calculated using the sum of the squared differences between the measured values $y_k$ and the expected values $f\left(x_k;\alpha_j\right)$, and depends on the measurements $x_k$ and the parameters $\alpha_j$:
+\begin{equation}
+	\chi^2=\sum_{k=1}^N\left(\frac{y_k-f\left(x_k;\alpha_j\right)}{\sigma_k}\right)^2,
+	\label{eq:chi_square_method}
+\end{equation}
+where $\sigma_k$ is the uncertainty associated with the $N$ measurements $y_k$ \cite{Fornasini2008}. The minimum $\chi^2$ method consists of deriving the parameters\footnote{From a mathematical point of view, the parameters are constraints on the minimization problem.} $\alpha_j$ to minimize the $\chi^2$ function in \autoref{eq:chi_square_method}.
+
+Applying the $\chi^2$ minimization method on the three mass estimates given in \autoref{eq:a1}, \autoref{eq:a2} and \autoref{eq:a3}, the $\chi^2$ function becomes:
+\begin{equation}
+	\chi^2=\frac{\left(\text{ToF}-T\right)^2}{\sigma^2_{\text{ToF}}}+\frac{\left(p-P\right)^2}{\sigma^2_{p}}+\frac{\left(E_\text{kin}-K\right)^2}{\sigma^2_{E_\text{kin}}}+\transp{\vect{A}}\matr{B}\vect{A},
+	\label{eq:chi_square}
+\end{equation}
+where $\text{ToF}$, $p$ and $E_\text{kin}$ are the physical quantities reconstructed using the FOOT electronic setup, $\sigma_{\text{ToF}}$, $\sigma_{p}$ and $\sigma_{E_\text{kin}}$ the relative uncertainties and $T$, $P$ and $K$ are three of the four minimization parameters. The \autoref{eq:chi_square} contains also the vector $\vect{A}$ (and its transposed $\transp{\vect{A}}$), given by the following expression:
+\begin{equation}
+	\vect{A}=
+	\begin{pmatrix}
+		A_1-A\\
+		A_2-A \\
+		A_3-A\\
+	\end{pmatrix}
+	,
+	\label{eq:vector_A}
+\end{equation}
+where $A_1$, $A_2$ e $A_3$ are the experimental masses given by \autoref{eq:a1}, \autoref{eq:a2} and \autoref{eq:a3}, and $A$ is the fourth minimization parameter. The matrix $\matr{B}$ contains the uncertainties associated with $A_1$, $A_2$ and $A_3$ estimates, which, as already discussed, are not independent. Indeed, the correlation between the uncertainties of the mass number measurements is encompassed by the correlation matrix $\matr{C}$, which is related to $\matr{B}$ as follows:
+\begin{equation}
+	\matr{B}=\left(\matr{C}\transp{\matr{C}}\right)^{-1},
+	\label{eq:B_funct_C}
+\end{equation}
+where, specifically, $\matr{C}$ entries are made explicit in \autoref{eq:correlation_matrix} \cite{foot_cdr,valle2019design}:
+\begin{equation}
+	\matr{C}=
+	\begin{pmatrix}
+		\frac{\partial A_1}{\partial T}dT&\frac{\partial A_1}{\partial P}dP&0\\
+		\frac{\partial A_2}{\partial T}dT&0&\frac{\partial A_2}{\partial K}dK\\
+		0&\frac{\partial A_3}{\partial P}dP&\frac{\partial A_3}{\partial K}dK\\
+	\end{pmatrix}
+	.
+	\label{eq:correlation_matrix}
+\end{equation}
+
+If the parameters $\left(T,P,K,A\right)$ were thought of as variables of a four-dimensional space, the problem of minimizing $\chi^2$ is analogous to a problem of finding the minimum of a vector-valued function. Therefore, to obtain parameters $\left(T,P,K,A\right)$ that are the closest to the ``true'' parameter values, a minimization fit can be performed. The four-dimensional point where the $\chi^2$ assumes the minimum value will then correspond to the values of $\left(T,P,K,A\right)$ that are the closest to the ``true'' parameter values. A common strategy used to find minima within the ROOT framework is to employ Minuit \cite{JAMES1975343}, which performs multiple minimization steps to find a global $\chi^2$ minimum rather than a local minimum, ensuring that the final output parameters are sufficiently accurate.
+\chapter{Augmented Lagrangian Method}\label{ch:alm_squared_min}
+The Augmented Lagrangian Method (ALM) is an algorithm that addresses a constrained minimization problem of a multi-variable function $f\left(\vect{x}\right)$ by employing an unconstrained minimization problem in a larger parameter space. The ALM is a ``modified'' Lagrange multiplier method in which the minimization of the Lagrangian function $\mathcal{L}\left(\vect{x};\vect{\lambda}\right)$ with respect to the vector variable $\vect{x}$ is replaced by the minimization of an ``augmented'' Lagrangian $\mathcal{L}_{ALM}\left(\vect{x};\vect{\lambda},\mu\right)$ defined as:
+\begin{equation}
+	\begin{aligned} 
+		\mathcal{L}_{ALM}\left(\vect{x};\vect{\lambda},\mu\right)&=\mathcal{L}\left(\vect{x};\vect{\lambda}\right)+\frac{1}{2\mu}\sum_{i=1}^{m}c_i^2\left(\vect{x}\right)=\\ 
+		&=f\left(\vect{x}\right)+\sum_{i=1}^{m}\lambda_ic_i\left(\vect{x}\right)+\frac{1}{2\mu}\sum_{i=1}^{m}c_i^2\left(\vect{x}\right),
+	\end{aligned}
+	\label{eq:augmented_lagrangian_funct}
+\end{equation}
+where $f\left(\vect{x}\right)$ is the original function to be minimized, $\vect{\lambda}$ is the $m$-dimensional vector containing the Lagrange multipliers $\lambda_i$ associated with the $m$ constraints $c_i\left(\vect{x}\right)$ and $\mu$ is a positive parameter. The final summation term in \autoref{eq:augmented_lagrangian_funct} is usually referred to as the ``penalty term'', and it is a function of the problem constraints weighted with a penalty parameter $\mu$. If the $c_i\left(\vect{x}\right)$ are zero, the penalty term vanishes, while it is large if $c_i\ne0$ and $\mu\rightarrow0$.
+
+In ALM, successive unconstrained minimizations of \autoref{eq:augmented_lagrangian_funct} are performed: starting from a solution $\left(\vect{x}^0,\vect{\lambda}^0\right)$, given by the unconstrained minimization problem of $f\left(\vect{x}\right)$, the ALM arrives at the $k$-th interaction, obtaining new values $\left(\vect{x}^k,\vect{\lambda}^k\right)$. During these steps, also $\mu$ is modified up to the interaction in which the tolerance level set at the beginning of ALM is reached. At that point, a vector $\overline{\vect{x}}$ is found, representing a point in the parameter space where the $\mathcal{L}\left(\vect{x};\vect{\lambda},\mu\right)$ reaches a minimum value \cite{Cho_2016}.
+
+Applying the ALM method on the three mass estimates given in \autoref{eq:a1}, \autoref{eq:a2} and \autoref{eq:a3}, whose parameters are $\left(T,P,K,A\right)$, it is possible to retrieve the first term of \autoref{eq:augmented_lagrangian_funct}. As shown in \autoref{eq:first_term_ALM}, this term is analogous to that of the \autoref{eq:chi_square}, proving the compatibility of the two methods:
+\begin{equation}
+	f\left(T,P,K\right)=\frac{\left(\text{ToF}-T\right)^2}{\sigma^2_{\text{ToF}}}+\frac{\left(p-P\right)^2}{\sigma^2_{p}}+\frac{\left(E_\text{kin}-K\right)^2}{\sigma^2_{E_\text{kin}}}.
+	\label{eq:first_term_ALM}
+\end{equation}
+The last two terms of \autoref{eq:augmented_lagrangian_funct} are given by:
+\begin{equation}
+	\sum_{i=1}^{3}\lambda_ic_i\left(A\right)+\frac{1}{2\mu}\sum_{i=1}^{3}c_i^2\left(A\right),
+	\label{eq:other_terms_ALM}
+\end{equation}
+where $c_i\left(A\right)=A_i-A$ \cite{valle2019design}. Combining \autoref{eq:first_term_ALM} and \autoref{eq:other_terms_ALM}, the following function $\mathcal{L}_{ALM}\left(\vect{x};\vect{\lambda},\mu\right)$ is obtained:
+\begin{equation}
+	\begin{aligned} 
+		\mathcal{L}_{ALM}\left(T,P,K,A;\vect{\lambda},\mu\right)&=\frac{\left(\text{ToF}-T\right)^2}{\sigma^2_{\text{T oF}}}+\frac{\left(p-P\right)^2}{\sigma^2_{p}}+\frac{\left(E_\text{kin}-K\right)^2}{\sigma^2_{E_\text{kin}}}+\\ 
+		&+\lambda_1\left(A_1-A\right)+\lambda_2\left(A_2-A\right)+\lambda_3\left(A_3-A\right)+\\ 
+		&+\frac{1}{2\mu}\left(\left(A_1-A\right)^2+\left(A_2-A\right)^2+\left(A_3-A\right)^2\right) 
+	\end{aligned}
+	\label{eq:alm_analysis}
+\end{equation}
