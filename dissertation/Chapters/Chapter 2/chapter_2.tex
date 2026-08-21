@@ -262,12 +262,12 @@ To achieve the required momentum resolution, an additional tracker named Inner T
 As schematized in \autoref{fig:inner_tracker} (top), the IT was built using groups of ladders, a method similarly explored in the PLUME project \cite{SMeroli_2011}. Each of the $2$ staggered IT layers possesses two ladders orthogonal with respect to the beam direction and separated in the vertical $y$ axis by $\simeq1\,\mathrm{cm}$. Every ladder hosts $8$ M28 sensors arranged on both sides, with a back-to-back spacing of $2\,\mathrm{mm}$. Hence, in each side of the ladder, $4$ glued M28 sensors are attached together, as shown in \autoref{fig:inner_tracker} (bottom).
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.65\linewidth]{inner_tracker2.png}
+	\includegraphics[width=0.6\linewidth]{inner_tracker2.png}
 	\caption[Inner Tracker]{At the top, technical drawing of the $4$ ladders hosting $8$ back-to-back sensors each. At the bottom, a front view of the $4$ M28 chips attached together to form one side of the ladder. From \cite{UbaldiPhDThesis}.}
 	\label{fig:inner_tracker}
 \end{figure}
 \subsubsection{Permanent magnets}\label{sssec:permanent_magnets}
-To perform the momentum measurement, fragment trajectories are bent by $2$ permanent magnets, represented in \autoref{fig:tracking_region} (left). To meet the requirements on momentum resolution (see \autoref{sec:electronic_setup}) and on the portability of the apparatus, two hollowed magnets in Halbach configuration were chosen, both composed of multiple blocks made of Neodymium-Iron-Boron material (see \autoref{fig:permanent_magnets}). The Halbach configuration guarantees an approximately constant magnetic field $B(T)$ inside the internal cylindrical hole and a negligible $B(T)$ outside the cylinders, as illustrated in the field map of \autoref{fig:tracking_region} (right).
+To perform the momentum measurement, fragment trajectories are bent by $2$ permanent magnets, represented in \autoref{fig:tracking_region} (left). To meet the requirements on momentum resolution (see \autoref{sec:electronic_setup}) and on the portability of the apparatus, two hollowed magnets in Halbach configuration were chosen, both composed of multiple blocks made of Neodymium-Iron-Boron material (see \autoref{fig:permanent_magnets}). The Halbach configuration guarantees an approximately constant magnetic field $B(T)$ inside the internal cylindrical hole and a negligible $B(T)$ outside the cylinders, as illustrated in the field map of \autoref{fig:tracking_region} (right). The precise mapping of magnetic field lines is essential to track fragments, as reconstruction algorithms employ numerical methods to track charged particles and, consequently, measure their momentum (further details are provided in ?? sec global analysis).
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{permanent_magnets.png}
@@ -282,7 +282,23 @@ The first and the second magnets have internal diameters of $5\,\mathrm{cm}$ and
 	\label{fig:lifted_perm_magn}
 \end{figure}
 \subsubsection{Microstrip Silicon Detector}\label{sssec:microstrip_silicon_detector}
-To further increase the lever arm after the magnetic region, a third 
+To further increase the lever arm after the magnetic region, a Microstrip Silicon Detector (MSD) is located beyond the magnetic region, at approximately $30\,\mathrm{cm}$ from the target. The MSD consists of $3$ $x$-$y$ layers composed of mutually orthogonal strips providing an analog readout. Every $x$-$y$ plane (shown in \autoref{fig:msd1} (left)) is further decomposed in $2$ Single-Sided Silicon Detectors (SSSD), each providing position measurements along the $x$ and $y$ axes through orthogonally oriented strips. To minimize fragmentation and multiple coulomb scattering inside the device, each SSSD is thinned down to $150\,\mu\mathrm{m}$, half the standard thickness of SSSD tracking sensors \cite{Silvestre_2022}. As reported in \autoref{fig:msd1} (top right), the sensor active area is $9.6\times9.6\,\mathrm{cm}^2$, which guarantees the $10^\circ$ angular acceptance of FOOT electronic setup. The active surface of every SSSD is segmented in $1920$ $40\,\mu\mathrm{m}$-wide strips, each separated by an implant pitch of $50\,\mu\mathrm{m}$, whose narrowness minimizes the fragment pile-up within the same strip \cite{measurement_impact_foot}. In order to reduce experimental costs and have a more manageable data throughput, the number of readout channels is limited to $640$, meaning that only one every three strips is connected to the readout electronics, which consist of IDE1140\footnote{Previously known as VA1140.} ASIC chips bonded to the Printed Circuit Board (PCB) illustrated in \autoref{fig:msd1} (bottom right). Specifically, in each SSSD the strip analog signal is collected and amplified by $10$ IDE1140 ASICs, each possessing $64$ channels, reaching the desired $640$ channels per SSSD. Successively, the amplified signal is transferred to ADCs for the digitization.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{msd1.png}
+	\caption[Pictures of Microstrip Silicon Detector]{On the left, picture of the MSD detector during a data taking at the HIT facility (Heidelberg, Germany) in 2022. On the top right, technical drawing of the silicon sensor with relative dimensions. On the bottom right, PCB with the sensor-ASIC and ASIC-hybrid board wire bondings, both circled in blue on the right of the picture. The leftmost ADC board is also highlighted in blue. From \cite{ZarrellaPhDThesis,Silvestre_2022}.}
+	\label{fig:msd1}
+\end{figure}
+The sketch in \autoref{fig:msd2} may be helpful to further investigate the MSD structure. In this figure, $50\,\mu\mathrm{m}$-distant floating strips separate the neighboring readout strips, the latter being $150\,\mu\mathrm{m}$ apart. Despite not being instrumented, the floating strips are still able to collect electron-hole pairs produced after particle ionization and, via capacitive coupling (the interstrip capacitance in \autoref{fig:msd2}), they share the deposited charge to the neighboring readout strips. A digital readout of $150\,\mu\mathrm{m}$-distant strips would provide a spatial resolution of $\simeq40\,\mu\mathrm{m}$, however the floating strip solution, combined with the MSD analog readout, can improve the position resolution by a factor $3$, as reported in \cite{ADRIANI199776,ALPAT2010207}.
+
+Along with the improvement in spatial resolution, the MSD analog readout is more advantageous than the binary readout, at least for two other reasons. First, it reduces the problem of ghosts hits, that is the instrumental misidentification of particle coordinates due to triangulation ambiguities. Ghost hits represent an arduous challenge in detectors constituted by orthogonal strips like the MSD. Nevertheless, the MSD analog readout measures the value of energy deposited within the sensor rather than a mere hit/no hit information. In this way, detector hits induced by comparable energy depositions can be more easily matched and attributed to the particle that generated them, thereby reducing spatial ambiguities and, consequently, combinatorial background.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{msd2.png}
+	\caption[Electric scheme of Microstrip Silicon Detector]{Electric scheme of MSD sensor, with its readout and floating strip structure. A charged particle trail, with the electron-hole pairs generated from ionization, is highlighted in red. From \cite{Silvestre_2022}.}
+	\label{fig:msd2}
+\end{figure}
 \subsection{Downstream region}\label{ssec:downstream_reg}
 \subsubsection{ToF Wall}\label{sssec:tof_wall}
 \subsubsection{Calorimeter}\label{sssec:calorimeter}
