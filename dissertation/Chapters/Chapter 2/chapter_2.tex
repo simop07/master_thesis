@@ -252,7 +252,7 @@ Despite the partial depletion of M28 pixels, their epitaxial layer has a resisti
 The VT readout is implemented with a Terasic DE10 board system housing an Intel/Altera System-on-Chip (SoC) FPGA (Cyclon V) with a dual-core Cortex-A9 CPU. The FPGA interfaces the VT sensors with the Trigger and Data Acquisition (TDAQ) control, which handles trigger, time-stamping and busy signals. Once a triggering event occurs, the CPU is finally employed to send data to the central DAQ via a $1\,\mathrm{Gb}$ Ethernet connection \cite{measurement_impact_foot}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\linewidth]{maps.pdf}
+	\includegraphics[width=0.82\linewidth]{maps.pdf}
 	\caption[Monolithic Active Pixel Sensor scheme]{Schematic drawing of a MAPS devoted to charged particle detection. The particle trail (red solid line) ionizes the epitaxial layer to induce electron drift and diffusion processes (red dotted lines) towards the N-well diode. From \cite{Reidel03177291}.}
 	\label{fig:maps}
 \end{figure}
@@ -270,15 +270,15 @@ As schematized in \autoref{fig:inner_tracker} (top), the IT was built using grou
 To perform the momentum measurement, fragment trajectories are bent by $2$ permanent magnets, represented in \autoref{fig:tracking_region} (left). To meet the requirements on momentum resolution (see \autoref{sec:electronic_setup}) and on the portability of the apparatus, two hollowed magnets in Halbach configuration were chosen, both composed of multiple blocks made of Neodymium-Iron-Boron material (see \autoref{fig:permanent_magnets}). The Halbach configuration guarantees an approximately constant magnetic field $B(T)$ inside the internal cylindrical hole and a negligible $B(T)$ outside the cylinders, as illustrated in the field map of \autoref{fig:tracking_region} (right). The precise mapping of magnetic field lines is essential to track fragments, as reconstruction algorithms employ numerical methods to track charged particles and, consequently, measure their momentum (further details are provided in ?? sec global analysis).
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{permanent_magnets.png}
+	\includegraphics[width=0.85\linewidth]{permanent_magnets.png}
 	\caption[Permanent magnets sketch]{Model of the two dipoles of the FOOT magnet system as built in OPERA 3D viewer. From \cite{Trigilio_2025}.}
 	\label{fig:permanent_magnets}
 \end{figure}
 The first and the second magnets have internal diameters of $5\,\mathrm{cm}$ and $10.6\,\mathrm{cm}$, which respectively provide a maximum magnetic field intensity of $1.4\,\mathrm{T}$ and $0.9\,\mathrm{T}$ along the $y$ axis. As the $B(T)$ is oriented towards the $y$ axis and the beam follows the $z$ positive direction, the charged fragments' bending coordinate lies in the $x$ axis.\footnote{This simply derives from the Lorentz force $\vect{F_L}=q\vect{v}\times\vect{B}$. $\vect{F_L}\parallel\vect{\hat{x}}$ since $\vect{v}\parallel\vect{\hat{z}}$ and $\vect{B}\parallel\vect{\hat{y}}$.} As schematized in \autoref{fig:lifted_perm_magn}, the permanent magnets can be vertically lifted by $40\,\mathrm{cm}$ to facilitate alignment procedures, which usually do not require the presence of a magnetic field.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\linewidth]{lifted_perm_magn.png}
-	\caption[Vertical displacement of permanent magnets]{Technical drawing representing detectors and support structures of the upstream and tracking regions. The permanent magnets can be vertically displaced in (left) and out (right) of the beam line. From \cite{ZarrellaPhDThesis}.}
+	\includegraphics[width=\linewidth]{lifted_perm_magn.png}
+	\caption[Vertical displacement of permanent magnets]{Technical drawing representing detectors and support structures belonging to the upstream and tracking regions, with the beam highlighted in red. The permanent magnets can be vertically displaced in (left) and out (right) of the beam line. From \cite{ZarrellaPhDThesis}.}
 	\label{fig:lifted_perm_magn}
 \end{figure}
 \subsubsection{Microstrip Silicon Detector}\label{sssec:microstrip_silicon_detector}
@@ -286,13 +286,12 @@ To further increase the lever arm after the magnetic region, a Microstrip Silico
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{msd1.png}
-	\caption[Pictures of Microstrip Silicon Detector]{On the left, picture of the MSD detector during a data taking at the HIT facility (Heidelberg, Germany) in 2022. On the top right, technical drawing of the silicon sensor with relative dimensions. On the bottom right, PCB with the sensor-ASIC and ASIC-hybrid board wire bondings, both circled in blue on the right of the picture. The leftmost ADC board is also highlighted in blue. From \cite{ZarrellaPhDThesis,Silvestre_2022}.}
+	\caption[Pictures of Microstrip Silicon Detector]{On the left, picture of the MSD detector during a data taking at the HIT facility (Heidelberg, Germany) in 2022. On the top right, technical drawing of the silicon sensor with relative dimensions. On the bottom right, PCB with the sensor-ASIC and ASIC-hybrid board wire bondings, both circled in blue on the right of the picture. The leftmost ADC board connector is also highlighted in blue. From \cite{ZarrellaPhDThesis,Silvestre_2022}.}
 	\label{fig:msd1}
 \end{figure}
 The sketch in \autoref{fig:msd2} may be helpful to further investigate the MSD structure. In this figure, $50\,\mu\mathrm{m}$-distant floating strips separate the neighboring readout strips, the latter being $150\,\mu\mathrm{m}$ apart. Despite not being instrumented, the floating strips are still able to collect electron-hole pairs produced after particle ionization and, via capacitive coupling (the interstrip capacitance in \autoref{fig:msd2}), they share the deposited charge to the neighboring readout strips. A digital readout of $150\,\mu\mathrm{m}$-distant strips would provide a spatial resolution of $\simeq40\,\mu\mathrm{m}$, however the floating strip solution, combined with the MSD analog readout, can improve the position resolution by a factor $3$, as reported in \cite{ADRIANI199776,ALPAT2010207}.
 
-Along with the improvement in spatial resolution, the MSD analog readout is more advantageous than the binary readout, at least for two other reasons. First, it reduces the problem of ghosts hits, that is the instrumental misidentification of particle coordinates due to triangulation ambiguities. Ghost hits represent an arduous challenge in detectors constituted by orthogonal strips like the MSD. Nevertheless, the MSD analog readout measures the value of energy deposited within the sensor rather than a mere hit/no hit information. In this way, detector hits induced by comparable energy depositions can be more easily matched and attributed to the particle that generated them, thereby reducing spatial ambiguities and, consequently, combinatorial background.
-
+Along with the improvement in spatial resolution, the MSD analog readout is more advantageous than the binary readout, at least for two other reasons. First, it reduces the problem of ghosts hits, that is the instrumental misidentification of particle coordinates due to triangulation ambiguities. Ghost hits represent an arduous challenge in detectors constituted by orthogonal strips like the MSD. Nevertheless, the MSD analog readout measures the value of energy deposited within the sensor rather than a mere hit/no hit information. In this way, detector hits induced by comparable energy depositions can be more easily matched and attributed to the particle that generated them, thereby reducing spatial ambiguities and, consequently, combinatorial background. Secondarily, combining the energy $\Delta E$ provided by the analog readout and the MSD thickness $\Delta x$, it is possible to evaluate the $dE/dx$ \cite{SMeroli_2011,ZUCCON200874,ALPAT2000522}, which can be used to measure the fragment charge via (?? bethe-blech formula). The charge identification performed by the MSD is of utmost importance, as it occurs before the $1$--$2\,\mathrm{m}$ of air which separate the MSD from the ToF Wall (see \autoref{sssec:tof_wall}), where fragments could potentially undergo fragmentation in air.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{msd2.png}
@@ -300,6 +299,7 @@ Along with the improvement in spatial resolution, the MSD analog readout is more
 	\label{fig:msd2}
 \end{figure}
 \subsection{Downstream region}\label{ssec:downstream_reg}
+The downstream region is the distal
 \subsubsection{ToF Wall}\label{sssec:tof_wall}
 \subsubsection{Calorimeter}\label{sssec:calorimeter}
 \subsection{Trigger and Data Acquisition System}\label{ssec:tdaq_electronic_setup}
