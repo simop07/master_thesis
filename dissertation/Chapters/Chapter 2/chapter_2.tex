@@ -249,7 +249,7 @@ Contrary to fully depleted CMOS sensors, the MAPSs of M28 are only partly deplet
 
 Despite the partial depletion of M28 pixels, their epitaxial layer has a resistivity of $400\,\Omega\cdot\mathrm{cm}$, which exceeds the standard $10\,\Omega\cdot\mathrm{cm}$ of the previous MIMOSA-26 device, ensuring enhanced signal-to-noise ratio and superior radiation tolerance. Each M28 pixel integrates a binary readout (hit/no hit) with an in-chip zero suppression mechanism to reduce the data transfer load off-chip. Moreover, it includes a Correlated Double Sampling (CDS) circuitry, which removes undesired offsets. The M28 $\simeq1$ million pixels are readout via a rolling shutter technique, which employs $960$ end-of-column discriminators to readout columns in parallel and produce a digitized binary information for each pixel. The readout time takes $185.6\,\mu\mathrm{s}$, allowing a frame rate of $\simeq5\,\mathrm{kHz}$.
 
-The VT readout is implemented with a Terasic DE10 board system housing an Intel/Altera System-on-Chip (SoC) FPGA (Cyclon V) with a dual-core Cortex-A9 CPU. The FPGA interfaces the VT sensors with the Trigger and Data Acquisition (TDAQ) control, which handles trigger, time-stamping and busy signals. Once a triggering event occurs, the CPU is finally employed to send data to the central DAQ via a $1\,\mathrm{Gb}$ Ethernet connection \cite{measurement_impact_foot}.
+The VT readout is implemented with a Terasic DE10 board system housing an Intel/Altera System-on-Chip (SoC) FPGA (Cyclon V) with a dual-core Cortex-A9 CPU. The FPGA interfaces the VT sensors with the Trigger and Data Acquisition control, which handles trigger, time-stamping and busy signals. Once a triggering event occurs, the CPU is finally employed to send data to the central DAQ via a $1\,\mathrm{Gb}$ Ethernet connection \cite{measurement_impact_foot}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.82\linewidth]{maps.pdf}
@@ -338,13 +338,88 @@ As shown in \autoref{fig:calo2} (left), each BGO back surface is optically coupl
 	\caption[Calorimeter crystals coupled with SiPMs]{On the left, module of two BGO crystals with SiPMs attached to their back end and relative readout wiring. On the right, picture of a CALO SiPM \cite{Bartosik_2025}.}
 	\label{fig:calo2}
 \end{figure}
-Despite the BGO large density and good light yield, the particle showers produced by traversing fragments may be not fully contained within the CALO, especially at higher energies, when hadronic processes become significant. Indeed, at the largest energies of $700$--$800\,\mathrm{MeV/u}$, relevant for SRP applications, the particle showers reveal both the electromagnetic and hadronic components. While the first is not problematic for an electromagnetic calorimeter like FOOT's CALO, the second leads to unwanted energy leakages, which inevitably worsen the $E_\text{kin}$ measurement performance. Substituting the electromagnetic CALO with an hadronic calorimeter is also unfeasible, not only for financial affordability reasons, but also for its superior dimensions, which would definitively discard the electronic setup's compactness, one of FOOT design priorities. Nevertheless, the FOOT CALO performs well between $200$--$400\,\mathrm{MeV/u}$ \cite{measurement_impact_foot,UbaldiPhDThesis}, as electromagnetic mechanism overwhelm hadronic ones at such energies. This is due to the pion ($\pi^{\pm}$, $\pi^0$) production threshold, whose energy value is $280$--$290\,\mathrm{MeV/u}$.
+Despite the BGO large density and good light yield, the particle showers produced by traversing fragments may be not fully contained within the CALO, especially at higher energies, when hadronic processes become significant. Indeed, at the largest energies of $700$--$800\,\mathrm{MeV/u}$, relevant for SRP applications, the particle showers reveal both the electromagnetic and hadronic components. While the first is not problematic for an electromagnetic calorimeter like FOOT's CALO, the second leads to unwanted energy leakages, which inevitably worsen the $E_\text{kin}$ measurement performance. Substituting the electromagnetic CALO with an hadronic calorimeter is also unfeasible, not only for financial affordability reasons, but also for its superior dimensions, which would definitively discard the electronic setup's compactness, one of FOOT design priorities. Nevertheless, the FOOT CALO performs well between $200$--$400\,\mathrm{MeV/u}$ \cite{measurement_impact_foot,UbaldiPhDThesis}, as electromagnetic mechanism overwhelm hadronic ones at such energies. This is due to the fact that hadronic processes are inherently connected to the pion ($\pi^{\pm}$, $\pi^0$) production threshold, whose energy values range between $280$--$290\,\mathrm{MeV/u}$.
 
 Even at lower energies, there is still one pending challenge: neutrons. Indeed, at any energy, fragmentation processes induce secondary neutron emissions, which cannot be directly measured by the electronic setup. Escaping neutrons carry away undetectable kinetic energy, introducing systematic uncertainty on the $E_\text{kin}$ resolution. To address this predicament, the FOOT Collaboration is currently aiming to develop a novel neutron detector \cite{Zarrella_2024} capable of tracking them and measuring their kinetic energy, which would represent a breakthrough in neutron-induced risk assessment. At present, a promising neutron tracker that could be potentially integrated in the FOOT apparatus is being developed in the RIPTIDE experiment, as reported in \cite{Lanzi_2026}.
 \subsection{Trigger and Data Acquisition System}\label{ssec:tdaq_electronic_setup}
-Prova.
+In the forthcoming paragraphs, a general overview of Trigger and Data AcQuisition (TDAQ) concepts is provided, which lays the foundations for the subsequent description of the FOOT TDAQ architecture.
+\subsubsection{General concepts of TDAQ systems}\label{ssec:tdaq_general_info}
+The meticulous management of the event acquisition chain is crucial in multiple-subdetector experiments like FOOT, where signal synchronization plays a fundamental role to assure that the event fragments collected by the various detectors are correctly matched to the same physics event. For this reason, the TDAQ acquires data only when all detectors are ready (i.e, are not in a busy state), otherwise information losses or data mixing could potentially lead to corrupted events that are impossible to handle during offline analysis. Hence, any raised busy signal prevents the trigger generation and distribution, blocking the data acquisition. Once the busy state is cleared, the TDAQ waits for the forthcoming trigger, which is generated once an interesting physics event is deemed accepted by the trigger decision logic. The time elapsing between the physics signal formation and the consequent trigger generation and distribution is called latency, and must be kept as low as possible.
+
+Another fundamental concept in TDAQ systems is the balance between deadtime $\tau$, physical rate $f$ and DAQ output rate $\nu$ \cite{RidolfiPhDThesis}. First, the deadtime $\tau$ is the time needed to fully process an event until its final storage on disk. Second, the physical rate $f$ is the frequency of the physics event (e.g., in FOOT it could be a the beam rate arrival in the SC). Third, the DAQ output rate $\nu$ is the data throughput, that is the real acquisition rate of the experiment. Although the minimization of $\tau$ is often possible, doing so entails high costs and technical constraints that can rarely be overcome. Hence, to avoid bottlenecks between the incoming physical rate $f$ and the DAQ output rate $\nu$, the preferred solution is to decouple the event ingestion from their output processing with buffers. A buffer is a memory device that stores data temporarily while it is being moved from one place to another. For instance, a common way to handle data buffers is through the FIFO (First In, First Out) manipulation, where the oldest (first) entry is processed first as illustrated in \autoref{fig:fifo}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{fifo.pdf}
+	\caption[FIFO queue]{Representation of a FIFO queue \cite{fifo_image}.}
+	\label{fig:fifo}
+\end{figure}\noindent
+Even if an average input rate can be defined, in real-world conditions there can be short data bursts where data arrives almost simultaneously, instantaneously incrementing the input rate. Such rate fluctuations may overload the data acquisition system, increasing the probability of raising DAQ busies (to give the system time to complete the acquisition) and, consequently, data losses. For this reason, buffers are inserted in the whole DAQ architecture to temporarily absorb the excess events, preserving the overall detection efficiency. This duty is usually referred to as ``derandomization'', because a random input flow is converted into a smoother output data stream. The buffer depth must be carefully designed considering data dimensions and DAQ processing rates.
+\subsubsection{The FOOT TDAQ}\label{ssec:tdaq_foot}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{tdaq.jpg}
+	\caption[FOOT Trigger and Data Acquisition System]{Scheme of FOOT Trigger and Data Acquisition System. Adapted from \cite{measurement_impact_foot}.}
+	\label{fig:tdaq}
+\end{figure}
+The FOOT Trigger and Data Acquisition (TDAQ) system (see \autoref{fig:tdaq}) is the comprehensive infrastructure that handles all the steps from processing the signal generation inside a detector to acquiring and saving on permanent storage the triggered experimental data comprising information of physical interest. To achieve this, the TDAQ encompasses various architectures including the front-end electronics (i.e., the closest element to the detector devoted to signal amplification and digitization), boards dedicated to distribute trigger and busy signals (which follow a different path from experimental data), communication links such as Ethernet, USB and optical fibers and devices like Linux PCs, standard VME crates and custom FPGAs. In addition, the TDAQ correctly manages the event building chain, which ensures that the experimental data coming from detectors of different kind is correctly parsed with the respective metadata, such as timestamp, event number and tag strings. The FOOT TDAQ architecture is based on a TDAQ system used in the ATLAS experiment at LHC (Large Hadron Collider, CERN) \cite{Jenni_616089}, and it is currently maintained by the University and the INFN section of Bologna \cite{foot_site}.
+
+As shown at the center of \autoref{fig:tdaq}, a network Switch collects the detector data sending it forward to the Storage PC, which manages the whole acquisition on a SSD (Solid-State Drive) with a writing speed of $\simeq400\,\mathrm{MB/s}$. The Switch is connected to $20$ DE10-Nano or DE10 Terasic boards cabled to VT, IT, MSD and the WaveDAQ for SC, TW and CALO via $1\,\mathrm{Gb}$ Ethernet connection. The Switch $10\,\mathrm{Gb}$ Ethernet ports are instead reserved to the Storage PC and the NAS (Network Attached Storage). The Storage PC is also wired to the VME Crate housing a V2495 board, that is the FOOT central trigger module, managing the distribution of trigger and busy signals across all detectors. Moreover, the VME Crate hosts a CAEN V2718 board, which connects the VME Crate with the BM electronics (TDC (Time to Digital Converter) and discriminators) \cite{UbaldiPhDThesis,ZarrellaPhDThesis}. While all these components are installed into the experimental room, a Control PC is remotely managed in the control room. From the Control PC it is possible to start/stop runs and control/configure other system nodes. Through another Monitor PC, online monitoring activities are performed.
+
+FOOT employs two main trigger logics: the Minimum Bias Trigger (MBT) and the Fragmentation Trigger (FT). The MBT is valid when an incoming ion enters the SC, while the FT activates when the FT holds true and the TW registers a pulse height compatible with a fragmentation event. Both the BMT and FT are raised by the WaveDAQ system and distributed across the subdetectors by the V2495 board. Due to beam constraints and to the slow reading of M28 sensors, the current data acquisition rate of the FOOT experiment is $\simeq1\,\mathrm{kHz}$.
 \section{Emulsion setup}\label{sec:emulsion_setup}
-Prova.
+Although emulsion chambers have been superseded by electronic detectors since the 1960s \cite{Ariga2020}, they are still used today in particle physics for multiple reasons, such as compactness, high tracking accuracy (sub-micrometric) and fast responses \cite{measurement_impact_foot}. Before FOOT, in the context of nuclear fragmentation, experience with emulsion chambers was gained at HIMAC in Chiba where, in order to study the fragmentation of \ce{^{12}C} ions at $400\,\mathrm{MeV/u}$, a detector composed of alternating layers of polycarbonate (Lexan, emulating human tissues) and emulsion films was employed \cite{articleNakamura,articleLellis1,articleLellis2}.
+
+The FOOT Emulsion Setup (ES) is a nuclear emulsion spectrometer used to efficiently detect light nuclear fragments ($Z\leq2$), whose scattering angle ($\lesssim70^\circ$) is too large compared to the angular acceptance of the electronic setup. An compact emulsion chamber was specifically chosen by the FOOT Collaboration to circumvent the construction challenges of large-angular-acceptance calorimeters, characterized by high costs and low portability.
+
+The FOOT ES is located after the Start Counter (SC) and the Beam Monitor (BM) subdetectors, as illustrated in \autoref{fig:position_es}. During the ES data taking campaigns, the SC and the BM are included just for monitoring purposes: their DAQ (see \autoref{ssec:tdaq_foot}) is completely decoupled from the ES data acquisition. Indeed, nuclear emulsions can be considered complete, self standing experiments, requiring neither real-time electronic DAQ nor power supply \cite{instruments2020007}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{position_es.jpg}
+	\caption[Emulsion setup position]{Location of the ES within the FOOT experimental apparatus \cite{foot_cdr}.}
+	\label{fig:position_es}
+\end{figure}
+A single sensitive module of the FOOT ES consists of $2$ $70\,\mu\mathrm{m}$-thick \ce{AgBr} layers, which are separated by a plastic slab of $210\,\mu\mathrm{m}$ thickness as schematized in \autoref{fig:trail_es}. Specifically, the $2$ sensitive regions are composed of \ce{AgBr} fine crystal grains of $0.2\,\mu\mathrm{m}$ diameter uniformly dispersed in a transparent gelatin binder.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{structure_es.pdf}
+	\caption[Emulsion setup sensitive section]{Schematic representation of the ES sensitive section. Micro- and base- tracks are also illustrated. Adapted from \cite{foot_cdr}.}
+	\label{fig:trail_es}
+\end{figure}
+The signal formation in nuclear emulsions resembles, \textit{mutatis mutandis}, the development of a photographic plat, as explained in \cite{KolanoskiBook}. Firstly, when a charged particle traverses the \ce{AgBr} layers, the energy deposit generates electron-hole pairs, since \ce{AgBr} crystals are semiconductors with a band gap of $2.6\,\mathrm{MeV}$. The generated electrons diffuse through the crystal and are primarily trapped by lattice defects at the crystal surface. Conversely, the ionized, positively charged silver ions, usually sitting at interstitial sites,\footnote{Interstitial sites are the empty spaces or gaps situated between the atoms/ions composing the crystalline lattice.} can be attracted by negatively charged defects and become neutralized. The reiteration of this process at the same lattice defect induces the formation of metallic silver clusters, usually consisting of three or four atoms. These silver clusters constitute the so-called latent image centers, which become visible only after a ``development'' process that augments the number of cluster atoms by a factor $10^8$--$10^10$ \cite{KolanoskiBook,TANI2020164163}. After the development, the enlarged silver grains (with a ) mark the charged particle trajectory with a spatial resolution better than $1\,\mu\mathrm{m}$. An picture of developed silver grains is shown in \autoref{fig:emulsiontrackpic} (left), while a pion track reconstructed in the AEgIS \cite{KIMURA2013325} nuclear emulsion is illustrated in \autoref{fig:emulsiontrackpic} (right).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{emulsion_track.png}
+	\caption[\ce{AgBr} crystals and tracks in an emulsion layer]{On the left, picture of \ce{AgBr} crystals in an emulsion layer taken with a Scanning Electron Microscope (SEM). On the right, track of a minimum ionizing pion with a momentum of $10\,\mathrm{GeV/c}$. From \cite{KolanoskiBook}.}
+	\label{fig:emulsiontrackpic}
+\end{figure}
+Successive to the development process, the FOOT emulsion chamber is scanned by an automated system already adopted in the OPERA experiment \cite{ARMENISE2005261,ARRABITO2006578} and in the FIRST project \cite{PhysRevC.93.064601}, which employs a cluster-spotting software to reconstruct particle trajectories. A straight sequence of clusters in a single \ce{AgBr} layer defines a ``micro-track''. Two aligned micro-tracks belonging to the same ES sensitive module form a ``base-track''. Micro- and base- tracks, schematized in \autoref{fig:trail_es}, are then combined across all the ES films to generate ``volume-tracks''. The volume-track thickness is a variable sensitive to the ionization density, therefore it is used to perform charge identification, as reported in \autoref{ssec:ionization_region}.
+
+DA QUI
+The ES consists of three sections, whose structure is schematically shown in \hyperref[fig:structure_es]{Fig. 2.8}:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{structure_es.pdf}
+	\caption[Emulsion setup inner structure]{Schematic representation of the FOOT ES structure. The relevant detector parts are explained in the text. Adapted from \cite{foot_cdr}.}
+	\label{fig:structure_es}
+\end{figure}
+
+
+
+
+
+\subsection{Interaction and Vertexing region}\label{ssec:vertexing_region}
+Approximately $\approx4\mbox{ cm}$ deep, it consists of layers of \ce{C} or \ce{C2H4} (the targets of the experiment) approximately $\approx1\mbox{ mm}$ thick, alternated with emulsion films with a thickness of $300\mbox{ }\mu{m}$.
+\subsection{Ionization region}\label{ssec:ionization_region}
+Approximately $\approx1\mbox{ cm}$ deep, it consists of elementary cells, each containing three emulsion films with different particle sensitivities. Thanks to the emulsion films, it is possible to identify the charge of light fragments (with a very high efficiency, equal to $\approx90\%$) such as \ce{H}, \ce{He} and \ce{Li} \cite{deLellisConference}.
+\subsection{Tracking region}\label{ssec:tracking_region}
+Approximately $\approx4\mbox{ cm}$ deep, it consists of $300\mbox{ }\mu{m}$-thick emulsion films interleaved with lead (\ce{Pb}) layers $1\mbox{ mm}$ thick. By measuring the total range length of the fragments, it is possible to determine both their kinetic energy and momentum.\footnote{This is achieved through a relation between range and momentum predicted by the Multiple Coulomb Scattering model \cite{articleAgafonova,DESERIO2003539}.}
+
+
+
+
+
+
+
 
 
 
