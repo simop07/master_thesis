@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="svg1430"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:version="0.32"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   sodipodi:docname="fifo.svg"
+   x="0px"
+   y="0px"
+   width="405px"
+   height="265px"
+   viewBox="-30.228 18 405 265"
+   enable-background="new -30.228 18 405 265"
+   xml:space="preserve"
+   inkscape:export-filename="fifo.pdf"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+<defs
+   id="defs1">
+	
+	
+		<inkscape:perspective
+   id="perspective2424"
+   inkscape:vp_z="391.25 : 140.625 : 1"
+   inkscape:vp_y="0 : 1000 : 0"
+   inkscape:vp_x="0 : 140.625 : 1"
+   sodipodi:type="inkscape:persp3d"
+   inkscape:persp3d-origin="195.625 : 93.75 : 1">
+		</inkscape:perspective>
+</defs>
+<sodipodi:namedview
+   id="base"
+   showgrid="false"
+   inkscape:cx="158.5"
+   inkscape:zoom="1"
+   borderopacity="1.0"
+   bordercolor="#666666"
+   pagecolor="#ffffff"
+   inkscape:cy="216.5"
+   inkscape:window-y="-9"
+   inkscape:window-x="2091"
+   inkscape:window-height="1171"
+   inkscape:window-width="1920"
+   inkscape:current-layer="svg1430"
+   inkscape:document-units="px"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:showpageshadow="2"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:window-maximized="1">
+	</sodipodi:namedview>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<path
+   id="path1446-4"
+   sodipodi:arg2="0.33857128"
+   sodipodi:arg1="-0.70862627"
+   sodipodi:r2="4.6097722"
+   sodipodi:r1="9.2195444"
+   sodipodi:cy="278.36218"
+   sodipodi:cx="353"
+   sodipodi:sides="3"
+   sodipodi:type="star"
+   inkscape:randomized="0"
+   inkscape:rounded="0"
+   inkscape:flatsided="true"
+   stroke="#000000"
+   d="M 360,272.36218 354.69615,287.42436 344.30385,275.3 Z"
+   transform="rotate(-15.360991,-85.253229,158.70848)" /><switch
+   id="switch1-8"
+   transform="translate(31.549231,-19.593311)"><text
+     transform="translate(265.8555,145.0156)"
+     font-family="LucidaSans"
+     font-size="24px"
+     id="trsvg5-fr-8"
+     systemLanguage="fr"
+     style="line-height:0%"><tspan
+       id="trsvg1-fr-2">Défiler</tspan></text><text
+     transform="translate(265.8555,145.0156)"
+     font-family="LucidaSans"
+     font-size="24px"
+     id="trsvg5-yue-4"
+     systemLanguage="yue"
+     style="line-height:0%"><tspan
+       id="trsvg1-yue-5">出隊</tspan></text><text
+     transform="translate(265.8555,145.0156)"
+     font-family="LucidaSans"
+     font-size="24px"
+     id="trsvg5-5"
+     style="line-height:0%"><tspan
+       id="trsvg1-1">Dequeue</tspan></text></switch><switch
+   id="switch2-7"
+   transform="translate(57.888961,-24.719835)"><text
+     transform="translate(-24.2949,177.082)"
+     font-family="LucidaSans"
+     font-size="24px"
+     id="trsvg6-fr-1"
+     systemLanguage="fr"
+     style="line-height:0%"><tspan
+       id="trsvg2-fr-1">Enfiler</tspan></text><text
+     transform="translate(-24.2949,177.082)"
+     font-family="LucidaSans"
+     font-size="24px"
+     id="trsvg6-yue-5"
+     systemLanguage="yue"
+     style="line-height:0%"><tspan
+       id="trsvg2-yue-2">排隊</tspan></text><text
+     transform="translate(-24.2949,177.082)"
+     font-family="LucidaSans"
+     font-size="24px"
+     id="trsvg6-7"
+     style="line-height:0%"><tspan
+       id="trsvg2-6">Enqueue</tspan></text></switch><path
+   id="path2432-1"
+   fill="none"
+   stroke="#000000"
+   stroke-width="0.7364"
+   d="m 134.17348,131.9326 -37.830209,-0.7071 c -64.79816,-1.21118 -58.5907,-35.165455 -58.5907,-35.165455"
+   sodipodi:nodetypes="csc" /><path
+   id="path3204-4"
+   fill="none"
+   stroke="#000000"
+   stroke-width="0.7313"
+   d="m 366.99223,153.61971 v 0 c -20.215,-26.812 -75.887,-21.474 -75.887,-21.474" /><rect
+   id="rect2481-2"
+   x="7.2125349"
+   y="-51.159481"
+   inkscape:label="#node1"
+   transform="rotate(89.75363)"
+   fill="#0000ff"
+   fill-opacity="0.75"
+   stroke="#000000"
+   width="87.000801"
+   height="27.00025"
+   style="stroke-width:1.00001">
+</rect><rect
+   id="rect2483-3"
+   x="92.073166"
+   y="-216.9648"
+   inkscape:label="#node1"
+   transform="rotate(89.75363)"
+   fill="#0000ff"
+   fill-opacity="0.75"
+   stroke="#000000"
+   width="87.000801"
+   height="27.00025"
+   style="stroke-width:1.00001">
+</rect><rect
+   id="rect2483-3-4"
+   x="92.031853"
+   y="-181.1301"
+   inkscape:label="#node1"
+   transform="rotate(89.75363)"
+   fill="#0000ff"
+   fill-opacity="0.75"
+   stroke="#000000"
+   width="87.000801"
+   height="27.00025"
+   style="stroke-width:1.00001">
+</rect><rect
+   id="rect2485-2"
+   x="92.22406"
+   y="-251.96419"
+   inkscape:label="#node1"
+   transform="rotate(89.75363)"
+   fill="#0000ff"
+   fill-opacity="0.75"
+   stroke="#000000"
+   width="87.000801"
+   height="27.00025"
+   style="stroke-width:1.00001">
+</rect><rect
+   id="rect2487-2"
+   x="92.374855"
+   y="-286.96344"
+   inkscape:label="#node1"
+   transform="rotate(89.75363)"
+   fill="#0000ff"
+   fill-opacity="0.75"
+   stroke="#000000"
+   width="87.000801"
+   height="27.00025"
+   style="stroke-width:1.00001">
+</rect><path
+   id="path2489-1"
+   sodipodi:arg2="0.33857128"
+   sodipodi:arg1="-0.70862627"
+   sodipodi:r2="4.6097722"
+   sodipodi:r1="9.2195444"
+   sodipodi:cy="278.36218"
+   sodipodi:cx="353"
+   sodipodi:sides="3"
+   sodipodi:type="star"
+   inkscape:randomized="0"
+   inkscape:rounded="0"
+   inkscape:flatsided="true"
+   stroke="#000000"
+   d="M 360,272.36218 354.69615,287.42436 344.30385,275.3 Z"
+   transform="rotate(-80.234448,158.99374,332.06431)" /><rect
+   id="rect2493-6"
+   x="173.26389"
+   y="-386.61548"
+   inkscape:label="#node1"
+   transform="rotate(89.75363)"
+   fill="#0000ff"
+   fill-opacity="0.75"
+   stroke="#000000"
+   width="87.001801"
+   height="27.00025"
+   style="stroke-width:1.00001">
+</rect><switch
+   id="switch3-8"
+   transform="translate(65.490361,-19.593311)"><text
+     transform="translate(88.8125,101.5)"
+     font-family="LucidaSans"
+     font-size="20px"
+     id="trsvg7-fr-5"
+     systemLanguage="fr"
+     style="line-height:0%"><tspan
+       id="trsvg3-fr-7">Arrière</tspan></text><text
+     transform="translate(88.8125,101.5)"
+     font-family="LucidaSans"
+     font-size="20px"
+     id="trsvg7-yue-6"
+     systemLanguage="yue"
+     style="line-height:0%"><tspan
+       id="trsvg3-yue-1">後面</tspan></text><text
+     transform="translate(88.8125,101.5)"
+     font-family="LucidaSans"
+     font-size="20px"
+     id="trsvg7-8"
+     style="line-height:0%"><tspan
+       id="trsvg3-9">Back</tspan></text></switch><switch
+   id="switch4-2"
+   transform="translate(31.549231,-19.593311)"><text
+     transform="translate(205.1035,101.5)"
+     font-family="LucidaSans"
+     font-size="20px"
+     id="trsvg8-fr-7"
+     systemLanguage="fr"
+     style="line-height:0%"><tspan
+       id="trsvg4-fr-9">Avant</tspan></text><text
+     transform="translate(205.1035,101.5)"
+     font-family="LucidaSans"
+     font-size="20px"
+     id="trsvg8-yue-5"
+     systemLanguage="yue"
+     style="line-height:0%"><tspan
+       id="trsvg4-yue-4">前面</tspan></text><text
+     transform="translate(205.1035,101.5)"
+     font-family="LucidaSans"
+     font-size="20px"
+     id="trsvg8-3"
+     style="line-height:0%"><tspan
+       id="trsvg4-1">Front</tspan></text></switch>
+</svg>
