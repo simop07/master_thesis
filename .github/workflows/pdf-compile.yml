@@ -3,7 +3,7 @@ name: Compile PDF Master's Thesis
 on:
   push:
     paths:
-      - 'dissertation/**/*' # Si attiva solo se cambia qualcosa in questa cartella
+      - 'Dissertation/**/*' # Si attiva solo se cambia qualcosa in questa cartella
 
 jobs:
   build_pdf:
@@ -16,11 +16,11 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          working_directory: dissertation
+          working_directory: Dissertation
           compiler: pdflatex # Esegue pdflatex + bibtex in automatico quante volte serve
 
       - name: Save PDF as artifact
         uses: actions/upload-artifact@v4
         with:
           name: thesis-pdf
-          path: dissertation/main.pdf
+          path: Dissertation/main.pdf
