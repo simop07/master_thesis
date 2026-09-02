@@ -25,24 +25,84 @@ A charged particle can interact with matter following various electromagnetic an
 	\item inelastic nuclear reactions (see \autoref{sec:nucl_interactions});
 	\item Cherenkov radiation emission and bremsstrahlung (see \autoref{ssec:cherenkov_bremsstrahlung}).
 \end{itemize}
-The inelastic collisions with atomic electrons represent the dominant interaction mechanism undergone by charged particles, as the high cross section values ($\simeq\100\,\mathrm{Mb}$) show.\footnote{The barn (b) is the unit of measurement of cross section. Specifically, $1\,\mathrm{b}=10^{-24}\,\mathrm{cm}^{2}$.} Due to the large cross sections, a large number of collision occurs between the incoming charged particles and the atomic electrons, making any cross-section-based analytical treatment impractical. For this reason, an energy-based study is preferred: rather than studying whether a particle has interacted or not, scientists analyze the energy released by the particle inside the medium. These continuous electromagnetic energy losses slow down the incoming particle, which comes to rest once its kinetic energy zeroes. It should be noted that the inelastic collisions with atomic electrons make the interaction dynamics of charged particles and photons profoundly different: photons can only be absorbed when interacting with matter\footnote{To be precise, photon have also a non-zero probability to loose energy during a scattering process without necessarily being absorbed, as in Compton scattering. However, photon energy losses occur through one-shot, discrete events instead of continuous interactions.} rather than unceasingly loosing energy, as charged particles do. The very particle-photon diversity produces longitudinal energy deposition profiles, whose dissimilarities truly embody the contrast between PT and conventional photon-based radiotherapy, as detailed in \autoref{ch:applications}.
+The inelastic collisions with atomic electrons represent the dominant interaction mechanism undergone by charged particles, as the high cross section values ($\simeq100\,\mathrm{Mb}$) show.\footnote{The barn (b) is the unit of measurement of cross section. Specifically, $1\,\mathrm{b}=10^{-24}\,\mathrm{cm}^{2}$.} Due to the large cross sections, a large number of collision occurs between the incoming charged particles and the atomic electrons, making any cross-section-based analytical treatment impractical. For this reason, an energy-based study is preferred: rather than studying whether a particle has interacted or not, scientists analyze the energy released by the particle inside the medium. These continuous electromagnetic energy losses slow down the incoming particle, which comes to rest once its kinetic energy zeroes. It should be noted that the inelastic collisions with atomic electrons make the interaction dynamics of charged particles and photons profoundly different: photons can only be absorbed when interacting with matter\footnote{To be precise, photon have also a non-zero probability to loose energy during a scattering process without necessarily being absorbed, as in Compton scattering. However, photon energy losses occur through one-shot, discrete events instead of continuous interactions.} rather than unceasingly loosing energy, as charged particles do. The very particle-photon diversity produces longitudinal energy deposition profiles, whose dissimilarities truly embody the contrast between PT and conventional photon-based radiotherapy, as detailed in \autoref{ch:applications}.
 
-Contrary to the inelastic collisions with atomic electrons, the nuclear elastic scattering (which involves nuclei despite being an electromagnetic process) does not lead to significant energy losses, as the nuclei involved in elastic collisions usually have comparable masses to those of the incident particles. This implies that the elastic nuclear interactions transfer less energy compared to the collisions with atomic electrons. Nevertheless, the elastic scattering with nuclei produces electromagnetic deflections which broaden the beam lateral profile. The typical cross section of this process is approximately $\simeq\1\,\mathrm{b}$, lower than the former case.
+Contrary to the inelastic collisions with atomic electrons, the nuclear elastic scattering (which involves nuclei despite being an electromagnetic process) does not lead to significant energy losses, as the nuclei involved in elastic collisions usually have comparable masses to those of the incident particles. This implies that the elastic nuclear interactions transfer less energy compared to the collisions with atomic electrons. Nevertheless, the elastic scattering with nuclei produces electromagnetic deflections which broaden the beam lateral profile. The typical cross section of this process is approximately $\simeq1\,\mathrm{b}$, lower than the former case.
 
-Inelastic nuclear reactions (which include nuclear fragmentations) affect both the longitudinal and transverse profiles of the energy deposition, due to the fact that these processes lead to beam reductions and subsequent creation of secondary particles. Nuclear interactions are less probable than the aforementioned electromagnetic collisions, possessing cross sections of $10$--$100\,\mathrm{mb}$.
+Inelastic nuclear reactions (which include nuclear fragmentations) affect both the longitudinal and transverse profiles of the energy deposition, due to the fact that these processes lead to beam reductions and subsequent creation of secondary particles. Nuclear interactions are less probable than the aforementioned electromagnetic collisions, possessing cross sections of $\simeq10$--$100\,\mathrm{mb}$.
 
 Finally, Cherenkov and bremsstrahlung energy losses are negligible in both PT and SRP applications. More details are provided in \autoref{ssec:cherenkov_bremsstrahlung}.
 \section{Electromagnetic interactions}\label{sec:em_interactions}
 \subsection{Inelastic collisions with atomic electrons}\label{ssec:bethe_bloch}
-When a relativistic charged particle moves through matter, it exerts a Coulomb force on the atomic electrons of the medium, leading to numerous excitation and ionization processes \cite{Christodoulides2016}. Excitation allows orbital electrons to jump to higher atomic level, while ionization strips the electron away from the atom. If ejected electrons have sufficient energy, they may further ionize the medium and, in that case, they are referred to as $\delta$-rays. Most frequently the energy losses are small (for $90\%$ of all collisions the energy losses are less than $100\,\mathrm{eV}$) \cite{passageParticleMatter}. As previously mentioned, the amount of energy lost due to Coulomb interactions with nuclei is even smaller \cite{10.1063/1.369844}, hence it is overlooked in the following discussion. The rate of average energy loss\footnote{Due to ionization events.} per unit path length by a charged particle is given by the relativistic Bethe-Bloch formula (or stopping power formula), reported in \autoref{eq:bethe_bloch}:
+When a relativistic charged particle moves through matter, it exerts a Coulomb force on the atomic electrons of the medium, leading to numerous excitation and ionization processes \cite{Christodoulides2016}. Excitation allows orbital electrons to jump to higher atomic level, while ionization strips the electron away from the atom. If ejected electrons have sufficient energy, they may further ionize the medium and, in that case, they are referred to as $\delta$-rays. Most frequently the energy losses are small (for $90\%$ of all collisions the energy losses are less than $100\,\mathrm{eV}$) \cite{passageParticleMatter}. As previously mentioned, the amount of energy lost due to Coulomb interactions with nuclei is even smaller \cite{10.1063/1.369844}, hence it is overlooked in the following discussion. For a moderately relativistic charged particle, the mean rate of energy loss (or linear stopping power) leading to electron excitation and ionization processes can be described by the Bethe-Bloch equation:
 \begin{equation}
 	\begin{split}
-		\left\langle-\frac{dE}{dx} \right\rangle=\frac{\rho Z}{A}\frac{4\pi N_Am_ec^2}{M_U}&\left(\frac{e^2}{4\pi\epsilon_0m_ec^2}\right)^2\cdot\\
-		&\cdot\frac{z^2}{\beta^2}\left[\ln{\left(\frac{2m_ec^2\beta^2}{I\left(1-\beta^2\right)}\right)}-\beta^2-\frac{\delta}{2}-\frac{C}{Z}\right]
+		\left\langle-\frac{dE}{dx} \right\rangle=\frac{\rho Z_\text{M}}{A}\frac{4\pi N_Am_ec^2}{M_U}&\left(\frac{e^2}{4\pi\epsilon_0m_ec^2}\right)^2\cdot\\
+		&\cdot\frac{Z^2}{\beta^2}\left[\ln{\left(\frac{2m_ec^2\beta^2}{I\left(1-\beta^2\right)}\right)}-\beta^2-\frac{\delta}{2}-\frac{C}{Z}\right],
 	\end{split}
 	\label{eq:bethe_bloch}
 \end{equation}
-whose parameters are summarized in \autoref{tab:bethe_bloch}; note both the negative sign in $\left\langle-\frac{dE}{dx} \right\rangle$ (which represents the energy loss of the charged particle) and the quadratic dependence on the atomic number of the beam particles $z$.
+whose parameters are summarized in \autoref{tab:bethe_bloch}. Note that the negative sign in $\left\langle-\frac{dE}{dx} \right\rangle$ represents the amount of energy lost by the charged particle. Hereafter, the $\left\langle-\frac{dE}{dx} \right\rangle$ expression is also indicated as $dE/dx$ for simplicity of notation.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{M{2cm} M{10cm}}
+		\hline
+		\multicolumn{2}{c}{\textbf{Medium properties}} \\
+		\hline
+		$\rho$ & Material density \\
+		$Z_\text{M}$ & Atomic number of medium (M) \\
+		$A$ & Mass number \\
+		$I$ & Ionization potential \\
+		\hline
+		\multicolumn{2}{c}{\textbf{Constants}} \\
+		\hline
+		$N_A$ & Avogadro's number \\
+		$m_e$ & Electron mass \\
+		$M_U$ & Molar mass ($\frac{1}{12}$ of the mass of \ce{^{12}C}) \\
+		$\epsilon_0$ & Vacuum permittivity \\
+		$e$ & Electron charge \\
+		$c$ & Speed of light in vacuum \\
+		\hline
+		\multicolumn{2}{c}{\textbf{Beam characteristics}} \\
+		\hline
+		$Z$ & Atomic number of the beam particles \\
+		$\beta$ & Beam velocity in units of $c$ \\
+		\hline
+		\multicolumn{2}{c}{\textbf{Corrections}} \\
+		\hline
+		$\delta$ & Density correction, important at high energies \\
+		$C$ & Shell correction, important at low energies \\
+		\hline
+	\end{tabular}
+	\caption[Bethe-Bloch parameters]{Summary table of the Bethe-Bloch parameters, divided into medium properties, constants, beam characteristics and corrections. In the hadrontherapy range one typically has $Z_\text{M}/A\approx0.42$--$0.5$ and $I\approx19$--$820\,\mathrm{eV}$.}
+	\label{tab:bethe_bloch}
+\end{table}
+The \autoref{eq:bethe_bloch} is valid in the region $0.1\lesssim\beta\gamma\lesssim1000$ with an accuracy of few percent, where $\gamma=1/\sqrt{1-\beta^2}$ is the Lorentz factor. At $\beta\gamma\simeq0.1$ the projectile speed is comparable to the atomic electron speed, and at $\beta\gamma\simeq1000$ radiative effects start to dominate. Both limit are $Z_\text{M}$ dependent, while a minor dependence on the incoming particle mass is introduced at high energies through $I$. To remove the dependencies on the medium density $\rho$, the mass stopping power is often employed, defined as:
+\begin{equation}
+	\text{Mass stopping power}\,=\frac{1}{\rho}\cdot\left\langle-\frac{dE}{dx} \right\rangle,\quad\text{ in }[\text{MeV}\cdot\text{g}^{-1}\cdot\text{cm}^2].
+	\label{eq:mass_stopping_power}
+\end{equation}
+As illustrated in \autoref{fig:mass_stopping_power}, the mass stopping power is approximately independent of the material and its physical state, except for slowly decreasing with $Z_\text{M}$.\footnote{Despite $dE/dx\propto Z_\text{M}$, it decreases with $Z_\text{M}$ because of the presence of $A$ in \autoref{eq:bethe_bloch}: heavier materials have decreasing $Z_\text{M}/A$ ratios. In general, a simple functional dependence on $Z_\text{M}$ is not to be expected \cite{passageParticleMatter}.}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{mass_stopping_power.pdf}
+	\caption[Bethe-Bloch curve in different materials]{Mass stopping power in various materials. Radiative effects (relevant for muons and pions) are not included. From \cite{passageParticleMatter}.}
+	\label{fig:mass_stopping_power}
+\end{figure}
+The functional dependence of the mass stopping power and the Bethe-Bloch formula on $\beta\gamma$ is illustrated in \autoref{fig:bethe_bloch}. To analyze their behavior, it is possible to define various energy regions \cite{Christodoulides2016}:
+\begin{itemize}
+	\item at very low energies, the kinetic energy of the incident particle must be corrected by the factor $C$ (shell correction), already reported in \autoref{eq:bethe_bloch}, which accounts for energy effects due to the motion of the electron around the nucleus. Such correction is needed because the Bethe-Bloch formula is derived assuming that the incoming particles have (relativistic) speeds much larger than the atomic electron velocities (the Born approximation), a premise which holds no more at low energies. The shell correction lowers the $Z$ of the incoming particles, as they get partly neutralized by picking up electrons when traveling at low speeds. In this low-energy region, there are also other minor corrections such as the Barkas effect, which accounts for Coulomb corrections caused by the charge of the projectile particle, and the Bloch correction, which introduces second-order perturbations to atomic wave functions. At $\beta\lesssim0.5$, Lindhard corrections and Andersen-Ziegler formulae adequately describe the mass stopping power.
+	\item Classical region: at low energies ($\beta\gamma<1$) the stopping power decreases as $\frac{1}{\beta^2}$, since faster charged particles spend less time near the atoms of the material and therefore generate fewer ionization processes.
+	\item Minimum ionization region: at higher energies ($\beta\gamma\approx3$) a minimum in ionization is observed, depending on $\beta$ and (almost) independent of the mass of the charged particle. Most relativistic particles have mean energy loss rates close to the minimum, in which case they are usually referred to as Minimum Ionizing Particles (MIPs).
+	\item Relativistic region: at high energies ($\beta\gamma>4$) a logarithmic rise in the stopping power is observed, due to the concentration of the electric field lines in the orthogonal plane with respect to the incident particle direction, a purely relativistic effect. The behavior of this region is governed by the logarithmic term $\beta^2\gamma^2$ in \autoref{eq:bethe_bloch}.
+	\item At very high energies, the concentration of electric field lines induces further ionization events at larger distances from the particle's trajectory. As more distant atoms loose electrons, they get polarized, producing a screening effect on the electric field itself (called the density effect) that limits the field extension and effectively truncates the relativistic rise (see the red dotted line in \autoref{fig:bethe_bloch}). The density effect is controlled by the factor $\delta$ (density correction) in \autoref{eq:bethe_bloch}.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{bethe_bloch.pdf}
+	\caption[Bethe-Bloch curve]{Absolute value of the stopping power for $\mu^+$ in copper as a function of $\beta\gamma=p/Mc$, where $p$ is the magnitude of $\mu^+$ relativistic momentum. The vertical bands delimit various approximation regions, some of which are discussed in the text. In particular, the dashed green line labeled ``$\mu^+$'' accounts for the Barkas effect, while the dashed red line represents the action of the density effect. From \cite{passageParticleMatter}.}
+	\label{fig:bethe_bloch}
+\end{figure}
 \subsection{Multiple coulomb scattering}\label{ssec:multiple_coulomb_scattering}
 \subsection{Cherenkov and bremsstrahlung}\label{ssec:cherenkov_bremsstrahlung}
 
