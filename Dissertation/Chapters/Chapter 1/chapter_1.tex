@@ -1,0 +1,120 @@
+\chapter{Interactions of charged particles with matter}\label{ch:interaction_charged_particles}
+The clinical methods and the research studies developed in Particle Therapy (PT, or hadrontherapy) and Space Radiation Protection (SRP) strongly depend on deterministic codes and Monte Carlo simulations, whose aim is to emulate the physics processes characterizing such applications. To comprehensively model the phenomena underlying PT and SRP, including the biological effects produced by ionizing radiation, scientists have implemented algorithms based on the physics principles of particle interaction. Thus, the aim of this chapter is to outline the relevant interaction mechanisms between charged particles and matter, emphasizing the physics processes that dominate the PT and SRP energy ranges.
+
+Before delving into the details of charged particles interactions with matter, it is important to recall that at the energy ranges of PT ($100$--$800\,\mathrm{MeV/u}$) and of SRP ($100$--$400\,\mathrm{MeV/u}$) charged particles are moderately relativistic. Indeed, for a charged particle with kinetic energy $E_\text{kin}$, total energy $E_\text{tot}$, mass $m$ and momentum $p$, the particle velocity $\beta$ in units of light speed $c$ is given by \autoref{eq:particle_velocity}:
+\begin{equation}
+	\beta
+	=
+	\frac{v}{c}
+	=
+	\frac{pc}{E_{\text{tot}}}
+	=
+	\frac{\sqrt{E_{\text{tot}}^2-m^2c^4}}
+	{E_{\text{kin}}+mc^2}
+	=
+	\frac{\sqrt{E_{\text{kin}}^2+2E_{\text{kin}}mc^2}}
+	{E_{\text{kin}}+mc^2}.
+	\label{eq:particle_velocity}
+\end{equation}
+As particles with the same energy per nucleon have the same $\beta$ (this stems directly from \autoref{eq:particle_velocity}), it is possible to compute $\beta$ values simply using the proton mass ($938\,\mathrm{MeV/c}^2$) and kinetic energy, obtaining $\beta\simeq0.6$ at $200\,\mathrm{MeV/u}$ and $\beta\simeq0.8$ at $800\,\mathrm{MeV/u}$.
+
+A charged particle can interact with matter following various electromagnetic and nuclear processes, which will be detailed in the following paragraphs:
+\begin{itemize}
+	\item inelastic collisions with atomic electrons (see \autoref{ssec:bethe_bloch});
+	\item elastic scattering with nuclei (multiple coulomb scattering, see \autoref{ssec:multiple_coulomb_scattering});
+	\item inelastic nuclear reactions (see \autoref{sec:nucl_interactions});
+	\item Cherenkov radiation emission and bremsstrahlung (see \autoref{ssec:cherenkov_bremsstrahlung}).
+\end{itemize}
+The inelastic collisions with atomic electrons represent the dominant interaction mechanism undergone by charged particles, as the high cross section values ($\simeq\100\,\mathrm{Mb}$) show.\footnote{The barn (b) is the unit of measurement of cross section. Specifically, $1\,\mathrm{b}=10^{-24}\,\mathrm{cm}^{2}$.} Due to the large cross sections, a large number of collision occurs between the incoming charged particles and the atomic electrons, making any cross-section-based analytical treatment impractical. For this reason, an energy-based study is preferred: rather than studying whether a particle has interacted or not, scientists analyze the energy released by the particle inside the medium. These continuous electromagnetic energy losses slow down the incoming particle, which comes to rest once its kinetic energy zeroes. It should be noted that the inelastic collisions with atomic electrons make the interaction dynamics of charged particles and photons profoundly different: photons can only be absorbed when interacting with matter\footnote{To be precise, photon have also a non-zero probability to loose energy during a scattering process without necessarily being absorbed, as in Compton scattering. However, photon energy losses occur through one-shot, discrete events instead of continuous interactions.} rather than unceasingly loosing energy, as charged particles do. The very particle-photon diversity produces longitudinal energy deposition profiles, whose dissimilarities truly embody the contrast between PT and conventional photon-based radiotherapy, as detailed in \autoref{ch:applications}.
+
+Contrary to the inelastic collisions with atomic electrons, the nuclear elastic scattering (which involves nuclei despite being an electromagnetic process) does not lead to significant energy losses, as the nuclei involved in elastic collisions usually have comparable masses to those of the incident particles. This implies that the elastic nuclear interactions transfer less energy compared to the collisions with atomic electrons. Nevertheless, the elastic scattering with nuclei produces electromagnetic deflections which broaden the beam lateral profile. The typical cross section of this process is approximately $\simeq\1\,\mathrm{b}$, lower than the former case.
+
+Inelastic nuclear reactions (which include nuclear fragmentations) affect both the longitudinal and transverse profiles of the energy deposition, due to the fact that these processes lead to beam reductions and subsequent creation of secondary particles. Nuclear interactions are less probable than the aforementioned electromagnetic collisions, possessing cross sections of $10$--$100\,\mathrm{mb}$.
+
+Finally, Cherenkov and bremsstrahlung energy losses are negligible in both PT and SRP applications. More details are provided in \autoref{ssec:cherenkov_bremsstrahlung}.
+\section{Electromagnetic interactions}\label{sec:em_interactions}
+\subsection{Inelastic collisions with atomic electrons}\label{ssec:bethe_bloch}
+When a relativistic charged particle moves through matter, it exerts a Coulomb force on the atomic electrons of the medium, leading to numerous excitation and ionization processes \cite{Christodoulides2016}. Excitation allows orbital electrons to jump to higher atomic level, while ionization strips the electron away from the atom. If ejected electrons have sufficient energy, they may further ionize the medium and, in that case, they are referred to as $\delta$-rays. Most frequently the energy losses are small (for $90\%$ of all collisions the energy losses are less than $100\,\mathrm{eV}$) \cite{passageParticleMatter}. As previously mentioned, the amount of energy lost due to Coulomb interactions with nuclei is even smaller \cite{10.1063/1.369844}, hence it is overlooked in the following discussion. The rate of average energy loss\footnote{Due to ionization events.} per unit path length by a charged particle is given by the relativistic Bethe-Bloch formula (or stopping power formula), reported in \autoref{eq:bethe_bloch}:
+\begin{equation}
+	\begin{split}
+		\left\langle-\frac{dE}{dx} \right\rangle=\frac{\rho Z}{A}\frac{4\pi N_Am_ec^2}{M_U}&\left(\frac{e^2}{4\pi\epsilon_0m_ec^2}\right)^2\cdot\\
+		&\cdot\frac{z^2}{\beta^2}\left[\ln{\left(\frac{2m_ec^2\beta^2}{I\left(1-\beta^2\right)}\right)}-\beta^2-\frac{\delta}{2}-\frac{C}{Z}\right]
+	\end{split}
+	\label{eq:bethe_bloch}
+\end{equation}
+whose parameters are summarized in \autoref{tab:bethe_bloch}; note both the negative sign in $\left\langle-\frac{dE}{dx} \right\rangle$ (which represents the energy loss of the charged particle) and the quadratic dependence on the atomic number of the beam particles $z$.
+\subsection{Multiple coulomb scattering}\label{ssec:multiple_coulomb_scattering}
+\subsection{Cherenkov and bremsstrahlung}\label{ssec:cherenkov_bremsstrahlung}
+
+%PUT THE FOLLOWING BETWEEN THE ELECTROMAGNETIC AND NUCLEAR INTERACTION SECTIONS!
+%The electromagnetic interactions described in the preceding section are well understood from both theoretical and experimental perspectives. Nuclear interactions are also a crucial aspect of transport, but are not nearly as well understood from the theoretical perspective. Interactions between a projectile and atoms of the target are ultimately described by quantum electrodynamics (QED), the most accurate physical theory yet devised; by contrast, nuclear interactions are many-body problems that defy present-day calculational methods at the most fundamental level. That is, the particles that participate in nuclear interactions are themselves composites (nuclei contain nucleons, and nucleons contain quarks and gluons), and the fundamental theory that describes these interactions is quantum chromodynamics (QCD), which is only tractable in the limit of interactions with large momentum transfers. QCD has not yet been successfully applied to nucleus–nucleus collisions at the energies of interest here. The lack of a fundamental theory has led to the development of many semi-empirical models to describe nucleus–nucleus interactions, and considerable effort continues to be put into development of these models and benchmarking them (10) against the limited set of pertinent data that are available (2).
+%https://www.frontiersin.org/journals/oncology/articles/10.3389/fonc.2016.00065/full
+
+
+\section{Nuclear interactions}\label{sec:nucl_interactions}
+TO BE DECIDED
+
+
+%YOU CAN ADD A DEDICATED SECTION OR SUBSECTION WHICH DESCRIBES THE IMPORTANCE OF CROSS SECTION MEASUREMENT IN PS AND SRP. the information is in Are Further Cross Section Measurements Necessary for Space Radiation Protection or Ion Therapy Applications? Helium Projectiles paper.
+% here you have to write (citing the FOOT CDR AT PAGE 8) that studies [reference 17] have shown that scaling by 20% the cross section for inealstic processes in a Monte Carlo transport code (SHIELDIT) modified the RBE calculation by 3%. Here write also the reason why we need such stringent reqiurements on the cross section: such stringnt requirements will translate to stronger constraints in TPS and allow them to take a leap from conservative treatments ("RANGE VERIFICATION PAPER") to predictive ones. here you can re-cite (ALREADY IN BIBLIOGRAPHY) the 3-5% requirement of dose delivery uncertainty on the paper "https://www.tandfonline.com/doi/full/10.1080/0284186X.2016.1246801%" on my desktop. Here you can also mention the current nuclear models used to simulate nuclear interaction - here follow range verification paper.
+%check also this: https://agenda.infn.it/event/37490/contributions/209898/attachments/109868/156241/SpaceRadioprotection_20230913.pdf it summarises the main points of the double differential cross section paper.
+
+% in PT section: check SRP section, where this paper might be helpful: https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt
+%The dose to the planning target
+%volume (PTV) in the patient should
+%be delivered with an uncertainty of
+%less than 5% at the 2σ level (ICRU level (ICRU σ level (ICRU
+%Report 2σ level (ICRU 4 1976)
+
+% in SRP section: use this file:///C:/Users/Simone/Desktop/Towards_sustainable_human_space_exploration-priori.pdf and file:///C:/Users/Simone/Desktop/20200001895.pdf and https://link.springer.com/content/pdf/10.1140/epjp/s13360-023-04572-3.pdf
+% use also this paper (https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt) to cite the paper number [10]:sively used for dose evaluations in these contexts [26,27].
+%Fragmentation cross sections on a hydrogen target are essential to compute the dose deposited by fragments in both
+%patients and astronauts with the required accuracy, as hydrogen, alongside carbon and oxygen, is one of the most abundant
+%elements in the human body. While further data on hydrogen fragmentation for various ion beams are still needed,
+%the fragmentation of 16O is of particular interest. This ion is
+%increasingly utilized in PT facilities alongside p,
+%4He, and 12C
+%[1]. Simultaneously, 16O is the most abundant species among
+%the HZE (high atomic number Z and energy E) components of
+%cosmic rays after carbon [2,3], and it contributes significantly
+%to the total dose, exceeded only by 56Fe and 28Si [2]. Since
+%measuring 16O fragmentation directly on a liquid hydrogen
+%target is experimentally challenging (see Sec. III B), the cross
+%sections can be derived via stoichiometric subtraction from
+%measurements on C2H4 and C targets.
+%Notably, fragmentation cross sections of 16O on C2H4 are
+%also of direct interest for RPS applications. In this context,
+%light materials seem to be particularly effective as shields
+%against space radiation [2,7], and liquid hydrogen has the
+%maximum performance as shield material. However, hydrogen
+%is not a practical shield material, being a low temperature
+%liquid, so polyethylene (C2H4) can be a good compromise
+%[9,10]. The better shielding performance of light materials
+%arises from their ability to maximize energy loss per unit mass,
+%minimizing the production of secondary particles, which constitute a significant portion of the dose equivalent behind thick
+%shields [9]. While aluminum shielding can lead to an increase
+%in dose equivalent beyond approximately 20 g/cm2 due to
+%secondary particle buildup, polyethylene has been shown to
+%monotonically reduce the dose equivalent with increasing
+%thickness [10]. As shown in [10], significant discrepancies
+%remain in the calculated dose beyond the shielding when
+%different nuclear interaction models are employed. Accurate
+%fragmentation cross sections for these specific beam-target
+%combinations are essential to constrain and reduce such
+%uncertainties.
+%
+%
+% then there is also:NASA limits: the Risk of ExposureInduced Death (REID) from
+%cancer must not exceed the 3%, at a
+%95% confidence level (C.L.).
+
+% IN "RANGE VERIFICATION" paper there is the citation that conservative treatments are used nowadays because of the uncertainties arising from fragment unwanted energy deposits. in the same paper there are a lot of nuclear interaction models. you can also consider this paper at page 9 to cite which nuclear models FOOT used as comparisons to its results: https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt
+
+\chapter{Applications}\label{ch:applications}
+\section{Particle therapy}\label{sec:particle_therapy}
+\section{Space radiation protection}\label{sec:space_radiation_protection}
+
+
+
+
+
