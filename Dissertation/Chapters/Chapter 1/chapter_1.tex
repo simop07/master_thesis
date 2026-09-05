@@ -18,29 +18,47 @@ Before delving into the details of charged particles interactions with matter, i
 \end{equation}
 As particles with the same energy per nucleon have the same $\beta$ (this stems directly from \autoref{eq:particle_velocity}), it is possible to compute $\beta$ values simply using the proton mass ($938\,\mathrm{MeV/c}^2$) and kinetic energy, obtaining $\beta\simeq0.6$ at $200\,\mathrm{MeV/u}$ and $\beta\simeq0.8$ at $800\,\mathrm{MeV/u}$.
 
-A charged particle can interact with matter following various electromagnetic and nuclear processes, which will be detailed in the following paragraphs:
+A charged particle can interact with matter following the electromagnetic and nuclear processes listed below, which will be detailed in the following paragraphs:
 \begin{itemize}
-	\item inelastic collisions with atomic electrons (see \autoref{ssec:bethe_bloch});
-	\item elastic scattering with nuclei (multiple coulomb scattering, see \autoref{ssec:multiple_coulomb_scattering});
-	\item inelastic nuclear reactions (see \autoref{sec:nucl_interactions});
-	\item Cherenkov radiation emission and bremsstrahlung (negligible in both PT and SRP applications).
+	\item electromagnetic interactions, further divided in:
+	\begin{itemize}
+		\item inelastic collisions with atomic electrons (see \autoref{ssec:bethe_bloch});
+		\item elastic scattering with nuclei (multiple Coulomb scattering, see \autoref{ssec:multiple_coulomb_scattering});
+		\item Cherenkov radiation emission and bremsstrahlung (negligible in both PT and SRP applications);
+	\end{itemize}
+	\item inelastic nuclear interactions (see \autoref{sec:nucl_interactions}).
 \end{itemize}
-The inelastic collisions with atomic electrons represent the dominant interaction mechanism undergone by charged particles, as the high cross section values ($\simeq100\,\mathrm{Mb}$) show.\footnote{The barn (b) is the unit of measurement of cross section. Specifically, $1\,\mathrm{b}=10^{-24}\,\mathrm{cm}^{2}$.} Due to the large cross sections, a large number of collision occurs between the incoming charged particles and the atomic electrons, making any cross-section-based analytical treatment impractical. For this reason, an energy-based study is preferred: rather than studying whether a particle has interacted or not, scientists analyze the energy released by the particle inside the medium. These continuous electromagnetic energy losses slow down the incoming particle, which comes to rest once its kinetic energy zeroes. It should be noted that the inelastic collisions with atomic electrons make the interaction dynamics of charged particles and photons profoundly different: photons can only be absorbed when interacting with matter\footnote{To be precise, photon have also a non-zero probability to loose energy during a scattering process without necessarily being absorbed, as in Compton scattering. However, photon energy losses occur through one-shot, discrete events instead of continuous interactions.} rather than unceasingly loosing energy, as charged particles do. The very particle-photon diversity produces longitudinal energy deposition profiles, whose dissimilarities truly embody the contrast between PT and conventional photon-based radiotherapy, as detailed in \autoref{sssec:range}.
+The inelastic collisions with atomic electrons represent the dominant interaction mechanism undergone by charged particles, as the high cross section values ($\simeq100\,\mathrm{Mb}$) show.\footnote{The barn (b) is the unit of measurement of cross section. Specifically, $1\,\mathrm{b}=10^{-24}\,\mathrm{cm}^{2}$.} Due to the large cross sections, a large number of collision occurs between the incoming charged particles and the atomic electrons, making any cross-section-based analytical treatment impractical. For this reason, an energy-based study is preferred: rather than studying whether a particle has interacted or not, scientists analyze the energy released by the particle inside the medium. These continuous electromagnetic energy losses slow down the incoming particle, which comes to rest once its kinetic energy zeroes. It should be noted that the inelastic collisions with atomic electrons make the interaction dynamics of charged particles and photons profoundly different: photons can only be absorbed when interacting with matter\footnote{To be precise, photon have also a non-zero probability to loose energy during a scattering process without necessarily being absorbed, as in Compton scattering. However, photon energy losses occur through one-shot, discrete events instead of continuous interactions.} rather than unceasingly loosing energy, as charged particles do. The very particle-photon diversity produces longitudinal energy deposition profiles, whose dissimilarities truly embody the contrast between PT and conventional photon-based radiotherapy, as detailed in \autoref{ssec:range}.
 
-Contrary to the inelastic collisions with atomic electrons, the nuclear elastic scattering (which involves nuclei despite being an electromagnetic process) does not lead to significant energy losses, as the nuclei involved in elastic collisions usually have comparable masses to those of the incident particles. This implies that the elastic nuclear interactions transfer less energy compared to the collisions with atomic electrons. Nevertheless, the elastic scattering with nuclei produces electromagnetic deflections which broaden the beam lateral profile. The typical cross section of this process is approximately $\simeq1\,\mathrm{b}$, lower than the former case.
+Contrary to the inelastic collisions with atomic electrons, the nuclear elastic scattering (which involves nuclei despite being an electromagnetic process) does not lead to significant energy losses, as the nuclei involved in elastic collisions usually have comparable masses to those of the incident particles. This implies that the elastic nuclear interactions transfer less energy compared to the collisions with atomic electrons. Nevertheless, the elastic scattering with nuclei produces electromagnetic deflections, which in PT broaden the beam lateral profile. The typical cross section of this process is approximately $\simeq1\,\mathrm{b}$, lower than the former case.
 
-Inelastic nuclear reactions (which include nuclear fragmentations) affect both the longitudinal and transverse profiles of the energy deposition, due to the fact that these processes lead to beam reductions and subsequent creation of secondary particles. Nuclear interactions are less probable than the aforementioned electromagnetic collisions, possessing cross sections of $\simeq10$--$100\,\mathrm{mb}$.
+Inelastic nuclear reactions (which include nuclear fragmentations) affect both the longitudinal and transverse profiles of the energy deposition, due to the fact that these processes lead to beam reductions and subsequent creation of secondary particles. Nuclear interactions are less probable than the aforementioned electromagnetic collisions, as the former are characterized by cross sections of $\simeq10$--$100\,\mathrm{mb}$. Such large discrepancy in cross section values stems from the fact that the atomic radius is $10^4$ times larger than the nucleus radius.
 \section{Electromagnetic interactions}\label{sec:em_interactions}
 \subsection{Inelastic collisions with atomic electrons}\label{ssec:bethe_bloch}
 When a relativistic charged particle moves through matter, it exerts a Coulomb force on the atomic electrons of the medium, leading to numerous excitation and ionization processes \cite{Christodoulides2016}. Excitation allows orbital electrons to jump to higher atomic level, while ionization strips the electron away from the atom. If ejected electrons have sufficient energy, they may further ionize the medium and, in that case, they are referred to as $\delta$ rays (or $\delta$ electrons). Most frequently the energy losses are small (for $90\%$ of all collisions the energy losses are less than $100\,\mathrm{eV}$) \cite{passageParticleMatter}. As previously mentioned, the amount of energy lost due to Coulomb interactions with nuclei is even smaller \cite{10.1063/1.369844}, hence it is overlooked in the following discussion. For a moderately relativistic charged particle, the mean rate of energy loss (or linear stopping power) leading to electron excitation and ionization processes can be described by the Bethe-Bloch equation \cite{KolanoskiBook}:
 \begin{equation}
 	\begin{split}
-		\left\langle-\frac{dE}{dx} \right\rangle=\frac{\rho Z_\text{M}}{A}\frac{4\pi N_Am_ec^2}{M_U}&\left(\frac{e^2}{4\pi\epsilon_0m_ec^2}\right)^2\cdot\\
-		&\cdot\frac{Z^2}{\beta^2}\left[\frac{1}{2}\ln{\left(\frac{2m_ec^2\beta^2\gamma^2T_\text{max}}{I^2}\right)}-\beta^2-\frac{\delta(\beta\gamma)}{2}-\frac{C(\beta\gamma,I)}{Z}\right],
+		\left\langle -\frac{dE}{dx} \right\rangle
+		={}&
+		\frac{\rho Z_\mathrm{M}}{A}
+		\frac{4\pi N_A m_e c^2}{M_U}
+		\left(\frac{e^2}{4\pi\epsilon_0 m_e c^2}\right)^2
+		\frac{Z^2}{\beta^2}\cdot
+		\\
+		&\quad\cdot
+		\left[
+		\frac{1}{2}
+		\ln\left(
+		\frac{2m_e c^2\beta^2\gamma^2 T_\mathrm{max}}{I^2}
+		\right)
+		-\beta^2
+		-\frac{\delta(\beta\gamma)}{2}
+		-\frac{C(\beta\gamma,I)}{Z}
+		\right],
 	\end{split}
 	\label{eq:bethe_bloch}
 \end{equation}
-whose parameters are summarized in \autoref{tab:bethe_bloch}. Note that the negative sign in $\left\langle-\frac{dE}{dx} \right\rangle$ represents the amount of energy lost by the charged particle. Hereafter, the $\left\langle-\frac{dE}{dx} \right\rangle$ expression is also indicated as $dE/dx$ for simplicity of notation.
+whose parameters are summarized in \autoref{tab:bethe_bloch}. Note that the negative sign in $\left\langle-dE/dx \right\rangle$ represents the amount of energy lost by the charged particle. Hereafter, the $\left\langle-dE/dx \right\rangle$ expression is also indicated as $dE/dx$ for simplicity of notation.
 \begin{table}[H]
 	\centering
 	\begin{tabular}{M{2cm} M{10cm}}
@@ -107,13 +125,13 @@ The functional dependence of the mass stopping power and the Bethe-Bloch formula
 	\label{fig:bethe_bloch}
 \end{figure}
 Note that the Bethe-Bloch formula in \autoref{eq:bethe_bloch} also includes the energy loss caused by Cherenkov radiation \cite{KolanoskiBook}, being part of the electromagnetic interactions that a charged particle may undergo. However, the Cherenkov contribution is small ($\simeq1\,\mathrm{keV}\cdot\mathrm{cm}^2\mathrm{/g}$) compared to the energy lost due to ionization $\simeq1$--$2\,\mathrm{MeV}\cdot\mathrm{cm}^2\mathrm{/g}$. Furthermore, transition radiation is generally not included in \autoref{eq:bethe_bloch}, as homogeneous media are assumed in its derivation. Finally, \autoref{eq:bethe_bloch} does not include energy loss by bremsstrahlung, which becomes dominant at high $\beta\gamma$ values \cite{KolanoskiBook}.
-\subsubsection{Statistical fluctuations of energy loss}\label{sssec:stat_fluct}
+\subsection{Statistical fluctuations of energy loss}\label{ssec:stat_fluct}
 The Bethe-Bloch formula describes the average energy loss per path length. The necessity of defining an ``average'' value stems from the intrinsic stochastic nature of energy loss processes, which exhibit fluctuations. The energy loss $\Delta E$ along a distance $\Delta x$ is composed of many small random contributions $\delta E_n$, each corresponding to a specific ionization process:
 \begin{equation}
 	\Delta E = \sum_{n=1}^{N}\delta E_n.
 	\label{eq:stochastic_bethe}
 \end{equation}
-The randomness of the Bethe-Bloch derives from two fluctuations: the first is related to the energy variations in the amount $\delta E_n$ transferred in each ionization process, while the second is connected to the effective total number $N$ of excitation/ionization processes (dependent on Poisson statistics). The Bethe-Bloch formula provides the mean value of these energy losses, however their statistical nature allows for a more detailed description through probability distributions. In general, the fluctuations in the energy loss lead to asymmetric distributions with a Gaussian component, which models the many ionizations with tiny energy transfers, and a tail, located at larger energy loss values. The Gaussian component and the tail are visible in \autoref{fig:asymmetric_dist}. The heavy tail of \autoref{fig:asymmetric_dist} is generated by rare high-ionization events (especially central/hard collisions) where charged particle transfer a large amount of energy, inducing the formation of $\delta$ electrons that further ionize the medium. As shown in \autoref{fig:asymmetric_dist}, the skewness of the distribution allows to distinguish the most probable value of the energy loss (indicated as $\Delta_p$ in the following), corresponding to the maximum of the distribution, and the average energy loss $\left\langle\frac{dE}{dx} \right\rangle$, which is effectively the value estimated by \autoref{eq:bethe_bloch}. 
+The randomness of the Bethe-Bloch derives from two fluctuations: the first is related to the energy variations in the amount $\delta E_n$ transferred in each ionization process, while the second is connected to the effective total number $N$ of excitation/ionization processes (dependent on Poisson statistics). The Bethe-Bloch formula provides the mean value of these energy losses, however their statistical nature allows for a more detailed description through probability distributions. In general, the fluctuations in the energy loss lead to asymmetric distributions with a Gaussian component, which models the many ionizations with tiny energy transfers, and a tail, located at larger energy loss values. The Gaussian component and the tail are visible in \autoref{fig:asymmetric_dist}. The heavy tail of \autoref{fig:asymmetric_dist} is generated by rare high-ionization events (especially central/hard collisions) where charged particle transfer a large amount of energy, inducing the formation of $\delta$ electrons that further ionize the medium. As shown in \autoref{fig:asymmetric_dist}, the skewness of the distribution allows to distinguish the most probable value of the energy loss (indicated as $\Delta_p$ in the following), corresponding to the maximum of the distribution, and the average energy loss $\left\langle dE/dx \right\rangle$, which is effectively the value estimated by \autoref{eq:bethe_bloch}. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{asymmetric_dist.pdf}
@@ -138,7 +156,7 @@ whereas for thick layers of high-density matter the distribution would be substa
 \end{equation}
 In \autoref{eq:landau_dist} and \autoref{eq:gaussian_dist}, $f(\Delta E,\rho x)$ and $f(\Delta E)$ represent the probability density functions of the Landau and Gaussian distributions, respectively. In \autoref{eq:landau_dist}, $\rho$ and $x$ are respectively the mass density and the thickness of the absorber medium, while the $\phi_L(\lambda_L)$ function and the $\lambda_L$ parameter are further contributions calculated by Landau in \cite{NAP20066}. $\langle\Delta E\rangle$ and $\overline{\Delta E}$ are respectively the approximate mean energy loss and the Gaussian mean energy loss, while $\sigma_{\Delta E}$ is the Gaussian distribution standard deviation. A more comprehensive mathematical theory able to describe the distribution of energy losses in detail was given by Vavilov in \cite{Vavilov:1957zz}.
 
-The choice of the energy loss distribution is fundamental to correctly estimate the energy fluctuations produced by a traversing charged particle, particularly in the field of PT, as detailed in \autoref{sssec:range}. More generally, these fluctuations are unfavorable in the field of particle physics \cite{KolanoskiBook}, as:
+The choice of the energy loss distribution is fundamental to correctly estimate the energy fluctuations produced by a traversing charged particle, particularly in the field of PT, as detailed in \autoref{ssec:range}. More generally, these fluctuations are unfavorable in the field of particle physics \cite{KolanoskiBook}, as:
 \begin{itemize}
 	\item fluctuations limit the resolution on energy-momentum measurements, leading particles to loose energy during the momentum measurement. For instance, unwanted energy losses lead to increasing track curvatures, as illustrated in \autoref{fig:changed_curv};
 	\item fluctuations broaden the overall width of $dE/dx$ distributions, worsening the discrimination capability of charged particles identified through $dE/dx$ measurements;
@@ -146,7 +164,7 @@ The choice of the energy loss distribution is fundamental to correctly estimate 
 \end{itemize}
 To suppress energy deposit fluctuations and define an unbiased energy loss estimator, two approaches can be followed:
 \begin{enumerate}
-	\item prefer the most probable value $\Delta_p$ of the Landau distribution to the average $\left\langle\frac{dE}{dx} \right\rangle$, as the former is more stable than the latter. This can be explained looking at the three bottom curves shown in \autoref{fig:fermi_plateau}, which display the most probable energy losses $\Delta_p$ per path length $x$ for silicon layers of various thicknesses. From the plot it is clear that the average energy loss of the Bethe-Bloch formula (solid red line) rises with the particle energy, whereas the $\Delta_p/x$ is nearly independent of it. The stability region where $\Delta_p/x$ is approximately constant is called ``Fermi plateau''.
+	\item prefer the most probable value $\Delta_p$ of the Landau distribution to the average $\left\langle dE/dx \right\rangle$, as the former is more stable than the latter. This can be explained looking at the three bottom curves shown in \autoref{fig:fermi_plateau}, which display the most probable energy losses $\Delta_p$ per path length $x$ for silicon layers of various thicknesses. From the plot it is clear that the average energy loss of the Bethe-Bloch formula (solid red line) rises with the particle energy, whereas the $\Delta_p/x$ is nearly independent of it. The stability region where $\Delta_p/x$ is approximately constant is called ``Fermi plateau''.
 	\item Introduce a restricted energy loss, defined including only the energy losses up to a fixed energy threshold $T_\text{cut}$, as shown in \autoref{fig:asymmetric_dist}. In practice, if one wants to reduce the influence of the Landau tail at larger ionization events, it is possible to adopt the truncated mean method. Truncating the values above a certain $T_\text{cut}$ means calculating the average energy loss only using the lower remaining entries. The measured average energy loss is then ``restricted'' to the smallest values of the Landau distribution. This truncation procedure makes the average energy loss closer to the most probable value: consequently, the restricted energy loss saturates at high energies reaching the Fermi plateau (see \autoref{fig:fermi_plateau}), similarly to the most probable energy loss $\Delta_p$. The restricted energy loss method may be used also to improve the position measurement, limiting the cluster size to suppress $\delta$ electrons emitted perpendicular to a particle track.
 \end{enumerate}
 \begin{figure}[H]
@@ -167,7 +185,7 @@ To suppress energy deposit fluctuations and define an unbiased energy loss estim
 	\caption[Energy loss fluctuation]{Energy loss fluctuation consequences on the momentum measurement (left) and on the distribution model (right).}
 	\label{fig:various_energy_fluct}
 \end{figure}
-\subsubsection{Range}\label{sssec:range}
+\subsection{Range and longitudinal straggling}\label{ssec:range}
 The Bethe-Bloch formula in \autoref{eq:bethe_bloch} can be integrated to introduce the Continuous Slowing-Down Approximation (CSDA) range $R_\text{CSDA}$ for a particle which looses energy only through atomic ionization and excitation (neglecting energy losses induced by nuclear reactions), defined as:
 \begin{equation}
 	R_\text{CSDA}=\int_{E_\text{kin}}^{0}\left(\frac{dE}{dx}\right)^{-1}dE,
@@ -180,7 +198,7 @@ which is the total distance traveled by a charged particle inside a medium befor
 	\caption[Beam attenuation for photons and charged particles]{Number of particles in a beam as a function of the penetration depth. On the left, absorption processes dominate (typical for photons), which lead to an exponential decrease of the beam intensity. On the right, energy loss in matter (typical for charged particles) leads to a finite range with a fairly local drop to zero in intensity. From \cite{KolanoskiBook}.}
 	\label{fig:beam_atten}
 \end{figure}
-In an ideal situation, the attenuation of charged particles in \autoref{fig:beam_atten} (right) should quickly drop to zero. Conversely, in real-world cases, the distal part of the distribution is smeared by range fluctuations forming an inverse S-shaped edge, a dispersion phenomenon often denominated ``range straggling''. The range straggling is a direct consequence of the energy loss fluctuations discussed in \autoref{sssec:stat_fluct}, and represents a major hazard in PT applications, as detailed in \autoref{sssec:implications_PT}.
+In an ideal situation, the attenuation of charged particles in \autoref{fig:beam_atten} (right) should quickly drop to zero. Conversely, in real-world cases, the distal part of the distribution is smeared by range fluctuations forming an inverse S-shaped edge, a dispersion phenomenon often denominated ``range straggling''. The range straggling is a direct consequence of the energy loss fluctuations discussed in \autoref{ssec:stat_fluct}, and represents a major hazard in PT applications, as detailed in \autoref{ssec:implications_PT}.
 
 To derive a more explicit expression for the charged particle range $R_\text{CSDA}$ in \autoref{eq:range_csda}, it is possible to substitute the kinetic energy $E$ of \autoref{eq:range_csda} with:
 \begin{equation}
@@ -192,7 +210,14 @@ The range can be then expressed as a function of $\gamma_0$, which is the value 
 	R_\text{CSDA}=Mc^2\int_{\gamma_0}^{1}\left\langle\frac{dE}{dx} \right\rangle^{-1}d\gamma=\frac{M}{Z^2}f(\gamma_0),
 	\label{eq:explicit_range}
 \end{equation}
-where $f(\gamma_0)$ is a function independent of the mass $M$ and the charge $Z$ of the projectile given by the integration of the Bethe-Bloch equation in \autoref{eq:bethe_bloch}. Integrating the \autoref{eq:bethe_bloch} is not a trivial task, thus numerical approximation are often employed. A practical range relationship is provided by the Bragg-Kleeman formula \cite{Durante_2016}, which uses a non-relativistic approximation valid in the PT ranges ($E_0\ll2m_ec^2=938.27\,\mathrm{MeV}$):
+where $f(\gamma_0)$ is a function independent of the mass $M$ and the charge $Z$ of the projectile given by the integration of the Bethe-Bloch equation in \autoref{eq:bethe_bloch}. Since $R_\text{CSDA}\propto1/Z^2$, heavier particles require more kinetic energy to reach the same depth inside a medium, as shown in \autoref{fig:particle_ranges}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{particle_ranges.jpg}
+	\caption[CSDA range in water for various particles]{CSDA ranges in water as a function of the energy for protons (red line), \ce{^{4}He} (red line), \ce{^{12}C} (blue line), \ce{^{16}O} (green line) and \ce{^{20}Ne} (black line). From \cite{Reidel03177291}.}
+	\label{fig:particle_ranges}
+\end{figure}
+Integrating the \autoref{eq:bethe_bloch} to obtain the $f(\gamma_0)$ in \autoref{eq:explicit_range} is not a trivial task, thus numerical approximation are often employed. A practical range relationship is provided by the Bragg-Kleeman formula \cite{Durante_2016}, which uses a non-relativistic approximation valid in the PT ranges ($E_0\ll2m_ec^2=938.27\,\mathrm{MeV}$):
 \begin{equation}
 	R_\text{CSDA}=A\left(E_0+\frac{E_0^2}{2m_ec^2}\right)^p\simeq AE_0^p,
 	\label{eq:bragg_Kleeman}
@@ -202,66 +227,146 @@ where $E_0=\left(gamma_0-1\right)Mc^2$ is the initial kinetic energy of the proj
 	\frac{R_2}{R_1}=\frac{M_2}{M_1}\frac{Z_1^2}{Z_2^2},
 	\label{eq:range_scaling_different_particles}
 \end{equation}
-which holds for two charged particles with the same velocity traversing the same material. For instance, the proton range is approximately $3$ times the range of \ce{^{12}C} at the same energy per nucleon, while protons and \ce{^{4}He}-ions at the same velocity have the same range \cite{Durante_2016}. An additional scaling rule allows to determine the range of the same particles in different media with densities $\rho_{1,2}$ and atomic mass numbers $A_{1,2}$:
+which holds for two charged particles with the same velocity traversing the same material. For instance, the proton range is approximately $3$ times the range of \ce{^{12}C} at the same energy per nucleon, while protons and \ce{^{4}He}-ions with the same velocity have the same range, as illustrated in \autoref{fig:particle_ranges} \cite{Durante_2016}. An additional scaling rule allows to determine the range of the same particles in different media with densities $\rho_{1,2}$ and atomic mass numbers $A_{1,2}$:
 \begin{equation}
 	\frac{R_2}{R_1}=\frac{\rho_1}{\rho_2}\frac{\sqrt{A_2}}{\sqrt{A_1}}.
 	\label{eq:range_scaling_same_particles}
 \end{equation}
 
-The longitudinal or range straggling of charged particles shown in \autoref{fig:beam_atten} (right) can be quantitatively estimated using the energy loss distributions discussed in \autoref{sssec:stat_fluct}. In the limit of many collisions, the Gaussian function defined in \autoref{eq:gaussian_dist} can be employed: the energy loss variance $\sigma_{\Delta E}$ can be utilized to calculate the range straggling variance as:
+The longitudinal or range straggling of charged particles shown in \autoref{fig:beam_atten} (right) can be quantitatively estimated using the energy loss distributions discussed in \autoref{ssec:stat_fluct}. In the limit of many collisions, the Gaussian function defined in \autoref{eq:gaussian_dist} can be employed: the energy loss variance $\sigma_{\Delta E}$ can be utilized to calculate the range straggling variance as:
 \begin{equation}
 	\sigma_R=\int\left(\frac{dE}{dx}\right)^{-3}\frac{d\sigma_{\Delta E}}{dx}dE.
 	\label{eq:range_variance}
 \end{equation}
 Solving the \autoref{eq:range_variance} as indicated in \cite{1969PhRv..185..611P}, one finds that the relative range straggling uncertainty of a particle of energy $E$ and mass $M$ is approximately constant:
 \begin{equation}
-	\frac{\sigma_R}{R}=\left(M\right)^{-\frac{1}{2}}\cdot\phi\left(\frac{E}{Mc^2}\right),
+	\frac{\sigma_R}{R}=\frac{1}{\sqrt{M}}\cdot\phi\left(\frac{E}{Mc^2}\right),
 	\label{eq:explicit_range_error}
 \end{equation}
-where $\phi$ is a slowly varying function depending on the target material. The \autoref{eq:explicit_range_error} can be further employed to evaluate scaling laws for different particles with the same range:
+where $\phi$ is a slowly varying function depending on the target material. The $\sigma_R\propto1/\sqrt{M}$ proportionality is extremely intriguing: heavier particles have a smaller relative range straggling because they are less sensitive to each individual ionization process. Thus, longitudinal scattering affects less heavier particles which, consequently, are characterized by a sharper range. The \autoref{eq:explicit_range_error} can be further employed to evaluate scaling laws for different particles with the same range:
 \begin{equation}
 	\frac{\sigma_{R2}}{\sigma_{R1}}=\sqrt{\frac{M_1}{M_2}}.
 	\label{eq:range_scaling_different_particles_same_range}
 \end{equation}
-According to equation \autoref{eq:range_scaling_different_particles_same_range}, the relative straggling for \ce{C}-ions is $3.5$ times smaller than for protons. The range straggling and its associated variance need to be kept under control during the treatment planning in PT applications, as detailed in \autoref{sssec:implications_PT}.
-\subsubsection{Bragg peak and implications on particle therapy}\label{sssec:implications_PT}
+According to equation \autoref{eq:range_scaling_different_particles_same_range}, the relative straggling for \ce{C}-ions is $3.5$ times smaller than for protons. The range straggling and its associated variance need to be kept under control during the treatment planning in PT applications, as detailed in \autoref{ssec:implications_PT}.
+\subsection{The Bragg peak and SOBP implications on particle therapy}\label{ssec:implications_PT}
 To gain a better understanding of the implications on PT induced by inelastic interactions with atomic electrons, it is necessary to take a step back and consider the classical region of the Bethe-Bloch described in \autoref{ssec:bethe_bloch}. Because of the $1/\beta^2$ shape of the Bethe-Bloch curve at low energies (see \autoref{fig:bethe_bloch}), the stopping power surges when the particle velocity decreases. Consequently, at the end of the particle's path much of the energy is lost over a relatively small distance, as shown in \autoref{fig:depth_dose_proton}. The area where particles release an enhanced amount of energy is referred to as Bragg peak, which is exploited in PT to deposit most of the particle energy precisely at the tumor site, maximizing the damages close to the cancerous region and minimizing the neighboring healthy tissues. While the Bragg curve in \autoref{fig:depth_dose_proton} was obtained through numerical simulations, a closed expression for charged particles' depth-dose profile can be retrieved from first principles, as reported in \cite{analyticalapproximationoftheBragg}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{depth_dose_proton.pdf}
-	\caption[Proton $dE/dx$ as a function of their traversed path]{Energy loss per path length as a function of traversed path for \num{10000} monochromatic protons with $100\,\mathrm{keV}$ kinetic energy, simulated with Geant4 \cite{Geant4Paper}. The Bragg peak is shown at about $7.7\,\mathrm{cm}$. From \cite{KolanoskiBook}.}
+	\caption[Proton $dE/dx$ as a function of their traversed path]{Energy loss per path length as a function of traversed path for \num{10000} monochromatic protons with $100\,\mathrm{keV}$ kinetic energy, simulated with Geant4 \cite{Geant4Paper}. The Bragg peak is shown at about $7.7\,\mathrm{cm}$. The entrance channel and the distal fall-off regions are shown as well. Adapted from \cite{KolanoskiBook}.}
 	\label{fig:depth_dose_proton}
-\end{figure}\noindent
+\end{figure}
 The technical advancements in dose\footnote{The dose measures the amount of energy deposited by ionizing radiation per unit mass of a tissue, that is $D=dE/dm$. The concept of dose will be better defined in (?? dose).} delivery techniques, planning systems and associated imaging devices have allowed conventional radiotherapy (based on photon irradiation) to achieve an increasing ballistic accuracy \cite{Sminia2023}, reducing toxicity risks to healthy tissues while maximally damaging the tumor volume. Some of these techniques are Intensity Modulated Radiotherapy (IMRT), Volumetric Modulated Arc Therapy (VMAT), Image-Guided Radiotherapy (IGRT) and Stereotactic Body Radiotherapy (SBRT). Despite such technical improvements, photon-based radiotherapy is limited by a physics disadvantage: the depth-dose profile of photons is characterized by a dose maximum at shallow depths, rather than at the end of the range as for charged particles. This profound difference is illustrated in \autoref{fig:depth_dose_difference}, where photon, proton and carbon depth-dose profiles are shown. From the picture, it is clear that proton and heavy ion irradiation is superior to photon therapy especially in the treatment of deep-seated tumors, as the photon energy depositions decrease exponentially with the depth. Due to its evident advantages, charged particle irradiation is currently used in clinical practices, with protontherapy being the most widely used followed by carbon, helium, oxygen and neutron\footnote{Neutrons are not charged particles, yet, neutron beams are delivered in the Boron Neutron Capture Therapy (BNCT), which effectively belongs to the group of hadrontherapy treatments.} treatments. Despite also neon, silicon, and argon have been used clinically \cite{MALOUFF2024590}, their use is limited by nuclear fragmentation, as explained in \autoref{sec:nucl_interactions}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{depth_dose_difference.pdf}
 	\caption[Depth dose distributions of photons, protons and carbon ions]{Depth dose distributions of photons, protons and carbon ions. From \cite{Ionbeamtransportcalculations}.}
 	\label{fig:depth_dose_difference}
-\end{figure}\noindent
-Although PT shows excellent physics benefits, it often happens that the width of the Bragg peak (equal to $2.5\,\mathrm{mm}$ for a $200\,\mathrm{MeV}$ proton beam in water) is not sufficient to cover the entire tumor volume. Indeed, according to \autoref{eq:range_scaling_different_particles_same_range}, the range straggling of \ce{C} ions at $18\,\mathrm{cm}$ is $\simeq7\,\mathrm{mm}$, too low to homogeneously cover the longitudinal extension ($\mathcal{O}(cm)$) of a tumor. For this reason, the Spread Out Bragg Peak (SOBP) technique must be used to broaden the final irradiation beam \cite{Durante_2016}. The SOBP approach foresees the use of multiple particle beams with different energies that generate various pristine Bragg peaks at several depths, as displayed in \autoref{fig:sobp} (left). This approach takes advantage of \autoref{eq:explicit_range} and \autoref{eq:bragg_Kleeman}, which allows to precisely select the Bragg peak position (located at the end of the particle range) simply by varying the beam kinematic properties. To deliver beams at different energies, either active or passive approaches can be followed: in the former, an energy selection system built inside the particle accelerator dynamically changes the beam energy; the passive system uses ridge filters, devices consisting of triangular or stepped ridges that modulate the beam energy exploiting the greater particle energy loss in the thicker regions. In both cases, the pristine Bragg peaks superimpose to create an ``enlarged'' Bragg peak, as shown in \autoref{fig:sobp} (left). Clearly, the build-up effect occurs not only in the Bragg peak region (which will correspond to the tumor area) but also in the entrance channel or immediately after the Bragg peak, regions in which an organ at risk may be located. Nevertheless, in \autoref{fig:critical_organ} (right) it can be seen that hadrontherapy allows for greater sparing of healthy tissues surrounding the tumor area when compared with conventional photon radiotherapy.
+\end{figure}
+Although PT shows excellent physics benefits, it often happens that the width of the Bragg peak is not sufficient to cover the entire tumor volume. To prove this, let us quantify the Bragg peak width using the range straggling uncertainty $\sigma_R$ in \autoref{eq:explicit_range_error}, as the two quantities are expected to be comparable. According to this equation, at $18\,\mathrm{cm}$ depth the range straggling for a proton is $25\,\mathrm{mm}$, while for \ce{^{12}C} ions it is $7\,\mathrm{mm}$ (calculated from \autoref{eq:range_scaling_different_particles_same_range}). Such discrepancy in proton-carbon Bragg peak widths is expected due to $R\propto1/M$ in \autoref{eq:explicit_range_error}, and can be better visualized in \autoref{fig:proton_carbon_width}. Although the width of the Bragg maximum for protons may be sufficient to homogeneously cover the longitudinal extension of a tumor ($\mathcal{O}(cm)$), the $7\,\mathrm{mm}$ for \ce{^{12}C} prove insufficient.
+
+To circumvent this predicament, the Spread Out Bragg Peak (SOBP) technique was introduced to broaden the final irradiation beam. The creation of a SOBP foresees the use of particle beams at different energies to generate multiple pristine Bragg peaks at several depths, as shown in \autoref{fig:sobp}. This approach takes advantage of \autoref{eq:explicit_range} and \autoref{eq:bragg_Kleeman}, which allows to precisely select the particle range (i.e., the Bragg peak position) simply by varying the beam kinematic properties, as displayed in \autoref{fig:bragg_peaks_carbon_energies}. To deliver beams at different energies, active or passive approaches can be followed (even at the same time): in the former, an energy selection system built inside the particle accelerator dynamically changes the beam energy; the passive system uses ridge filters, devices consisting of triangular or stepped ridges that modulate the beam energy exploiting the greater particle energy loss in the thicker regions. In both cases, the pristine Bragg peaks superimpose to create an ``enlarged'' Bragg peak, shown in \autoref{fig:sobp}, which delivers a homogeneous dose to the tumor region. Clearly, the dose build-up effect not only occurs in the enlarged Bragg peak region (which corresponds to the tumor area), but also in the entrance channel or immediately after the Bragg peak, regions in which an organ at risk may be located. Nevertheless, in \autoref{fig:critical_organ} it can be seen that hadrontherapy allows for greater sparing of healthy tissues surrounding the tumor area when compared with conventional photon radiotherapy.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.48\linewidth}
 		\centering
+		\includegraphics[width=\linewidth]{proton_carbon_width.pdf}
+		\caption{Measured Bragg peaks for protons and \ce{^{12}C} ions having the same mean range in water. From \cite{RevModPhys.82.383}.}
+		\label{fig:proton_carbon_width}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
 		\includegraphics[width=\linewidth]{sobp.pdf}
-		\caption{Creation of a SOBP using pristine Bragg peaks from beams with different energy. From \cite{hall2012radiobiology}.}
+		\caption{Creation of a SOBP using pristine Bragg peaks derived from beams with different energy. From \cite{hall2012radiobiology}.}
 		\label{fig:sobp}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.48\linewidth}
 		\centering
+		\includegraphics[width=\linewidth]{bragg_peaks_carbon_energies.pdf}
+		\caption{Measured Bragg curves of \ce{^{12}C} ions stopping in water. From \cite{RevModPhys.82.383}.}
+		\label{fig:bragg_peaks_carbon_energies}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
 		\includegraphics[width=\linewidth]{critical_organ.pdf}
-		\caption{SOBP for protons and carbons compared to photon irradiation, where lower sparing is observed. From \cite{hall2012radiobiology}.}
+		\caption{Depth-dose profiles comparison between photons and proton-carbon SOBPs, where larger sparing is observed. From \cite{hall2012radiobiology}.}
 		\label{fig:critical_organ}
 	\end{subfigure}
-	\caption[Spread Out Bragg Peak technique]{SOBP technique in PT, used to deliver a dose as uniform as possible to the tumor region.}
+	\caption[Pristine and Spread Out Bragg peaks]{Pristine Bragg peaks at different energy used to obtain a SOBP for PT, whose aim is to deliver a dose as uniform as possible to the tumor region.}
 	\label{fig:various_sobp}
-\end{figure}\noindent
-This digression on the concepts of Bragg peak and SOBP is indissolubly related to the concept of range straggling
+\end{figure}
+The range straggling might seem advantageous in clinical practice, as it enlarges the width of the Bragg peak allowing for an improved covering of the tumor volume. Nonetheless, the longitudinal straggling represents an challenge in PT, because it introduces spatial uncertainties on the depth at which the beam is supposed to stop inside a patient, as illustrated in . Precisely determining the range of a charged particle is necessary, as the distal edge of the Bragg curve is characterized by a large energy deposition which maximally damages the irradiated tissues, leaving no room for error. Therefore, limiting the range straggling connected to the energy fluctuations described in \autoref{ssec:stat_fluct} reveals fundamental, also because other unpleasant error sources may worsen the treatment precision, such as anatomical changes (e.g., organ motion, tumor regression, weight loss), patient setup errors and dose calculation approximations \cite{Paganetti_2012}. For this reasons, range uncertainties are carefully handled by physicians and medical physicists during treatment plannings to precisely determine the dose distribution received by the cancerous and healthy tissues of the patient. In this regard, many range verification tools have been employed by the scientific community, including analytical algorithms, Monte Carlo simulation and \textit{in vivo} range monitoring techniques, all of which are comprehensively reviewed in \cite{rangeVerification}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{range_uncertainty.pdf}
+	\caption[Range uncertainties in photon and protons]{Range uncertainties in photon (top) and proton therapy (bottom). Proton therapy reveals more beneficial than photon treatment in sparing the healthy tissues, particularly in reducing damages to the brain stem, namely the organ at risk. Despite this, range straggling may induce unwanted energy release after the Bragg peak, as shown in (b) situation and in the depth-dose profiles. From \cite{ediss24763}.}
+	\label{fig:range_uncertainty}
+\end{figure}
+Limiting the range straggling connected to the energy fluctuations described in \autoref{ssec:stat_fluct} reveals fundamental, as other unpleasant error sources may worsen the treatment precision, such as anatomical changes (e.g., organ motion, tumor regression, weight loss), patient setup errors and dose calculation approximations \cite{Paganetti_2012}. Following the schematic example of \autoref{fig:range_uncertainty}, some clinical practices allow to reduce potential complications to organs at risks located in the vicinity of the tumor. For example, instead of irradiating directly the tumor and the downstream organ at risk as in \autoref{fig:range_uncertainty_solution} (a), it may be possible to apply irradiation fields tangent to the organ at risk, as schematized in \autoref{fig:range_uncertainty_solution} (b) and (c). Naturally, these options come at the cost of delivering a larger total dose to the patient's brain, reducing the overall dosimetric conformity of the treatment.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{range_uncertainty_solution.pdf}
+	\caption[Reduction of range uncertainties in particle therapy]{Strategies to reduce undesired hazardous effect connected to range uncertainties, aiming to spare healthy tissues and, particularly, organs at risk. The approaches are described in the text. From \cite{ediss24763}.}
+	\label{fig:range_uncertainty_solution}
+\end{figure}
+\subsection{Multiple Coulomb scattering}\label{ssec:multiple_coulomb_scattering}
+In addition to the inelastic collisions with atomic electrons discussed in \autoref{ssec:bethe_bloch}, charged particles interact electromagnetically with the medium nuclei via Multiple Coulomb Scattering (MCS). As mentioned in the introduction to \autoref{ch:interaction_charged_particles}, the nuclear energy losses of MCS are negligible compared to the ones induced by electrons, due to the comparability between the masses of incoming charged particles and target nuclei. The dominance of electron energy losses over nuclear ones is clearly visible in \autoref{fig:nuclear_energy_losses}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{nuclear_energy_losses.pdf}
+	\caption[Electronic and nuclear $dE/dx$ for \ce{^{12}C} and protons]{Specific energy loss $dE/dx$ of \ce{^{12}C} ions and protons in water. The nuclear energy losses are drawn with a red dotted line. Furthermore, the range of \ce{^{12}C} ions in water corresponding to their specific energy is indicated at the top. From \cite{RevModPhys.82.383}.}
+	\label{fig:nuclear_energy_losses}
+\end{figure}
+The marginal energy transfers to nuclei make the MCS an elastic electromagnetic process, which can be described by the typical Rutherford cross section $d\sigma/d\Omega\propto1/\sin\left({\theta/2}\right)$, given the scattering angle $\theta$. However, the Rutherford formula models the Coulomb scattering off a single nucleus, whereas the MCS can be regarded as a combination of many Rutherford scatterings. This idea was further developed in the Molière theory \cite{passageParticleMatter}, which presents a detailed description of the MCS, further expanded in \cite{RevModPhys.35.231,RevModPhys.36.881,PhysRevD.20.1584}. Through the Molière theory, it is possible to study MCS more quantitatively through the displacement distribution, which allows to estimate the particle scattering angles produced by MCS deflections. Supposing that an incoming charged particle traverses a thick medium and that the number of nuclear scatterings is very large, the distribution of scattering angles predicted by the Molière theory can be well approximated by a Gaussian distribution (this follows from the application of the central limit theorem). Clearly, the theory of Molière is more complete than the Gaussian approach, allowing to model the rare large-angle scatterings generated by hard collisions that lead to non-Gaussian tails. For the scope of this thesis, the Gaussian approach is presented.
+
+In the small-angle Gaussian approximation, the angular distribution of MCS is specified by the $\theta_{\text{ms}}$ parameter, which is the standard deviation of the Gaussian distribution:
+\begin{equation}
+	f(\theta_{\text{plane}})\,d\theta_{\text{plane}}
+	=
+	\frac{1}{\sqrt{2\pi}\,\theta_{\text{ms}}}
+	\exp\left(
+	-\frac{\theta_{\text{plane}}^2}
+	{2\theta_{\text{ms}}^2}
+	\right)
+	d\theta_{\text{plane}},
+	\label{eq:scattering_distribution}
+\end{equation}
+where $\theta_{\text{plane}}$ is the angle projected onto a plane perpendicular to the particle direction of motion, as schematized in \autoref{fig:mcs}. A precise extrapolation of the standard deviation $\theta_{\text{ms}}$ is given by the Highland formula \cite{HIGHLAND1975497}:
+\begin{equation}
+	\theta_{\text{ms}}
+	=
+	\frac{13.6\,\mathrm{MeV}/c}{p\beta}
+	\,Z
+	\sqrt{\frac{x}{X_0}}
+	\left(
+	1+0.038\ln\frac{x}{X_0}
+	\right),
+	\label{eq:highland_formula}
+\end{equation}
+where $x$ is the thickness of the scattering material, $X_0\propto Z_\text{M}^2/A$ is the medium's radiation length\footnote{The radiation length $X_0$ is a medium property defined in the context of bremsstrahlung radiation, which is the energy loss through photon irradiation at high energies. Specifically, the bremsstrahlung dominates at energies higher than the critical energy $E_c$ (see \autoref{fig:bethe_bloch}), where the radiative losses overwhelm the excitation/ionization ones. The bremsstrahlung energy losses of an electron with energy $E$ can be modeled as $dE/dx=-E/X_0$.} and $Z$, $p$ and $\beta$ are respectively the incoming particle's charge, momentum and speed. The \autoref{eq:highland_formula} measures the angular displacement $\theta_{\text{ms}}$, however a more informative parameter in MCS is the lateral spatial displacement $y_\text{plane}$ illustrated in \autoref{fig:mcs}, whose approximate dependence on $\theta_{\text{ms}}$ is given by:
+\begin{equation}
+	y_\text{plane}\propto x\theta_{\text{ms}}=\frac{Z}{E_\text{kin}}\cdot
+	\sqrt{\frac{x^3}{X_0}},
+	\label{eq:lateral_displacement}
+\end{equation}
+where $E_\text{kin}\simeq\beta c p$ from the classical expression of the particle kinetic energy. $y_\text{plane}$ truly provides the main features of MCS, and the way it affects the lateral spread  . The lateral scattering the lateral displacement of an incoming particle, and it is a the lateral 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{mcs.pdf}
+	\caption[Multiple Coulomb Scattering]{Quantities used to describe the MCS process. The particle, coming from the left, suffers from deflections which deviate its trajectory by an total outgoing angle $\theta_{\text{plane}}$. From \cite{passageParticleMatter}.}
+	\label{fig:mcs}
+\end{figure}
 
 
-\subsection{Multiple coulomb scattering}\label{ssec:multiple_coulomb_scattering}
+
+The \autoref{eq:highland_formula} is a good approximation 
+
+
+\subsection{The Bragg peak and SOBP implications on particle therapy}\label{ssec:implications_PT2}
 
 %PUT THE FOLLOWING BETWEEN THE ELECTROMAGNETIC AND NUCLEAR INTERACTION SECTIONS!
 %The electromagnetic interactions described in the preceding section are well understood from both theoretical and experimental perspectives. Nuclear interactions are also a crucial aspect of transport, but are not nearly as well understood from the theoretical perspective. Interactions between a projectile and atoms of the target are ultimately described by quantum electrodynamics (QED), the most accurate physical theory yet devised; by contrast, nuclear interactions are many-body problems that defy present-day calculational methods at the most fundamental level. That is, the particles that participate in nuclear interactions are themselves composites (nuclei contain nucleons, and nucleons contain quarks and gluons), and the fundamental theory that describes these interactions is quantum chromodynamics (QCD), which is only tractable in the limit of interactions with large momentum transfers. QCD has not yet been successfully applied to nucleus–nucleus collisions at the energies of interest here. The lack of a fundamental theory has led to the development of many semi-empirical models to describe nucleus–nucleus interactions, and considerable effort continues to be put into development of these models and benchmarking them (10) against the limited set of pertinent data that are available (2).
