@@ -67,7 +67,7 @@ whose parameters are summarized in \autoref{tab:bethe_bloch}. Note that the nega
 		\hline
 		$\rho$ & Material density \\
 		$Z_\text{M}$ & Atomic number of medium (M) \\
-		$A$ & Mass number \\
+		$A$ & Mass number of medium\\
 		$I$ & Mean excitation energy \\
 		\hline
 		\multicolumn{2}{c}{\textbf{Constants}} \\
@@ -250,12 +250,24 @@ where $\phi$ is a slowly varying function depending on the target material. The 
 \end{equation}
 According to equation \autoref{eq:range_scaling_different_particles_same_range}, the relative straggling for \ce{C}-ions is $3.5$ times smaller than for protons. The range straggling and its associated variance need to be kept under control during the treatment planning in PT applications, as detailed in \autoref{ssec:implications_PT}.
 \subsection{Bragg peak, SOBP and implications of range straggling on particle therapy}\label{ssec:implications_PT}
-To gain a better understanding of the implications on PT induced by inelastic interactions with atomic electrons, it is necessary to take a step back and consider the classical region of the Bethe-Bloch described in \autoref{ssec:bethe_bloch}. Because of the $1/\beta^2$ shape of the Bethe-Bloch curve at low energies (see \autoref{fig:bethe_bloch}), the stopping power surges when the particle velocity decreases. Consequently, at the end of the particle's path much of the energy is lost over a relatively small distance, as shown in \autoref{fig:depth_dose_proton}. The area where particles release an enhanced amount of energy is referred to as Bragg peak, which is exploited in PT to deposit most of the particle energy precisely at the tumor site, maximizing the damages close to the cancerous region and minimizing the neighboring healthy tissues. While the Bragg curve in \autoref{fig:depth_dose_proton} was obtained through numerical simulations, a closed expression for charged particles' depth-dose profile can be retrieved from first principles, as reported in \cite{analyticalapproximationoftheBragg}.
+To gain a better understanding of the implications on PT induced by inelastic interactions with atomic electrons, it is necessary to take a step back and consider the classical region of the Bethe-Bloch described in \autoref{ssec:bethe_bloch}. Because of the $1/\beta^2$ shape of the Bethe-Bloch curve at low energies (see \autoref{fig:bethe_bloch}), the stopping power surges when the particle velocity decreases. Consequently, at the end of the particle's path much of the energy is lost over a relatively small distance, as shown in \autoref{fig:depth_dose_proton}. The area where particles release an enhanced amount of energy is referred to as Bragg peak, which is exploited in PT to deposit most of the particle energy precisely at the tumor site, maximizing the damages close to the cancerous region while minimizing hazards in the neighboring healthy tissues. While the Bragg curve in \autoref{fig:depth_dose_proton} was obtained through numerical simulations, a closed expression for charged particles' depth-dose profile can be retrieved from first principles, as reported in \cite{analyticalapproximationoftheBragg}. In \autoref{fig:bragg_curve_kine}, both the $dE/dx$ and kinetic energy of protons are shown as a function of the penetration depth.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{depth_dose_proton.pdf}
-	\caption[Proton $dE/dx$ as a function of their traversed path]{Energy loss per path length as a function of traversed path for \num{10000} monochromatic protons with $100\,\mathrm{keV}$ kinetic energy, simulated with Geant4 \cite{Geant4Paper}. The Bragg peak is shown at about $7.7\,\mathrm{cm}$. The entrance channel and the distal fall-off regions are shown as well. Adapted from \cite{KolanoskiBook}.}
-	\label{fig:depth_dose_proton}
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{depth_dose_proton.pdf}
+		\caption{Energy loss per path length as a function of traversed path for \num{10000} monochromatic protons with $100\,\mathrm{keV}$ kinetic energy, simulated with Geant4 \cite{Geant4Paper}. The Bragg peak is shown at about $7.7\,\mathrm{cm}$. The entrance channel and the distal fall-off regions are shown as well. Adapted from \cite{KolanoskiBook}.}
+		\label{fig:depth_dose_proton}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{bragg_curve_kine.jpg}
+		\caption{The proton $dE/dx$ profile and residual energy as a function of depth inside a phantom, for an incident proton of $62.5\,\mathrm{MeV}$. From \cite{unknownMazzone}.}
+		\label{fig:bragg_curve_kine}
+	\end{subfigure}
+	\caption[Proton $dE/dx$ and energy as a function of depth]{Proton energy-loss and kinetic-energy dependencies with depth.}
+	\label{fig:proton_depth_dependencies}
 \end{figure}
 The technical advancements in dose\footnote{The dose measures the amount of energy deposited by ionizing radiation per unit mass of a tissue, that is $D=dE/dm$. The concept of dose will be better defined in (?? dose).} delivery techniques, planning systems and associated imaging devices have allowed conventional radiotherapy (based on photon irradiation) to achieve an increasing ballistic accuracy \cite{radiobiologyTextbook}, reducing toxicity risks to healthy tissues while maximally damaging the tumor volume. Some of these techniques are Intensity Modulated Radiotherapy (IMRT), Volumetric Modulated Arc Therapy (VMAT), Image-Guided Radiotherapy (IGRT) and Stereotactic Body Radiotherapy (SBRT). Despite such technical improvements, photon-based radiotherapy is limited by a physics disadvantage: the depth-dose profile of photons is characterized by a dose maximum at shallow depths, rather than at the end of the range as for charged particles. This profound difference is illustrated in \autoref{fig:depth_dose_difference}, where photon, proton and carbon depth-dose profiles are shown. From the picture, it is clear that proton and heavy ion irradiation is superior to photon therapy especially in the treatment of deep-seated tumors, as the photon energy depositions decrease exponentially with the depth. Due to its evident advantages, charged particle irradiation is currently used in clinical practices, with protontherapy being the most widely used followed by carbon, helium, oxygen and neutron\footnote{Neutrons are not charged particles, yet, neutron beams are delivered in the Boron Neutron Capture Therapy (BNCT), which effectively belongs to the group of hadrontherapy treatments.} treatments. Despite also neon, silicon, and argon have been used clinically \cite{MALOUFF2024590}, their use is limited by nuclear fragmentation, as explained in \autoref{sec:nucl_interactions}.
 \begin{figure}[H]
@@ -264,7 +276,7 @@ The technical advancements in dose\footnote{The dose measures the amount of ener
 	\caption[Depth dose distributions of photons, protons and carbon ions]{Depth dose distributions of photons, protons and carbon ions. From \cite{Ionbeamtransportcalculations}.}
 	\label{fig:depth_dose_difference}
 \end{figure}
-Although PT shows excellent physics benefits, it often happens that the width of the Bragg peak is not sufficient to cover the entire tumor volume. To prove this, let us quantify the Bragg peak width using the range straggling uncertainty $\sigma_R$ in \autoref{eq:explicit_range_error}, as the two quantities are expected to be comparable. According to this equation, at $18\,\mathrm{cm}$ depth the range straggling for a proton is $25\,\mathrm{mm}$, while for \ce{^{12}C} ions it is $7\,\mathrm{mm}$ (calculated from \autoref{eq:range_scaling_different_particles_same_range}). Such discrepancy in proton-carbon Bragg peak widths is expected due to $R\propto1/M$ in \autoref{eq:explicit_range_error}, and can be better visualized in \autoref{fig:proton_carbon_width}. Although the width of the Bragg maximum for protons may be sufficient to homogeneously cover the longitudinal extension of a tumor ($\mathcal{O}(cm)$), the $7\,\mathrm{mm}$ for \ce{^{12}C} prove insufficient.
+Although PT shows excellent physics benefits, it often happens that the width of the Bragg peak is not sufficient to cover the entire tumor volume. To prove this, let us quantify the Bragg peak width using the range straggling uncertainty $\sigma_R$ in \autoref{eq:explicit_range_error}, as the two quantities are expected to be comparable. According to this equation, at $18\,\mathrm{cm}$ depth the range straggling for a proton is $25\,\mathrm{mm}$, while for \ce{^{12}C} ions it is $7\,\mathrm{mm}$ (calculated from \autoref{eq:range_scaling_different_particles_same_range}). Such discrepancy in proton-carbon Bragg peak widths is expected due to $R\propto1/M$ in \autoref{eq:explicit_range_error}, and can be better visualized in \autoref{fig:proton_carbon_width}. Although the width of the Bragg maximum for protons may be sufficient to homogeneously cover the longitudinal extension of a tumor ($\mathcal{O}(\text{cm})$), the $7\,\mathrm{mm}$ for \ce{^{12}C} prove insufficient.
 
 To circumvent this predicament, the Spread Out Bragg Peak (SOBP) technique was introduced to broaden the final irradiation beam. The creation of a SOBP foresees the use of particle beams at different energies to generate multiple pristine Bragg peaks at several depths, as shown in \autoref{fig:sobp}. This approach takes advantage of \autoref{eq:explicit_range} and \autoref{eq:bragg_Kleeman}, which allows to precisely select the particle range (i.e., the Bragg peak position) simply by varying the beam kinematic properties, as displayed in \autoref{fig:bragg_peaks_carbon_energies}. To deliver beams at different energies, active or passive approaches can be followed (even at the same time): in the former, an energy selection system built inside the particle accelerator dynamically changes the beam energy; the passive system uses ridge filters, devices consisting of triangular or stepped ridges that modulate the beam energy exploiting the greater particle energy loss in the thicker regions. In both cases, the pristine Bragg peaks superimpose to create an ``enlarged'' Bragg peak, shown in \autoref{fig:sobp}, which delivers a homogeneous dose to the tumor region. Clearly, the dose build-up effect not only occurs in the enlarged Bragg peak region (which corresponds to the tumor area), but also in the entrance channel or immediately after the Bragg peak, regions in which an organ at risk may be located. Nevertheless, in \autoref{fig:critical_organ} it can be seen that hadrontherapy allows for greater sparing of healthy tissues surrounding the tumor area when compared with conventional photon radiotherapy.
 \begin{figure}[H]
@@ -384,22 +396,23 @@ The many small-angle deflections induced by MCS along the particle path lead to 
 	\label{fig:lateral_penumbra}
 \end{figure}
 \subsubsection{Proton minibeam radiotherapy}\label{sssec:sfrt}
-Although the lateral straggling generally reduces the transverse beam precision, scientists have devised a pioneering methodology which effectively allows PT to take advantage of MCS, namely proton MiniBeam RadioTherapy (pMBRT). The pMBRT belongs to the wider group of Spatially Fractionated Radiation Therapies (SFRTs), which use a spatially modulated dose to spare parts of healthy tissues from photon or charged particle radiation \cite{radiobiologyTextbook}. In practice, the SFRT irradiation field is segmented into narrow beamlets to create high-dose peaks and low-dose valleys, as shown in \autoref{fig:sfrt}.
+Although the lateral straggling generally reduces the transverse beam precision, scientists have devised a pioneering methodology which effectively allows PT to take advantage of MCS, namely proton MiniBeam RadioTherapy (pMBRT). The pMBRT belongs to the wider group of Spatially Fractionated Radiation Therapies (SFRTs), which use a spatially modulated dose to spare parts of healthy tissues \cite{radiobiologyTextbook}. In practice, the SFRT irradiation field is segmented into narrow beamlets to create high-dose peaks alternated to low-dose valleys, as shown in \autoref{fig:sfrt}. SFRTs can employ either photons or charged particles to deliver the spatially fractionated dose.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{lateral_penumbra.pdf}
 	\caption[Lateral profile of SFRT]{Lateral profile of SFRT, with high-dose peaks and low-dose valleys. The Peak-to-Valley Dose Ratio (PVDR) defined in the picture measures the strength of spatial fractionation: it is $\simeq1$ for homogeneous irradiation and approaches $\infty$ for small valley doses. The purple and green double-headed arrows indicate respectively the center-to-center distance (ctc) between adjacent peaks and the FWHM of each beamlet \cite{radiobiologyTextbook}.}
 	\label{fig:sfrt}
 \end{figure}
-Several SFRT techniques exists, which differ in the beamlet geometry as well as in the biological effects \cite{10.1088/978-0-7503-4046-5ch1}. Three notable SFRTs are reported in \autoref{fig:sfrt_various}, namely GRID RT (employing a beamlet FWHM of $\mathcal{O}(cm)$), MBRT (with $0.5\lesssim\,text{FWHM}\,\lesssim1\,\mathrm{mm}$) and MRT (Microbeam RadioTherapy, with $50\lesssim\,text{FWHM}\,\lesssim100\,\mu\mathrm{m}$). All these methodologies challenge the conventional radiotherapy paradigm of releasing a uniform dose to the tumor area by delivering an heterogeneous dose which results in the characteristic peak-valley pattern displayed in \autoref{fig:sfrt}. Despite the radiobiological mechanisms of spatial fractionation are still not fully understood, tissue-preserving and tumor control effects have been observed in multiple clinical and preclinical studies involving SFRTs \cite{BERTHO202337,Prezado_2022}, which are assumed to revolve around the dose-volume effect and the prompt microscopic biological
-repair. The first formalizes the fact that smaller irradiated volumes lead to higher tolerances: this means that the non-irradiated cells (mainly located on the low-dose valleys) withstand radiation damage better than strongly irradiated cells. The second leads to the restoration of capillary blood vessels as a consequence of cells' regeneration in the undamaged area \cite{OptimizationMinibeamArrangements}.
+Several SFRT techniques exists, which differ in the beamlet geometry as well as in the biological effects \cite{10.1088/978-0-7503-4046-5ch1}. Three notable SFRTs are reported in \autoref{fig:sfrt_various}, namely GRID RT (employing a beamlet FWHM of $\mathcal{O}(\text{cm})$), MBRT (with $0.5\lesssim\,text{FWHM}\,\lesssim1\,\mathrm{mm}$) and MRT (Microbeam RadioTherapy, with $50\lesssim\,text{FWHM}\,\lesssim100\,\mu\mathrm{m}$). All these methodologies challenge the conventional radiotherapy paradigm of releasing a uniform dose to the tumor area by delivering an heterogeneous dose, which results in the characteristic peak-valley pattern displayed in \autoref{fig:sfrt}.
+
+Although the radiobiological mechanisms of spatial fractionation are yet to be fully understood, they are assumed to revolve around the dose-volume effect and the prompt microscopic biological repair. The dose-volume effect formalizes the fact that volumes receiving less irradiation possess higher radiation tolerance; the less-irradiated cells located on the low-dose valleys withstand radiation damages better than strongly irradiated cells. The prompt microscopic biological repair leads to the restoration of capillary blood vessels as a consequence of cells' regeneration in the undamaged area \cite{OptimizationMinibeamArrangements}, an effect which further contributes to the fast recovery of normal tissues. Overall, multiple clinical and preclinical studies reported in \cite{BERTHO202337,Prezado_2022} have acknowledged the tissue-preserving and tumor control capabilities of SFRT.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{sfrt_various.jpg}
 	\caption[SFRT techniques]{Schematic representation of various 2D SFRT delivery methods with cross-beam profiles for peaks and valleys at the white dashed lines, all employed to cover a $30\,\mathrm{mm}$ wide target (black region). The acronyms are explained in the text. From \cite{Ghaznavi_2025}.}
 	\label{fig:sfrt_various}
 \end{figure}
-Among the mentioned SFRT techniques, the most promising one is the pMBRT, which exploits the advantage of spatial fractionation in combination with the improved dose delivery of protons. \autoref{fig:pmbrt} (top) illustrates the comparison between standard proton therapy and pMBRT: although in both cases the beam size broadens with depth and an homogeneous dose is delivered at the tumor site, the spatially fractionated beamlets offer greater sparing to the normal tissues located prior to the tumor area, due to their heterogeneous dose release. Recent studies have highlighted the potentialities of pMBRT in obtaining remarkable normal tissue sparing (lower skin and organ at risk toxicity \cite{articleReindl}) and a tumor control probability better than conventional proton therapy \cite{articlePrezado,PREZADO2019266}. Nevertheless, pMBRT is still in the preclinical phase due to the absence of therapy centers endowed with advanced nozzle designs able to provide the sub-mm size of proton beamlets \cite{Zlobinskaya2013-rv}. Indeed, at clinical energies, magnetically focused beams can be squeezed up to $4$--$5\,\mathrm{mm}$.
+Among the aforementioned SFRT techniques, the most promising one is the pMBRT, which exploits the advantage of spatial fractionation in combination with the improved dose delivery of protons. \autoref{fig:pmbrt} (top) illustrates the comparison between standard proton therapy and pMBRT: although in both cases the beam size broadens with depth and an homogeneous dose is delivered at the tumor site, the spatially fractionated beamlets offer greater sparing to the normal tissues located prior to the tumor area, due to their heterogeneous dose release. Recent studies have highlighted the potentialities of pMBRT in obtaining remarkable normal tissue sparing (lower skin and organ at risk toxicity \cite{articleReindl}) and a tumor control probability better than conventional proton therapy \cite{articlePrezado,PREZADO2019266}. Nevertheless, pMBRT is still in the preclinical phase due to the absence of therapy centers endowed with advanced nozzle designs able to provide the sub-mm size of proton beamlets \cite{Zlobinskaya2013-rv}. Indeed, at clinical energies, magnetically focused beams can be squeezed up to $4$--$5\,\mathrm{mm}$.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{pmbrt.jpg}
@@ -407,17 +420,79 @@ Among the mentioned SFRT techniques, the most promising one is the pMBRT, which 
 	\label{fig:pmbrt}
 \end{figure}
 \section{Nuclear interactions}\label{sec:nucl_interactions}
+The electromagnetic interactions described in \autoref{sec:em_interactions} are well understood from both the theoretical and experimental perspectives \cite{10.3389/fonc.2016.00065}, however charged particles can also undergo nuclear interactions with the material nuclei. To interact with the nuclei of matter, charged particles must possess a large energy, sufficiently high to overpass the Coulomb potential barrier generated by atomic electrons and protons. Indeed, nuclear forces have a shorter range ($\mathcal{O}(\text{fm})$) than electromagnetic interactions, and can therefore influence the interaction dynamics only when the projectile and target nuclei are very close to one another. Such spatial proximity unlocks the strong nuclear force, the most intense fundamental force of physics which is responsible for binding the atomic nucleons together. Due to the intervention of the strong force, nuclear interactions often produce vigorous and destructive effects to the interacting projectiles and targets: their nuclear structure can be completely overhauled after the collision due to spallation and break-up processes.
 
+Contrary to electromagnetic interactions, a complete theoretical understanding of nuclear processes is still missing \cite{10.3389/fonc.2016.00065}. Even the most advanced theory of physics interaction, i.e., the Quantum ElectroDynamics (QED), is not capable of performing a detailed description of nuclear interactions, which are many-body problems challenging the current numerical methods at the most fundamental level. Indeed, the particles participating in nuclear interactions are composites (nuclei contain nucleons, which in turn comprise quarks and gluons), and the fundamental theory that describes these interactions is Quantum ChromoDynamics (QCD). Unfortunately, QCD is uniquely calculable in the limit of large momentum transfers, an assumption which does not hold for the relevant energy ranges of nucleus–nucleus collisions in PT and SRP. To describe nuclear interactions without a fundamental theory, scientists have developed many semi-empirical models that are currently embedded in particle transport codes, which are computer programs simulating how radiation and subatomic particles move and interact through matter. Currently, these transport algorithms are efficiently implemented in deterministic software and Monte Carlo simulations \cite{MonteCarloinHeavyChargedParticleTherapy}, which are of great help for understanding the underlying physics processes influencing PT and SRP applications. However, the limited set of available nuclear data \cite{NORBURY2012315} poses great challenges to the development of these models, which need to be continuously benchmarked against experimental data \cite{SIHVER20071320}. The lack of nuclear interaction data is particularly problematic in the PT field: the inherent uncertainty of charged particle transport codes connected to nuclear interactions results in dose-delivery uncertainties leading to tumor under-dosages and healthy tissues over-dosages. Because of these uncertainties, physicians and medical physicists often opt for conservative treatment plannings, where large safety margins are employed around the tumor area. Consequently, these non-optimal procedures may degrade the recognized benefits of charged particle irradiation over conventional photontherapy \cite{rangeVerification}. To circumvent this predicament, the FOOT experiment (detailed in \autoref{ch:foot_experiment}) was devised to fill the existing gaps of nuclear interaction data. One of the principal aims of the FOOT experiment is to bring valuable experimental knowledge to the PT community, thereby making treatment plans predictive rather than just conservative.
 
+Given these premises, let us explore nuclear interactions more in detail. The nuclear processes can be divided into:
+\begin{itemize}
+	\item elastic collisions, which preserve the total kinetic energy and the nuclear structure of both projectile and target. Nuclear elastic collisions are similar to multiple coulomb scattering (see \autoref{ssec:multiple_coulomb_scattering}), even if the first are induced by the strong force, whereas the second are caused by electromagnetic interactions. The nuclear elastic collisions may either produce weak energy transfers to the target or angular deflections, both simulated with Monte Carlo codes \cite{rangeVerification}. Thus, these interactions may lead to both longitudinal and lateral straggling.
+	\item Inelastic collisions, more violent than elastic ones, where the total kinetic energy is not conserved. In nuclear inelastic collisions the projectile might knock out secondary particles (protons, neutrons, deuterons, $\alpha$ particles, etc.) from the target nucleus and break into fragments if it is an heavy ion. Hence, these interactions can lead to multiple effects, namely the production of new particles and/or variations of the internal structure of projectile/target.
+\end{itemize}
+The probability $P(x)$ that a charged particle does not undergo a nuclear interaction after traveling a distance $x$ in a medium is:
+\begin{equation}
+	P(x)=\frac{N(x)}{N(0)}=e^{-\frac{x}{\lambda_\text{int}}},
+	\label{eq:nucl_int}
+\end{equation}
+where $N(0)$ and $N(x)$ are respectively the number of incident particles before the medium crossing and after a distance $x$, and $\lambda_\text{int}$ is the interaction length, namely the mean free path of nuclear interactions. $\lambda_\text{int}$ is usually defined as $\lambda_\text{int}=A/(N_A\cdot\sigma_\text{R}\cdot\rho)$, where $\sigma_\text{R}$ is the total nuclear reaction cross section and the remaining parameters are defined in \autoref{tab:bethe_bloch}. The fundamental quantity in \autoref{eq:nucl_int} is the nuclear cross section $\sigma_\text{R}$, which embodies the physics of the reaction. According to \cite{Geant4_NucleusNucleusCrossSections}, $\sigma_\text{R}$ is defined as:
+\begin{equation}
+	\sigma_\text{R}=\sigma_\text{total}-\sigma_\text{elastic},
+	\label{eq:nucl_react_def}
+\end{equation}
+where $\sigma_\text{total}$ is the total nuclear cross section (which includes both elastic and inelastic processes) and $\sigma_\text{elastic}$ is the cross section for nuclear elastic interactions.
 
-
-
-
-%PUT THE FOLLOWING BETWEEN THE ELECTROMAGNETIC AND NUCLEAR INTERACTION SECTIONS!
-%The electromagnetic interactions described in the preceding section are well understood from both theoretical and experimental perspectives. Nuclear interactions are also a crucial aspect of transport, but are not nearly as well understood from the theoretical perspective. Interactions between a projectile and atoms of the target are ultimately described by quantum electrodynamics (QED), the most accurate physical theory yet devised; by contrast, nuclear interactions are many-body problems that defy present-day calculational methods at the most fundamental level. That is, the particles that participate in nuclear interactions are themselves composites (nuclei contain nucleons, and nucleons contain quarks and gluons), and the fundamental theory that describes these interactions is quantum chromodynamics (QCD), which is only tractable in the limit of interactions with large momentum transfers. QCD has not yet been successfully applied to nucleus–nucleus collisions at the energies of interest here. The lack of a fundamental theory has led to the development of many semi-empirical models to describe nucleus–nucleus interactions, and considerable effort continues to be put into development of these models and benchmarking them (10) against the limited set of pertinent data that are available (2).
-%https://www.frontiersin.org/journals/oncology/articles/10.3389/fonc.2016.00065/full
-
-
+Many experimental and theoretical efforts have been made to correctly estimate nuclear cross sections in order to expand the overall understanding of nuclear interactions. In this regard, a good and simple representation of the nuclear reaction cross section $\sigma_\text{R}$ is given by the Bradt-Peters equation \cite{Bradt1950}:
+\begin{equation}
+	\sigma_\text{R}=\pi R_0^2c_1(E)\left[A_\text{p}^{1/3}+A_\text{t}^{1/3}-c_2(E)\right]^2,
+	\label{eq:brad_peters}
+\end{equation}
+where $A_\text{p}$ and $A_\text{t}$ are respectively the mass numbers of projectile and target, while $R_0$, $c_1$ and $c_2$ are parametrization-specific variables depending on the projectile energy \cite{PhysRevC.11.360,BARSHAY19745}. The meaning of \autoref{eq:brad_peters} is that heavier projectiles and targets increase the nuclear cross section probability, leading to an increment of secondary particle emission. Unfortunately, \autoref{eq:brad_peters} was proved to be valid only for projectile energies $\gtrsim1.5\,\mathrm{GeV/u}$ \cite{ZarrellaPhDThesis}, well above the energy ranges of PT ($100$--$800\,\mathrm{MeV/u}$) and of SRP ($100$--$400\,\mathrm{MeV/u}$). Cross section formulae for the strong interaction at low and intermediate energies are indeed difficult to calculate, as above $1\,\mathrm{GeV}$ the Glauber approximation \cite{SHMAKOV1989125,PhysRevC.67.054607} can be exploited. Nevertheless, in \cite{articleAbuIbrahim}, another nucleus-nucleus total reaction cross section was proposed, valid between $30\,\mathrm{MeV}$ and $1\,\mathrm{GeV/u}$:
+\begin{equation}
+	\sigma_{R}=\pi C(E) \cdot \left(
+	\sqrt{\sigma_{pp}^{\text{tot}} Z_1^{2/3}
+	+ \sigma_{pn}^{\text{tot}} N_1^{2/3}}
+	+
+	\sqrt{\sigma_{pp}^{\text{tot}} Z_2^{2/3}
+	+ \sigma_{pn}^{\text{tot}} N_2^{2/3}}
+	\right)^2,
+	\label{eq:total_nucl_cs}
+\end{equation}
+where $C(E)$ is an energy-dependent coefficient determined from experimental data, and $Z_{1,2}$ and $N_{1,2}$ represent respectively the proton ($p$) and neutron ($n$) number for the projectile ($1$) and the target ($2$). In addition to \autoref{eq:brad_peters}, \autoref{eq:total_nucl_cs} depends explicitly on the individual nucleon-nucleon cross sections characterizing the overall nucleus-nucleus interaction. The \autoref{eq:total_nucl_cs} was shown to accurately describe Experimental data at lower energies, as shown in \autoref{fig:total_nucl_cs} (middle).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{total_nucl_cs.jpg}
+	\caption[Nuclear cross sections for $p$-\ce{^{12}} and \ce{^{12}}-\ce{^{12}} reactions]{Total nuclear cross sections for $p$-\ce{^{12}} and \ce{^{12}}-\ce{^{12}} reactions expressed as a function of the energy per nucleon $E$. In the top panel, the $\sigma_\text{total}$ (defined in \autoref{eq:nucl_react_def}) for $p$-$p$ and $n$-$p$ collisions are plotted. In the middle panel and bottom panel, experimental data for $p$-\ce{^{12}} and \ce{^{12}}-\ce{^{12}} reactions are shown, respectively. In particular, in the middle panel the $\sigma_{R}$ of \autoref{eq:total_nucl_cs} (solid black line) is shown to accurately describe experimental data. From \cite{articleAbuIbrahim}.}
+	\label{fig:total_nucl_cs}
+\end{figure}
+Since protons and heavier ions' nuclear interactions are modeled in a different way, it is necessary to discuss them separately.
+\subsection{Nuclear interactions of protons}\label{ssec:nucl_int_proton}
+When a proton hits an atomic nucleus, the collision often initiates a chain of nucleon-nucleon interactions that lead to the emission of protons, neutrons, light fragments and to the equilibration of the remnant nucleus \cite{rangeVerification}. The steps of a proton-nucleus interaction can be described by a three-stage process \cite{Azhgirey_2010,Ferrari:682497}, schematized in \autoref{fig:proton_int_steps}:
+\begin{itemize}
+	\item the first phase is delineated by the Intra-Nuclear Cascade (INC) model, which describes nucleons interactions from $50\,\mathrm{MeV}$ to hundreds of GeV. Despite being firstly proposed in the $1940$s, the INC lies at the basis of modern Monte Carlo codes, and relies on a simple assumption: the incoming nucleon interacts with quasi-free nucleons in the target nucleus through series of two-body interactions. To model the target nucleons in a quasi-free state, the target nucleus must be treated as a Fermi gas. Furthermore, to assume independent nucleon-nucleon interactions, the time between successive collisions must be larger than the duration of a single collision. The INC describes the first $10^{-22}$--$10^{-23}\,\mathrm{s}$ of a proton-nucleon interaction, during which all the secondary particles are produced from the collision, including neutrons, protons and lighter fragments after a coalescence (grouping) mechanism. These secondaries have usually very-high energies and can either scatter again in the same nucleus or simply escape. The comprehensive description of INC process is highly complex because it requires the transport of all secondaries through the nuclear medium, whose properties (e.g., density, quantum effects, nuclear potential, binding energy, etc.) are difficult to parameterize.
+	\item The second stage is the pre-equilibrium phase, where the energy of INC particles has lowered to few tens of MeV. Yet, the nucleus is still not capable of reaching thermal equilibrium. The pre-equilibrium stage is usually simulated through the exciton model \cite{PhysRevC.28.1648,PhysRevLett.17.478}, where further coalescence processes and nucleon-nucleon collisions lead to the emission of neutrons, protons and light fragments, ultimately leaving the nucleus in an equilibrium state with a certain amount excitation energy. The first two stages compose the so-called ``dynamic'' part of the overall process.
+	\item The last stage is the de-excitation step, usually slower than the first two (it takes $10^{-18}$--$10^{-16}\,\mathrm{s}$) where the target nucleus finally dissipates its energy through four possible ways:
+	\begin{itemize}
+		\item nuclear evaporation, where light fragments are successively emitted from the excited nucleus similarly to an evaporation from a hot system;
+		\item fission, where the excited nucleus ($Z\gtrsim65$) is split in two fragments (not relevant for PT);
+		\item Fermi-breakup, where low-$Z$ nuclei ($A\lesssim16$) disassemble in one step into smaller fragments;
+		\item gamma-ray ($\gamma$) emission.
+	\end{itemize}
+	Due to its slowness, the third step is usually referred to as the ``slow'' part of the overall process.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{proton_int_steps.jpg}
+	\caption[Stages of nucleon-nucleus interaction]{Stages of nucleon-nucleus interaction relevant for protontherapy. On the left, the energy and the time scales od the process are shown. From \cite{rangeVerification}.}
+	\label{fig:proton_int_steps}
+\end{figure}
+Note that the light fragments emitted in proton therapy (see \autoref{fig:proton_ion_fragm} (top)) can only originate from the target nuclei and not from the projectile proton, as the latter cannot fragment into smaller components (quarks) due to the low therapeutic energies.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{proton_ion_fragm.jpg}
+	\caption[Fragment emission in nucleon-nucleus and nucleus-nucleus interactions]{Top: emission of a target fragment after a proton-nucleus interaction. Bottom: projectile-like and target-like fragments ejected after a nucleus-nucleus collision. From \cite{rangeVerification}.}
+	\label{fig:proton_ion_fragm}
+\end{figure}
+\subsection{Nuclear interactions of heavier ions}\label{ssec:nucl_int_ions}
 
 
 even if the longitudinal and the laterl straggling are lower for heavier ions wrt to lighter ones (dependence on the inverse of mass and dependence on the kinetic energy) such as protons, the nuclear interactions lead to an undesired tail after the bragg peak
@@ -429,68 +504,29 @@ Equation (6) shows that the range of 11C is approximately
 For the same particle in different materials, the scaling
 \autoref{eq:range_scaling_different_particles}
 
+
+\subsection{Monte Carlo codes for nuclear interactions}\label{ssec:monte_carlo_codes}
+The challenging aspect of \autoref{eq:brad_peters} and \autoref{eq:total_nucl_cs} is that they provide no information regarding the angle of emission or the kinetic energy of the possible fragments produced during nuclear interactions, limiting the comprehension of fragmentation processes. Indeed, the dynamic of nuclear fragments cannot be characterized by a comprehensive and rigorous theoretical framework, but rather by microscopic models implemented in Monte Carlo simulations. Two of the most frequently used Monte Carlo codes for PT and SRP studies are FLUKA and Geant4. In the following paragraphs, a review of their most relevant features is briefly outlined.
+\subsubsection{FLUKA}\label{sssec:fluka}
+The FLUKA (FLUktuierende KAskade) simulation tool \cite{Ferrari:2005zk,BOHLEN2014211} is a Monte Carlo code generator written in FORTRAN used to simulate particles' transport and interactions in matter from few keV to cosmic ray energies. Nowadays, it is widely employed in shielding applications (relevant for SRP) and medical physics.
+
+In FLUKA, charged particles are transported through a multiple coulomb scattering algorithm, based on the advanced Molière theory in \cite{FERRARI1992412}, and on the statistical approach in \cite{Rinaldi_2011,articleFasso} that models the ionization energy losses induced by electrons, including energy fluctuations and $\delta$ ray emission. In addition, FLUKA employs the PEANUT (Pre-Equilibrium Approach to NUclear Thermalization) model \cite{Ferrari:682497,osti_21055002} to simulate hadron-nucleus interactions up to few tens of TeV, including the first two stages of proton-nucleus interactions described in \autoref{ssec:nucl_int_proton}. The cross sections loaded in FLUKA are based on parameterized fits and, when available, they are sourced from tabulated datasets, otherwise they are evaluated with appropriate nuclear models, such as ENDF \cite{WILLIAMS1991549} and JENDL \cite{KOSTAL2012275} for neutron transport.
+
+To simulate the dynamic stage of nucleus-nucleus interactions between $100\,\mathrm{MeV/u}$ and $5\,\mathrm{GeV/u}$ a relativistic Quantum Molecular Dynamics (rQMD) model is used \cite{ANDERSEN20041302}, while below $100\,\mathrm{MeV/u}$ the BME \cite{Cerutti2006LOWEN} approach is employed. FLUKA algorithms are then able to connect the dynamic stage simulation to the slow one, including evaporation, fission, beak-up and gamma emission processes.
+\subsubsection{Geant4}\label{sssec:geant4}
+Geant4 \cite{Geant4Paper} is a Monte Carlo simulation toolkit written in C++ able to simulate the passage of particles in matter. Despite being originally developed for the high-energy physics at LHC, it has been adapted also to medical physics and space science.
+
+In Geant4, the multiple coulomb scattering of charged particles is simulated through the Lewis theory \cite{osti_4397140}, while the energy losses are modeled through the Bethe-Bloch formula combined with low-energy parametrizations. Statistical tools are included to simulate the range straggling of charged particles.
+
+Regarding the hadronic interactions, Geant4 offers a wide selection of nuclear models. As to protons, the dynamic part of inelastic nuclear interactions can be simulated with the Binary Cascade Model (BIC) \cite{Folger2004-pz}, which models the INC stage with nuclear potential effects derived from quantum mechanics, similarly to FLUKA. In addition to BIC, 
+
+\cite{PhysRevC.90.054602}
+
+
+\subsection{Nuclear fragmentation and cross cross section measurements}\label{ssec:nucl_fragmentation}
+
 %Returning to \autoref{fig:photon}, it is evident that the energy release of the carbon ion beam \ce{C}, unlike the case of protons \ce{p}, continues even after the BP. Since an energy release after the BP could damage healthy regions located beyond the tumor volume, it is necessary to understand its cause. Observing the quadratic dependence $\propto\frac{z^2}{\beta^2}$ in \autoref{eq:bethe_bloch}, even though $z_p<z_C$, one has $\frac{dE_p}{dx}>\frac{dE_C}{dx}$ because the kinetic energies of carbon ions are greater than those of protons.\footnote{Typically the kinetic energies $K$ are $K_p=250\,\mathrm{MeV}$ and $K_C=4800\,\mathrm{MeV}=12\,\mathrm{u}\cdot400\,\mathrm{MeV/u}$.} Indeed, the dose profile released by carbon beams is generally greater than that of protons: this would explain the higher \autoref{par:let} and \autoref{par:rbe} values for carbon in \autoref{tab:let_rbe}, but not the energy release after the BP by carbon. This effect can only be understood by analyzing the nuclear interactions of the two particles.
 
-%YOU CAN ADD A DEDICATED SECTION OR SUBSECTION WHICH DESCRIBES THE IMPORTANCE OF CROSS SECTION MEASUREMENT IN PS AND SRP. the information is in Are Further Cross Section Measurements Necessary for Space Radiation Protection or Ion Therapy Applications? Helium Projectiles paper.
-% here you have to write (citing the FOOT CDR AT PAGE 8) that studies [reference 17] have shown that scaling by 20% the cross section for inealstic processes in a Monte Carlo transport code (SHIELDIT) modified the RBE calculation by 3%. Here write also the reason why we need such stringent reqiurements on the cross section: such stringnt requirements will translate to stronger constraints in TPS and allow them to take a leap from conservative treatments ("RANGE VERIFICATION PAPER") to predictive ones. here you can re-cite (ALREADY IN BIBLIOGRAPHY) the 3-5% requirement of dose delivery uncertainty on the paper "https://www.tandfonline.com/doi/full/10.1080/0284186X.2016.1246801%" on my desktop. Here you can also mention the current nuclear models used to simulate nuclear interaction - here follow range verification paper.
-%check also this: https://agenda.infn.it/event/37490/contributions/209898/attachments/109868/156241/SpaceRadioprotection_20230913.pdf it summarises the main points of the double differential cross section paper.
-
-% in PT section: check SRP section, where this paper might be helpful: https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt
-%The dose to the planning target
-%volume (PTV) in the patient should
-%be delivered with an uncertainty of
-%less than 5% at the 2σ level (ICRU level (ICRU σ level (ICRU
-%Report 2σ level (ICRU 4 1976)
-
-% in SRP section: use this file:///C:/Users/Simone/Desktop/Towards_sustainable_human_space_exploration-priori.pdf and file:///C:/Users/Simone/Desktop/20200001895.pdf and https://link.springer.com/content/pdf/10.1140/epjp/s13360-023-04572-3.pdf
-% use also this paper (https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt) to cite the paper number [10]:sively used for dose evaluations in these contexts [26,27].
-%Fragmentation cross sections on a hydrogen target are essential to compute the dose deposited by fragments in both
-%patients and astronauts with the required accuracy, as hydrogen, alongside carbon and oxygen, is one of the most abundant
-%elements in the human body. While further data on hydrogen fragmentation for various ion beams are still needed,
-%the fragmentation of 16O is of particular interest. This ion is
-%increasingly utilized in PT facilities alongside p,
-%4He, and 12C
-%[1]. Simultaneously, 16O is the most abundant species among
-%the HZE (high atomic number Z and energy E) components of
-%cosmic rays after carbon [2,3], and it contributes significantly
-%to the total dose, exceeded only by 56Fe and 28Si [2]. Since
-%measuring 16O fragmentation directly on a liquid hydrogen
-%target is experimentally challenging (see Sec. III B), the cross
-%sections can be derived via stoichiometric subtraction from
-%measurements on C2H4 and C targets.
-%Notably, fragmentation cross sections of 16O on C2H4 are
-%also of direct interest for RPS applications. In this context,
-%light materials seem to be particularly effective as shields
-%against space radiation [2,7], and liquid hydrogen has the
-%maximum performance as shield material. However, hydrogen
-%is not a practical shield material, being a low temperature
-%liquid, so polyethylene (C2H4) can be a good compromise
-%[9,10]. The better shielding performance of light materials
-%arises from their ability to maximize energy loss per unit mass,
-%minimizing the production of secondary particles, which constitute a significant portion of the dose equivalent behind thick
-%shields [9]. While aluminum shielding can lead to an increase
-%in dose equivalent beyond approximately 20 g/cm2 due to
-%secondary particle buildup, polyethylene has been shown to
-%monotonically reduce the dose equivalent with increasing
-%thickness [10]. As shown in [10], significant discrepancies
-%remain in the calculated dose beyond the shielding when
-%different nuclear interaction models are employed. Accurate
-%fragmentation cross sections for these specific beam-target
-%combinations are essential to constrain and reduce such
-%uncertainties.
-%
-%
-% then there is also:NASA limits: the Risk of ExposureInduced Death (REID) from
-%cancer must not exceed the 3%, at a
-%95% confidence level (C.L.).
-
-% IN "RANGE VERIFICATION" paper there is the citation that conservative treatments are used nowadays because of the uncertainties arising from fragment unwanted energy deposits. in the same paper there are a lot of nuclear interaction models. you can also consider this paper at page 9 to cite which nuclear models FOOT used as comparisons to its results: https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt
-
-\chapter{Applications}\label{ch:applications}
-\section{Particle therapy}\label{sec:particle_therapy}
-\section{Space radiation protection}\label{sec:space_radiation_protection}
-
-
-
-
-
+\section{Physics parameters and biological aspects of ionizing radiations}\label{sec:biological_aspects_ion_rad}
+POSITION: TO BE DECIDED
+\cite{protonRadiobiology}:
