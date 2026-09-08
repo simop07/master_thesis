@@ -399,7 +399,7 @@ The many small-angle deflections induced by MCS along the particle path lead to 
 Although the lateral straggling generally reduces the transverse beam precision, scientists have devised a pioneering methodology which effectively allows PT to take advantage of MCS, namely proton MiniBeam RadioTherapy (pMBRT). The pMBRT belongs to the wider group of Spatially Fractionated Radiation Therapies (SFRTs), which use a spatially modulated dose to spare parts of healthy tissues \cite{radiobiologyTextbook}. In practice, the SFRT irradiation field is segmented into narrow beamlets to create high-dose peaks alternated to low-dose valleys, as shown in \autoref{fig:sfrt}. SFRTs can employ either photons or charged particles to deliver the spatially fractionated dose.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{lateral_penumbra.pdf}
+	\includegraphics[width=0.7\linewidth]{sfrt.pdf}
 	\caption[Lateral profile of SFRT]{Lateral profile of SFRT, with high-dose peaks and low-dose valleys. The Peak-to-Valley Dose Ratio (PVDR) defined in the picture measures the strength of spatial fractionation: it is $\simeq1$ for homogeneous irradiation and approaches $\infty$ for small valley doses. The purple and green double-headed arrows indicate respectively the center-to-center distance (ctc) between adjacent peaks and the FWHM of each beamlet \cite{radiobiologyTextbook}.}
 	\label{fig:sfrt}
 \end{figure}
@@ -494,6 +494,7 @@ Note that the light fragments emitted in proton therapy (see \autoref{fig:proton
 \end{figure}
 \subsection{Nuclear interactions of heavier ions}\label{ssec:nucl_int_ions}
 
+\autoref{fig:proton_ion_fragm} (bottom)
 
 even if the longitudinal and the laterl straggling are lower for heavier ions wrt to lighter ones (dependence on the inverse of mass and dependence on the kinetic energy) such as protons, the nuclear interactions lead to an undesired tail after the bragg peak
 
@@ -518,14 +519,65 @@ Geant4 \cite{Geant4Paper} is a Monte Carlo simulation toolkit written in C++ abl
 
 In Geant4, the multiple coulomb scattering of charged particles is simulated through the Lewis theory \cite{osti_4397140}, while the energy losses are modeled through the Bethe-Bloch formula combined with low-energy parametrizations. Statistical tools are included to simulate the range straggling of charged particles.
 
-Regarding the hadronic interactions, Geant4 offers a wide selection of nuclear models. As to protons, the dynamic part of inelastic nuclear interactions can be simulated with the Binary Cascade Model (BIC) \cite{Folger2004-pz}, which models the INC stage with nuclear potential effects derived from quantum mechanics, similarly to FLUKA. In addition to BIC, 
-
-\cite{PhysRevC.90.054602}
-
-
-\subsection{Nuclear fragmentation and cross cross section measurements}\label{ssec:nucl_fragmentation}
+Regarding the hadronic interactions, Geant4 offers a wide selection of nuclear models. Starting with protons, the dynamic part of inelastic nuclear interactions can be simulated with the Binary Cascade Model (BIC) \cite{Folger2004-pz}, which models the INC stage with nuclear potential effects derived from quantum mechanics, similarly to FLUKA. In addition to BIC, Geant4 provides the intra-nuclear cascade Liège (INCL) \cite{PhysRevC.90.054602} model, which differs from the former under many aspects, namely the nuclear potential treatment, the nuclear density and the coalescence mechanisms. The Geant4 toolkit is able to accurately describe the proton de-excitation step using standard evaporation models like the Weisskopf-Ewing approach \cite{Dostrovsky1959-na} for the emission of light fragments up to \ce{^{4}He}, or more advanced ones, such as the generalized evaporation model, which is capable of simulating the emission of heavier fragments. To evaluate nuclear cross sections, Geant4 can either calculate them (using the ENDF model like FLUKA) or search them in nuclear databases. To simulate heavier particles' interactions, Geant4 uses the G4BinaryLightIonReaction (BLI) model, an INC model extended to consider individual nucleon interactions in the calculation. In addition, Geant4 can include QMD calculations in nucleus-nucleus interactions by means of the G4QMDReaction model. Alternatively, the dynamic stage of heavy ion interactions can be simulated using the INCL++ model. The de-excitation phase of heavy ion collisions is instead described by the aforementioned de-excitation models.
+\subsection{Impact of nuclear fragmentation cross section measurements on PT and SRP}\label{ssec:nucl_fragmentation}
 
 %Returning to \autoref{fig:photon}, it is evident that the energy release of the carbon ion beam \ce{C}, unlike the case of protons \ce{p}, continues even after the BP. Since an energy release after the BP could damage healthy regions located beyond the tumor volume, it is necessary to understand its cause. Observing the quadratic dependence $\propto\frac{z^2}{\beta^2}$ in \autoref{eq:bethe_bloch}, even though $z_p<z_C$, one has $\frac{dE_p}{dx}>\frac{dE_C}{dx}$ because the kinetic energies of carbon ions are greater than those of protons.\footnote{Typically the kinetic energies $K$ are $K_p=250\,\mathrm{MeV}$ and $K_C=4800\,\mathrm{MeV}=12\,\mathrm{u}\cdot400\,\mathrm{MeV/u}$.} Indeed, the dose profile released by carbon beams is generally greater than that of protons: this would explain the higher \autoref{par:let} and \autoref{par:rbe} values for carbon in \autoref{tab:let_rbe}, but not the energy release after the BP by carbon. This effect can only be understood by analyzing the nuclear interactions of the two particles.
+
+%YOU CAN ADD A DEDICATED SECTION OR SUBSECTION WHICH DESCRIBES THE IMPORTANCE OF CROSS SECTION MEASUREMENT IN PS AND SRP. the information is in Are Further Cross Section Measurements Necessary for Space Radiation Protection or Ion Therapy Applications? Helium Projectiles paper.
+% here you have to write (citing the FOOT CDR AT PAGE 8) that studies [reference 17] have shown that scaling by 20% the cross section for inealstic processes in a Monte Carlo transport code (SHIELDIT) modified the RBE calculation by 3%. Here write also the reason why we need such stringent reqiurements on the cross section: such stringnt requirements will translate to stronger constraints in TPS and allow them to take a leap from conservative treatments ("RANGE VERIFICATION PAPER") to predictive ones. here you can re-cite (ALREADY IN BIBLIOGRAPHY) the 3-5% requirement of dose delivery uncertainty on the paper "https://www.tandfonline.com/doi/full/10.1080/0284186X.2016.1246801%" on my desktop. Here you can also mention the current nuclear models used to simulate nuclear interaction - here follow range verification paper.
+%check also this: https://agenda.infn.it/event/37490/contributions/209898/attachments/109868/156241/SpaceRadioprotection_20230913.pdf it summarises the main points of the double differential cross section paper.
+
+% in PT section: check SRP section, where this paper might be helpful: https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt
+%The dose to the planning target
+%volume (PTV) in the patient should
+%be delivered with an uncertainty of
+%less than 5% at the 2σ level (ICRU level (ICRU σ level (ICRU
+%Report 2σ level (ICRU 4 1976)
+
+% in SRP section: use this file:///C:/Users/Simone/Desktop/Towards_sustainable_human_space_exploration-priori.pdf and file:///C:/Users/Simone/Desktop/20200001895.pdf and https://link.springer.com/content/pdf/10.1140/epjp/s13360-023-04572-3.pdf
+% use also this paper (https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt) to cite the paper number [10]:sively used for dose evaluations in these contexts [26,27].
+%Fragmentation cross sections on a hydrogen target are essential to compute the dose deposited by fragments in both
+%patients and astronauts with the required accuracy, as hydrogen, alongside carbon and oxygen, is one of the most abundant
+%elements in the human body. While further data on hydrogen fragmentation for various ion beams are still needed,
+%the fragmentation of 16O is of particular interest. This ion is
+%increasingly utilized in PT facilities alongside p,
+%4He, and 12C
+%[1]. Simultaneously, 16O is the most abundant species among
+%the HZE (high atomic number Z and energy E) components of
+%cosmic rays after carbon [2,3], and it contributes significantly
+%to the total dose, exceeded only by 56Fe and 28Si [2]. Since
+%measuring 16O fragmentation directly on a liquid hydrogen
+%target is experimentally challenging (see Sec. III B), the cross
+%sections can be derived via stoichiometric subtraction from
+%measurements on C2H4 and C targets.
+%Notably, fragmentation cross sections of 16O on C2H4 are
+%also of direct interest for RPS applications. In this context,
+%light materials seem to be particularly effective as shields
+%against space radiation [2,7], and liquid hydrogen has the
+%maximum performance as shield material. However, hydrogen
+%is not a practical shield material, being a low temperature
+%liquid, so polyethylene (C2H4) can be a good compromise
+%[9,10]. The better shielding performance of light materials
+%arises from their ability to maximize energy loss per unit mass,
+%minimizing the production of secondary particles, which constitute a significant portion of the dose equivalent behind thick
+%shields [9]. While aluminum shielding can lead to an increase
+%in dose equivalent beyond approximately 20 g/cm2 due to
+%secondary particle buildup, polyethylene has been shown to
+%monotonically reduce the dose equivalent with increasing
+%thickness [10]. As shown in [10], significant discrepancies
+%remain in the calculated dose beyond the shielding when
+%different nuclear interaction models are employed. Accurate
+%fragmentation cross sections for these specific beam-target
+%combinations are essential to constrain and reduce such
+%uncertainties.
+%
+%
+% then there is also:NASA limits: the Risk of ExposureInduced Death (REID) from
+%cancer must not exceed the 3%, at a
+%95% confidence level (C.L.).
+
+
 
 \section{Physics parameters and biological aspects of ionizing radiations}\label{sec:biological_aspects_ion_rad}
 POSITION: TO BE DECIDED
