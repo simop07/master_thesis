@@ -377,7 +377,7 @@ The $y_\text{plane}$ variable truly provides the main features of MCS, and the w
 	\left(\frac{Z}{E_\text{kin}}\right)_{\text{protons}}\simeq3\cdot\frac{Z}{E_\text{kin}}_{\ce{^{12}C}},
 	\label{eq:proton_vs_carbon_lateral_scattering}
 \end{equation}
-meaning that carbon ion have beams $\simeq3$ times narrower than protons, as illustrated in \autoref{fig:lateral_scatterings}, where the beam broadening of various ions is shown. From the picture, it is clear that at the same range heavier particles posses larger beam widths than lighter ones, even if the former have higher charge $Z$. This happens because heavier particles necessitate larger $E_\text{kin}$ than lighter ones to reach the same depth, decreasing the overall beam width as expected from \autoref{eq:lateral_displacement}.
+meaning that carbon ion have beams $\simeq3$ times narrower than protons, as illustrated in \autoref{fig:lateral_scatterings}, where the beam broadening of various ions is shown. From the picture, it is clear that at the same range heavier particles possess larger beam widths than lighter ones, even if the former have higher charge $Z$. This happens because heavier particles necessitate larger $E_\text{kin}$ than lighter ones to reach the same depth, decreasing the overall beam width as expected from \autoref{eq:lateral_displacement}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{lateral_scatterings.jpg}
@@ -460,13 +460,13 @@ where $A_\text{p}$ and $A_\text{t}$ are respectively the mass numbers of project
 where $C(E)$ is an energy-dependent coefficient determined from experimental data, and $Z_{1,2}$ and $N_{1,2}$ represent respectively the proton ($p$) and neutron ($n$) number for the projectile ($1$) and the target ($2$). In addition to \autoref{eq:brad_peters}, \autoref{eq:total_nucl_cs} depends explicitly on the individual nucleon-nucleon cross sections characterizing the overall nucleus-nucleus interaction. The \autoref{eq:total_nucl_cs} was shown to accurately describe Experimental data at lower energies, as shown in \autoref{fig:total_nucl_cs} (middle).
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{total_nucl_cs.jpg}
+	\includegraphics[width=0.7\linewidth]{total_nucl_cs.pdf}
 	\caption[Nuclear cross sections for $p$-\ce{^{12}} and \ce{^{12}}-\ce{^{12}} reactions]{Total nuclear cross sections for $p$-\ce{^{12}} and \ce{^{12}}-\ce{^{12}} reactions expressed as a function of the energy per nucleon $E$. In the top panel, the $\sigma_\text{total}$ (defined in \autoref{eq:nucl_react_def}) for $p$-$p$ and $n$-$p$ collisions are plotted. In the middle panel and bottom panel, experimental data for $p$-\ce{^{12}} and \ce{^{12}}-\ce{^{12}} reactions are shown, respectively. In particular, in the middle panel the $\sigma_{R}$ of \autoref{eq:total_nucl_cs} (solid black line) is shown to accurately describe experimental data. From \cite{articleAbuIbrahim}.}
 	\label{fig:total_nucl_cs}
 \end{figure}
 Since protons and heavier ions' nuclear collisions are modeled in a different way, it is necessary to discuss them separately. As delineated in the following sections, the sole feature that these nuclear interactions have in common is nuclear fragmentation, which represents the most frequent nuclear interaction process at several hundreds MeV per nucleon (the relevant range for PT and SRP). It occurs when projectile and/or target nuclei break apart to form smaller particle pieces, called fragments. Its effects are particularly notable at larger penetration depths, although interaction processes are still dominated by the electromagnetic interactions.
 \subsection{Nuclear interactions of protons}\label{ssec:nucl_int_proton}
-When a proton hits an atomic nucleus (nucleon-nucleus collision), the collision often initiates a chain of nucleon-nucleon interactions that lead to the emission of protons, neutrons, light fragments and to the equilibration of the remnant nucleus \cite{rangeVerification}. The steps of a proton-nucleus interaction can be described by a three-stage process \cite{Azhgirey_2010,Ferrari:682497}, schematized in \autoref{fig:proton_int_steps}:
+When a proton hits an atomic nucleus (nucleon-nucleus collision), the collision often initiates a chain of nucleon-nucleon interactions that lead to the emission of protons, neutrons, light fragments and to the equilibration of the remnant nucleus \cite{rangeVerification}. The steps of a proton-nucleus interaction can be described by a three-stage process \cite{Azhgirey_2010,Ferrari:682497,rangeVerification}, schematized in \autoref{fig:proton_int_steps}:
 \begin{itemize}
 	\item the first phase is delineated by the Intra-Nuclear Cascade (INC) model, which describes nucleons interactions from $50\,\mathrm{MeV}$ to hundreds of GeV. Despite being firstly proposed in the $1940$s, the INC lies at the basis of modern Monte Carlo codes, and relies on a simple assumption: the incoming nucleon interacts with quasi-free nucleons in the target nucleus through series of two-body interactions. To model the target nucleons in a quasi-free state, the target nucleus must be treated as a Fermi gas. Furthermore, to assume independent nucleon-nucleon interactions, the time between successive collisions must be larger than the duration of a single collision. The INC describes the first $10^{-22}$--$10^{-23}\,\mathrm{s}$ of a proton-nucleon interaction, during which all the secondary particles are produced from the collision, including neutrons, protons and lighter fragments after a coalescence (grouping) mechanism. These secondaries have usually very-high energies and can either scatter again in the same nucleus or simply escape. The comprehensive description of INC process is highly complex because it requires the transport of all secondaries through the nuclear medium, whose properties (e.g., density, quantum effects, nuclear potential, binding energy, etc.) are difficult to parameterize.
 	\item The second stage is the pre-equilibrium phase, where the energy of INC particles has lowered to few tens of MeV. Yet, the nucleus is still not capable of reaching thermal equilibrium. The pre-equilibrium stage is usually simulated through the exciton model \cite{PhysRevC.28.1648,PhysRevLett.17.478}, where further coalescence processes and nucleon-nucleon collisions lead to the emission of neutrons, protons and light fragments, ultimately leaving the nucleus in an equilibrium state with a certain amount excitation energy. The first two stages compose the so-called ``dynamic'' part of the overall process.
@@ -485,7 +485,7 @@ When a proton hits an atomic nucleus (nucleon-nucleus collision), the collision 
 	\caption[Stages of nucleon-nucleus interaction]{Stages of nucleon-nucleus interaction relevant for protontherapy. On the left, the energy and the time scales od the process are shown. From \cite{rangeVerification}.}
 	\label{fig:proton_int_steps}
 \end{figure}
-Note that the light fragments emitted in proton therapy (see \autoref{fig:proton_ion_fragm} (top)) can solely originate from the target nuclei and not from the projectile proton, as the latter cannot fragment into smaller components (quarks) due to the low therapeutic energies. In \autoref{fig:target_fragments_proton}, it is possible to visualize the total dose contribution of target fragments generated in simulated nuclear collisions between protons and water. Target-like fragments are emitted at very small velocities, indeed they posses a low kinetic energy and, consequently, a very short range ($10$--$100\,\mu\mathrm{m}$), as reported in \autoref{tab:target_range}. Therefore, the energy deposits released by target fragments are located in the vicinity of their production point. These additional dose releases represent a major concern in PT applications, as they can lead to undesired biological damages in the entrance channel of the Bragg curve, a region where healthy tissues are often located.
+Note that the light fragments emitted in proton therapy (see \autoref{fig:proton_ion_fragm} (top)) can solely originate from the target nuclei and not from the projectile proton, as the latter cannot fragment into smaller components (quarks) due to the low therapeutic energies. In \autoref{fig:target_fragments_proton}, it is possible to visualize the total dose contribution of target fragments generated in simulated nuclear collisions between protons and water. From FLUKA simulations in \autoref{Pfuhl_2018}, it is estimated that all target fragments contribute $\simeq12$--$13\%$ to the total dose deposition in the entrance channel and $\simeq10$--$11\%$ to the whole Bragg curve. Furthermore, the emitted target-like fragments possess very small velocities, that is, a low kinetic energy, leading to a very short range ($10$--$100\,\mu\mathrm{m}$), as reported in \autoref{tab:target_range}. Therefore, the energy deposits released by target fragments are located in the vicinity of their production point. These additional dose releases represent a major concern in PT applications, as they can lead to undesired biological damages in the entrance channel of the Bragg curve, a region where healthy tissues are often located.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{target_fragments_proton.pdf}
@@ -494,29 +494,30 @@ Note that the light fragments emitted in proton therapy (see \autoref{fig:proton
 \end{figure}
 \begin{table}[H]
 	\centering
-	\begin{tabular}{M{2.5cm} M{3cm} M{3cm}}
+	\begin{tabular}{M{2.5cm} M{3cm} M{3cm} M{3cm}}
 		\hline
-		\multicolumn{3}{c}{\textbf{Target fragment properties}} \\
+		\multicolumn{4}{c}{\textbf{Target fragment properties}} \\
 		\hline
-		Fragment & Energy $E$ (MeV) & Range ($\mu$m) \\
+		Fragment & Energy (MeV) & LET (keV/$\mu$m) & Range ($\mu$m) \\
 		\hline
-		\ce{^{15}O}  & 1.0 & 2.3  \\
-		\ce{^{15}N}  & 1.0 & 2.5  \\
-		\ce{^{14}N}  & 2.0 & 3.6  \\
-		\ce{^{13}C}  & 3.0 & 5.4  \\
-		\ce{^{12}C}  & 3.8 & 6.2  \\
-		\ce{^{11}C}  & 4.6 & 7.0  \\
-		\ce{^{10}B}  & 5.4 & 9.9  \\
-		\ce{^{8}Be}  & 6.4 & 15.7 \\
-		\ce{^{6}Li}  & 6.8 & 26.7 \\
-		\ce{^{4}He}  & 6.0 & 48.5 \\
-		\ce{^{3}He}  & 4.7 & 38.8 \\
-		\ce{^{2}H}   & 2.5 & 68.9 \\
+		\ce{^{15}O}  & 1.0 & 983  & 2.3  \\
+		\ce{^{15}N}  & 1.0 & 925  & 2.5  \\
+		\ce{^{14}N}  & 2.0 & 1137 & 3.6  \\
+		\ce{^{13}C}  & 3.0 & 951  & 5.4  \\
+		\ce{^{12}C}  & 3.8 & 912  & 6.2  \\
+		\ce{^{11}C}  & 4.6 & 878  & 7.0  \\
+		\ce{^{10}B}  & 5.4 & 643  & 9.9  \\
+		\ce{^{8}Be}  & 6.4 & 400  & 15.7 \\
+		\ce{^{6}Li}  & 6.8 & 215  & 26.7 \\
+		\ce{^{4}He}  & 6.0 & 77   & 48.5 \\
+		\ce{^{3}He}  & 4.7 & 89   & 38.8 \\
+		\ce{^{2}H}   & 2.5 & 14   & 68.9 \\
 		\hline
 	\end{tabular}
-	\caption[Target fragment energy and range]{Expected average kinetic energy and range for target fragments produced in water by a $180\,\mathrm{MeV}$ proton beam \cite{protonRadiobiology}.}
+	\caption[Target fragment energy, LET and range]{Expected average kinetic energy, Linear Energy Transfer (LET, see (?? sec LET)), and range for target fragments produced in water by a $180\,\mathrm{MeV}$ proton beam \cite{protonRadiobiology}.}
 	\label{tab:target_range}
 \end{table}
+To conclude this section, note that the target fragments \ce{^{15}O} and \ce{^{11}C} in \autoref{tab:target_range} are two of the most frequently produced $\beta^+$ emitters in a human body treated with proton therapy. This means that some time after their production (comparable to their half-lives), these fragments emit a positron that travels few mm before annihilating with an electron of the medium. The annihilation produces two photons in coincidence, each with an energy of $511\,\mathrm{keV}$. If a PET detector is used to measure the two $\gamma$ rays in coincidence, it is possible to retrieve the original $e^+e^-$ annihilation position and utilize it to monitor the proton path and range during treatment. This advanced modality belongs to the broader group of \textit{in vivo} range verification methods, which aim to reduce range uncertainties by integrating the therapeutic dose delivery with real-time monitoring \cite{Parodi2018-lx}.
 \subsection{Nuclear interactions of heavy ions}\label{ssec:nucl_int_ions}
 When an heavy ion hits a nucleus (nucleus-nucleus collision), the interaction is endowed with more degrees of freedom than a simpler proton-nucleus collision, as the heavy ion is constituted of bounded nucleons with an interconnected dynamic. This makes heavy ions collisions inevitably more unpredictable than proton-nucleus interactions, with a wider phenomenology and increased randomness. For example, as illustrated in \autoref{fig:proton_ion_fragm} (bottom), heavy ion interactions lead to both projectile and target fragmentation, in contrast to protons which can only produce target-like fragments.
 \begin{figure}[H]
@@ -525,27 +526,37 @@ When an heavy ion hits a nucleus (nucleus-nucleus collision), the interaction is
 	\caption[Fragment emission in nucleon-nucleus and nucleus-nucleus interactions]{Top: emission of a target fragment after a proton-nucleus interaction. Bottom: projectile-like and target-like fragments ejected after a nucleus-nucleus collision. From \cite{rangeVerification}.}
 	\label{fig:proton_ion_fragm}
 \end{figure}
-
-
-
-
-In \autoref{ssec:implications_PT} and \autoref{ssec:implications_PT2}, it was stated that the fluctuations induced by longitudinal and lateral straggling are lower for heavier ions compared to protons. Despite this, nuclear interactions are somehow more impactful on heavy ions than on protons, especially regarding the fragmentation processes. This can be noted in \autoref{fig:proton_carbon_absolute}, which shows a comparison of dose-averaged Linear Energy Transfer (LET) between protons and carbon ions in water with the same range. The concept of LET will be specified in (?? sec LET), but for the moment it can be viewed simply as the analogous of the energy loss per unit path length $dE/dx$. Although the common practice in literature is to normalize different Bragg curves either to have the same area or to posses the same peak height (as shown in \autoref{fig:proton_carbon_width}), in \autoref{fig:proton_carbon_absolute} the Bragg functions are shown without normalization. This allows us to point out several features regarding the different profile distribution of protons and carbons. First, \ce{^{12}C} releases more energy than the proton along all the particles' range, an effect which is due to the quadratic dependence $Z^2$ of \autoref{eq:bethe_bloch}. Second, after the Bragg peak, carbon ions release a much larger dose than protons, visible from the heavy tail located after the distal fall-off of the Bragg region. This unique feature is valid for all the ions heavier than protons, and can be explained only through nuclear fragmentation induced by heavy ions, which generates not only target fragments (as proton-nucleus collisions), but also projectile fragments. As projectile fragments originate from the break-up of the incoming nucleus, they have an atomic number $Z$ lower than that of the fissioning nucleus, but nearly the same direction, kinetic energy per nucleon and, consequently, the same $\beta$. Hence, according to the Bethe-Bloch formula in \autoref{eq:bethe_bloch}, they dissipate a lower amount of energy per unit length compared to the primary, traversing longer distances. Similar conclusions can be drawn analyzing \autoref{eq:range_scaling_different_particles}: lower-$Z$ fragments would have a larger range than the primary particle from which they originate. Both these arguments clearly explain the downstream tail of heavy ions, visible also in \autoref{fig:proton_carbon_width} and \autoref{fig:bragg_peaks_carbon_energies} Bragg curves.
+At the MeV/u energy range, nuclear collisions of heavy ions mainly induce target or projectile fragmentation, resulting either from central head-on collisions or from peripheral interactions. The former are mainly characterized by violent nuclear spallation which can lead to the disintegration of target and projectile nuclei, whereas the latter can lead to the loss of one or more nucleons of the target. For geometric reasons, peripheral collisions occur more frequently, and can be described by the abrasion-ablation model \cite{Serber:1947zza}, which is schematized in \autoref{fig:abrasion_ablation}. In the fast abrasion stage ($10^{-22}$--$10^{-23}\,\mathrm{s}$), the projectile and target nuclei overlap creating a hot interaction zone (the ``fireball'') where the superimposed nucleons are abraded, whereas the outer nucleons (the ``spectators'') are only slightly affected. After the abrasion, an excited quasi-projectile is generated with approximately the same initial velocity of the projectile. A quasi-target fragment roughly at rest is also formed, as well as several excited lighter fragments. Successively, during the slow ablation step ($10^{-18}$--$10^{-16}\,\mathrm{s}$), the remaining projectile, target and light fragments as well as the fireball de-excite by evaporation further emitting single nucleons and/or light nucleon clusters. While projectile fragments appear forward-peaked in the laboratory frame of reference, the target fragments are emitted almost isotropically.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{abrasion_ablation.pdf}
+	\caption[Abrasion-ablation model for heavy ion collisions]{Schematized abrasion-ablation model for peripheral nuclear collision as described in \cite{Serber:1947zza}. From \cite{Gunzert-Marx_2008}.}
+	\label{fig:abrasion_ablation}
+\end{figure}
+To describe the nuclear interactions of heavy ions, models usually divide the reaction in two stages: a dynamic one, taking into account the abrasion phase, and a static one, which includes the ablation step. While the static stage of nucleus-nucleus collisions can be described with the same de-excitation models of nucleon-nucleus interactions (see \autoref{ssec:nucl_int_proton}), the dynamic phase requires greater attention, and can be modeled through \cite{rangeVerification}:
+\begin{itemize}
+	\item Intra-Nuclear Casascade (INC) model, for nuclei with energies above $100\,\mathrm{MeV/u}$. The description is comparable to the one outlined for protons in \autoref{ssec:nucl_int_proton}, with the difference that in nucleus-nucleus interactions more nucleon-nucleus reactions can take place.
+	\item Quantum Molecular Dynamics(QMD), for projectile energies between $50$--$100\,\mathrm{MeV/u}$. In QMD, each nucleon is described by a Gaussian wave packet, and all nucleons in both the target and projectile nuclei participate in the collision. To predict the final state of the interaction process, where heavy or light nuclei as well as secondary protons and neutrons can be emitted, Hamiltonians describing each nucleon-nucleon interaction need to be minimized, making the QMD model computationally more expensive than the INC.
+	\item Boltzmann-Master-Equation (BME) model, describing the thermalization of composite nuclei for projectiles with energies below $100\,\mathrm{MeV/u}$. The BME approach uses time-dependent transport equation to model the evolution of statistical states from a pre-equilibrium phase to the final de-excitation stage, where nuclear equilibrium is reached. The state evolution is described through sequences of two-body interactions which lead to the emission of neutrons, protons and heavy/light nuclei.
+\end{itemize}
+\subsection{Consequences of nuclear fragmentation}\label{ssec:nucl_fragmentation}
+In \autoref{ssec:implications_PT} and \autoref{ssec:implications_PT2}, it was stated that the fluctuations induced by longitudinal and lateral straggling are lower for heavier ions compared to protons. Despite this, nuclear interactions are somehow more impactful on heavy ions than on protons, especially regarding the fragmentation processes. In the transverse direction, nuclear fragmentation produces an angular distribution which is wider than the lateral spread caused by multiple coulomb scattering. The variations induced by fragmentation in the longitudinal direction can be visualized in \autoref{fig:proton_carbon_absolute}, which shows a comparison of dose-averaged Linear Energy Transfer (LET) between protons and carbon ions in water with the same range. The concept of LET will be specified in (?? sec LET), but for the moment it can be viewed simply as the analogous of the energy loss per unit path length $dE/dx$. Although the common practice in literature is to normalize different Bragg curves either to have the same area or to possess the same peak height (as shown in \autoref{fig:proton_carbon_width}), in \autoref{fig:proton_carbon_absolute} the Bragg functions are shown without normalization. This allows us to point out several features regarding the different profile distribution of protons and carbons. First, \ce{^{12}C} releases more energy than the proton along all the particles' range, an effect which is due to the quadratic dependence $Z^2$ of \autoref{eq:bethe_bloch}. Second, after the Bragg peak, carbon ions release a much larger dose than protons, visible from the heavy tail located after the distal fall-off of the Bragg region. This unique feature is valid for all the ions heavier than protons, and can be explained only through nuclear fragmentation induced by heavy ions, which generates not only target fragments (as proton-nucleus collisions), but also projectile fragments. As projectile fragments originate from the break-up of the incoming nucleus, they have an atomic number $Z$ lower than that of the fissioning nucleus, but nearly the same direction, kinetic energy per nucleon and, consequently, the same $\beta$. Hence, according to the Bethe-Bloch formula in \autoref{eq:bethe_bloch}, they dissipate a lower amount of energy per unit length compared to the primary, traversing longer distances. Similar conclusions can be drawn analyzing \autoref{eq:range_scaling_different_particles}: lower-$Z$ fragments would have a larger range than the primary particle from which they originate. Both these arguments clearly explain the downstream tail of heavy ions, visible also in \autoref{fig:proton_carbon_width} and \autoref{fig:bragg_peaks_carbon_energies} Bragg curves.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{proton_carbon_absolute.pdf}
 	\caption[Un-normalized depth-dose profile of protons and carbons]{Comparison of dose-averaged Linear Energy Transfer (LET) between protons and carbon ions in water, simulated with Geant4. From \cite{Byun2021-rz}.}
 	\label{fig:proton_carbon_absolute}
 \end{figure}
-Understanding how each nuclear fragment contributes to the total dose released by an heavy ion is an arduous task. Nonetheless, in \autoref{fig:projectile_fragments_carbon} (bottom), it is possible to appreciate the dose build-up in the Bragg curve tail generated by light projectile fragments, which are originated from a penetrating \ce{^{12}C} in water.
+Understanding how each nuclear fragment contributes to the total dose released by an heavy ion is an arduous task. Nonetheless, in \autoref{fig:projectile_fragments_carbon} (bottom), it is possible to appreciate the (simulated) dose build-up in the Bragg curve tail generated by light projectile fragments, which are originated from a penetrating \ce{^{12}C} in water.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{projectile_fragments_carbon.jpg}
+	\includegraphics[width=0.7\linewidth]{projectile_fragments_carbon.pdf}
 	\caption[Fragment dose contributions to \ce{^{12}C}]{Depth-dose profile of $200\,\mathrm{MeV}$ \ce{^{12}C} in water with dose contributions from primary ions and fragments. Experimental measurements (red dots) of the relative ionization are compatible with the Monte Carlo simulation evaluated with the PHITS (Particle and Heavy Ion Transport code System) tool. At the bottom, ionization curves of fragments with different $Z$, calculated with PHITS. The arrow indicates the thickness of the water target. From \cite{Gunzert-Marx_2008}.}
 	\label{fig:projectile_fragments_carbon}
 \end{figure}
 The \autoref{fig:bragg_peaks_carbon_energies} provides further food for thought in the context of nuclear fragmentation. Indeed, as the penetration depth of carbon ions increases, the peak-to-entrance dose ratio diminishes dramatically from $\simeq7$ at $200\,\mathrm{MeV/u}$ to $3.4$ at $400\,\mathrm{MeV/u}$. This proves that the number of primary \ce{^{12}C} decreases with the range as a consequence of fragmentation. The loss of beam fluence strictly depends on the inelastic nuclear cross section in \autoref{eq:nucl_int} and varies sharply from particle to particle. For example, at the range of $16\,\mathrm{cm}$, nearly $20\%$ of $160\,\mathrm{MeV}$ protons would be lost due to nuclear reactions, whereas approximately $50\%$ of $290\,\mathrm{MeV/u}$ carbons would undergo nuclear reactions before reaching the same distance \cite{rangeVerification}. In addition to this, in \autoref{fig:bragg_peaks_carbon_energies} it is possible to observe the broadening of the Bragg peak width with the penetration depth. This effect, expected from \autoref{eq:explicit_range_error}, is caused by the range fluctuations induced by both the primary and its fragments.
 
-The nuclear fragmentation effects are even more pronounced in ions heavier than \ce{^{12}C}. For example, \autoref{fig:heavy_fragm} illustrates the fragment dose contributions to a $670\,\mathrm{MeV/u}$ \ce{^{20}Ne} beam with a range of $36\,\mathrm{cm}$ in water. In this case, nuclear fragmentation dominates the dose profile not only beyond the Bragg peak, but also at the entrance channel, yielding a peak-to-entrance dose ratio of $\simeq1.5$. In PT, an overwhelming dose at the entrance channel would completely degrade the advantages of the Bragg peak. For this reason, no beams heavier than \ce{^{16}O} are effectively employed in clinical practice. Clearly, the study of nuclear fragmentation for ions more massive than \ce{^{16}O} should not be discarded. To this regard, the National Center for Oncological Hadrontherapy (CNAO) in Pavia (Italy) is currently developing new beam sources up to iron that will have a fundamental relevance for industrial applications and non-clinical research purposes like SRP.
+The nuclear fragmentation effects are even more pronounced in ions heavier than \ce{^{12}C}. For example, \autoref{fig:heavy_fragm} illustrates the fragment dose contributions to a $670\,\mathrm{MeV/u}$ \ce{^{20}Ne} beam with a range of $36\,\mathrm{cm}$ in water. In this case, nuclear fragmentation dominates the dose profile not only beyond the Bragg peak, but also at the entrance channel, yielding a peak-to-entrance dose ratio of $\simeq1.5$. In PT, an overwhelming dose at the entrance channel would completely degrade the advantages of the Bragg peak, which allows to release an high conformal dose to the cancerous area. For this reason, no beams heavier than \ce{^{16}O} are effectively employed in clinical practice. Clearly, the study of nuclear fragmentation for ions more massive than \ce{^{16}O} should not be discarded. To this regard, the National Center for Oncological Hadrontherapy (CNAO) in Pavia (Italy) is currently developing new beam sources up to iron that will have a fundamental relevance for industrial applications and non-clinical research purposes like SRP.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{heavy_fragm.pdf}
@@ -566,27 +577,43 @@ Geant4 \cite{Geant4Paper} is a Monte Carlo simulation toolkit written in C++ abl
 In Geant4, the multiple coulomb scattering of charged particles is simulated through the Lewis theory \cite{osti_4397140}, while the energy losses are modeled through the Bethe-Bloch formula combined with low-energy parametrizations. Statistical tools are included to simulate the range straggling of charged particles.
 
 Regarding the hadronic interactions, Geant4 offers a wide selection of nuclear models. Starting with protons, the dynamic part of inelastic nuclear interactions can be simulated with the Binary Cascade Model (BIC) \cite{Folger2004-pz}, which models the INC stage with nuclear potential effects derived from quantum mechanics, similarly to FLUKA. In addition to BIC, Geant4 provides the intra-nuclear cascade Liège (INCL) \cite{PhysRevC.90.054602} model, which differs from the former under many aspects, namely the nuclear potential treatment, the nuclear density and the coalescence mechanisms. The Geant4 toolkit is able to accurately describe the proton de-excitation step using standard evaporation models like the Weisskopf-Ewing approach \cite{Dostrovsky1959-na} for the emission of light fragments up to \ce{^{4}He}, or more advanced ones, such as the generalized evaporation model, which is capable of simulating the emission of heavier fragments. To evaluate nuclear cross sections, Geant4 can either calculate them (using the ENDF model like FLUKA) or search them in nuclear databases. To simulate heavier particles' interactions, Geant4 uses the G4BinaryLightIonReaction (BLI) model, an INC model extended to consider individual nucleon interactions in the calculation. In addition, Geant4 can include QMD calculations in nucleus-nucleus interactions by means of the G4QMDReaction model. Alternatively, the dynamic stage of heavy ion interactions can be simulated using the INCL++ model. The de-excitation phase of heavy ion collisions is instead described by the aforementioned de-excitation models.
-\subsection{Impact of nuclear fragmentation cross section measurements on particle therapy and space radiation protection}\label{ssec:nucl_fragmentation}
-Dire che siamo fortunati ad avere certi andamenti di cross section  -> sia per protoni che per carboni.
+\subsection{Impact of nuclear fragmentation cross section measurements on particle therapy and space radiation protection}\label{ssec:cross_sect_nucl_frag}
+As heavily discussed in \autoref{ssec:nucl_int_proton} and \autoref{ssec:nucl_int_ions}, both projectile and target fragments dominate the dynamics of nuclear interactions of protons and heavy ions. Furthermore, according to \autoref{ssec:nucl_fragmentation}, one of their major effects is to modify the original dose distribution of charged particles, especially in the entrance channel of the Bragg curve, but even beyond the Bragg maximum in the case of heavy ion irradiation. The dose fluctuations induced by fragments do not affect the mere energy deposit, but also the irradiation position. On one hand, it is true that the inherent randomness of nuclear fragmentation can be simulated with the Monte Carlos tools described in \autoref{ssec:monte_carlo_codes}; on the other hand, these Monte Carlo codes lack fundamental experimental data to be used for their validation, benchmarking and improvement. As reported in \cite{areFurtherCrossSectionMeasurementsNecessary}, many papers including \cite{Durante_2016,10.3389/fonc.2016.00065,RevModPhys.83.1245} deem double differential\footnote{In the fragment emission angle and kinetic energy.} fragmentation cross sections essential for both PT and SRP applications. In the following paragraphs, the implications of fragmentation cross section measurement on PT and SRP are briefly discussed and motivated.
 
-range verification paper: Thedosedistributionsaremodified.Inthebuildupregionof
-theBraggcurve,secondaryparticlescontributeconsiderablyto
-thetotalenergydeposition.Moreover,theheightoftheBragg
-peakismodified.Inaddition,incaseofheavyionirradiation,
-doseisalsodeliveredbeyondtheBraggpeak.Finally,thelow
-energeticsecondaryparticles(includingneutrons),whichare
-typicallyemittedatlargerangles,contributetothe“lowdose
-envelope”aroundthebeam.Eventhoughthedosecontribu-
-tionofasinglepencilbeamistiny,whencombiningthou-
-sandsofthem,thedosimetricalandbiologicaleffectscannot
-beneglected(38, 39), becausethechargedfragmentscanbe
-particularlydamaging(seeSection2.3).
+First and foremost, \autoref{fig:total_nucl_cs} gives us important points of reflections on proton and heavy ion  integral cross sections $\sigma_{R}$. Indeed, from the middle and bottom plots, $\sigma_{R}$ exhibits high values at low energies, before decreasing down to a constant value at larger energies. This behavior, observed for both protons and \ce{^{12}C} ions, is extremely favorable: the probability of undergoing nuclear interactions increases when particles are slowing down, that is, when they are approaching the Bragg peak, minimizing the fragmentation probability inside the entrance channel and, consequently, the damages to healthy tissues in PT treatment. For $250\,\mathrm{MeV}$ protons, the behavior of cross section as a function of the path length is displayed in \autoref{fig:proton_cross_sec_with_depth}. After assuming a constant value along the entrance channel, the nuclear reaction cross section surges at the Bragg peak, in the last $8$--$10\,\mathrm{cm}$ of range. From the same picture, it is possible to view that only $60\%$ of the primaries are able to reach the Bragg peak due to nuclear inelastic collisions. Although the nuclear reaction cross section is larger at the Bragg peak region, nuclear fragmentation induces more biological damages at the entrance channel ($\simeq8.3\%$) rather than at the Bragg maximum ($2.5\%$) when compared to electromagnetic interactions, as illustrated in \autoref{fig:nucl_vs_electr_biol_effects}. In other words, both the fragmentation and ionization events increase when approaching the Bragg peak, but at that position the biological effects are dominated by electromagnetic ionizations \cite{protonRadiobiology}.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{proton_cross_sec_with_depth.png}
+		\caption{Fraction of primary protons undergoing inelastic nuclear reactions (black line) along the Bragg curve in water for $250\,\mathrm{MeV}$ protons, with the corresponding cross section values (red line) calculated with TRiP98 \cite{KRAMER2009989}. From \cite{protonRadiobiology}.}
+		\label{fig:proton_cross_sec_with_depth}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{nucl_vs_electr_biol_effects.png}
+		\caption{Biological impact of ionization and target fragmentation for protons evaluated at the entrance channel and at the Bragg peak. From \cite{protonRadiobiology}.}
+		\label{fig:nucl_vs_electr_biol_effects}
+	\end{subfigure}
+	\caption{Nuclear and biological effects of protons in water.}
+	\label{fig:proton_nuclear_biological_effects}
+\end{figure}
+Returning to the discussion of cross sections, many studies remark the importance of measuring double differential cross sections for the production of light (\ce{^{1,2,3}H} and \ce{^{3,4}He}) and heavy (\ce{C}, \ce{O}, \ce{Si} and \ce{Fe}) fragments in the field of SRP, whose final aim is to design shielding structures for spacecrafts that protect astronauts and on-board electronics from cosmic radiation. Hereafter, the main reasons are reported:
+\begin{itemize}
+	\item neutrons and light ion fragments dominate the dose equivalent (see ?? dose eq.) for spacecrafts with thickness $\gtrsim20\,\mathrm{g/cm}^2$ \cite{WALKER20131792,NORBURY201490,HUFF202390}.
+	\item due to their low charge and mass, light fragments are scattered at large angles, thus they require full 3-dimensional transport methods that, in turn, necessitate double differential cross sections as input \cite{WILSON20146}.
+	\item Comparisons of many transport codes (including the ones in \autoref{ssec:monte_carlo_codes}) exhibit large differences in light ion fragment production.
+	\item Light ion cross sections carry large physics uncertainties in the context of SRP; at the same time, there is an extreme lack of light ion cross sections measurements.
+	\item Few studies report double differential cross section measurements for \ce{O}, \ce{Si} and \ce{Fe} \cite{areFurtherCrossSectionMeasurementsNecessary}.
+	\item According to \
+\end{itemize}
+In addition to light fragments, heavier ion ...
 
-%Returning to \autoref{fig:photon}, it is evident that the energy release of the carbon ion beam \ce{C}, unlike the case of protons \ce{p}, continues even after the BP. Since an energy release after the BP could damage healthy regions located beyond the tumor volume, it is necessary to understand its cause. Observing the quadratic dependence $\propto\frac{z^2}{\beta^2}$ in \autoref{eq:bethe_bloch}, even though $z_p<z_C$, one has $\frac{dE_p}{dx}>\frac{dE_C}{dx}$ because the kinetic energies of carbon ions are greater than those of protons.\footnote{Typically the kinetic energies $K$ are $K_p=250\,\mathrm{MeV}$ and $K_C=4800\,\mathrm{MeV}=12\,\mathrm{u}\cdot400\,\mathrm{MeV/u}$.} Indeed, the dose profile released by carbon beams is generally greater than that of protons: this would explain the higher \autoref{par:let} and \autoref{par:rbe} values for carbon in \autoref{tab:let_rbe}, but not the energy release after the BP by carbon. This effect can only be understood by analyzing the nuclear interactions of the two particles.
+in addition, aways in the SRP field, https://link.springer.com/content/pdf/10.1140/epjp/s13360-023-04572-3.pdf paper shows that 
 
-%YOU CAN ADD A DEDICATED SECTION OR SUBSECTION WHICH DESCRIBES THE IMPORTANCE OF CROSS SECTION MEASUREMENT IN PS AND SRP. the information is in Are Further Cross Section Measurements Necessary for Space Radiation Protection or Ion Therapy Applications? Helium Projectiles paper.
-% here you have to write (citing the FOOT CDR AT PAGE 8) that studies [reference 17] have shown that scaling by 20% the cross section for inealstic processes in a Monte Carlo transport code (SHIELDIT) modified the RBE calculation by 3%. Here write also the reason why we need such stringent reqiurements on the cross section: such stringnt requirements will translate to stronger constraints in TPS and allow them to take a leap from conservative treatments ("RANGE VERIFICATION PAPER") to predictive ones. here you can re-cite (ALREADY IN BIBLIOGRAPHY) the 3-5% requirement of dose delivery uncertainty on the paper "https://www.tandfonline.com/doi/full/10.1080/0284186X.2016.1246801%" on my desktop. Here you can also mention the current nuclear models used to simulate nuclear interaction - here follow range verification paper.
-%check also this: https://agenda.infn.it/event/37490/contributions/209898/attachments/109868/156241/SpaceRadioprotection_20230913.pdf it summarises the main points of the double differential cross section paper.
+
+% here you have to write (citing the FOOT CDR AT PAGE 8) that studies [reference 17] have shown that scaling by 20% the cross section for inealstic processes in a Monte Carlo transport code (SHIELDIT) modified the RBE calculation by 3%. Here write also the reason why we need such stringent reqiurements on the cross section: such stringnt requirements will translate to stronger constraints in TPS and allow them to take a leap from conservative treatments ("RANGE VERIFICATION PAPER") to predictive ones. here you can re-cite (ALREADY IN BIBLIOGRAPHY) the 3-5% requirement of dose delivery uncertainty on the paper "https://www.tandfonline.com/doi/full/10.1080/0284186X.2016.1246801%" on my desktop.
 
 % in PT section: check SRP section, where this paper might be helpful: https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt
 %The dose to the planning target
@@ -595,50 +622,7 @@ particularlydamaging(seeSection2.3).
 %less than 5% at the 2σ level (ICRU level (ICRU σ level (ICRU
 %Report 2σ level (ICRU 4 1976)
 
-% in SRP section: use this file:///C:/Users/Simone/Desktop/Towards_sustainable_human_space_exploration-priori.pdf and file:///C:/Users/Simone/Desktop/20200001895.pdf and https://link.springer.com/content/pdf/10.1140/epjp/s13360-023-04572-3.pdf
-% use also this paper (https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt) to cite the paper number [10]:sively used for dose evaluations in these contexts [26,27].
-%Fragmentation cross sections on a hydrogen target are essential to compute the dose deposited by fragments in both
-%patients and astronauts with the required accuracy, as hydrogen, alongside carbon and oxygen, is one of the most abundant
-%elements in the human body. While further data on hydrogen fragmentation for various ion beams are still needed,
-%the fragmentation of 16O is of particular interest. This ion is
-%increasingly utilized in PT facilities alongside p,
-%4He, and 12C
-%[1]. Simultaneously, 16O is the most abundant species among
-%the HZE (high atomic number Z and energy E) components of
-%cosmic rays after carbon [2,3], and it contributes significantly
-%to the total dose, exceeded only by 56Fe and 28Si [2]. Since
-%measuring 16O fragmentation directly on a liquid hydrogen
-%target is experimentally challenging (see Sec. III B), the cross
-%sections can be derived via stoichiometric subtraction from
-%measurements on C2H4 and C targets.
-%Notably, fragmentation cross sections of 16O on C2H4 are
-%also of direct interest for RPS applications. In this context,
-%light materials seem to be particularly effective as shields
-%against space radiation [2,7], and liquid hydrogen has the
-%maximum performance as shield material. However, hydrogen
-%is not a practical shield material, being a low temperature
-%liquid, so polyethylene (C2H4) can be a good compromise
-%[9,10]. The better shielding performance of light materials
-%arises from their ability to maximize energy loss per unit mass,
-%minimizing the production of secondary particles, which constitute a significant portion of the dose equivalent behind thick
-%shields [9]. While aluminum shielding can lead to an increase
-%in dose equivalent beyond approximately 20 g/cm2 due to
-%secondary particle buildup, polyethylene has been shown to
-%monotonically reduce the dose equivalent with increasing
-%thickness [10]. As shown in [10], significant discrepancies
-%remain in the calculated dose beyond the shielding when
-%different nuclear interaction models are employed. Accurate
-%fragmentation cross sections for these specific beam-target
-%combinations are essential to constrain and reduce such
-%uncertainties.
-%
-%
-% then there is also:NASA limits: the Risk of ExposureInduced Death (REID) from
-%cancer must not exceed the 3%, at a
-%95% confidence level (C.L.).
-
-
-
 \section{Physics parameters and biological aspects of ionizing radiations}\label{sec:biological_aspects_ion_rad}
-POSITION: TO BE DECIDED
-\cite{protonRadiobiology}:
+%POSITION: TO BE DECIDED
+
+%for analytical formula of biological dose refer to https://iopscience.iop.org/article/10.1088/1367-2630/10/7/075003/pdf
