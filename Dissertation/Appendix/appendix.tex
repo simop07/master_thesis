@@ -2,7 +2,13 @@
 \renewcommand{\chaptermark}[1]{%
 	\markboth{\MakeUppercase{APPENDIX\ \thechapter\ --\ #1}}{}
 }
-\raggedbottom % to solve vertical space problems
+\chapter{Physics parameters and biological aspects of ionizing radiations}\label{sec:biological_aspects_ion_rad}
+%for analytical formula of biological dose refer to https://iopscience.iop.org/article/10.1088/1367-2630/10/7/075003/pdf
+
+
+
+
+
 \chapter{\texorpdfstring{$\chi^2$}{χ²} minimization method}\label{ch:chi_squared_min}
 The $\chi^2$ minimization method is founded on the $\chi^2$ test, a probabilistic test that provides criteria for verifying the consistency of theoretical hypotheses with a set of experimental data. Specifically, the $\chi^2$ test is based on the evaluation of the $\chi^2$ function, reported in \autoref{eq:chi_square_method}, which expresses the discrepancy between theory and experimental data. This deviation is calculated using the sum of the squared differences between the measured values $y_k$ and the expected values $f\left(x_k;\alpha_j\right)$, and depends on the measurements $x_k$ and the parameters $\alpha_j$:
 \begin{equation}
@@ -77,4 +83,3 @@ where $c_i\left(A\right)=A_i-A$ \cite{valle2019design}. Combining \autoref{eq:fi
 	\end{aligned}
 	\label{eq:alm_analysis}
 \end{equation}
-\flushbottom % restore default
