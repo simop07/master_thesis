@@ -58,7 +58,7 @@ Using the particle fluence, it is possible to define the absorbed dose $D$ as th
 \end{equation}
 where $dE/dx$ is the stopping power defined in \autoref{eq:bethe_bloch}, $N$ is the number of particles in the beam and $\rho$ is the volumetric mass density of the irradiated material (obtained from its cross-sectional area $A$ and its thickness $\Delta x$, which is parallel to the beam direction). According to the International System of Units (SI), the unit of measurement of the absorbed dose $D$ is the Gray (Gy), and represents the amount of radiative energy received by the patient during therapy divided by the mass of the irradiated tissue.
 
-Generally, when two tissues absorb the same dose, the subsequent biological effects may be different. This is connected to the fact that the biological damage varies depending on the type and energy of the absorbed radiation as well as on repair mechanisms activated by the irradiated tissue after treatment. In radiotherapy, the local biological effects can be described by several quantities, namely the LET (see ?? let), the RBE (see ?? rbe) and the OER (see ?? OER). Due to the inherent complexities of these quantities, everyday radiation protection uses a simpler way to asses the biological effectiveness of a given radiation, which is based on the concept of equivalent dose $H$:
+Generally, when two tissues absorb the same dose, the subsequent biological effects may be different. This is connected to the fact that the biological damage varies depending on the type and energy of the absorbed radiation as well as on repair mechanisms activated by the irradiated tissue after treatment. In radiotherapy, the local biological effects can be described by several quantities, namely the LET (see \autoref{ssec:let}), the RBE (see \autoref{ssec:rbe}) and the OER (see \autoref{ssec:oer}). Due to the inherent complexities of these quantities, everyday radiation protection uses a simpler way to asses the biological effectiveness of a given radiation, which is based on the concept of equivalent dose $H$:
 \begin{equation}
 	H=\sum_{R}w_RD_{R},
 	\label{eq:dose_eq}
@@ -82,7 +82,7 @@ Although the LET has a very similar definition to the stopping power $dE/dx$ def
 \end{equation}
 where $K_{E>\Delta}$ is the kinetic energy of electrons with energy $E>\Delta$.
 
-The LET value is inherently connected to particles' ionization density: high-LET radiations are densely ionizing, while low-LET radiations produce sparse ionization events, as illustrated in \autoref{fig:ioniz_density}. As they generate more frequent and clustered ionization events, higher-LET radiations cause greater biological damage to tissues, as schematized in \autoref{fig:damage_let}. \autoref{fig:damage_let} shows that low-LET radiations, such as X-rays or $\gamma$ rays, mainly induce isolated DNA damage leading to SSBs, while high-LET radiations, including $\alpha$ particles or heavy ions, generate more destructive DNA damage, resulting in DSBs \cite{Roobol2020-fp}.
+The LET value is inherently connected to particles' ionization density: high-LET radiations are densely ionizing, while low-LET radiations produce sparse ionization events, as illustrated in \autoref{fig:ioniz_density}. As they generate more frequent and clustered ionization events, higher-LET radiations cause greater biological damage to tissues, as schematized in \autoref{fig:damage_let}. \autoref{fig:damage_let} shows that low-LET radiations, such as X-rays and protons, mainly induce isolated DNA damage leading to SSBs, while high-LET radiations, including $\alpha$ particles, neutrons and heavy ions, generate more destructive DNA damage, resulting in DSBs \cite{Roobol2020-fp}. Some values of LET are reported in both \autoref{tab:target_range} and \autoref{tab:let_rbe}.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.48\linewidth}
@@ -96,34 +96,159 @@ The LET value is inherently connected to particles' ionization density: high-LET
 		\centering
 		\includegraphics[width=\linewidth]{damage_let.png}
 		\caption{Typical DNA damage caused by low-LET radiation (top) and high-LET radiation (bottom). From \cite{Fabbrizi_Parsons_2022}.}
-		\label{fig:let}
+		\label{fig:damage_let}
 	\end{subfigure}
 	\caption[Ionization density and LET]{How different values of LET lead to diverse ionization densities and biological consequences.}
-	\label{fig:damage_let}
+	\label{fig:let1}
 \end{figure}
-From \autoref{fig:proton_carbon_let}, it can be viewed that the LET values of protons and carbons rise with the penetration depth, in accordance with the fact that the stopping power increases when particles slow down. On the other hand, in the entrance channel protons and carbon ions show discrepancies: the former cause damages every $90\,\mathrm{nm}$ (insufficient to hit the DNA double strand, whose diameter is $2\,\mathrm{nm}$), while carbons damage the DNA every $4\,\mathrm{nm}$ (sufficient to generate an SSB). Similarly, at the Bragg peak protons and carbon ions cause damage every $4\,\mathrm{nm}$ and every $0.3\,\mathrm{nm}$ (sufficient to generate SSBs and DSBs, respectively). Therefore, carbon ions are more damaging than protons near the Bragg maximum, but in the entrance channel they cause much more damage than protons. This difference must be taken into account during treatment planning in order to adapt the patient's characteristics to the beam properties.
+From \autoref{fig:proton_carbon_let}, it can be viewed that the LET values of protons and carbons rise with the penetration depth, in accordance with the fact that the stopping power increases when particles slow down. On the other hand, in the entrance channel protons and carbon ions show discrepancies: the former cause damages every $90\,\mathrm{nm}$ (insufficient to hit the DNA double strand, whose diameter is $2\,\mathrm{nm}$), while carbons damage the DNA every $4\,\mathrm{nm}$ (sufficient to generate an SSB). Similarly, at the Bragg peak protons and carbon ions cause damage every $4\,\mathrm{nm}$ and every $0.3\,\mathrm{nm}$ (sufficient to generate SSBs and DSBs, respectively). Therefore, carbon ions are more damaging than protons near the Bragg maximum, but in the entrance channel they cause much more damage than protons. The LET increase with the particle mass must be taken into account during treatment planning in order to adapt the patient's characteristics to the beam properties.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\linewidth]{proton_carbon_let.jpg}
-	\caption[LET effects in protons and carbons]{Microscopic distribution of proton and carbon ionizations on a nm scale, along with the corresponding LET, depth reached, kinetic energy and average distance of damage creation \cite{slide_spighi}.}
-	\label{fig:proton_carbon_let}
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=0.8\linewidth]{proton_carbon_let.jpg}
+		\caption{Microscopic distribution of proton and carbon ionizations on a nm scale, along with the corresponding LET, depth reached, kinetic energy and average distance of damage creation. From \cite{slide_spighi}.}
+		\label{fig:proton_carbon_let}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{let_surviving.pdf}
+		\caption{Survival curves for cultured cells of human origin exposed to $250\,\mathrm{kVp}$ X-rays, $15\,\mathrm{MeV}$ neutrons and $4\,\mathrm{MeV}$ $\alpha$ particles. From \cite{hall2012radiobiology}.}
+		\label{fig:let_surviving}
+	\end{subfigure}
+	\caption[Biological effects of LET]{DNA and cellular damages induced by high-LET and low-LET radiations.}
+	\label{fig:let2}
 \end{figure}
+\autoref{fig:let_surviving} illustrates the survival curves obtained for various particles. As the LET increases from $2\,\mathrm{keV/}\mu\mathrm{m}$ for X-rays up to $150\,\mathrm{keV/}\mu\mathrm{m}$ for $\alpha$ particles, the survival curve becomes steeper (as expected), and its initial shoulder becomes narrower. The shoulder of survival curves is further discussed in \autoref{ssec:rbe}.
 \subsection{Relative biological effectiveness}\label{ssec:rbe}
 The Relative Biological Effectiveness (RBE) of an ionizing radiation $R$ is a dimensionless number given by the ratio between the dose $D_\gamma$ released by $\gamma$ rays and the dose $D_R$ released by a given radiation $R$ needed to achieve the same biological effect, for a fixed cell survival rate $S$:
 \begin{equation}
 	\text{RBE}=\frac{D^S_\gamma}{D^S_R}.
 	\label{eq:rbe}
 \end{equation}
-For example, if a radiation $R$ has $\text{RBE}>1$, this means that a smaller dose of $R$ is needed to achieve the same biological damage as $\gamma$ rays (in other words, radiation $R$ is more effective than $\gamma$ rays). Evaluating the RBE is rather complex, since it depends on the type of radiation and its energy, the LET (see \autoref{fig:let_rbe}), the cell type and its survival rate (see \autoref{fig:survival_dose}), the oxygenation status (see ?? OER sec) and whether fractionation is employed \cite{Choi2012-ef}. The \autoref{tab:rbe} reports some values of RBE for several radiations.
+For example, if a radiation $R$ has $\text{RBE}>1$, this means that a smaller dose of $R$ is needed to achieve the same biological damage as $\gamma$ rays (in other words, radiation $R$ is more effective than $\gamma$ rays). In \autoref{tab:let_rbe}, values of RBE for several radiations are reported.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{M{6cm} M{3cm} M{2.5cm}}
+		\hline
+		\multicolumn{3}{c}{\textbf{LET and RBE values for different types of radiation}} \\
+		\hline
+		Type of radiation & LET (keV/$\mu$m) & RBE \\
+		\hline
+		X-rays ($6$--$15\,\mathrm{MeV}$) & $0.3$ & $\simeq 0.8$ \\
+		$\beta$ particle ($1\,\mathrm{MeV}$) & $0.3$ & $0.9$ \\
+		$\gamma$ rays ($1\,\mathrm{MeV}$) & $0.5$ & $1$ \\
+		Protons at therapeutic energies ($150\,\mathrm{MeV}$) & $0.5$ & $\simeq 1.1$ \\
+		Neutrons & $0.5$--$100$ & $1$--$2$ \\
+		$\alpha$ particle & $50$--$200$ & $5$--$10$ \\
+		Carbon ions in the region near the Bragg peak & $40$--$90$ & $2$--$5$ \\
+		\hline
+	\end{tabular}
+	\caption[LET and RBE values]{Approximated LET and RBE values for some types of radiation \cite{MURSHED201957}.}
+	\label{tab:let_rbe}
+\end{table}
+Despite being a rather simple concept, the theoretical and experimental evaluation of the RBE is highly complex \cite{Choi2012-ef}, as the RBE depends on the type of radiation and its energy, the LET (see \autoref{fig:let_rbe1} and \autoref{fig:let_rbe2}), the cell type and its survival rate (see \autoref{fig:rbe_survival_dose}), the oxygenation status (see \autoref{ssec:oer}) and whether temporal fractionation is employed (see \autoref{fig:rbe_survival_dose}). In general, the RBE fluctuations are larger for \textit{in vitro} than for \textit{in vivo} experiments, the former representing the majority of available data \cite{protonRadiobiology}.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=0.8\linewidth]{let_rbe1.pdf}
+		\caption{RBE as a function of LET for mammalian cells of human origin with cell survival levels of $0.8$ ($1$), $0.1$ ($2$) and $0.01$ ($3$), respectively. From \cite{hall2012radiobiology}.}
+		\label{fig:let_rbe1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{let_rbe2.pdf}
+		\caption{RBE vs. LET with schematic view of DNA hits induced by different radiations. From \cite{Byun2021-rz}.}
+		\label{fig:let_rbe2}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{rbe_survival_dose.pdf}
+		\caption{Survival curve for mammalian cells exposed to X-rays and fast neutrons. On the left, a single dose is employed for each radiation, which induces a wider initial shoulder to the lower-LET X-rays. RBE values decrease with the absorbed dose. On the right, temporal fractionation is employed, which results in a re-expression of the shoulder after each dose fraction. The broader X-ray shoulders induce an enlarged RBE value in the fractionated case. From \cite{hall2012radiobiology}.}
+		\label{fig:rbe_survival_dose}
+	\end{subfigure}
+	\caption[Dependencies of RBE on LET and on temporal fractionation]{RBE dependence on LET, with relative schematic explanation. RBE variation with and without temporal fractionation is also shown.}
+	\label{fig:rbe}
+\end{figure}
+\autoref{fig:let_rbe1} illustrates the RBE dependence on LET. As the LET increases, the RBE rises slowly at first and then surges before reaching a maximum at $100\,\mathrm{keV/}\mu\mathrm{m}$, a common value for a wide range of mammalian cells. Beyond $100\,\mathrm{keV/}\mu\mathrm{m}$, the RBE plummets again to lower values. To explain this particular behavior, it is possible to consider the scheme in \autoref{fig:let_rbe2}. In the case of low-LET radiation (like photons), the distance between successive ionization events is larger than the diameter of the DNA double helix ($2\,\mathrm{nm}$), meaning that the probability of DSBs is very low and that the photons have very low biological effectiveness. On the contrary, higher-LET particles like heavy ions produce dense ionization clusters that create severe and irreparable DSB damages. However, at values of LET beyond the RBE maximum, more densely ionizing radiation still produce DSBs, but much of their released energy is wasted because the ionizing events are too close together. As RBE is defined as the ratio of doses which generate the same biological effect, extremely ionizing radiation have a lower biological effectiveness than the $100\,\mathrm{keV/}\mu\mathrm{m}$-LET ones.
+
+In addition to the RBE-LET dependence, it is worth analyzing the implications of temporal fractionation and dose values on RBE with the help of \autoref{fig:rbe_survival_dose}. As illustrated in \autoref{fig:rbe_survival_dose} (left), the RBE increases with decreasing dose, explained by the fact that at high doses the biological difference between low- and high-LET radiations is attenuated. If the single doses of the left plot are divided and distributed over more fractions, the curves on \autoref{fig:rbe_survival_dose} (right) are obtained. With a repeated daily low-dose, fractionation generates a multiple-shoulder pattern that flattens the survival curve, increasing the cell survival probability. This feature makes temporal fractionation a real clinical instrument which favors the survival of healthy tissues over cancerous ones. In a typical treatment, a total dose of tens of Gy is subdivided into multiple fractions, each releasing $\simeq1.8$--$2\,\mathrm{Gy}$.\footnote{These tumor-specific values strictly depend on maximizing the difference (ratio) between TCP (Tumor Control Probability) and NTCP (Normal Tissue Complication Probability), which describe respectively the probabilities of controlling a tumor and of inducing organ/structure complications related to radiation treatment. Precisely, the difference (the ratio) between TCP and NTCP is called therapeutic window (therapeutic ratio).} Fractionation has multiple advantages \cite{radiobiologyTextbook} which occur between successive fractions:
+\begin{itemize}
+	\item the healthy tissues are given more time to repair sub-lethal damages;
+	\item nearby non-irradiated healthy cell migrate into the irradiated normal tissues to repopulate them with new functional cells;
+	\item tumor cells are more prone to transition from a radioresistant to a radiosensitive phase;
+	\item tumor cells (usually hypoxic after a treatment and, hence, more radioresistant) are reoxygenated.
+\end{itemize}
+Returning to \autoref{fig:rbe_survival_dose} (right), the bending of the shoulder is usually explained by the $\alpha/\beta$ ratio of the linear quadratic model \cite{McMahon_2019}, which states that the survival probability $S$ of a cell following exposure to a single dose radiation $D$ follows:
+\begin{equation}
+	S=e^{-\alpha D-\beta D^2}.
+	\label{eq:linear_quadratic_model}
+\end{equation}
+The broader the shoulder, the lower the $\alpha/\beta$ ratio, the higher the sparing effect of a tissue. Naturally, the survival curve of high-LET radiations do not show the same bending as low-LET ones, or rather, they follow straighter lines, as illustrated in the high-LET neutron case in \autoref{fig:rbe_survival_dose}. For this reason, temporal fractionation does not influence high-LET radiations as much as low-LET ones.
+
+In \autoref{tab:let_rbe}, it is reported that the RBE of the proton is $\simeq1.1$. Many studies such as \cite{Paganetti_2014} found discrepancies with the $1.1$ value, noticing that using a constant value along the whole depth-dose profile of the proton (including the SOBP) is a mere approximation. Nonetheless, the experimental evidence supporting a universal change in the conventional $1.1$ value is still insufficient and characterized by excessive uncertainties \cite{10.1093/jicru/ndm021}. In contrast to the proton, the carbon RBE is a function of the position (see \autoref{fig:dose_rbe_survival_carbon} (bottom)), and tends to increase towards the end of the particle range \cite{Byun2021-rz}. As the primary objective of both radio and hadrontherapy is to generate an homogeneous biological damage in the tumor target (see \autoref{fig:dose_rbe_survival_carbon} (middle)), the delivered physical dose should consider the LET increase (thus, the greater biological damages) along the particle path. Hence, deeper areas in the SOBP, characterized by higher LETs, receive a lower physical dose than the shallower regions, as illustrated with the red solid line in \autoref{fig:dose_rbe_survival_carbon} (top) or with the green line in \autoref{fig:dose_phys_bio_clin}. The final biological effect is measured by the so-called biological dose $D_\text{biol}$, a RBE-weighted dose defined as the product of the absorbed physical dose times the RBE \cite{Data2025-ty}. Clearly, to correctly predict the biological dose at each traversed point, we should include the composition of the particle field and the LET distributions through the the following weighted sum \cite{Gunzert-Marx_2008}:
+\begin{equation}
+	D_{\text{biol}}(\vect{r})
+	=
+	\sum_{Z=1}^{Z_\text{p}}
+	\int_{0}^{E_{\max}}
+	\phi(Z,E,\vect{r})\cdot
+	\text{LET}(Z,E)\cdot
+	\text{RBE}(Z,E)\cdot
+	\frac{1}{\rho(\vect{r})}\,dE.
+	\label{eq:biol_dose}
+\end{equation}
+The \autoref{eq:biol_dose} is the integral, RBE-weighted version of \autoref{eq:dose_as}, with the symbols having the same usual meaning. In particular, the sum runs over all the charges $Z$ of the produced secondary fragments, from protons ($Z=1$) up to the primary ion ($Z=Z_\text{p}$).
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{dose_rbe_survival_carbon.pdf}
+		\caption{Depth profiles of physical and biological dose (top panel) with relative survival cell (middle panel) and RBE (bottom panel) values. Adapted from \cite{WEYRATHER2003S23}.}
+		\label{fig:dose_rbe_survival_carbon}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{dose_phys_bio_clin.pdf}
+		\caption{Physical, biological, and clinical depth-dose distributions for carbon beam (SOBP). As the biological RBE was determined using a specific biological system, the biological dose then needs to be scaled to fulfill the specific irradiation conditions of the patient, obtaining the final clinical dose. From \cite{Byun2021-rz}.}
+		\label{fig:dose_phys_bio_clin}
+	\end{subfigure}
+	\caption[Carbon beam dose, RBE, survival and clinical dose profiles]{Carbon beam dose, RBE, survival, and clinical dose profiles.}
+	\label{fig:carbon_dose_comparison}
+\end{figure}
+\subsection{Oxygen enhancement ratio}\label{ssec:oer}
+The Oxygen Enhancement Ratio (OER) is a dimensionless number that measures the biological effectiveness of a radiation in relation to the oxygen concentration present in tissues. Specifically, the OER is defined as the ratio of doses administered under hypoxic to normoxic conditions needed to achieve the same biologic effect $S$:
+\begin{equation}
+	\text{OER}=\frac{D^S_\text{hypoxia}}{D^S_\text{normoxia}}.
+	\label{eq:oer}
+\end{equation}
+The OER is a function of the LET, as illustrated in \autoref{fig:oer_let}
 
 
 
-%for analytical formula of biological dose refer to https://iopscience.iop.org/article/10.1088/1367-2630/10/7/075003/pdf
-
-
-
-
-
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{oer.pdf}
+		\caption{Experimental and calculated data of the OER dependence on LET, with relative uncertainties. From \cite{Wenzl_2011}.}
+		\label{fig:oer_let}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{oxygen_diff.pdf}
+		\caption{. From \cite{hall2012radiobiology}.}
+		\label{fig:}
+	\end{subfigure}
+	\caption[OER vs. LET and oxygen capillary diffusion]{OER vs. LET and diffusion of oxygen from a capillary through tumor tissue.}
+	\label{fig:oer}
+\end{figure}
 \chapter{\texorpdfstring{$\chi^2$}{χ²} minimization method}\label{ch:chi_squared_min}
 The $\chi^2$ minimization method is founded on the $\chi^2$ test, a probabilistic test that provides criteria for verifying the consistency of theoretical hypotheses with a set of experimental data. Specifically, the $\chi^2$ test is based on the evaluation of the $\chi^2$ function, reported in \autoref{eq:chi_square_method}, which expresses the discrepancy between theory and experimental data. This deviation is calculated using the sum of the squared differences between the measured values $y_k$ and the expected values $f\left(x_k;\alpha_j\right)$, and depends on the measurements $x_k$ and the parameters $\alpha_j$:
 \begin{equation}
