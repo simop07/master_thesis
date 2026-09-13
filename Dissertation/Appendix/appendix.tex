@@ -5,14 +5,13 @@
 \chapter{Radiobiological aspects of ionizing radiations}\label{ch:radiobiology}
 The aim of this chapter is to provide an overview of the most important biological effects induced by ionizing radiation and to define the physics parameters employed in the contexts of radiobiology, dosimetry and medical physics.
 \section{Biological damages of ionizing radiation}\label{sec:biological_damages_ionizing_radiation}
-Both the conventional radiotherapy (which uses X-rays, i.e., photons) and the more advanced Particle Therapy (PT) take advantage of the ionizing radiation to damage the cancerous tissues of a patient, triggering the death of the diseased cells which they consist of. The ionizing radiation produces various effects on biological tissues, which largely depend on the beam composition, its energy and the properties of the irradiated tissues. To beat cancer, it is not necessary to eliminate all the cancerous cells, but it is sufficient to impede their indefinite reproduction through a reproductive cell death. To achieve this goal, ionizing radiation need to kill the cell DNA by means of either direct or indirect damage. Direct damage is the most uncommon one, as the DNA occupies only $2$--$3\%$ of the total cell volume. Direct damage can be divided into Single Strand Breaks (SSB) and Double Strand Breaks (DSB): in SSBs, a break occurs in only one nucleotide strand of the DNA double helix, whereas in DSBs both nucleotide strands are damaged. Both SSB and DSB are illustrated in \autoref{fig:dna_damages}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{danni_dna.jpg}
+	\includegraphics[width=0.6\linewidth]{danni_dna.jpg}
 	\caption[Tracking region]{Schematic representation of SSBs (left), DSBs (center), and clusters of DSBs (right). From \cite{unipv_conference}.}
 	\label{fig:dna_damages}
 \end{figure}
-Indirect damage occurs when the ionizing radiation does not hit the DNA directly, but rather the neighboring cell elements. As water makes $\gtrsim70\%$ of the total cell mass \cite{cooper2000cell}, the ionizing radiation often hits water, leading to the release of free radicals. Free radicals are neutral atoms or molecules possessing one unpaired electron in the outermost orbital, a feature which makes them highly unstable and reactive. The chain of chemical reactions (summarized below) which lead to the formation of free radicals is called radiolysis of water. The byproducts of radiolysis consists of electrons, atoms, molecules, and ions which, by diffusing, indirectly damage DNA, leading to cell death. The ionization of a water molecule \ce{H2O} is given by:
+Both the conventional radiotherapy (which uses X-rays, i.e., photons) and the more advanced Particle Therapy (PT) take advantage of the ionizing radiation to damage the cancerous tissues of a patient, triggering the death of the diseased cells which they consist of. The ionizing radiation produces various effects on biological tissues, which largely depend on the beam composition, its energy and the properties of the irradiated tissues. To beat cancer, it is not necessary to eliminate all the cancerous cells, but it is sufficient to impede their indefinite reproduction through a reproductive cell death. To achieve this goal, ionizing radiation need to kill the cell DNA by means of either direct or indirect damage. Direct damage is the most uncommon one, as the DNA occupies only $2$--$3\%$ of the total cell volume. Direct damages can be divided into Single Strand Breaks (SSBs) and Double Strand Breaks (DSBs): in SSBs, only one nucleotide strand of the DNA double helix is severely damaged and broken, whereas in DSBs both nucleotide strands are harmed, as illustrated in \autoref{fig:dna_damages}. On the other hand, indirect damage occurs when the ionizing radiation does not hit the DNA directly, but rather the neighboring cell elements. As water makes $\gtrsim70\%$ of the total cell mass \cite{cooper2000cell}, the ionizing radiation often hits water, leading to the release of free radicals. Free radicals are neutral atoms or molecules possessing one unpaired electron in the outermost orbital, a feature which makes them highly unstable and reactive. The chain of chemical reactions (summarized below) which lead to the formation of free radicals is called radiolysis of water. The byproducts of radiolysis consists of electrons, atoms, molecules, and ions which, by diffusing, indirectly damage DNA, leading to cell death. The ionization of a water molecule \ce{H2O} is given by:
 \begin{equation}
 	\ce{H2O ->[Ionizing radiation] H2O^{+} + e^-},
 	\label{eq:radiolisi1}
@@ -28,7 +27,7 @@ Subsequently, the products of \autoref{eq:radiolisi1} and \autoref{eq:radiolisi2
 		\label{eq:dissociazione1}
 		\ce{H2O^{+} ->[Dissociation] H^{+} + OH^{.}}\\
 		\label{eq:dissociazione2}
-		\ce{H2O^{-} ->[Dissociation] OH^{-} + H^{.}},
+		\ce{H2O^{-} ->[Dissociation] OH^{-} + H^{.}}\,,
 	\end{align}
 \end{subequations}
 whose products are the hydrogen \ce{H^{+}} and the hydroxide \ce{OH^{-}} ions, along with the hydroxyl \ce{OH^{.}} and the hydrogen \ce{H^{.}} free radicals. Among the various chemical reactions that can subsequently occur (whose reactants are the products of \autoref{eq:dissociazione1} and \autoref{eq:dissociazione2}), the following are reported:
@@ -39,21 +38,21 @@ whose products are the hydrogen \ce{H^{+}} and the hydroxide \ce{OH^{-}} ions, a
 		\label{eq:prodotto2}
 		\ce{H^{+} + OH^{-} &-> H2O}\\
 		\label{eq:prodotto3}
-		\ce{2OH^{.} &-> H2O2}.
+		\ce{2OH^{.} &-> H2O2}\,.
 	\end{align}
 \end{subequations}
-Clearly, \autoref{eq:prodotto1} and \autoref{eq:prodotto2} are harmless reactions (they generate water molecules), whereas \autoref{eq:prodotto3} leads to the formation of hydrogen peroxide \ce{H2O2}, a substance that highly harmful to the cell. Indeed, \ce{H2O2} is capable of altering the structure and function of proteins, mutating nucleotide bases and generating SSBs in DNA \cite{ros}. Generally, \ce{H2O2} and other oxygen-related chemical species (such as the two radicals superoxide anion \ce{O2^{-.}} and hydroxyl \ce{OH^{.}}) are grouped in the wider ROS (Reactive Oxygen Species) family, whose elements can all lead to the reproductive cell death.
+Clearly, \autoref{eq:prodotto1} and \autoref{eq:prodotto2} are harmless reactions (as they generate water molecules), whereas \autoref{eq:prodotto3} leads to the formation of hydrogen peroxide \ce{H2O2}, a substance that highly harmful to the cell. Indeed, \ce{H2O2} is capable of altering the structure and function of proteins, mutating nucleotide bases and generating SSBs in DNA \cite{ros}. Generally, \ce{H2O2} and other oxygen-related chemical species (such as the two radicals superoxide anion \ce{O2^{-.}} and hydroxyl \ce{OH^{.}}) are grouped in the wider ROS (Reactive Oxygen Species) family, whose elements can all lead to the reproductive cell death.
 \section{Dosimetric quantities}\label{sec:dosimetric_quantities}
 In radiobiology, the branch of dosimetry is fundamental to define and quantify the physical quantities that describe the irradiation of matter and the consequent biological effects. Dosimetric studies are particularly important at the treatment planning stage, as they allow to assess the correct balance between the damaging irradiation of the tumor and the risks of toxicity to healthy organs. One of the aims of the International Commission on Radiation Units and Measurements (ICRU) is to define the physics parameters used in dosimetry, some of which are reported in the following.
 \subsection{Absorbed, equivalent and effective dose}\label{ssec:dose_definition}
 First and foremost, the basis quantity in dosimetry is the particle fluence $\phi$, defined as the number of particles $dN$ (for example, the protons within a beam) passing through an unit area $dA$ perpendicular to the beam direction. The fluence can be expressed in its differential form as follows:
 \begin{equation}
-	\phi=\frac{dN}{dA}
-	\label{eq:fluence}.
+	\phi=\frac{dN}{dA}\,.
+	\label{eq:fluence}
 \end{equation}
 Using the particle fluence, it is possible to define the absorbed dose $D$ as the energy $dE$ absorbed by an irradiated material of unit mass $dm$:
 \begin{equation}
-	D=\frac{dE}{dm}=\frac{\left(dE/dx\right)\Delta x\, N}{\rho\, \Delta x\,A}=\phi\,\frac{\left(dE/dx\right)}{\rho},
+	D=\frac{dE}{dm}=\frac{\left(dE/dx\right)\Delta x\, N}{\rho\, \Delta x\,A}=\phi\,\frac{\left(dE/dx\right)}{\rho}\,,
 	\label{eq:dose_as}
 \end{equation}
 where $dE/dx$ is the stopping power defined in \autoref{eq:bethe_bloch}, $N$ is the number of particles in the beam and $\rho$ is the volumetric mass density of the irradiated material (obtained from its cross-sectional area $A$ and its thickness $\Delta x$, which is parallel to the beam direction). According to the International System of Units (SI), the unit of measurement of the absorbed dose $D$ is the Gray (Gy), and represents the amount of radiative energy received by the patient during therapy divided by the mass of the irradiated tissue.
@@ -72,12 +71,12 @@ where $w_T$ is a weighting factor for the $T$-th tissue such that $\sum_{T}w_T=1
 \subsection{Linear energy transfer}\label{ssec:let}
 The Linear Energy Transfer (LET) of a ionizing radiation is the amount of energy $dE$ transferred to the irradiated material per unit length of the track $dx$:
 \begin{equation}
-	\text{LET}=\frac{dE_\Delta}{dx}.
+	\text{LET}=\frac{dE_\Delta}{dx}\,.
 	\label{eq:let}
 \end{equation}
 Although the LET has a very similar definition to the stopping power $dE/dx$ defined in \autoref{eq:bethe_bloch}, they are not quite the same quantity. Indeed, the stopping power is related to the energy lost by the particle beam in the medium it crosses (per unit distance), LET refers to the energy absorbed by the medium (per unit distance). In addition, in \autoref{eq:let} a $\Delta$ appears because the definition of LET takes into account only the small energy transfers close to the particle's trajectory, excluding the more energetic ionizations from long-range $\delta$ electrons (whose energy is greater than a threshold $\Delta$). In the mathematical limit $\Delta\rightarrow+\infty$, there would no longer be electrons with $E>\Delta$, meaning that the stopping power and LET would be equivalent quantities. These considerations allow us to derive the relation linking the stopping power and LET:
 \begin{equation}
-	\text{LET}=\frac{dE_\Delta}{dx}-K_{E>\Delta},
+	\text{LET}=\frac{dE_\Delta}{dx}-K_{E>\Delta}\,,
 	\label{eq:let&stoppingpower}
 \end{equation}
 where $K_{E>\Delta}$ is the kinetic energy of electrons with energy $E>\Delta$.
@@ -85,14 +84,14 @@ where $K_{E>\Delta}$ is the kinetic energy of electrons with energy $E>\Delta$.
 The LET value is inherently connected to particles' ionization density: high-LET radiations are densely ionizing, while low-LET radiations produce sparse ionization events, as illustrated in \autoref{fig:ioniz_density}. As they generate more frequent and clustered ionization events, higher-LET radiations cause greater biological damage to tissues by inducing mostly direct rather than indirect damage, as schematized in \autoref{fig:damage_let}. \autoref{fig:damage_let} shows that low-LET radiations, such as X-rays and protons, mainly induce isolated DNA damage leading to SSBs, while high-LET radiations, including $\alpha$ particles, neutrons and heavy ions, generate more destructive DNA damage, resulting in DSBs \cite{Roobol2020-fp}. Some values of LET are reported in both \autoref{tab:target_range} and \autoref{tab:let_rbe}.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[t]{0.55\linewidth}
 		\centering
-		\includegraphics[width=0.8\linewidth]{ioniz_density.jpg}
+		\includegraphics[width=\linewidth]{ioniz_density.jpg}
 		\caption{Variation of ionization density associated with different types of radiation. From \cite{hall2012radiobiology}.}
 		\label{fig:ioniz_density}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[t]{0.43\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{damage_let.png}
 		\caption{Typical DNA damage caused by low-LET radiation (top) and high-LET radiation (bottom). From \cite{Fabbrizi_Parsons_2022}.}
@@ -104,16 +103,16 @@ The LET value is inherently connected to particles' ionization density: high-LET
 From \autoref{fig:proton_carbon_let}, it can be viewed that the LET values of protons and carbons rise with the penetration depth, in accordance with the fact that the stopping power increases when particles slow down. On the other hand, in the entrance channel protons and carbon ions show discrepancies: the former cause damages every $90\,\mathrm{nm}$ (insufficient to hit the DNA double strand, whose diameter is $2\,\mathrm{nm}$), while carbons damage the DNA every $4\,\mathrm{nm}$ (sufficient to generate an SSB). Similarly, at the Bragg peak protons and carbon ions cause damage every $4\,\mathrm{nm}$ and every $0.3\,\mathrm{nm}$ (sufficient to generate SSBs and DSBs, respectively). Therefore, carbon ions are more damaging than protons near the Bragg maximum, but in the entrance channel they cause much more damage than protons. The LET increase with the particle mass must be taken into account during treatment planning in order to adapt the patient's characteristics to the beam properties.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.98\linewidth}
 		\centering
-		\includegraphics[width=0.8\linewidth]{proton_carbon_let.jpg}
+		\includegraphics[width=\linewidth]{proton_carbon_let.jpg}
 		\caption{Microscopic distribution of proton and carbon ionizations on a nm scale, along with the corresponding LET, depth reached, kinetic energy and average distance of damage creation. From \cite{slide_spighi}.}
 		\label{fig:proton_carbon_let}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.98\linewidth}
 		\centering
-		\includegraphics[width=\linewidth]{let_surviving.pdf}
+		\includegraphics[width=0.5\linewidth]{let_surviving.pdf}
 		\caption{Survival curves for cultured cells of human origin exposed to $250\,\mathrm{kVp}$ X-rays, $15\,\mathrm{MeV}$ neutrons and $4\,\mathrm{MeV}$ $\alpha$ particles. From \cite{hall2012radiobiology}.}
 		\label{fig:let_surviving}
 	\end{subfigure}
@@ -124,7 +123,7 @@ From \autoref{fig:proton_carbon_let}, it can be viewed that the LET values of pr
 \subsection{Relative biological effectiveness}\label{ssec:rbe}
 The Relative Biological Effectiveness (RBE) of an ionizing radiation $R$ is a dimensionless number given by the ratio between the dose $D_\gamma$ released by $\gamma$ rays and the dose $D_R$ released by a given radiation $R$ needed to achieve the same biological effect (e.g., the same survival rate $S$):
 \begin{equation}
-	\text{RBE}=\frac{D^S_\gamma}{D^S_R}.
+	\text{RBE}=\frac{D^S_\gamma}{D^S_R}\,.
 	\label{eq:rbe}
 \end{equation}
 For example, if a radiation $R$ has $\text{RBE}>1$, this means that a smaller dose of $R$ is needed to achieve the same biological damage as $\gamma$ rays (in other words, radiation $R$ is more effective than $\gamma$ rays). In \autoref{tab:let_rbe}, values of RBE for several radiations are reported.
@@ -151,21 +150,21 @@ For example, if a radiation $R$ has $\text{RBE}>1$, this means that a smaller do
 Despite being a rather simple concept, the theoretical and experimental evaluation of the RBE is highly complex \cite{Choi2012-ef}, as the RBE depends on the type of radiation and its energy, the LET (see \autoref{fig:let_rbe1} and \autoref{fig:let_rbe2}), the cell type and its survival rate (see \autoref{fig:rbe_survival_dose}), the oxygenation status (see \autoref{ssec:oer}) and whether temporal fractionation is employed (see \autoref{fig:rbe_survival_dose}). In general, the RBE fluctuations are larger for \textit{in vitro} than for \textit{in vivo} experiments, the former representing the majority of available data \cite{protonRadiobiology}.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.6\linewidth}
 		\centering
-		\includegraphics[width=0.8\linewidth]{let_rbe1.pdf}
+		\includegraphics[width=\linewidth]{let_rbe1.pdf}
 		\caption{RBE as a function of LET for mammalian cells of human origin with cell survival levels of $0.8$ ($1$), $0.1$ ($2$) and $0.01$ ($3$), respectively. From \cite{hall2012radiobiology}.}
 		\label{fig:let_rbe1}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.38\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{let_rbe2.pdf}
 		\caption{RBE vs. LET with schematic view of DNA hits induced by different radiations. From \cite{Byun2021-rz}.}
 		\label{fig:let_rbe2}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.8\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{rbe_survival_dose.pdf}
 		\caption{Survival curve for mammalian cells exposed to X-rays and fast neutrons. On the left, a single dose is employed for each radiation, which induces a wider initial shoulder to the lower-LET X-rays. RBE values decrease with the absorbed dose. On the right, temporal fractionation is employed, which results in a re-expression of the shoulder after each dose fraction. The broader X-ray shoulders induce an enlarged RBE value in the fractionated case. From \cite{hall2012radiobiology}.}
@@ -189,8 +188,27 @@ Returning to \autoref{fig:rbe_survival_dose} (right), the bending of the shoulde
 	\label{eq:linear_quadratic_model}
 \end{equation}
 The broader the shoulder, the lower the $\alpha/\beta$ ratio, the higher the sparing effect of a tissue. Naturally, the survival curve of high-LET radiations do not show the same bending as low-LET ones, or rather, they follow straighter lines, as illustrated in the high-LET neutron case in \autoref{fig:rbe_survival_dose}. For this reason, temporal fractionation does not influence high-LET radiations as much as low-LET ones.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{dose_rbe_survival_carbon.pdf}
+		\caption{Depth profiles of physical and biological dose (top panel) with relative survival cell (middle panel) and RBE (bottom panel) values. Adapted from \cite{WEYRATHER2003S23}.}
+		\label{fig:dose_rbe_survival_carbon}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.53\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{dose_phys_bio_clin.pdf}
+		\caption{Physical, biological, and clinical depth-dose distributions for carbon beam (SOBP). As the biological RBE was determined using a specific biological system, the biological dose then needs to be scaled to fulfill the specific irradiation conditions of the patient, obtaining the final clinical dose. From \cite{Byun2021-rz}.}
+		\label{fig:dose_phys_bio_clin}
+	\end{subfigure}
+	\caption[Carbon beam dose, RBE, survival and clinical dose profiles]{Carbon beam dose, RBE, survival, and clinical dose profiles.}
+	\label{fig:carbon_dose_comparison}
+\end{figure}
+In \autoref{tab:let_rbe}, it is reported that the RBE of the proton is $\simeq1.1$. Many studies such as \cite{Paganetti_2014} found discrepancies with the $1.1$ value, noticing that using a constant value along the whole depth-dose profile of the proton (including the SOBP) is a mere approximation. Nonetheless, the experimental evidence supporting a universal change in the conventional $1.1$ value is still insufficient and characterized by excessive uncertainties \cite{10.1093/jicru/ndm021}.
 
-In \autoref{tab:let_rbe}, it is reported that the RBE of the proton is $\simeq1.1$. Many studies such as \cite{Paganetti_2014} found discrepancies with the $1.1$ value, noticing that using a constant value along the whole depth-dose profile of the proton (including the SOBP) is a mere approximation. Nonetheless, the experimental evidence supporting a universal change in the conventional $1.1$ value is still insufficient and characterized by excessive uncertainties \cite{10.1093/jicru/ndm021}. In contrast to the proton, the carbon RBE is a function of the position (see \autoref{fig:dose_rbe_survival_carbon} (bottom)), and tends to increase towards the end of the particle range \cite{Byun2021-rz}. As the primary objective of both radio and hadrontherapy is to generate an homogeneous biological damage in the tumor target (see \autoref{fig:dose_rbe_survival_carbon} (middle)), the delivered physical dose should consider the LET increase (thus, the greater biological damages) along the particle path. Hence, deeper areas in the SOBP, characterized by higher LETs, receive a lower physical dose than the shallower regions, as illustrated with the red solid line in \autoref{fig:dose_rbe_survival_carbon} (top) or with the green line in \autoref{fig:dose_phys_bio_clin}. The final biological effect is measured by the so-called biological dose $D_\text{biol}$, a RBE-weighted dose defined as the product of the absorbed physical dose times the RBE \cite{Data2025-ty}. Clearly, to correctly predict the biological dose at each traversed point, we should include the composition of the particle field and the LET distributions through the the following weighted sum \cite{Gunzert-Marx_2008}:
+In contrast to the proton, the carbon RBE is a function of the position (see \autoref{fig:dose_rbe_survival_carbon} (bottom)), and tends to increase towards the end of the particle range \cite{Byun2021-rz}. As the primary objective of both radio and hadrontherapy is to generate an homogeneous biological damage in the tumor target (see \autoref{fig:dose_rbe_survival_carbon} (middle)), the delivered physical dose should consider the LET increase (thus, the greater biological damages) along the particle path. Hence, deeper areas in the SOBP, characterized by higher LETs, receive a lower physical dose than the shallower regions, as illustrated with the red solid line in \autoref{fig:dose_rbe_survival_carbon} (top) or with the green line in \autoref{fig:dose_phys_bio_clin}. The final biological effect is measured by the so-called biological dose $D_\text{biol}$, a RBE-weighted dose defined as the product of the absorbed physical dose times the RBE \cite{Data2025-ty}. Clearly, to correctly predict the biological dose at each traversed position $\vect{r}$, we should include the composition of the particle field and the LET distributions through the the following weighted sum \cite{Gunzert-Marx_2008}:
 \begin{equation}
 	D_{\text{biol}}(\vect{r})
 	=
@@ -202,42 +220,24 @@ In \autoref{tab:let_rbe}, it is reported that the RBE of the proton is $\simeq1.
 	\frac{1}{\rho(\vect{r})}\,dE.
 	\label{eq:biol_dose}
 \end{equation}
-The \autoref{eq:biol_dose} is the integral, RBE-weighted version of \autoref{eq:dose_as}, with the symbols having the same usual meaning. In particular, the sum runs over all the charges $Z$ of the produced secondary fragments, from protons ($Z=1$) up to the primary ion ($Z=Z_\text{p}$).
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{dose_rbe_survival_carbon.pdf}
-		\caption{Depth profiles of physical and biological dose (top panel) with relative survival cell (middle panel) and RBE (bottom panel) values. Adapted from \cite{WEYRATHER2003S23}.}
-		\label{fig:dose_rbe_survival_carbon}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.98\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{dose_phys_bio_clin.pdf}
-		\caption{Physical, biological, and clinical depth-dose distributions for carbon beam (SOBP). As the biological RBE was determined using a specific biological system, the biological dose then needs to be scaled to fulfill the specific irradiation conditions of the patient, obtaining the final clinical dose. From \cite{Byun2021-rz}.}
-		\label{fig:dose_phys_bio_clin}
-	\end{subfigure}
-	\caption[Carbon beam dose, RBE, survival and clinical dose profiles]{Carbon beam dose, RBE, survival, and clinical dose profiles.}
-	\label{fig:carbon_dose_comparison}
-\end{figure}
+The \autoref{eq:biol_dose} is the integral, RBE-weighted version of \autoref{eq:dose_as}, with the symbols having the same meaning. In particular, the sum runs over all the charges $Z$ of the produced secondary fragments, from protons ($Z=1$) up to the primary ion ($Z=Z_\text{p}$).
 \subsection{Oxygen enhancement ratio}\label{ssec:oer}
 The Oxygen Enhancement Ratio (OER) is a dimensionless number that measures the biological effectiveness of a radiation in relation to the oxygen concentration present in tissues. Specifically, the OER is defined as the ratio of doses administered under hypoxic to normoxic (i.e., well-oxygenated) conditions needed to achieve the same biological effect (e.g., the same survival rate $S$):
 \begin{equation}
-	\text{OER}=\frac{D^S_\text{hypoxia}}{D^S_\text{normoxia}}.
+	\text{OER}=\frac{D^S_\text{hypoxia}}{D^S_\text{normoxia}}\,.
 	\label{eq:oer}
 \end{equation}
 The OER is a function of the LET, as illustrated in \autoref{fig:oer_let}. At low LET values, typical of X- and $\gamma$-rays, the OER ranges between $2.5$--$3$. Then, the OER starts to slowly decrease up to $60\,\mathrm{keV/}\mu\mathrm{m}$, after which it rapidly falls down reaching the unity at $\simeq200\,\mathrm{keV/}\mu\mathrm{m}$. The fact that oxygenation has little to no influence on the cell survival for high-LET radiations is attributable to the larger effectiveness of high-LET radiation in generating direct biological damage, which is independent of oxygenation. Conversely, low-LET radiations mainly induce indirect damage that relies on the production of ROS (see \autoref{sec:biological_damages_ionizing_radiation}), whose abundance is inherently connected to the oxygenation level: when an hypoxic tissue is irradiated, lower ROS species can be created, leading to higher levels of radioresistance. Unfortunately, the rapid and uncontrolled cell multiplication of a cancer outgrows the formation of nearby capillary blood vessels (i.e., the oxygen carriers), leading the tumor to an hypoxic, radioresistant state \cite{LIAO2023172} (see \autoref{fig:oxygen_diff}). To circumvent this predicament, high-LET particles (such as heavy ions) are employed to achieve a better tumor control than low-LET radiations, as they produce damages irrespective of the oxygenation level due to their low OER.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.49\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{oer_let.pdf}
 		\caption{Experimental and calculated data of the OER dependence on LET, with relative uncertainties. From \cite{Wenzl_2011}.}
 		\label{fig:oer_let}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.49\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{oxygen_diff.pdf}
 		\caption{Radioresistant hypoxic and anoxic cells in a tumor and oxygen diffusion from a blood vessel. From \cite{hall2012radiobiology}.}
