@@ -53,19 +53,19 @@ First and foremost, the basis quantity in dosimetry is the particle fluence $\ph
 \end{equation}
 Using the particle fluence, it is possible to define the absorbed dose $D$ as the energy $dE$ absorbed by an irradiated material of unit mass $dm$:
 \begin{equation}
-	D=\frac{dE}{dm}=\frac{\left(dE/dx\right)\Delta x N}{\rho \Delta x A}=\phi\frac{\left(dE/dx\right)}{\rho},
+	D=\frac{dE}{dm}=\frac{\left(dE/dx\right)\Delta x\, N}{\rho\, \Delta x\,A}=\phi\,\frac{\left(dE/dx\right)}{\rho},
 	\label{eq:dose_as}
 \end{equation}
 where $dE/dx$ is the stopping power defined in \autoref{eq:bethe_bloch}, $N$ is the number of particles in the beam and $\rho$ is the volumetric mass density of the irradiated material (obtained from its cross-sectional area $A$ and its thickness $\Delta x$, which is parallel to the beam direction). According to the International System of Units (SI), the unit of measurement of the absorbed dose $D$ is the Gray (Gy), and represents the amount of radiative energy received by the patient during therapy divided by the mass of the irradiated tissue.
 
 Generally, when two tissues absorb the same dose, the subsequent biological effects may be different. This is connected to the fact that the biological damage varies depending on the type and energy of the absorbed radiation as well as on repair mechanisms activated by the irradiated tissue after treatment. In radiotherapy, the local biological effects can be described by several quantities, namely the LET (see \autoref{ssec:let}), the RBE (see \autoref{ssec:rbe}) and the OER (see \autoref{ssec:oer}). Due to the inherent complexities of these quantities, everyday radiation protection uses a simpler way to asses the biological effectiveness of a given radiation, which is based on the concept of equivalent dose $H$:
 \begin{equation}
-	H=\sum_{R}w_RD_{R},
+	H=\sum_{R}w_R\,D_{R},
 	\label{eq:dose_eq}
 \end{equation}
 where $D_{R}$ is the absorbed dose relative to the $R$-th radiation (measured in Sievert (Sv) in the SI) and $w_R$ weights the hazard of the $R$-th radiation. $w_R$ is a dimensionless weighting factor given by the ratio between the biological damage produced by the absorption of $1\,\mathrm{Gy}$ of radiation $R$ and the biological damage produced by $1\,\mathrm{Gy}$ of $\gamma$ rays. $H$ is still an incomplete quantity, as it does not quantify biological effects in relation to the type of organ or tissue irradiated. For this reason, the effective dose $E$ is defined (always measured in Sievert), which includes the biological effects due to the type of radiation $R$ and to the specific response of the irradiated tissue $T$:
 \begin{equation}
-	E=\sum_{T}w_TH=\sum_{T}w_T\sum_{R}w_RD_{R},
+	E=\sum_{T}w_T\,H=\sum_{T}w_T\sum_{R}w_R\,D_{R},
 	\label{eq:dose_eff}
 \end{equation}
 where $w_T$ is a weighting factor for the $T$-th tissue such that $\sum_{T}w_T=1$, where the sum runs over all tissues of the human body. $w_T$ is larger for tissues that are more sensitive to radiation: they respond better to the treatment, but they are also more prone to develop radiation-induced cancer.
@@ -82,7 +82,7 @@ Although the LET has a very similar definition to the stopping power $dE/dx$ def
 \end{equation}
 where $K_{E>\Delta}$ is the kinetic energy of electrons with energy $E>\Delta$.
 
-The LET value is inherently connected to particles' ionization density: high-LET radiations are densely ionizing, while low-LET radiations produce sparse ionization events, as illustrated in \autoref{fig:ioniz_density}. As they generate more frequent and clustered ionization events, higher-LET radiations cause greater biological damage to tissues, as schematized in \autoref{fig:damage_let}. \autoref{fig:damage_let} shows that low-LET radiations, such as X-rays and protons, mainly induce isolated DNA damage leading to SSBs, while high-LET radiations, including $\alpha$ particles, neutrons and heavy ions, generate more destructive DNA damage, resulting in DSBs \cite{Roobol2020-fp}. Some values of LET are reported in both \autoref{tab:target_range} and \autoref{tab:let_rbe}.
+The LET value is inherently connected to particles' ionization density: high-LET radiations are densely ionizing, while low-LET radiations produce sparse ionization events, as illustrated in \autoref{fig:ioniz_density}. As they generate more frequent and clustered ionization events, higher-LET radiations cause greater biological damage to tissues by inducing mostly direct rather than indirect damage, as schematized in \autoref{fig:damage_let}. \autoref{fig:damage_let} shows that low-LET radiations, such as X-rays and protons, mainly induce isolated DNA damage leading to SSBs, while high-LET radiations, including $\alpha$ particles, neutrons and heavy ions, generate more destructive DNA damage, resulting in DSBs \cite{Roobol2020-fp}. Some values of LET are reported in both \autoref{tab:target_range} and \autoref{tab:let_rbe}.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.48\linewidth}
@@ -122,7 +122,7 @@ From \autoref{fig:proton_carbon_let}, it can be viewed that the LET values of pr
 \end{figure}
 \autoref{fig:let_surviving} illustrates the survival curves obtained for various particles. As the LET increases from $2\,\mathrm{keV/}\mu\mathrm{m}$ for X-rays up to $150\,\mathrm{keV/}\mu\mathrm{m}$ for $\alpha$ particles, the survival curve becomes steeper (as expected), and its initial shoulder becomes narrower. The shoulder of survival curves is further discussed in \autoref{ssec:rbe}.
 \subsection{Relative biological effectiveness}\label{ssec:rbe}
-The Relative Biological Effectiveness (RBE) of an ionizing radiation $R$ is a dimensionless number given by the ratio between the dose $D_\gamma$ released by $\gamma$ rays and the dose $D_R$ released by a given radiation $R$ needed to achieve the same biological effect, for a fixed cell survival rate $S$:
+The Relative Biological Effectiveness (RBE) of an ionizing radiation $R$ is a dimensionless number given by the ratio between the dose $D_\gamma$ released by $\gamma$ rays and the dose $D_R$ released by a given radiation $R$ needed to achieve the same biological effect (e.g., the same survival rate $S$):
 \begin{equation}
 	\text{RBE}=\frac{D^S_\gamma}{D^S_R}.
 	\label{eq:rbe}
@@ -222,20 +222,17 @@ The \autoref{eq:biol_dose} is the integral, RBE-weighted version of \autoref{eq:
 	\label{fig:carbon_dose_comparison}
 \end{figure}
 \subsection{Oxygen enhancement ratio}\label{ssec:oer}
-The Oxygen Enhancement Ratio (OER) is a dimensionless number that measures the biological effectiveness of a radiation in relation to the oxygen concentration present in tissues. Specifically, the OER is defined as the ratio of doses administered under hypoxic to normoxic conditions needed to achieve the same biologic effect $S$:
+The Oxygen Enhancement Ratio (OER) is a dimensionless number that measures the biological effectiveness of a radiation in relation to the oxygen concentration present in tissues. Specifically, the OER is defined as the ratio of doses administered under hypoxic to normoxic (i.e., well-oxygenated) conditions needed to achieve the same biological effect (e.g., the same survival rate $S$):
 \begin{equation}
 	\text{OER}=\frac{D^S_\text{hypoxia}}{D^S_\text{normoxia}}.
 	\label{eq:oer}
 \end{equation}
-The OER is a function of the LET, as illustrated in \autoref{fig:oer_let}
-
-
-
+The OER is a function of the LET, as illustrated in \autoref{fig:oer_let}. At low LET values, typical of X- and $\gamma$-rays, the OER ranges between $2.5$--$3$. Then, the OER starts to slowly decrease up to $60\,\mathrm{keV/}\mu\mathrm{m}$, after which it rapidly falls down reaching the unity at $\simeq200\,\mathrm{keV/}\mu\mathrm{m}$. The fact that oxygenation has little to no influence on the cell survival for high-LET radiations is attributable to the larger effectiveness of high-LET radiation in generating direct biological damage, which is independent of oxygenation. Conversely, low-LET radiations mainly induce indirect damage that relies on the production of ROS (see \autoref{sec:biological_damages_ionizing_radiation}), whose abundance is inherently connected to the oxygenation level: when an hypoxic tissue is irradiated, lower ROS species can be created, leading to higher levels of radioresistance. Unfortunately, the rapid and uncontrolled cell multiplication of a cancer outgrows the formation of nearby capillary blood vessels (i.e., the oxygen carriers), leading the tumor to an hypoxic, radioresistant state \cite{LIAO2023172} (see \autoref{fig:oxygen_diff}). To circumvent this predicament, high-LET particles (such as heavy ions) are employed to achieve a better tumor control than low-LET radiations, as they produce damages irrespective of the oxygenation level due to their low OER.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.48\linewidth}
 		\centering
-		\includegraphics[width=\linewidth]{oer.pdf}
+		\includegraphics[width=\linewidth]{oer_let.pdf}
 		\caption{Experimental and calculated data of the OER dependence on LET, with relative uncertainties. From \cite{Wenzl_2011}.}
 		\label{fig:oer_let}
 	\end{subfigure}
@@ -243,10 +240,10 @@ The OER is a function of the LET, as illustrated in \autoref{fig:oer_let}
 	\begin{subfigure}[b]{0.48\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{oxygen_diff.pdf}
-		\caption{. From \cite{hall2012radiobiology}.}
-		\label{fig:}
+		\caption{Radioresistant hypoxic and anoxic cells in a tumor and oxygen diffusion from a blood vessel. From \cite{hall2012radiobiology}.}
+		\label{fig:oxygen_diff}
 	\end{subfigure}
-	\caption[OER vs. LET and oxygen capillary diffusion]{OER vs. LET and diffusion of oxygen from a capillary through tumor tissue.}
+	\caption[OER vs. LET and oxygen capillary diffusion]{OER vs. LET and diffusion of oxygen ($\lesssim70\,\mu\mathrm{m}$) from a capillary through tumor tissue.}
 	\label{fig:oer}
 \end{figure}
 \chapter{\texorpdfstring{$\chi^2$}{χ²} minimization method}\label{ch:chi_squared_min}
