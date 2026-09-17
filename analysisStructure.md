@@ -250,13 +250,13 @@ cd Reconstruction
 ```
 
 ### 7.3 Modifying cofiguration files
-If a config file needs to be changed, then it is necessary to run a command to copy the changes into the `build` directory. For instance, if we need to change a line of code in `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`, then after hte change we have to run in the folder `build`:
+If a config file needs to be changed, then it is necessary to run a command to copy the changes into the `build` directory. For instance, if we need to change a line of code in `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`, then after hte change we have to run in the folder `build/Reconstruction`:
 ```bash
 cmake3 .. -D FILECOPY=ON
 ```
 so that this config file is copied into `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/build/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`.
 
-If, in general, we want to REBUILD everything, also the cpp and hpp files then run this more general command in the `build directory`:
+If, in general, we want to REBUILD everything, also the cpp and hpp files then run this more general command in the folder `build/Reconstruction`:
 ```bash
 cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON
 ```
