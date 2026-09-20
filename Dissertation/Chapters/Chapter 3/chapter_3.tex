@@ -1,3 +1,233 @@
+\chapter{Implementation of the trigger board firmware for the new Vertex Tracker}\label{ch:trigger_board}
+As detailed in \autoref{ssec:tracking_reg}, among the tracking stations of the FOOT electronic setup, the Vertex Tracker (VT) fulfills the fundamental aim of reconstructing the interaction vertex with high spatial precision ($\simeq5\,\mu\mathrm{m}$), which is provided by the MIMOSA-28 pixel technology. Nevertheless, the FOOT Collaboration is currently upgrading the VT with the cutting-edge MIMOSIS-2.1 technology, which offers a faster readout time without degrading the spatial resolution \cite{Rabaglia_2026}. This improvement turns out to be essential for increasing the data volume collected by the FOOT experiment, which is required to achieve the high-precision cross section measurements aimed by FOOT. The objective of this chapter is to present the implementations of the trigger board firmware for the new VT detector. This description is preceded by a brief discussion on the main features of the new MIMOSIS-2.1 technology.
+\section{The new MIMOSIS-2.1 Vertex Tracker}\label{sec:new_vertex_tracker}
+The FOOT Collaboration has planned to update the MIMOSA-28 (M28) VT detector (see \autoref{sssec:vertex_tracker}) with the more advanced MIMOSIS-2.1 chips, developed for the Micro Vertex Detector (MVD) of the CBM experiment at FAIR/GSI. While both rely on the CMOS Monolithic Active Pixel Sensors (MAPS) technology to minimize the material budget (see \autoref{fig:maps}), the MIMOSIS-2.1 sensor encompasses a matrix of $1024\times504$ pixels, each featuring an asymmetric pitch of $27\times30\,\mu\mathrm{m}^2$ ensuring a high spatial accuracy of $5\,\mu\mathrm{m}$. Similarly to the MIMOSA-28, the MIMOSIS-2.1 is a data push architecture, however the latter uses a global shutter technique rather than a rolling shutter (see \autoref{sssec:vertex_tracker}) method. Instead of employing a serial reading, the global shutter technique ensures that all pixels acquire the signal at the same time. The pixel signals are then sent to a local memory pending an external read request. This mechanisms cuts down reading time producing a fast temporal resolution of $5\,\mu\mathrm{s}$.
+
+In addition to the enhanced spatial and temporal resolutions, the MIMOSIS-2.1 features high radiation tolerance, withstanding up to $5\,\mathrm{Mrad}$\footnote{$1\,\mathrm{rad}=0.01\,\mathrm{Gy}$, see \autoref{ssec:dose_definition}.} and $7\cdot10^{13}\,\mathrm{neq/cm}^2$ per operational layer \cite{Darwish_2023}. Even after irradiation, the MIMOSIS-2.1 sensor demonstrated $\simeq100\%$ detection efficiency and a spatial resolution between $4$--$6\,\mu\mathrm{m}$ \cite{Darwish_2023}. Compared to the earlier prototypes, MIMOSIS-2.1 also integrates on-chip grouping circuits and presents an improved analog power grid \cite{deveaux2025beamperformancesmimosis21cmos}. \autoref{tab:mimosis_2.1} summarizes the main features of MIMOSIS-2.1, which make this technology a robust high-rate and low-material budget tracking sensor suitable for the high-radiation tolerance and high-precision environments typical of heavy-ion collision experiments.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{M{4cm} M{8cm}}
+		\hline
+		\multicolumn{2}{c}{\textbf{Physics parameter requirements}} \\
+		\hline
+		Spatial resolution & $\simeq 5\,\mu\mathrm{m}$ \\
+		Time resolution & $\simeq 5\,\mu\mathrm{s}$ \\
+		Material budget & $0.05\%X_0$ \\
+		Power consumption & $<100$--$200\,\mathrm{mW/cm^2}$ \\
+		Operation temperature & $-40\,^{\circ}\mathrm{C}$ to $30\,^{\circ}\mathrm{C}$ \\
+		Temperature gradient on chip & $<5\,\mathrm{K}$ \\
+		Radiation tolerance (non-ionizing) & $\simeq 7\cdot10^{13}\,\mathrm{n_{eq}/cm^2}$ \\
+		Radiation tolerance (ionizing) & $\simeq 5\,\mathrm{Mrad}$ \\
+		Data flow (peak hit rate) & $>2\,\mathrm{Gbit/s}$ @ $7\cdot10^5\,\mathrm{mm^{-2}s^{-1}}$ \\
+		\hline
+	\end{tabular}
+	\caption[MIMOSIS-2.1 main features]{Summary of the main physics and detector requirements for MIMOSIS-2.1. From \cite{Darwish_2023,deveaux2025beamperformancesmimosis21cmos}.}
+	\label{tab:mimosis_2.1}
+\end{table}
+Two technical justifications guided the selection of the MIMOSIS-2.1 technology for the new VT, namely the faster readout time, reduced from $185.6\,\mu\mathrm{s}$ of the original VT down to $5\,\mu\mathrm{s}$, and the radiation hardness. Both these improvements allow to increase the current data acquisition rate ($\simeq1\,\mathrm{kHZ}$) at least by a factor $2$.\footnote{Indeed, at present the maximum DAQ rate capability is $5\,\mathrm{kHz}$ \cite{9442772}.} Such upgrade will raise the statistics without varying the irradiation beam time. Moreover, it will reduce the piled-up fragmentation events in the VT, further improving the overall detector efficiency. To better understand the direct impact that the VT update will have on FOOT experimental activities, consider the formulae in \autoref{eq:cross_section_single_differential}, representing the single differential fragmentation cross sections with respect to the fragment's kinetic energy $E_\text{kin}$ and emission angle $\theta$:
+\begin{equation}
+	\begin{aligned}
+		\frac{\text{d}\sigma}{\text{d}E_\text{kin}}(Z,E_\text{kin})
+		&=
+		\frac{\Delta\Omega}{4\pi}
+		\frac{Y(Z,E_\text{kin})-\text{Bkg}}
+		{N_\text{p}\,N_\text{t}\,\Delta E_\text{kin}(E_\text{kin})\,
+			\varepsilon(Z,E_\text{kin})},
+		\\[1em]
+		\frac{\text{d}\sigma}{\text{d}\Omega}(Z,\theta)
+		&=
+		\frac{Y(Z,\theta)\text{Bkg}}
+		{N_\text{p}\,N_\text{t}\,\Delta\Omega(\theta)\,
+			\varepsilon(Z,\theta)},
+	\end{aligned}
+	\label{eq:cross_section_single_differential}
+\end{equation}
+where:
+\begin{itemize}
+	\item $Y$ is the number of yields, namely the number of tracks reconstructed with charge $Z$, emission angle $\theta$ and kinetic energy $E\text{kin}$. Necessarily, the uninteresting, background noise events (Bkg) are subtracted to the $Y$;
+	\item $N_\text{p}$ is the number of primary beam particles computed with the fragmentation trigger (see \autoref{sssec:tdaq_foot});
+	\item $N_\text{t}=\rho\,\Delta z\,N_A/A$ is the target's nuclear density, with the usual meaning of the symbols. Precisely, $\Delta z$ is the target's thickness (the $z$-axis follows the beam direction) and, for the data analyzed in this thesis, a graphite target (\ce{C}) is used, with $\Delta z=0.5\,\mathrm{cm}$, $\Delta x=\Delta y=0.5\,\mathrm{cm}$, $\rho=1.83\,\mathrm{g/cm}^3$ and $A=12.0107$;
+	\item $\Delta E_\text{kin}$ and $\Delta\Omega$ are phase space factors respectively for the fragment's kinetic energy and emission angle;
+	\item $\varepsilon$ is the convolution of the efficiencies affecting cross section measurements. $\varepsilon$ is influenced by the goodness of fragment identification SHOE reconstruction algorithm (see \autoref{sec:shoe}), the detector's angular acceptance, the physical efficiency of each FOOT sensor and the reliability of Monte Carlo simulations.
+\end{itemize}
+The increase of statistics induced by the MIMOSIS-2.1 VT will increment the number of correctly reconstructed tracks $Y$. As nuclear fragmentations occur in just $\simeq1\%$ of all the primary interactions, this contribution is of paramount importance. Furthermore, the additional experimental data will contribute to limit the statistical error on cross section measurements, laying the foundations for fulfilling the FOOT requirements on cross section uncertainties listed in \autoref{sec:foot_aim}. On the other hand, the pile-up reduction guaranteed by MIMOSIS-2.1 faster readout will improve the track discrimination, affecting directly the efficiency $\varepsilon$ and the Bkg terms.
+
+The configuration of the new FOOT VT detector will include $4$ detection planes, shown schematically in \autoref{fig:new_vt_detector} (left). Each layer will be equipped with $2$ opposite MIMOSIS-2.1 chips, bonded onto custom-designed CPB named Proximity Boards (PB), illustrated in \autoref{fig:new_vt_detector} (right).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{new_vt_detector.jpg}
+	\caption[The new MIMOSIS-2.1 Vertex Tracker]{On the left, schematic representation of the final configuration of the new MIMOSIS-2.1 VT. The zoom shows the orthogonal orientation of the $4$ proximity boards. On the right, front and back pictures of a single proximity board, with the chips bonded on it. From \cite{Rabaglia_2026}.}
+	\label{fig:new_vt_detector}
+\end{figure}
+To fully support the superior timing performances of the MIMOSIS-2.1, the FOOT Collaboration has implemented a new dedicated Trigger and Data AcQuisition (TDAQ) system. After a brief description of the new VT TDAQ architecture, the following sections will focus on the VT trigger (see \autoref{sec:trigger_box}), being the module I mainly contributed to during my thesis.
+
+\autoref{fig:trg_box_mimosis_daq} illustrates the main components of the VT TDAQ architecture, composed of all the boards, wires and connectors managing the data flow and the trigger/busy conditions. To understand the TDAQ system operation, let us follow the chronological data flow, supported by the help of \autoref{fig:trg_box_mimosis_daq}. First, when a charged particle passes through a single MIMOSIS-2.1 sensor, the hit data are transferred via HDMI differential signaling to the $2$ custom-developed DAQ boards in \autoref{fig:trg_box_mimosis_daq} (top left). Successively, the DAQ boards convert the signals into the single-ended standard, before transmitting them to the ``DAQ'' DE10-Nano board displayed in \autoref{fig:trg_box_mimosis_daq} (top left), which houses a Intel/Altera System-on-Chip (SoC) FPGA (Cyclone V) with a dual-core Cortex-A9 CPU. This DE10-Nano fulfills several duties: it generates the clock signal for the PB, handles the PB-chip communication via the I${}^2$C protocol and, most importantly, deserializes the received data before temporarily storing it on a DDR3 SDRAM. Once stored, the data signals wait for an external trigger, which is provided by the custom-designed DE10-Nano trigger board (hereafter referred to as Trigger Box or TrgBox) in \autoref{fig:trg_box_mimosis_daq} (right). The TrgBox collects the trigger signals raised by the WaveDAQ system (see the FOOT triggers in \autoref{sssec:tdaq_foot}) and distributes it to the DAQ boards via LVDS standard. After accepting the trigger signal, the DAQ DE10-Nano board opens a readout window centered on the trigger time, encompassing all the data frames and the respective metadata that will be sent to the FOOT central DAQ. The central DAQ finally recomposes the data fragments coming from each subdetector to assemble a full event, whose structure is displayed in \autoref{fig:data_fragment}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{trg_box_mimosis_daq.jpg}
+	\caption[The new MIMOSIS-2.1 experimental setup]{Components of the experimental setup employed to test $1$ plane of the new VT. On the top left, DE10-Nano board coupled with two DAQ boards aimed at controlling the PB hosting the MIMOSIS-2.1 sensors with GPIO cables. $6$ HDMI connectors handle the data flow from the sensors. The picture also shows $2$ LEMO and $2$ clock cables, and $2$ power supply connectors. On the bottom left, PB and MIMOSIS-2.1 chips. On the right, TrgBox connected to the DAQ boards via twisted-pair LVDS ribbon cables. The tiny red boxes on the top left and on the right label the two ends of the ribbon cables used for the DAQ-TrgBox communication. Adapted from \cite{Rabaglia2025RoadToBTF}.}
+	\label{fig:trg_box_mimosis_daq}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.98\linewidth]{data_fragment.jpg}
+	\caption[Raw experimental data stream]{On the left, composition of a full event, consisting of a full event header and data fragments. On the right, a single data fragment and its payload, with header and data words. Each data word is made of $4\,\mathrm{bytes}$. From \cite{UbaldiPhDThesis}.}
+	\label{fig:data_fragment}
+\end{figure}
+\section{Trigger Box}\label{sec:trigger_box}
+As explained in \autoref{sec:new_vertex_tracker}, the data extrapolation from the new VT MIMOSIS-2.1 sensors foresees a dedicated trigger board (see the TrgBox in \autoref{fig:trg_box_mimosis_daq} (right)), which is thoroughly described in this section. The TrgBox consists of a Terasic DE10-Nano board system housing an Intel/Altera System-on-Chip (SoC) FPGA (Cyclone V) with a dual-core ARM Cortex-A9 CPU processor. \autoref{fig:de10-nano} shows a photograph of the top and bottom views of the board, with the relevant connectors and the key components.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.49\linewidth}
+		\centering
+		\includegraphics[width=0.7\linewidth]{de10-nano_top.jpg}
+		\caption{Top view.}
+		\label{fig:de10-nano_top}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{de10-nano_bottom.jpg}
+		\caption{Bottom view.}
+		\label{fig:de10-nano_bottom}
+	\end{subfigure}
+	\caption[Terasic DE10-Nano board]{Top and bottom views of the Terasic DE10-Nano board, with its relevant connectors and components. From \cite{terasic_de10_nano_board}.}
+	\label{fig:de10-nano}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%Time synchronization across all detector subsystems represents a critical aspect of the TDAQ  design, given the high number and heterogeneity of involved detectors. The V2495 trigger board  continuously generates a 1 MHz Timestamp Clock (TS clock) distributed to all detectors, which is  sampled and recorded in the event payload. This redundant timing information is essential for online  monitoring of alignment, allowing also to perform offline synchronization of  acquired data in case of temporary issues on trigger distribution. The busy logic, also managed  centrally by the trigger board, implements a logical OR of all detector busy signals: if any 
+%detector reports a busy condition, trigger generation is inhibited until all subsystems are ready  to acquire. This mechanism, combined with backpressure propagation through the many buffers  spread throughout the acquisition system, guarantees data integrity preventing buffer overflows and  subsequent data losses.
+
+% properly process the event and to allow detectors to get ready for the next event.
+%All busy signals, in addition to trigger, in the FOOT experiment are managed by
+%the central trigger board, i.e. the CAEN V2495 board, a general purpose programmable
+%FPGA and I/O unit hosted in the VME crate. The board receives busy signals from all
+%the detectors and performs their logic OR: if at least one detector is not ready to take
+%data, no trigger will be issued even if generated by the WaveDAQ. The busy time length
+%can vary from event to event even if most of FOOT detectors have it fixed (excluding
+%variable timing to empty buffers): as already said, the slowest detector is the Vertex
+%detector
+
+
+% patch panel to distribute signals with
+%the possibility to forward some copies of candidate trigger signals from the Wavedream
+%system without waiting for V2495 board. In this way it is possible to avoid the jitter
+%introduced by the sampling rate of the trigger board
+
+
+
+
+
+
+
+%Detectors can be triggered or triggerless: in the former case, detector are read only
+%when a trigger occurs while in the latter the data flux from detectors is continuous.
+%Among FOOT detectors, only the Vertex sensors (M28 chips) have a triggerless architecture:
+%however, the Vertex readout electronics sends data to the central DAQ only if
+%a trigger is received
+
+
+
+
+%Caro Pasquini,
+%
+%provo a rispondere in linea:
+%
+%Il 10/12/2025 11:14, Simone Pasquini - simone.pasquini7@studio.unibo.it ha scritto:
+%Rimango in attesa di sue indicazioni in merito agli sviluppi software/hardware della trgBox.
+%per questioni di debug è opportuno avere un data channel anche per la trigger box. La cosa è relativamente semplice, visto che si tratta di leggere i registri da 28 a 34 e metterli in uno stream dati. Praticamente si tratta di aggiornare un file sorgente che è il SOCServerInterface.cpp, metodi readData e wordsAvailable. E' facile da fare e se vuole glielo lascio fare.
+%
+%Per ciò che concerne la documentazione, se non erro la scorsa volta si parlava di redigere uno scritto contenente informazioni sui registri della trgBox. Tale documento deve:
+%essere esaustivo o sintetico?
+%avere un formato particolare?
+%Lo scritto deve essere sintetico. Sarà un po' sulla base del "ProgettoTriggerBox.mb", con appena più ufficialità.
+%
+%Il 09/12/2025 09:00, Simone Pasquini - simone.pasquini7@studio.unibo.it ha scritto:
+%come concordato, le invio in allegato un file .zip con all'interno:
+%Il file .rbf, che include:
+%le modifiche effettuate la scorsa volta
+%Il BusyTime.vhd aggiornato con il reset del contatore all'arrivo di un nuovo segnale di Trigger
+%La cartella bin/ aggiornata
+%Il file script load.sh, che se vuole può utilizzare per caricare  file .rbf e cartella bin/ nella VTXBox eseguendo: ./load.sh DE10nano_TriggerBOX_DE250008.rbf bin/
+%Intanto grazie per questo aggiornamento! Come avrà avuto modo di vedere dai mail che sono circolati, la stiamo usando con profitto.
+%
+%Inoltre, visto che la scorsa volta avevamo trovato incongruenze nei Monitoring registers 3 e 14 (relativi ai timeStamp + FIFO), ho voluto ripassare il TimeStampGenerator.vhd, al cui interno si genera il segnale di internal timeStamp con un periodo di 1 microsecondo, diverso dal periodo di 20 ns del segnale di Clock. Tale differenza non dovrebbe causare le problematiche osservate la scorsa volta, ma mi chiedevo se ci fosse un motivo particolare per cui al momento utilizziamo periodi differenti.
+%Il Time Stamp dovrebbe essere univoco nell'intero esperimento. Nella funzionalità di Trigger Box "stand-alone" usiamo il time stamp interno, nella modalità di lavoro finale usiamo il Time Stamp generato all'esterno dalla scheda V2495. 
+%
+%In attesa di un suo riscontro (anche in merito alla gestione della FIFO), la ringrazio in anticipo per la sua disponibilità.
+%Sulle fifo, le mando in allegato la documentazione di come si creano delle fifo con quartus. Per semplificare al massimo, le dico che la fifo che è usata per le informazioni di trigger è una fifo Single-Clock di tipo Show-Ahead. Quartus genera queste fifo con un segnale chiamato "rdreq" (read-request) è in realtà un "read-acknowledge". Si veda paragrafo 1.8. Caratteristica di questa fifo è che è lenta, cioè tra una lettura e la successiva occorrono sempre 2 colpi di clock (vedi anche figura 6 dell'allegato).
+%
+%Quando le sarà possibile, le chiedo gentilmente di farmi sapere se posso essere d'aiuto per quanto sopra riportato.
+%In questi giorni siamo sempre in laboratorio a migliorare giorno per giorno il sistema. Se/quando passa, qualcosa da fare o da verificare sulla trigger box lo troveremo facilmente.
+%
+%A presto,
+%
+%Mauro Villa
+%
+%
+%
+%
+%
+%Da: Mauro Villa <mauro.villa@unibo.it>
+%Inviato: mercoledì, dicembre 10, 2025 8:28:15 AM
+%A: Sara Valentinetti <sara.valentinetti@bo.infn.it>; Simone Pasquini - simone.pasquini7@studio.unibo.it <simone.pasquini7@studio.unibo.it>; Sara Rabaglia <sara.rabaglia2@unibo.it>; Riccardo Ridolfi <Riccardo.Ridolfi@bo.infn.it>
+%Oggetto: Info daq mimosis
+%
+%Carissimi tutti,
+%
+%vi aggiorno cumulativamente su alcuni sviluppi della DAQ Mimosis:
+%
+%- ieri siamo riusciti a far funzionare bene insieme la board con i due
+%mimosis, la trigger box e la DAQ generale. Abbiamo acquisito dati che
+%appaiono sensati (senza eventi vuoti) con un rate fino a 1 kHz. Ottimo!!
+%Il run si chiude anche bene!!
+%
+%- per raggiungere questo risultato abbiamo dovuto fare qualche
+%cambiamento minimale sul lato TDAQ generale e configurare bene i vari
+%dispositivi.
+%
+%- Fino a prova contraria, congelerei i due firmware così come sono
+%(versione 08 sulla triggerbox e 04 sulla nvtx0) e suggerirei di andare
+%avanti sullo sviluppo della TDAQ generale e dell'hardware.
+%
+%Mi sono convinto che è meglio per il test alla BTF avere un data channel
+%anche della trigger box. I cambiamenti da fare sono minimali (e sono
+%soprattutto sul software della triggerbox), ma potrebbero essere
+%importanti per il debug quando il sistema avrà N schede. Tra i lavori
+%che ci sono da fare segnalo (in ordine random):
+%
+%- documentare hardware, software e configurazioni
+%
+%- inserire un modulo con gnam
+%
+%- fare misure con sorgente
+%
+%- lavorare con 2 schede e prepararsi al salto con N>2 schede.
+%
+%- preparare l'hardware per un run di cosmici natalizi....
+%
+%Oggi alle 12 arriva la sorgente.
+%
+%A presto,
+%
+%Mauro
+
+
+
 \chapter{Experimental part}
 % Here you will have to justify the use of 200 Mev/u carbon-carbon interactions. You can mention what you have said for the PhD application but also that FOOT has covered up to now a limited set of beam-target-energy configurations (and then you have to check page 2 of this article https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt) when it states some key measurements have been performed already [16–25] (which includes the FOOT experiment publication)
 
