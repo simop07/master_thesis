@@ -6,7 +6,7 @@ The FOOT Collaboration has planned to update the MIMOSA-28 (M28) VT detector (se
 In addition to the enhanced spatial and temporal resolutions, the MIMOSIS-2.1 features high radiation tolerance, withstanding up to $5\,\mathrm{Mrad}$\footnote{$1\,\mathrm{rad}=0.01\,\mathrm{Gy}$, see \autoref{ssec:dose_definition}.} and $7\cdot10^{13}\,\mathrm{neq/cm}^2$ per operational layer \cite{Darwish_2023}. Even after irradiation, the MIMOSIS-2.1 sensor demonstrated $\simeq100\%$ detection efficiency and a spatial resolution between $4$--$6\,\mu\mathrm{m}$ \cite{Darwish_2023}. Compared to the earlier prototypes, MIMOSIS-2.1 also integrates on-chip grouping circuits and presents an improved analog power grid \cite{deveaux2025beamperformancesmimosis21cmos}. \autoref{tab:mimosis_2.1} summarizes the main features of MIMOSIS-2.1, which make this technology a robust high-rate and low-material budget tracking sensor suitable for the high-radiation tolerance and high-precision environments typical of heavy-ion collision experiments.
 \begin{table}[H]
 	\centering
-	\begin{tabular}{M{4cm} M{8cm}}
+	\begin{tabular}{M{6cm} M{8cm}}
 		\hline
 		\multicolumn{2}{c}{\textbf{Physics parameter requirements}} \\
 		\hline
@@ -59,176 +59,206 @@ The configuration of the new FOOT VT detector will include $4$ detection planes,
 	\caption[The new MIMOSIS-2.1 Vertex Tracker]{On the left, schematic representation of the final configuration of the new MIMOSIS-2.1 VT. The zoom shows the orthogonal orientation of the $4$ proximity boards. On the right, front and back pictures of a single proximity board, with the chips bonded on it. From \cite{Rabaglia_2026}.}
 	\label{fig:new_vt_detector}
 \end{figure}
-To fully support the superior timing performances of the MIMOSIS-2.1, the FOOT Collaboration has implemented a new dedicated Trigger and Data AcQuisition (TDAQ) system. After a brief description of the new VT TDAQ architecture, the following sections will focus on the VT trigger (see \autoref{sec:trigger_box}), being the module I mainly contributed to during my thesis.
-
-\autoref{fig:trg_box_mimosis_daq} illustrates the main components of the VT TDAQ architecture, composed of all the boards, wires and connectors managing the data flow and the trigger/busy conditions. To understand the TDAQ system operation, let us follow the chronological data flow, supported by the help of \autoref{fig:trg_box_mimosis_daq}. First, when a charged particle passes through a single MIMOSIS-2.1 sensor, the hit data are transferred via HDMI differential signaling to the $2$ custom-developed DAQ boards in \autoref{fig:trg_box_mimosis_daq} (top left). Successively, the DAQ boards convert the signals into the single-ended standard, before transmitting them to the ``DAQ'' DE10-Nano board displayed in \autoref{fig:trg_box_mimosis_daq} (top left), which houses a Intel/Altera System-on-Chip (SoC) FPGA (Cyclone V) with a dual-core Cortex-A9 CPU. This DE10-Nano fulfills several duties: it generates the clock signal for the PB, handles the PB-chip communication via the I${}^2$C protocol and, most importantly, deserializes the received data before temporarily storing it on a DDR3 SDRAM. Once stored, the data signals wait for an external trigger, which is provided by the custom-designed DE10-Nano trigger board (hereafter referred to as Trigger Box or TrgBox) in \autoref{fig:trg_box_mimosis_daq} (right). The TrgBox collects the trigger signals raised by the WaveDAQ system (see the FOOT triggers in \autoref{sssec:tdaq_foot}) and distributes it to the DAQ boards via LVDS standard. After accepting the trigger signal, the DAQ DE10-Nano board opens a readout window centered on the trigger time, encompassing all the data frames and the respective metadata that will be sent to the FOOT central DAQ. The central DAQ finally recomposes the data fragments coming from each subdetector to assemble a full event, whose structure is displayed in \autoref{fig:data_fragment}.
+To fully support the superior timing performances of the MIMOSIS-2.1, the FOOT Collaboration has implemented a new dedicated Trigger and Data AcQuisition (TDAQ) system for the incoming Vertex Tracker. After a brief description of the new VT TDAQ architecture, the following sections will focus on the VT trigger (see \autoref{sec:trigger_box}), being the module I mainly contributed to during my thesis.
+\subsection{TDAQ architecture for the new Vertex Tracker}\label{ssec:TDAQ_newVT}
+\autoref{fig:trg_box_mimosis_daq} illustrates the main components of the VT TDAQ architecture, composed of all the boards, wires and connectors managing the data flow and the trigger/busy conditions. To understand the TDAQ system operation, let us follow the chronological data flow, supported by the help of \autoref{fig:trg_box_mimosis_daq}. First, when a charged particle passes through a single MIMOSIS-2.1 sensor, the hit data are transferred via HDMI differential signaling to the $2$ custom-developed DAQ boards in \autoref{fig:trg_box_mimosis_daq} (top left). Successively, the DAQ boards convert the signals into the single-ended standard, before transmitting them to the ``DAQ'' DE10-Nano board displayed in \autoref{fig:trg_box_mimosis_daq} (top left), which houses a Intel/Altera System-on-Chip (SoC) FPGA (Cyclone V) with a dual-core Cortex-A9 CPU. This DE10-Nano fulfills several duties: it generates the clock signal for the PB, handles the PB-chip communication via the I${}^2$C protocol and, most importantly, deserializes the received data before temporarily storing it on a DDR3 SDRAM. Once stored, the data signals wait for an external trigger, which is provided by the custom-designed DE10-Nano trigger board (hereafter referred to as Trigger Box or TrgBox) in \autoref{fig:trg_box_mimosis_daq} (right). The TrgBox collects the trigger signals raised by the WaveDAQ system (see the FOOT triggers in \autoref{sssec:tdaq_foot}) and distributes it to the DAQ boards via LVDS standard. After accepting the trigger signal, the DAQ DE10-Nano board opens a readout window centered on the trigger time, encompassing all the data frames and the respective metadata that will be sent to the FOOT central DAQ.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{trg_box_mimosis_daq.jpg}
 	\caption[The new MIMOSIS-2.1 experimental setup]{Components of the experimental setup employed to test $1$ plane of the new VT. On the top left, DE10-Nano board coupled with two DAQ boards aimed at controlling the PB hosting the MIMOSIS-2.1 sensors with GPIO cables. $6$ HDMI connectors handle the data flow from the sensors. The picture also shows $2$ LEMO and $2$ clock cables, and $2$ power supply connectors. On the bottom left, PB and MIMOSIS-2.1 chips. On the right, TrgBox connected to the DAQ boards via twisted-pair LVDS ribbon cables. The tiny red boxes on the top left and on the right label the two ends of the ribbon cables used for the DAQ-TrgBox communication. Adapted from \cite{Rabaglia2025RoadToBTF}.}
 	\label{fig:trg_box_mimosis_daq}
 \end{figure}
-\begin{figure}
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{data_fragment.jpg}
+	\includegraphics[width=0.46\linewidth]{data_fragment.jpg}
 	\caption[Raw experimental data stream]{On the left, composition of a full event, consisting of a full event header and data fragments. On the right, a single data fragment and its payload, with header and data words. Each data word is made of $4\,\mathrm{bytes}$. From \cite{UbaldiPhDThesis}.}
 	\label{fig:data_fragment}
 \end{figure}
-\section{Trigger Box}\label{sec:trigger_box}
-As explained in \autoref{sec:new_vertex_tracker}, the data extrapolation from the new VT MIMOSIS-2.1 sensors foresees a dedicated trigger board (see the TrgBox in \autoref{fig:trg_box_mimosis_daq} (right)), which is thoroughly described in this section. The TrgBox consists of a Terasic DE10-Nano board system housing an Intel/Altera System-on-Chip (SoC) FPGA (Cyclone V) with a dual-core ARM Cortex-A9 CPU processor. \autoref{fig:de10-nano} shows a photograph of the top and bottom views of the board, with the relevant connectors and the key components.
+The central DAQ finally recomposes the data fragments coming from each subdetector to assemble a full event, whose structure is displayed in \autoref{fig:data_fragment}. The above data and trigger flow is valid for a single VT plane: when all the $4$ VT layers will be operated, they will be readout by $4$ DAQ DE10-Nano and a single TrgBox.
+\section{Trigger Box for the new Vertex Tracker}\label{sec:trigger_box}
+\subsection{General overview}\label{ssec:TB_general_overview}
+As shown in \autoref{sec:new_vertex_tracker}, the data extrapolation from the new VT MIMOSIS-2.1 sensors foresees a dedicated trigger board (see the TrgBox in \autoref{fig:trg_box_mimosis_daq} (right)), which is thoroughly described in this section. The TrgBox consists of a Terasic DE10-Nano board system housing an Intel/Altera System-on-Chip (SoC) FPGA (Cyclone V) and a Hard Processor System (HPS) including a dual-core ARM Cortex-A9 CPU processor. \autoref{fig:de10-nano} displays a photograph of the top and bottom views of the board, with the relevant connectors and the key components.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.49\linewidth}
+	\begin{subfigure}[b]{0.60\linewidth}
 		\centering
-		\includegraphics[width=0.7\linewidth]{de10-nano_top.jpg}
+		\includegraphics[width=\linewidth]{de10-nano_top.jpg}
 		\caption{Top view.}
 		\label{fig:de10-nano_top}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.49\linewidth}
+	\begin{subfigure}[b]{0.38\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{de10-nano_bottom.jpg}
 		\caption{Bottom view.}
 		\label{fig:de10-nano_bottom}
 	\end{subfigure}
-	\caption[Terasic DE10-Nano board]{Top and bottom views of the Terasic DE10-Nano board, with its relevant connectors and components. From \cite{terasic_de10_nano_board}.}
+	\caption[Terasic DE10-Nano board]{Top and bottom views of the Terasic DE10-Nano board, with its relevant connectors and components. Specifically, the HPS comprises a $800\,\mathrm{MHz}$ CPU, a $1\,\mathrm{GB}$ DDR3 SDRAM ($32$-bit data bus) and other peripherals and memory interfaces. From \cite{terasic_de10_nano_board}.}
 	\label{fig:de10-nano}
 \end{figure}
+As described in \autoref{sssec:tdaq_general_info}, the synchronization of a TDAQ architecture is fundamental to associate the data fragments to the physics event that generated them. This aspect becomes critical especially in experiments like FOOT, where the number of detectors and their heterogeneity can impact the timing performances as well as the data quality. For this reason, the TrgBox aims to correctly forward a triggering signal from the V2495 central trigger module to each VT MIMOSIS-2.1 sensor, minimizing the latency. This trigger distribution activity must be also adapted to the data acquisition chain: a busy condition on the MIMOSIS-2.1 sensors or a data overload in the VT DAQ hindering the SDRAM reading must immediately inhibit the trigger propagation, activating a temporary busy state until all subsystems become available again. Both the trigger/busy signal distribution and the trigger validation logic are implemented in the TrgBox FPGA firmware, which is developed in VHSIC Hardware Description Language (VHDL).
 
+The TrgBox requirements well align with the seamless integration between the FPGA and the HPS offered by the DE10-Nano board. On one hand, the inherent reprogrammability of FPGA systems provides the ultra-low latency, the direct I/O communication and the parallel processing typical of hardware resources, while retaining the reconfigurability of software development; such flexibility is essential in a dynamic experimental environment like FOOT. On the other hand, the minimal Linux operating system hosted by the CPU processor (HPS) can access the TrgBox FPGA firmware, employing \texttt{C++} software that reads and manipulates the FPGA registers. Indeed, the FPGA peripherals can be controlled and monitored by the CPU through memory-mapped registers over the so-called HPS-FPGA bridge.
 
+The HPS is particularly important for the online and offline monitoring of the FPGA operation, as it allows to read from a computer screen the metadata attached to each event (including trigger tags like number, source and timestamp). This supplementary information is added via firmware to verify the data timing alignment and to look for possible temporary issues in the trigger distribution. In the following, a general description of the TrgBox FPGA firmware is provided, while more details on the HPS-FPGA interface can be found in \cite{thesisSavarese}.
+\subsection{General firmware operation and personal contributions}\label{ssec:firmware_operation_signals_pers_contr}
+The TrgBox firmware implements a Finite State Machine (FSM) characterized by three principal states, namely \texttt{IDLE} (which gives the initial synchronization), \texttt{CONFIG} (employed to configure the TrgBox registers) and \texttt{RUN} (used when signals are actively distributed among devices). During operation, the TrgBox handles $4$ main signals in input and output, better specified in \autoref{ssec:signals_trgbox}:
+\begin{itemize}
+	\item \texttt{Trigger} signal;
+	\item \texttt{Busy} signal;
+	\item Time Stamp (TS) signals, decomposed into:
+	\begin{itemize}
+		\item \texttt{TSClock} signal;
+		\item \texttt{TSReset} signal.
+	\end{itemize}
+\end{itemize}
+To perform the trigger distribution, the TrgBox sends out $N=11$ signals to external devices, whose connection are realized via $8$ LVDS and $3$ LVTTL lines. In addition, the TrgBox includes $16$ $32$-bit configuration registers, which control the FSM and the \texttt{Trigger} generation, and $19$ $32$-bit monitoring registers, providing the firmware status and the event information. These registers are detailed respectively in \autoref{ssec:config_registers} and \autoref{ssec:monitor_registers}.
 
+The TrgBox is operated with an internal clock of frequency $50\,\mathrm{MHz}$, and is endowed with GPIO lines for \texttt{Trigger}, \texttt{Busy} and TS signals, button keys that can activate manual triggers for testing, LEDs indicators for system status and multiple switches that can further implement control functions.
 
+During my thesis work, I refined the TrgBox VHDL firmware by inserting a configurable show-ahead FIFO for the event readout (further discussed in \autoref{ssec:fifo}), I improved the temporary \texttt{Busy} activation after a \texttt{Trigger} assertion and I enhanced the overall synchronization of the event-building logic, for instance accepting \texttt{Trigger} signals only when the TrgBox FIFO is not empty. In addition, I overhauled the \texttt{C++} class \texttt{FpgaInterfaceTB.cpp} and the macro \texttt{TriggerBoxScope.cpp} that allow to control and visualize the configuration and monitoring registers via the HPS-FPGA interface.
 
-
-
-
-
-
-
-
-
-
-
-%Time synchronization across all detector subsystems represents a critical aspect of the TDAQ  design, given the high number and heterogeneity of involved detectors. The V2495 trigger board  continuously generates a 1 MHz Timestamp Clock (TS clock) distributed to all detectors, which is  sampled and recorded in the event payload. This redundant timing information is essential for online  monitoring of alignment, allowing also to perform offline synchronization of  acquired data in case of temporary issues on trigger distribution. The busy logic, also managed  centrally by the trigger board, implements a logical OR of all detector busy signals: if any 
-%detector reports a busy condition, trigger generation is inhibited until all subsystems are ready  to acquire. This mechanism, combined with backpressure propagation through the many buffers  spread throughout the acquisition system, guarantees data integrity preventing buffer overflows and  subsequent data losses.
-
-% properly process the event and to allow detectors to get ready for the next event.
-%All busy signals, in addition to trigger, in the FOOT experiment are managed by
-%the central trigger board, i.e. the CAEN V2495 board, a general purpose programmable
-%FPGA and I/O unit hosted in the VME crate. The board receives busy signals from all
-%the detectors and performs their logic OR: if at least one detector is not ready to take
-%data, no trigger will be issued even if generated by the WaveDAQ. The busy time length
-%can vary from event to event even if most of FOOT detectors have it fixed (excluding
-%variable timing to empty buffers): as already said, the slowest detector is the Vertex
-%detector
-
-
-% patch panel to distribute signals with
-%the possibility to forward some copies of candidate trigger signals from the Wavedream
-%system without waiting for V2495 board. In this way it is possible to avoid the jitter
-%introduced by the sampling rate of the trigger board
-
-
-
-
-
-
-
-%Detectors can be triggered or triggerless: in the former case, detector are read only
-%when a trigger occurs while in the latter the data flux from detectors is continuous.
-%Among FOOT detectors, only the Vertex sensors (M28 chips) have a triggerless architecture:
-%however, the Vertex readout electronics sends data to the central DAQ only if
-%a trigger is received
-
-
-
-
-%Caro Pasquini,
-%
-%provo a rispondere in linea:
-%
-%Il 10/12/2025 11:14, Simone Pasquini - simone.pasquini7@studio.unibo.it ha scritto:
-%Rimango in attesa di sue indicazioni in merito agli sviluppi software/hardware della trgBox.
-%per questioni di debug è opportuno avere un data channel anche per la trigger box. La cosa è relativamente semplice, visto che si tratta di leggere i registri da 28 a 34 e metterli in uno stream dati. Praticamente si tratta di aggiornare un file sorgente che è il SOCServerInterface.cpp, metodi readData e wordsAvailable. E' facile da fare e se vuole glielo lascio fare.
-%
-%Per ciò che concerne la documentazione, se non erro la scorsa volta si parlava di redigere uno scritto contenente informazioni sui registri della trgBox. Tale documento deve:
-%essere esaustivo o sintetico?
-%avere un formato particolare?
-%Lo scritto deve essere sintetico. Sarà un po' sulla base del "ProgettoTriggerBox.mb", con appena più ufficialità.
-%
-%Il 09/12/2025 09:00, Simone Pasquini - simone.pasquini7@studio.unibo.it ha scritto:
-%come concordato, le invio in allegato un file .zip con all'interno:
-%Il file .rbf, che include:
-%le modifiche effettuate la scorsa volta
-%Il BusyTime.vhd aggiornato con il reset del contatore all'arrivo di un nuovo segnale di Trigger
-%La cartella bin/ aggiornata
-%Il file script load.sh, che se vuole può utilizzare per caricare  file .rbf e cartella bin/ nella VTXBox eseguendo: ./load.sh DE10nano_TriggerBOX_DE250008.rbf bin/
-%Intanto grazie per questo aggiornamento! Come avrà avuto modo di vedere dai mail che sono circolati, la stiamo usando con profitto.
-%
-%Inoltre, visto che la scorsa volta avevamo trovato incongruenze nei Monitoring registers 3 e 14 (relativi ai timeStamp + FIFO), ho voluto ripassare il TimeStampGenerator.vhd, al cui interno si genera il segnale di internal timeStamp con un periodo di 1 microsecondo, diverso dal periodo di 20 ns del segnale di Clock. Tale differenza non dovrebbe causare le problematiche osservate la scorsa volta, ma mi chiedevo se ci fosse un motivo particolare per cui al momento utilizziamo periodi differenti.
-%Il Time Stamp dovrebbe essere univoco nell'intero esperimento. Nella funzionalità di Trigger Box "stand-alone" usiamo il time stamp interno, nella modalità di lavoro finale usiamo il Time Stamp generato all'esterno dalla scheda V2495. 
-%
-%In attesa di un suo riscontro (anche in merito alla gestione della FIFO), la ringrazio in anticipo per la sua disponibilità.
-%Sulle fifo, le mando in allegato la documentazione di come si creano delle fifo con quartus. Per semplificare al massimo, le dico che la fifo che è usata per le informazioni di trigger è una fifo Single-Clock di tipo Show-Ahead. Quartus genera queste fifo con un segnale chiamato "rdreq" (read-request) è in realtà un "read-acknowledge". Si veda paragrafo 1.8. Caratteristica di questa fifo è che è lenta, cioè tra una lettura e la successiva occorrono sempre 2 colpi di clock (vedi anche figura 6 dell'allegato).
-%
-%Quando le sarà possibile, le chiedo gentilmente di farmi sapere se posso essere d'aiuto per quanto sopra riportato.
-%In questi giorni siamo sempre in laboratorio a migliorare giorno per giorno il sistema. Se/quando passa, qualcosa da fare o da verificare sulla trigger box lo troveremo facilmente.
-%
-%A presto,
-%
-%Mauro Villa
-%
-%
-%
-%
-%
-%Da: Mauro Villa <mauro.villa@unibo.it>
-%Inviato: mercoledì, dicembre 10, 2025 8:28:15 AM
-%A: Sara Valentinetti <sara.valentinetti@bo.infn.it>; Simone Pasquini - simone.pasquini7@studio.unibo.it <simone.pasquini7@studio.unibo.it>; Sara Rabaglia <sara.rabaglia2@unibo.it>; Riccardo Ridolfi <Riccardo.Ridolfi@bo.infn.it>
-%Oggetto: Info daq mimosis
-%
-%Carissimi tutti,
-%
-%vi aggiorno cumulativamente su alcuni sviluppi della DAQ Mimosis:
-%
-%- ieri siamo riusciti a far funzionare bene insieme la board con i due
-%mimosis, la trigger box e la DAQ generale. Abbiamo acquisito dati che
-%appaiono sensati (senza eventi vuoti) con un rate fino a 1 kHz. Ottimo!!
-%Il run si chiude anche bene!!
-%
-%- per raggiungere questo risultato abbiamo dovuto fare qualche
-%cambiamento minimale sul lato TDAQ generale e configurare bene i vari
-%dispositivi.
-%
-%- Fino a prova contraria, congelerei i due firmware così come sono
-%(versione 08 sulla triggerbox e 04 sulla nvtx0) e suggerirei di andare
-%avanti sullo sviluppo della TDAQ generale e dell'hardware.
-%
-%Mi sono convinto che è meglio per il test alla BTF avere un data channel
-%anche della trigger box. I cambiamenti da fare sono minimali (e sono
-%soprattutto sul software della triggerbox), ma potrebbero essere
-%importanti per il debug quando il sistema avrà N schede. Tra i lavori
-%che ci sono da fare segnalo (in ordine random):
-%
-%- documentare hardware, software e configurazioni
-%
-%- inserire un modulo con gnam
-%
-%- fare misure con sorgente
-%
-%- lavorare con 2 schede e prepararsi al salto con N>2 schede.
-%
-%- preparare l'hardware per un run di cosmici natalizi....
-%
-%Oggi alle 12 arriva la sorgente.
-%
-%A presto,
-%
-%Mauro
-
-
-
-\chapter{Experimental part}
-% Here you will have to justify the use of 200 Mev/u carbon-carbon interactions. You can mention what you have said for the PhD application but also that FOOT has covered up to now a limited set of beam-target-energy configurations (and then you have to check page 2 of this article https://journals.aps.org/prc/pdf/10.1103/17nq-3ddt) when it states some key measurements have been performed already [16–25] (which includes the FOOT experiment publication)
-
-\section{Global analysis with SHOE}\label{sec:shoe} % if this changes, change also the ref in chapter 2
+The correct functioning of the TrgBox firmware has been verified by the FOOT Collaboration in Frascati laboratories \cite{Rabaglia2026BTF}. I have further validated the TrgBox firmware in \cite{simone_pasquini_2026_19881390}, where I developed a VHDL project that implemented a FPGA-based detector emulator to generate muon-like trigger signals.
+\subsection{Input and output signals}\label{ssec:signals_trgbox} 
+\subsubsection{Trigger signal}\label{sssec:trigger_signal}
+The TrgBox can either generate triggers internally or distribute external ones, depending on the chosen configuration. The \texttt{Trigger} is a TTL $3.3\,\mathrm{V}$ signal with a minimum duration of $100\,\mathrm{ns}$. It is distributed to the connected external devices only when the FSM is in the \texttt{RUN} state. When the system is not in \texttt{RUN}, the \texttt{Trigger} input (either external or internal) is indeed ignored. The selection of the active output channels, as well as the number of devices receiving the \texttt{Trigger}, is controlled through a dedicated configuration register.
+\subsubsection{Busy signal}\label{sssec:busy_signal}
+Each external device connected to the TrgBox can generate a \texttt{Busy} signal, expressed as a TTL $3.3\,\mathrm{V}$ logic level, to indicate that it is temporarily unable to accept new Triggers. During the \texttt{RUN} state, a \texttt{Global Busy} output is generated as the logical \texttt{OR} of all the \texttt{Busy} signals coming from the enabled devices, the latter being specified by a dedicated configuration mask. When the system is in any state other than \texttt{RUN}, the \texttt{Global Busy} output is forced to a logic high level. Note that the \texttt{Busy} signal is unique among the system signals because it flows in the opposite direction with respect to the other input signals, namely from the detectors to the TrgBox.
+\subsubsection{Time Stamp signals}\label{sssec:timestamp_signals}
+\texttt{TSClock} and \texttt{TSReset} are synchronization signals either generated internally by the TrgBox or received externally. These signals are always distributed, independently of the FSM state. In particular:
+\begin{itemize}
+	\item the \texttt{TSClock} is a $3.3\,\mathrm{V}$ square wave with a nominal period of $1\,\mu\mathrm{s}$. Although it can be configured from the TrgBox firmware, it currently follows the $1\,\mathrm{MHz}$ frequency provided by the timestamp clock of the V2495 central trigger board. The \texttt{TSClock} is connected to a TS register that counts its rising edges starting from a \texttt{TSReset} assertion; this allows to measure the time duration of each \texttt{RUN} cycle.
+	\item The \texttt{TSReset} is a $3.3\,\mathrm{V}$ signal, normally held low and asserted only during the transition from \texttt{CONFIG} to \texttt{RUN}. It is used to reset all counters, in particular timing ones, and to provide the initial register synchronization.
+\end{itemize}
+\subsection{FIFO readout logic}\label{ssec:fifo}
+The TrgBox handles \texttt{Trigger} events through a First In, First Out (FIFO) queue (see \autoref{fig:fifo}). As shown in the configuration register number $1$ in \autoref{tab:config_registers}, the FIFO has several operation modes, which can be directly configured by the user. To understand the FIFo operating principles, it is necessary to introduce the \texttt{TrgReadAcknowledge} signal, which is fundamental to readout the FIFO events. The \texttt{TrgReadAcknowledge} is a $1$-tick pulse asserted whenever a read request (\texttt{rdreq}) is issued to the FIFO, that is, whenever the system intends to advance to the next FIFO entry. As \texttt{TrgReadAcknowledge} is asserted, the FIFO read pointer advances to the next entry. Note that this signal does merely acknowledges the readout of the ``current'' FIFO entry, rather than driving the stored FIFO data towards the output bus. This behavior is a consequence of the show-ahead mode operation of the FIFO, which is also named read-ahead or First-Word Fall-Through (FWFT) mode. In the show-ahead mode, the FIFO automatically outputs the first valid data word as soon as the FIFO is not empty, without requiring the assertion of a read request \texttt{rdreq} signal. In this configuration, the \texttt{rdreq} input is interpreted as a read acknowledge rather than as a conventional read request command, thereby providing the data in the same cycle in which they are requested \cite{intel_fifo}. The difference between the standard and the FWFT read operations is illustrated in \autoref{fig:fifo_modes}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{fifo_modes.jpg}
+	\caption[FIFO operation modes]{On the left, standard FIFO readout mode, with the \texttt{rd\_en} signal corresponding to the \texttt{rdreq} mentioned in the text. On the right, First-Word Fall-Through FIFO operation mode. From \cite{intel_fifo}.}
+	\label{fig:fifo_modes}
+\end{figure}
+\subsection{Configuration registers}\label{ssec:config_registers}
+Configuration registers define the operational behavior of the TrgBox and directly control the main firmware components. In particular, configuration registers allow the user to monitor the FSM transitions, selecting among the operating mode of \texttt{IDLE}, \texttt{CONFIG} and \texttt{RUN}. Furthermore, they define which external devices are enabled to receive triggers through a bitmap mask; if the device are unavailable, their corresponding \texttt{Busy} bit is raised to a logic high. In addition, configuration registers enable the internal or external \texttt{Trigger} and TS signals generation. Configuration registers are primarily implemented by the following firmware modules, designed through the $14.1$ Quartus software \cite{altera_quartus_ii_14_1}:
+\begin{itemize}
+	\item \texttt{Main\_FSM.vhd}, controlling the FSM states.
+	\item \texttt{TriggerControl.vhd}, enabling the various \texttt{Trigger} sources and validating the final \texttt{Trigger} output, providing its final distribution.
+	\item \texttt{BusyControl.vhd}, which applies device masking and creates the \texttt{Global Busy} signal.
+	\item \texttt{TimeControl.vhd}, which selects the TS sources.
+\end{itemize}
+The complete list of the configuration registers is illustrated in \autoref{tab:config_registers}.
+{\footnotesize%
+	\begin{longtable}[H]{|c|c|p{11.5cm}|}
+		\hline
+		\textbf{Reg.} & \textbf{Bits} & \textbf{Description} \\
+		\hline
+		\endfirsthead
+		\hline
+		\textbf{Reg.} & \textbf{Bits} & \textbf{Description} \\
+		\hline
+		\endhead
+		$0$ & $0$--$1$ & \textbf{ToState} -- it controls the FSM \\
+		\hline
+		$1$ & $0$ & \textbf{DoStoreEnable} -- if $1$, every accepted \texttt{Trigger} generates one FIFO entry written by the EventCreator; event readout (TrgReadAcknowledge) then depends on the read-mode configuration. If $0$, event storage is disabled: the FIFO stays empty, and doStore is never asserted \\
+		& $1$ & \textbf{DoExtReadEnable} -- if $1$, FIFO is read from an external device; it encloses two cases, discriminated by SingleTriggerEnabled bit. If $0$, it FIFO is read internally in an automatic and progressive way, without activating the BusyDAQ (FIFO continues to accept Triggers) \\
+		& $2$ & \textbf{SingleTriggerEnable} -- if $1$, Single Trigger mode is enabled: after each \texttt{Trigger} the BusyDAQ is enabled ($1$-event FIFO). If $0$, FIFO accumulates events which are read only externally from pulses generated by HPS \\
+		\hline
+		$2$ & $0$--$31$ & \textbf{VariableHeader} -- a word that is part of the event fragment, allowing to identify the origin of the data \\
+		\hline
+		$3$ & $0$ & \textbf{Time Config Register} -- if $1$, use the internal Time Stamp generator, otherwise use the external one. Currently, the internal Time Stamp period is $1\,\mu\mathrm{s}$, contrary to the internal Clock period which is $20\,\mathrm{ns}$ \\
+		\hline
+		$4$ & $0$--$7$ & \textbf{Busy Config Register} -- if $1$, the relative \texttt{Busy} is considered, otherwise it is ignored (\texttt{Busy} from differential lines for vertex boards) \\
+		& $8$--$10$ & \textbf{Busy Config Register} -- \texttt{Busy} from LVTTL to simulate what necessary for MSD \\
+		& $12$--$31$ & \textbf{Trigger Busy duration} -- Sets the busy duration in clock ticks. The minimal \texttt{Busy} duration is set to $1\,\mu\mathrm{s}$\\
+		\hline
+		$5$ & $0$ & \textbf{External Trigger $0$} (LVDS) Enable \\
+		& $1$ & \textbf{External Trigger $1$} (TTL) Enable \\
+		& $2$ & \textbf{Key Trigger} Enable \\
+		& $3$ & \textbf{Software Trigger} Enable \\
+		& $4$ & \textbf{Periodic Trigger} Enable \\
+		& $5$ & \textbf{Random Trigger} Enable \\
+		& $6$ & \textbf{Beam like Trigger} Enable \\
+		\hline
+		$6$ & $0$--$30$ & \textbf{Periodic Trigger config} -- number of clock ticks between triggers (in $20\,\mathrm{ns}$ increments) \\
+		\hline
+		$7$ & $0$--$15$ & \textbf{Random Trigger config} -- actual threshold \\
+		& $16$--$27$ & \textbf{Random Trigger config} -- prescaling on the generated triggers \\
+		\hline
+		$8$ & $0$--$31$ & \textbf{Beam Line Trigger config} -- interval for which to evaluate the beam particles (def to $50=1\,\mu\mathrm{s}$) \\
+		\hline
+		$9$ & $0$--$23$ & \textbf{Trigger delay LVDS lines} -- in $20\,\mathrm{ns}$ increments \\
+		& $24$--$31$ & \textbf{Trigger width LVDS lines} -- in $20\,\mathrm{ns}$ increments \\
+		\hline
+		$10$ & $0$--$23$ & \textbf{Trigger delay TTL lines} -- in $20\,\mathrm{ns}$ increments \\
+		& $24$--$31$ & \textbf{Trigger width TTL lines} -- in $20\,\mathrm{ns}$ increments \\
+		\hline
+		$11$ &  & \textbf{Test Point signals} -- select $4$ values for $4$ test points (GPIO1, IO pins $33$, $31$, $29$ and $27$) \\
+		\hline
+		$15$ & $0$--$31$ & \textbf{Address of the software Trigger} \\
+		\hline
+		\caption{List of configuration registers.} \label{tab:config_registers}
+\end{longtable}}
+\subsection{Monitoring registers}\label{ssec:monitor_registers}
+Monitoring registers provide visibility into the internal firmware state during operation. They are continuously updated and can be read by the control software for diagnostic, monitoring and data-quality purposes. In particular, monitoring registers report the firmware version number, the FSM state, the total number of generated, received and lost triggers, the duration of the \texttt{Busy} status of the $N=11$ connected devices, the time duration of the \texttt{RUN} state, which external device was the last to release its \texttt{Busy} condition once the system is ready again and, most importantly, the FIFO-registered information of the validated \texttt{Trigger} event. The complete list of the monitoring registers is illustrated in \autoref{tab:monitor_registers}.
+{\footnotesize%
+	\begin{longtable}[H]{|c|c|p{11.5cm}|}
+		\hline
+		\textbf{Reg.} & \textbf{Bits} & \textbf{Description} \\
+		\hline
+		\endfirsthead
+		\hline
+		\textbf{Reg.} & \textbf{Bits} & \textbf{Description} \\
+		\hline
+		\endhead
+		$0$ ($16$) & $0$--$15$ & \textbf{Firmware number} \\
+		\hline
+		$1$ ($17$) & $0$--$2$ & \textbf{FSM status} \\
+		& $26$ & \textbf{DAQ status} -- DaqConfig \\
+		& $27$ & \textbf{DAQ status} -- DaqReset \\
+		& $28$ & \textbf{DAQ status} -- DaqIsRunning \\
+		\hline
+		$2$ ($18$) & $0$--$10$ & \textbf{Detector Busies} -- masked \\
+		& $11$--$15$ & \textbf{Number of the last detector \texttt{Busy} to deactivate} \\
+		& $16$--$26$ & \textbf{Actual detector Busies} -- without local masking \\
+		& $28$ & \textbf{BusyDAQ} -- \texttt{Busy} due to DAQ only \\
+		& $29$ & \textbf{TrgBusy} -- \texttt{Busy} due to localBusy after \texttt{Trigger} \\
+		& $31$ & \textbf{BusyGlobal} -- \texttt{Global Busy} produced by the board \\
+		\hline
+		$3$ ($19$) & $0$--$31$ & \textbf{Time Stamp} -- starts when DaqIsRunning transitions from $0$ to $1$ \\
+		\hline
+		$4$ ($20$) & $16$--$47$ & \textbf{MSB of Clock Counter} -- $32$ bits mapping bits $47$--$16$ of Clock Counter \\
+		\hline
+		$5$ ($21$) & $0$--$15$ & \textbf{LSB of Clock Counter} -- contains the lowest significance bits of ClockCounter \\
+		\hline
+		$6$ ($22$) & $0$--$31$ & \textbf{Trigger counter} -- counts the number of (accepted and) generated Triggers\\
+		\hline
+		$7$ ($23$) & $0$--$31$ & \textbf{Lost Trigger counter} -- counts lost External Triggers (i.e. arrived when \texttt{Busy}) \\
+		\hline
+		$8$ ($24$) & $0$--$31$ & \textbf{Live time counter} -- built with a (MainTrigger \texttt{and} (\texttt{not} GlobalBusy)) \\
+		\hline
+		$9$ ($25$) & $0$--$31$ & \textbf{Busy time counter} -- built with a (MainTrigger \texttt{and} GlobalBusy), valid during a full DaqIsRunning phase - it is not a counter resetting for each received \texttt{Trigger} as Reg. $17$ \\
+		\hline
+		$10$ ($26$) & $0$--$31$ & \textbf{LSB of Live and Busy time} -- see register above \\
+		\hline
+		$11$ ($27$) & $0$--$12$ & \textbf{DataOut} -- number of events in the FIFO (Full included) \\
+		& $13$ & \textbf{FIFO empty} \\
+		& $14$ & \textbf{FIFO almost full} \\
+		& $15$ & \textbf{FIFO full} \\
+		\hline\hline
+		$12$ ($28$) & $0$--$31$ & \textbf{Event header} \\
+		\hline
+		$13$ ($29$) & $0$--$31$ & \textbf{Event counter} -- counts the number Triggers written in FIFO\\
+		\hline
+		$14$ ($30$) & $0$--$31$ & \textbf{Event Time Stamp} -- Time Stamp of FIFO event \\
+		\hline
+		$15$ ($31$) & $0$--$31$ & \textbf{Event Clock counter MSB} -- MSB of Clock Counter for read FIFO event  \\
+		\hline
+		$16$ ($32$) & $0$--$15$ & \textbf{Event Clock counter LSB} -- see register above \\
+		\hline
+		$17$ ($33$) & $0$--$31$ & \textbf{Event Busy duration} -- in clock ticks, valid for each single \texttt{Trigger}, not like Reg. $9$ \\
+		\hline
+		$18$ ($34$) & $0$--$6$ & \textbf{Event Trigger data} -- who generated this \texttt{Trigger} (Bit $0$: External$0$, Bit $1$: External$1$, Bit $2$: Key, Bit $3$: Software, Bit $4$: Periodic, Bit $5$: Random, Bit $6$: Beamlike) \\
+		& $16$--$26$ & \textbf{Event Trigger data} -- detector \texttt{Busy} pattern just before the end of the \texttt{Global Busy} ($16$--$23$ from differential line, $24$--$26$ from LVTTL) \\
+		\hline
+		\caption{List of monitoring registers.} \label{tab:monitor_registers}
+\end{longtable}}

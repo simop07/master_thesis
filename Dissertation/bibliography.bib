@@ -2752,3 +2752,49 @@
   year         = {2025},
   url          = {https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=English&No=1046&FID=ee6469cf97af76af334e2b2f82f93268}
 }
+
+@phdthesis{thesisSavarese,
+  title    = {Development of an enhanced transfer data channel for a hybrid SoC FPGA used in a DAQ system aimed at improving hadrontherapy protocols},
+  keywords = {VHDL,FPGA,SOC,C++,C,firmware,software,DAQ,Intel,quartus,modelsim,physics,hadrontherapy,tumors,cancer,acquisition,cyclone,altera,RAM,DDR,memory,buffer},
+  url      = {https://amslaurea.unibo.it/id/eprint/21044/},
+  abstract = {In questa tesi {\`e} presentato il lavoro svolto su un sistema di acquisizione utilizzato in un esperimento di fisica nucleare facente parte del progetto FOOT, volto ad ottenere ulteriori informazioni sulla frammentazione nucleare per migliorare i protocolli medici di adroterapia e le metodologie di radioprotezione spaziale. Il sistema si basa su una scheda Terasic DE10-Nano che monta un SoC FPGA Cyclone V. L'obiettivo principale del lavoro {\`e} stato aumentare il throughput del trasferimento dei dati acquisiti dai sensori verso la memoria principale: a tal fine {\`e} stata utilizzata direttamente la memoria RAM del processore integrato come buffer circolare temporaneo. {\`E} stata inoltre implementata l'interfaccia (realizzata dall'Universit{\`a} di Perugia) per la sensoristica e un controller per l'ADC della scheda. Il lavoro ha compreso sia lo sviluppo del firmware, quindi VHDL e Platform Designer, sia del software, con la scrittura di funzioni in C++ per l'interfacciamento all'hardware. {\`E} stata inoltre necessaria una modifica al Device Tree del kernel del sistema operativo Linux presente sul SoC. Il sistema {\`e} stato simulato e testato in laboratorio con esito positivo. La scheda DE10-Nano vanta un banda di trasmissione massima teorica di 60 MB/s, che per{\`o} scende a circa 10 MB/s quando la scheda {\`e} installata nel sistema completo di acquisizione, limitazione dovuta a fattori esterni alla scheda, come lo stato della rete del laboratorio e l'overhead degli altri componenti. Questi risultati sono eccellenti e, inoltre, il massimo throughput di 60 MB/s supporter{\`a} future ottimizzazioni del sistema senza creare colli di bottiglia per gli altri dispositivi. Operazioni di ottimizzazione sull'infrastruttura sono tutt'ora in corso, quindi ci si aspetta un ulteriore incremento della performance in un vicino futuro.},
+  author   = {Savarese, Andrea}
+}
+
+@misc{Rabaglia2026BTF,
+  author       = {Rabaglia, Sara},
+  title        = {VTX-MIMOSIS at BTF 2026},
+  year         = {2026},
+  month        = {06},
+  howpublished = {Presentation at XX FOOT Collaboration Meeting},
+  url          = {https://agenda.infn.it/event/52195/timetable/?view=standard#11-vtx-mimosis-btf-2026}
+}
+
+@software{simone_pasquini_2026_19881390,
+  author    = {Pasquini, Simone},
+  title     = {simop07/data\_trigger\_gen\_FPGA: v1.0.0},
+  month     = {04},
+  year      = 2026,
+  publisher = {Zenodo},
+  version   = {v1.0.0},
+  doi       = {10.5281/zenodo.19881390},
+  url       = {https://doi.org/10.5281/zenodo.19881390}
+}
+
+@manual{intel_fifo,
+  title  = {FIFO Intel FPGA IP Core User Guide},
+  author = {{Intel Corporation}},
+  year   = {2018},
+  note   = {Version 18.0},
+  url    = {https://www.intel.com/content/www/us/en/docs/programmable/683522/18-0/user-guide.html}
+}
+
+@software{altera_quartus_ii_14_1,
+  author    = {{Altera Corporation}},
+  title     = {Quartus II Web Edition},
+  version   = {14.1},
+  year      = {2014},
+  publisher = {Altera Corporation},
+  url       = {https://www.altera.com/},
+  note      = {Intel FPGA documentation}
+}
