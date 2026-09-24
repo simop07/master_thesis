@@ -11,7 +11,7 @@ The aim of this chapter is to provide an overview of the most important biologic
 	\caption[Tracking region]{Schematic representation of SSBs (left), DSBs (center), and clusters of DSBs (right). From \cite{unipv_conference}.}
 	\label{fig:dna_damages}
 \end{figure}
-Both the conventional radiotherapy (which uses X-rays, i.e., photons) and the more advanced Particle Therapy (PT) take advantage of the ionizing radiation to damage the cancerous tissues of a patient, triggering the death of the diseased cells which they consist of. The ionizing radiation produces various effects on biological tissues, which largely depend on the beam composition, its energy and the properties of the irradiated tissues. To beat cancer, it is not necessary to eliminate all the cancerous cells, but it is sufficient to impede their indefinite reproduction through a reproductive cell death. To achieve this goal, ionizing radiation need to kill the cell DNA by means of either direct or indirect damage. Direct damage is the most uncommon one, as the DNA occupies only $2$--$3\%$ of the total cell volume. Direct damages can be divided into Single Strand Breaks (SSBs) and Double Strand Breaks (DSBs): in SSBs, only one nucleotide strand of the DNA double helix is severely damaged and broken, whereas in DSBs both nucleotide strands are harmed, as illustrated in \autoref{fig:dna_damages}. On the other hand, indirect damage occurs when the ionizing radiation does not hit the DNA directly, but rather the neighboring cell elements. As water makes $\gtrsim70\%$ of the total cell mass \cite{cooper2000cell}, the ionizing radiation often hits water, leading to the release of free radicals. Free radicals are neutral atoms or molecules possessing one unpaired electron in the outermost orbital, a feature which makes them highly unstable and reactive. The chain of chemical reactions (summarized below) which lead to the formation of free radicals is called radiolysis of water. The byproducts of radiolysis consists of electrons, atoms, molecules, and ions which, by diffusing, indirectly damage DNA, leading to cell death. The ionization of a water molecule \ce{H2O} is given by:
+Both the conventional radiotherapy (which uses X-rays, i.e., photons) and the more advanced Particle Therapy (PT) take advantage of the ionizing radiation to damage the cancerous tissues of a patient, triggering the death of the diseased cells which they consist of. The ionizing radiation produces various effects on biological tissues, which largely depend on the beam composition, its energy and the properties of the irradiated tissues. To beat cancer, it is not necessary to eliminate all the cancerous cells, but it is sufficient to impede their indefinite reproduction through a reproductive cell death. To achieve this goal, ionizing radiations need to inactivate the cell DNA by means of either direct or indirect damage. Direct damage is the most uncommon one, as the DNA occupies only $2$--$3\%$ of the total cell volume. Direct damages can be divided into Single Strand Breaks (SSBs) and Double Strand Breaks (DSBs): in SSBs, only one nucleotide strand of the DNA double helix is severely damaged and broken, whereas in DSBs both nucleotide strands are harmed, as illustrated in \autoref{fig:dna_damages}. On the other hand, indirect damage occurs when the ionizing radiation does not hit the DNA directly, but rather the neighboring cell elements. As water makes $\gtrsim70\%$ of the total cell mass \cite{cooper2000cell}, the ionizing radiation often hits water, leading to the release of free radicals. Free radicals are neutral atoms or molecules possessing one unpaired electron in the outermost orbital, a feature which makes them highly unstable and reactive. The chain of chemical reactions (summarized below) which lead to the formation of free radicals is called radiolysis of water. The byproducts of radiolysis consists of electrons, atoms, molecules, and ions which, by diffusing, indirectly damage DNA, leading to cell death. The ionization of a water molecule \ce{H2O} is given by:
 \begin{equation}
 	\ce{H2O ->[Ionizing radiation] H2O^{+} + e^-},
 	\label{eq:radiolisi1}
@@ -62,9 +62,9 @@ Generally, when two tissues absorb the same dose, the subsequent biological effe
 	H=\sum_{R}w_R\,D_{R},
 	\label{eq:dose_eq}
 \end{equation}
-where $D_{R}$ is the absorbed dose relative to the $R$-th radiation (measured in Sievert (Sv) in the SI) and $w_R$ weights the hazard of the $R$-th radiation. $w_R$ is a dimensionless weighting factor given by the ratio between the biological damage produced by the absorption of $1\,\mathrm{Gy}$ of radiation $R$ and the biological damage produced by $1\,\mathrm{Gy}$ of $\gamma$ rays. $H$ is still an incomplete quantity, as it does not quantify biological effects in relation to the type of organ or tissue irradiated. For this reason, the effective dose $E$ is defined (always measured in Sievert), which includes the biological effects due to the type of radiation $R$ and to the specific response of the irradiated tissue $T$:
+where $D_{R}$ is the absorbed dose relative to the $R$-th radiation (measured in Sievert (Sv) in the SI) and $w_R$ weights the hazard of the $R$-th radiation. $w_R$ is a dimensionless weighting factor given by the ratio between the biological damage produced by the absorption of $1\,\mathrm{Gy}$ of radiation $R$ and the biological damage produced by $1\,\mathrm{Gy}$ of $\gamma$ rays. $H$ is still an incomplete quantity, as it does not quantify biological effects in relation to the type of organ or tissue irradiated. For this reason, the effective dose $D_\text{eff}$ is defined (always measured in Sievert), which includes the biological effects due to the type of radiation $R$ and to the specific response of the irradiated tissue $T$:
 \begin{equation}
-	E=\sum_{T}w_T\,H=\sum_{T}w_T\sum_{R}w_R\,D_{R},
+	D_\text{eff}=\sum_{T}w_T\,H=\sum_{T}w_T\sum_{R}w_R\,D_{R},
 	\label{eq:dose_eff}
 \end{equation}
 where $w_T$ is a weighting factor for the $T$-th tissue such that $\sum_{T}w_T=1$, where the sum runs over all tissues of the human body. $w_T$ is larger for tissues that are more sensitive to radiation: they respond better to the treatment, but they are also more prone to develop radiation-induced cancer.
@@ -105,7 +105,7 @@ From \autoref{fig:proton_carbon_let}, it can be viewed that the LET values of pr
 	\centering
 	\begin{subfigure}[b]{0.98\linewidth}
 		\centering
-		\includegraphics[width=\linewidth]{proton_carbon_let.jpg}
+		\includegraphics[width=0.9\linewidth]{proton_carbon_let.jpg}
 		\caption{Microscopic distribution of proton and carbon ionizations on a nm scale, along with the corresponding LET, depth reached, kinetic energy and average distance of damage creation. From \cite{slide_spighi}.}
 		\label{fig:proton_carbon_let}
 	\end{subfigure}
@@ -246,13 +246,13 @@ The OER is a function of the LET, as illustrated in \autoref{fig:oer_let}. At lo
 	\caption[OER vs. LET and oxygen capillary diffusion]{OER vs. LET and diffusion of oxygen ($\lesssim70\,\mu\mathrm{m}$) from a capillary through tumor tissue.}
 	\label{fig:oer}
 \end{figure}
-\chapter{\texorpdfstring{$\chi^2$}{χ²} minimization method}\label{ch:chi_squared_min}
+\chapter{\texorpdfstring{$\chi^2$}{χ²} minimization method for isotope identification}\label{ch:chi_squared_min}
 The $\chi^2$ minimization method is founded on the $\chi^2$ test, a probabilistic test that provides criteria for verifying the consistency of theoretical hypotheses with a set of experimental data. Specifically, the $\chi^2$ test is based on the evaluation of the $\chi^2$ function, reported in \autoref{eq:chi_square_method}, which expresses the discrepancy between theory and experimental data. This deviation is calculated using the sum of the squared differences between the measured values $y_k$ and the expected values $f\left(x_k;\alpha_j\right)$, and depends on the measurements $x_k$ and the parameters $\alpha_j$:
 \begin{equation}
 	\chi^2=\sum_{k=1}^N\left(\frac{y_k-f\left(x_k;\alpha_j\right)}{\sigma_k}\right)^2,
 	\label{eq:chi_square_method}
 \end{equation}
-where $\sigma_k$ is the uncertainty associated with the $N$ measurements $y_k$ \cite{Fornasini2008}. The minimum $\chi^2$ method consists of deriving the parameters\footnote{From a mathematical point of view, the parameters are constraints on the minimization problem.} $\alpha_j$ to minimize the $\chi^2$ function in \autoref{eq:chi_square_method}.
+where $\sigma_k$ is the uncertainty associated with the measurement $y_k$ \cite{Fornasini2008}. The minimum $\chi^2$ method consists of deriving the parameters\footnote{From a mathematical point of view, the parameters are constraints on the minimization problem.} $\alpha_j$ to minimize the $\chi^2$ function in \autoref{eq:chi_square_method}.
 
 Applying the $\chi^2$ minimization method on the three mass estimates given in \autoref{eq:a1}, \autoref{eq:a2} and \autoref{eq:a3}, the $\chi^2$ function becomes:
 \begin{equation}
@@ -279,15 +279,16 @@ where, specifically, $\matr{C}$ entries are made explicit in \autoref{eq:correla
 \begin{equation}
 	\matr{C}=
 	\begin{pmatrix}
-		\frac{\partial A_1}{\partial T}dT&\frac{\partial A_1}{\partial P}dP&0\\
-		\frac{\partial A_2}{\partial T}dT&0&\frac{\partial A_2}{\partial K}dK\\
-		0&\frac{\partial A_3}{\partial P}dP&\frac{\partial A_3}{\partial K}dK\\
+		\frac{\partial A_1}{\partial T}\sigma_T&\frac{\partial A_1}{\partial P}\sigma_P&0\\
+		\frac{\partial A_2}{\partial T}\sigma_T&0&\frac{\partial A_2}{\partial K}\sigma_K\\
+		0&\frac{\partial A_3}{\partial P}\sigma_P&\frac{\partial A_3}{\partial K}\sigma_K\\
 	\end{pmatrix}
-	.
+	,
 	\label{eq:correlation_matrix}
 \end{equation}
+where the errors of the minimization parameters are indicated with the respective $\sigma$.
 
-If the parameters $\left(T,P,K,A\right)$ were thought of as variables of a four-dimensional space, the problem of minimizing $\chi^2$ is analogous to a problem of finding the minimum of a vector-valued function. Therefore, to obtain parameters $\left(T,P,K,A\right)$ that are the closest to the ``true'' parameter values, a minimization fit can be performed. The four-dimensional point where the $\chi^2$ assumes the minimum value will then correspond to the values of $\left(T,P,K,A\right)$ that are the closest to the ``true'' parameter values. A common strategy used to find minima within the ROOT framework is to employ Minuit \cite{JAMES1975343}, which performs multiple minimization steps to find a global $\chi^2$ minimum rather than a local minimum, ensuring that the final output parameters are sufficiently accurate.
+If the parameters $\left(T,P,K,A\right)$ were thought of as variables of a four-dimensional space, the problem of minimizing $\chi^2$ is analogous to a problem of finding the minimum of a vector-valued function. Therefore, to obtain parameters $\left(T,P,K,A\right)$ that are the closest to the ``true'' parameter values, a minimization fit can be performed. The four-dimensional point where the $\chi^2$ assumes the minimum value will then correspond to the values of $\left(T,P,K,A\right)$ that are the closest to the ``true'' parameter values.\footnote{Note that there is a huge difference between the $T,P,K$ and the $A$ parameters used in the minimization fit. The first three are associated to measured physical quantities, namely $\text{ToF}$, $p$ and $E_\text{kin}$; therefore, the corresponding minimization variables $T,P,K$ can be initialized to the respective experimental values in the fitting algorithm. Conversely, the minimization variable $A$ does not possess a unique and independent experimental measurement; it is instead determined by introducing the constraint $\transp{\vect{A}}\matr{B}\vect{A}$ in the minimization algorithm, which takes into account the three experimental estimates $A_1$, $A_2$ and $A_3$ and their correlation.} A common strategy used to find minima within the ROOT framework is to employ Minuit \cite{JAMES1975343}, which performs multiple minimization steps to find a global $\chi^2$ minimum rather than a local minimum, ensuring that the final output parameters are sufficiently accurate.
 \chapter{Augmented Lagrangian Method}\label{ch:alm_squared_min}
 The Augmented Lagrangian Method (ALM) is an algorithm that addresses a constrained minimization problem of a multi-variable function $f\left(\vect{x}\right)$ by employing an unconstrained minimization problem in a larger parameter space. The ALM is a ``modified'' Lagrange multiplier method in which the minimization of the Lagrangian function $\mathcal{L}\left(\vect{x};\vect{\lambda}\right)$ with respect to the vector variable $\vect{x}$ is replaced by the minimization of an ``augmented'' Lagrangian $\mathcal{L}_{ALM}\left(\vect{x};\vect{\lambda},\mu\right)$ defined as:
 \begin{equation}
