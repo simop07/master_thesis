@@ -1,6 +1,119 @@
-\chapter{Detector optimization and momentum reconstruction}\label{ch:vt_msd_momentum}
-As detailed in \autoref{ch:foot_experiment}, the final goal of the FOOT Collaboration is to achieve a very high resolution on nuclear fragmentation cross section measurements. To fulfill this aim, it is necessary to keep the performances of the whole reconstruction chain under control. For this reason, in addition to the hardware work presented in \autoref{ch:trigger_board}, during my thesis I contributed to upgrading the FOOT tracking system, which globally reconstructs the tracks of primaries and nuclear fragments traversing the subdetectors of the electronic setup (see \autoref{fig:electronic_setup}). In  particular, the analysis that will follow is focused on the CNAO 2025 data taking campaign, 
+\chapter{Detector optimization and momentum reconstruction}\label{ch:analysis_vt_msd_momentum}
+As detailed in \autoref{ch:foot_experiment}, the final goal of the FOOT Collaboration is achieving a very high resolution on nuclear fragmentation cross section measurements. To fulfill this aim, it is necessary to constantly evaluate the subdetector performances and to keep the event reconstruction efficiency under control. For this reason, along with the hardware work presented in \autoref{ch:trigger_board}, during my thesis I contributed to upgrading the FOOT tracking system, which provides the global reconstruction of primary and secondary tracks traversing the electronic setup (see \autoref{sec:electronic_setup}). Specifically, the tracking system analysis presented in this chapter considers experimental data collected at the CNAO 2025 campaign, where the FOOT Collaboration employed a $200\,\mathrm{MeV/u}$ carbon beam to irradiate a $5\,\mathrm{mm}$ \ce{C} target for studying nuclear fragmentation. Although the CNAO 2025 data taking campaign encompassed all the subdetectors shown in \autoref{fig:electronic_setup}, my analysis will not include the Inner Tracker (IT) detector, which still requires further testing. In addition, some of the data runs I analyzed did not foresee the magnetic field, which was rightly deactivated for alignment and calibration purposes; the absence of the magnetic field in a given run will be specified throughout the text.
 
+The next sections are organized according to the following structure, which divides the chapter based on three main aspects:
+\begin{itemize}
+	\item in \autoref{sec:shoe}, the general principles of the FOOT data processing and global track reconstruction techniques are outlined, introducing the SHOE framework and its Kalman Filter algorithm.
+	\item \autoref{sec:optim_vt} and \autoref{sec:optim_msd} are respectively devoted to the upgrade of Vertex Tracker (VT) and Microstrip Silicon Detector (MSD), the central tracking stations employed for my data analysis. These sections address the alignment challenges of both detectors and review their uncertainty models.
+	\item Following the detector optimization, \autoref{sec:momentum_reco} presents the momentum reconstruction and analysis, which provides a preliminary mass identification of the produced nuclear fragments (?? maybe not).
+\end{itemize}
+\section{Global track reconstruction with SHOE}\label{sec:shoe}
+To process, reconstruct and analyze the experimental data acquired by FOOT, the Collaboration has developed the SHOE (Software for Hadrontherapy Optimization Experiment) framework \cite{shoeFramework}, a \texttt{C++} object-oriented software based on the ROOT libraries \cite{ROOT_framework} partly inherited from the FIRST \cite{PhysRevC.93.064601} experiment. The SHOE workflow comprises all the reconstruction steps, from the collection of subdetector raw data to the evaluation of cross sections, as schematized in \autoref{fig:shoe_workflow}. The picture shows that the raw experimental data acquired by the TDAQ system and packed according to \autoref{fig:data_fragment} is firstly processed by detector-specific libraries during the local reconstruction phase (see \autoref{ssec:local_reconstruction}), and is successively assembled in the global reconstruction stage (see \autoref{ssec:global_reconstruction}), which saves the data structures using the ROOT format. From the globally reconstructed tracks it is finally possible to extrapolate all the relevant physics quantities (charge, momentum, kinetic energy, etc.) in order to perform the identification of fragments and, consequently, the cross section measurements.
 
+The SHOE framework has also been conceived to generate the Monte Carlo simulations needed to emulate the particle transport and interactions through the FOOT electronic setup. Such feature allows to directly test the various nuclear models implemented in Monte Carlo programs and to compare them with real-world data; moreover, it contributes to calculate the critical efficiency term $\varepsilon$ in \autoref{eq:cross_section_single_differential}. To recreate the real experimental conditions and resolutions, SHOE replicates the detector geometries and materials employing the FLUKA and Geant4 codes described in \autoref{ssec:monte_carlo_codes}, which allow to reproduce a true ``digital twin'' of the experiment. In particular, the FLUKA software is configured to produce a event-by-event simulation that enables to precisely evaluate the fragments' simulated properties.
 
-\section{Global analysis with SHOE}\label{sec:shoe} % if this changes, change also the ref across the whole document
+To manage both the experimental and simulated data with the correct magnetic field maps and the right detector configuration, geometry and calibration, a SHOE campaign manager combines the configuration parameters (specific of each run) to the processed data events, as schematized in \autoref{fig:shoe_workflow}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{shoe_workflow.pdf}
+	\caption[SHOE workflow]{Steps of the SHOE workflow. Details are reported in the text. From \cite{UbaldiPhDThesis}.}
+	\label{fig:shoe_workflow}
+\end{figure}
+\subsection{Local reconstruction}\label{ssec:local_reconstruction}
+The purpose of the local reconstruction phase is to create a decoded version of the raw experimental data acquired by the FOOT TDAQ system. In this initial stage, a SHOE reader process uses the headers of data fragments and full events (see \autoref{fig:data_fragment}) to associate the detector-specific libraries with the $4$-byte data words generated by the passage of a particle. This fundamental action allows to translate encoded bit information into meaningful physics quantities such as times, local positions in each subdetector's frame of reference, pixel/strip cluster information like size and deposited energy, etc.
+
+Contrary to experimental data, Monte Carlo simulated events require a digitization-like procedure that mimics the real detector response. For instance, when a real particle traverses a VT plane, it fires a cluster of several pixels rather than activating a single one. The cluster shape and dimension are governed by the width of the diffusion cloud (dependent on the deposited energy), the inclination of the particle direction and the threshold level on the pixel discriminators. To replicate the creation of a VT cluster also in simulations, SHOE implements a special parametrization that builds the cluster size using a function inspired from \cite{REIDEL2021165807}, which correlates the number of fired pixels to the particle's deposited energy. In addition, simulations can also model the VT cluster shape by employing a spiraling algorithm, which distributes the released energy among neighboring pixels starting from the central pixel and progressively extending outwards.
+
+Although the local reconstruction works differently between experimental and simulated data, the final decoded output possesses a similar format, guaranteeing that the subsequent analysis procedure can be applied in both cases within the same SHOE software.
+
+Among the various processes performed in the local reconstruction stage, the most important tasks are the ToF Wall (TW) charge identification and the vertex tracking, which are briefly described in the following paragraphs.
+\subsubsection{ToF Wall charge reconstruction}\label{sssec:tw_charge_reco}
+As already mentioned in the introduction to \autoref{sec:electronic_setup}, the TW charge reconstruction method is used to assign the correct atomic number (i.e., the charge) to the particles traversing the FOOT electronic setup. According to \autoref{eq:bethe_bloch} and \autoref{eq:beta}, the energy deposited in a detector (in this case, the TW scintillating bars) by a charged particle, its Time of Flight (ToF) and its charge $Z$ are inherently connected to the particle's velocity $\beta$; their relationship can be better appreciated from the $\Delta E$-ToF plot illustrated in \autoref{fig:charge_mass_id}.
+
+To reconstruct the particle $Z$, it is first necessary to measure the $\Delta E$ and the ToF of each TW point, which define a point in the $\Delta E$-ToF plot. Successively, through a dichotomic algorithm, the $\Delta E$-ToF point is matched with the closest Bethe-Bloch curve (black solid lines in \autoref{fig:changed_curv} (left)) that, being parameterized by $Z$, provides the final particle charge.
+\subsubsection{Vertex tracking}\label{sssec:vertex_tracking}
+In \autoref{sssec:vertex_tracker}, it was stated that one of the critical tasks of the VT detector is to reconstruct the interaction point between the primary ion beam and the target, hereafter referred to as VT point. Identifying the position of the VT point is crucial, as it allows to reconstruct the origin point of nuclear fragments generated in the beam-target collision. To reconstruct the VT point in each FOOT event (represented by a primary ion beam traversing the subdetectors), the vertex clustering algorithm \cite{RESCIGNO201434} needs the positions of all the pixel clusters fired in the four VT planes, as schematized by the event display in \autoref{fig:vertex_tracking}. Successively, for each event, the algorithm selects clusters located in the plane furthest from the target, as the cluster density is lower downstream. Then, the algorithm moves backwards building all the possible combinations between the furthest clusters and the one belonging to the previous layers, generating a preliminary 2D track representation fitting the clusters from which it was created. Once the plane closest to the target is reached, all the input cluster points are included, however a track can be validated only if it includes at least three VT clusters and it observes a $\chi^2$ quality criterion. A track validation automatically prevents the associated clusters from being further inspected in successive track finding iteration attempts.
+
+When all the tracks of a FOOT event are reconstructed, it is possible to build the $\left(x,y,z\right)$ coordinates of the VT point, the first two labeling the transverse position and the latter the parallel one with respect to the beam direction. First, the reconstructed tracks are extrapolated onto the VT planes; then, their centroid is calculated, and the resulting $\left(x,y\right)$ pair defines the VT point transverse coordinates. The $z$ coordinate is instead computed minimizing the average track distances from the centroid position, always employing a binary search algorithm implemented in \cite{RESCIGNO201434}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{vertex_tracking.jpg}
+	\caption[VT point reconstruction]{Geant4 event display showing a reconstructed VT point belonging to three tracks. The four layers represent the M28 sensors of the VT, while the two red circles label additional VT clusters which have not been associated to the VT point by the clustering algorithm. Adapted from \cite{UbaldiPhDThesis}.}
+	\label{fig:vertex_tracking}
+\end{figure}
+\subsection{Global reconstruction}\label{ssec:global_reconstruction}
+The global reconstruction phase assembles the independent, detector-specific physical quantities built upon the local subdetector hits into a coherent global track, extending from the VT point to the downstream region of the electronic setup. FOOT global tracks do not merely represent the particle trajectory across the whole experimental setup, but they also incorporate the particle state, which encapsulates relevant physics quantities at each track point. The details of the global reconstruction algorithm are provided in the following paragraphs, which describe the GENFIT toolkit and the Kalman Filter algorithm.
+\subsubsection{GENFIT toolkit and the Kalman Filter algorithm}\label{sssec:genfit_kalman_filter}
+GENFIT \cite{Rauch_2015} is an open-source, experiment-independent \texttt{C++} tracking package employed by SHOE to perform the global reconstruction phase. Similarly to SHOE, GENFIT is integrated with the ROOT and Geant4 frameworks, enabling a consistent treatment of experimental and simulated particle tracks. To correctly employ GENFIT, a SHOE uploader program converts the detector information into GENFIT-compatible measurements which conform to the diverse technologies of the FOOT subdetectors. The GENFIT working principle can be divided in three main stages \cite{UbaldiPhDThesis}:
+\begin{itemize}
+	\item the measurement phase, where the SHOE-based observables acquired from every detector and the respective uncertainties are collected by GENFIT. In this stage, GENFIT converts the subdetector information into predefined \texttt{C++} classes that are coherent to the specific detector technology (pixels, strips, wires, etc.).
+	\item The track representation phase, where GENFIT defines a set of univocal parameters that represent the state of a particle track, from which it is possible to extrapolate the particle's local position. GENFIT calculates such parameters and their covariance at any given point of the particle trajectory. To build a track representation and extrapolate the track parameters, GENFIT employs the Runge-Kutta-Nysrt{\"o}n (RKN) numerical integration method \cite{Rauch_2015} to calculate the solution to the equation of motion describing a charged particle immersed in a magnetic field:
+	\begin{equation}
+		\frac{d^2 \vec{r}}{ds^2}
+		=
+		\frac{q}{p}
+		\left(
+		\frac{d\vec{r}}{ds}
+		\times
+		\vec{B}(\vec{r})
+		\right),
+		\label{eq:track_motion}
+	\end{equation}
+	where $\vec{r}$ is the particle position vector, $s$ is the curvilinear coordinate along the track, $q$ and $p$ are respectively the charge and momentum of the particle and $\vec{B}(\vec{r})$ is the magnetic field. As the FOOT magnetic field is non-uniform, this numerical approach is preferred to more challenging analytical methods. Finally, a GENFIT track representation is encapsulated by a $5$-dimensional vector $\vect{x}$ defined as follows:
+	\begin{equation}
+		\begin{aligned}
+			\vect{x} &= \left(q/p,\, u',\, v',\, u,\, v\right), \quad \text{with:}
+			\label{eq:track_representation}\\
+			u' &= \frac{\vec{a} \cdot \hat{u}}{\vec{a} \cdot \hat{n}}, \\
+			v' &= \frac{\vec{a} \cdot \hat{v}}{\vec{a} \cdot \hat{n}}, \\
+			u  &= (\vec{r} - \vec{o}) \cdot \hat{u}, \\
+			v  &= (\vec{r} - \vec{o}) \cdot \hat{v},
+		\end{aligned}
+	\end{equation}
+	where $q/p$ is the charge-over-momentum ratio (inverse of rigidity), $u$ and $v$ are the particle coordinates in the local reference frame of a detector plane with origin $\vec{o}$, $u'$ and $v'$ describe the track direction with respect to the plane, and $\vec{r}$ and $\vec{a}$ are respectively the global track position and direction. A visual representation of these vectors is shown in \autoref{fig:track_param}.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.98\linewidth]{track_param.jpg}
+		\caption[GENFIT track parametrization]{Visualization of a track parametrization in GENFIT. From \cite{ZarrellaPhDThesis}.}
+		\label{fig:track_param}
+	\end{figure}
+	\item The track fitting stage uses both the measurement and the track representation phases to determine the most probable particle trajectory. Among the various track fitting algorithms available in GENFIT, the FOOT Collaboration decided to implement a Kalman Filter, which possess multiple advantages when compared to other methods like Helix, Pline or least-squares \cite{Rotondi2009Kalman}. First, Kalman Filters can perform particle tracking in inhomogeneous magnetic field, including energy losses and multiple scattering events. Second, the Kalman Filter is a recursive fitting algorithm that progressively updates the track parameters as new measurements become available: this allows to closely follow the physical trajectory of the track, rather than extrapolating the particle trail from the initial conditions as in a global fit \cite{slide_arcelli}. To achieve this, the Kalman Filter iteratively combines the detector measurements with the predicted track's trajectory to obtain the best estimate of the particle state and its uncertainties. While a detailed description of the FOOT Kalman Filter algorithm is provided in \cite{ZarrellaPhDThesis}, its operation can be summarized in three main processes, namely prediction, filtering and smoothing. The predictive stage propagates the track state vector $\vect{x}$ from the detector plane $k-1$ to the following one, generating a predicted state vector $\tilde{\vect{x}}_k$ with covariance:
+	\begin{equation}
+		\tilde{\matr{C}}_k = \matr{J}\, \matr{C}_{k-1}\, \transp{\matr{J}} + \matr{N},
+		\label{eq:cov_mat_pred}
+	\end{equation}
+	composed of a Jacobian term $\matr{J}$ describing error propagation and a noise matrix $\matr{N}$ accounting for multiple scattering, energy losses and other propagation uncertainties. When a measurement $\vect{m}_k$ at detector plane $k$ is available, the filtering phase begins, where the residual $\vect{r}_k$ between the prediction and the actual measurement can be computed:
+	\begin{equation}
+		\vect{r}_k = \vect{m}_k - \matr{H}_k\, \tilde{\vect{x}}_k,
+		\label{eq:residual_pred}
+	\end{equation}
+	where the matrix $\matr{H}_k$ converts the state vector into measurable detector coordinates. Finally, the Kalman gain $\matr{K}_k$ (obtained through a combination of the covariance matrices of both the prediction and the measurement) determines how much the measurement should influence the updated state by comparing their uncertainties and trusting more the lower one. The updated state finally becomes:
+	\begin{equation}
+		\vect{x}_k = \tilde{\vect{x}}_k + \matr{K}_k\, \vect{r}_k.
+		\label{eq:updated_state}
+	\end{equation}
+	The prediction and filtering steps proceed iteratively up to the last detection layer, continuously refining the estimate of the track state vector, as illustrated in \autoref{fig:kalman_filter}. This figure also shows that the precision of the track state vector increases with the traversed path, as downstream detector planes contain the information measured from the previous layers. This means that the Kalman Filter as it is, one should prefer running the algorithm from the downstream detectors to the upstream region, guaranteeing that one obtains the best position estimates close to the VT detector, where the cluster and truck densities are the highest. To solve this issue, the Kalman Filter closes
+	
+	Another feature of the Kalman Filter algorithm introduced in GENFIT is that the
+	fitting is progressively applied in forward and backward direction of the track, in
+	order not to be biased by the initial seed state vector. This smoothing process
+	gives final parameters as a weighted average of the two, increasing the robustness
+	of the procedure. chi squared < 10
+	 
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{kalman_filter.jpg}
+	\caption[Kalman Filter progressive algorithm]{Schematic illustration of the Kalman Filter track fitting algorithm. The initial track representation starts from a seed (leftmost red star). In the successive steps, the track is extrapolated to the next detector planes and the fit is corrected taking into accounts the real position measurements (blue stars) and their uncertainties. The process is repeated for all the detector planes until the final track representation is obtained. From \cite{Kisel_2014}.}
+	\label{fig:kalman_filter}
+\end{figure}	
+	To conclude, \autoref{fig:lsf_vs_kf} shows the difference between a global fitting algorithm (such as the least-squares method) and the Kalman Filter: while the former evaluates the track parameters only once, the latter adjusted them each time an additional measurement is provided, guaranteeing continuous adaptation to the true track points. In addition, the progressiveness of the Kalman Filter algorithm does not represent its unique advantage when compared to the least-squares method; indeed, the $\matr{N}$ term in \autoref{eq:cov_mat_pred} takes into account the medium effects.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.98\linewidth]{lsf_vs_kf.jpg}
+		\caption[Comparison between least-squares and Kalman Filter methods]{Comparison between least-squares (left) and Kalman Filter (right) methods. From \cite{ZarrellaPhDThesis}.}
+		\label{fig:lsf_vs_kf}
+	\end{figure}
+\end{itemize}
+\section{Optimization of the Vertex Tracker}\label{sec:optim_vt}
+\section{Optimization of the Microstrip Silicon Detector}\label{sec:optim_msd}
+\section{Momentum reconstruction and analysis}\label{sec:momentum_reco}
