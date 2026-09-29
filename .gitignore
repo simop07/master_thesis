@@ -41,7 +41,7 @@
 # Text files, PDFs and images
 main.*
 TableOfContents.docx
-*pdf
+plots/**/*pdf
 
 # Directories
 main_html
