@@ -264,14 +264,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.61623822"
-     inkscape:cx="967.96981"
-     inkscape:cy="615.83327"
-     inkscape:window-width="1920"
-     inkscape:window-height="1171"
-     inkscape:window-x="2091"
+     inkscape:cx="357.0048"
+     inkscape:cy="713.19822"
+     inkscape:window-width="3200"
+     inkscape:window-height="1771"
+     inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g1">
+     inkscape:current-layer="g16">
     <inkscape:page
        x="0"
        y="0"
@@ -290,7 +290,10 @@
        id="path3"
        d="M 0,0 H 843 V 462 H 0 Z"
        style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-       transform="matrix(1.7777778,0,0,1.7777778,195.55556,112)" />
+       transform="matrix(1.7777778,0,0,1.7777778,195.55556,112)"
+       inkscape:export-filename="canvasZ_post.pdf"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <g
        id="g5"
        clip-path="url(#clipPath6)">
@@ -802,5 +805,162 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
          x="1533.5734"
          y="1022.267">Δz [cm]</tspan></text>
+    <g
+       transform="matrix(3.186141,0,0,3.186141,-1628.959,-1069.6401)"
+       id="g16">
+      <rect
+         x="0"
+         y="26.115601"
+         width="4.8843198"
+         height="46.884399"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,1006.5,535.5)"
+         id="rect1" />
+      <path
+         d="M 4.88432,26.1156 31,0 V 46.8844 L 4.88432,73 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1006.5,535.5)"
+         id="path1" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 L 4.88432,26.1156 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1006.5,535.5)"
+         id="path2-0" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 V 46.8844 L 4.88432,73 H 0 Z m 0,0 H 4.88432 L 31,0 M 4.88432,26.1156 V 73"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1006.5,535.5)"
+         id="path3-9" />
+      <rect
+         x="0"
+         y="26.115601"
+         width="4.8843198"
+         height="46.884399"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,996.5,535.5)"
+         id="rect3" />
+      <path
+         d="M 4.88432,26.1156 31,0 V 46.8844 L 4.88432,73 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,996.5,535.5)"
+         id="path4-4" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 L 4.88432,26.1156 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,996.5,535.5)"
+         id="path5-8" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 V 46.8844 L 4.88432,73 H 0 Z m 0,0 H 4.88432 L 31,0 M 4.88432,26.1156 V 73"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,996.5,535.5)"
+         id="path6-8" />
+      <rect
+         x="0"
+         y="26.115601"
+         width="4.8843198"
+         height="46.884399"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,939.5,535.5)"
+         id="rect6" />
+      <path
+         d="M 4.88432,26.1156 31,0 V 46.8844 L 4.88432,73 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,939.5,535.5)"
+         id="path7-2" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 L 4.88432,26.1156 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,939.5,535.5)"
+         id="path8-4" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 V 46.8844 L 4.88432,73 H 0 Z m 0,0 H 4.88432 L 31,0 M 4.88432,26.1156 V 73"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,939.5,535.5)"
+         id="path9-5" />
+      <rect
+         x="0"
+         y="26.115601"
+         width="4.8843198"
+         height="46.884399"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,929.5,535.5)"
+         id="rect9" />
+      <path
+         d="M 4.88432,26.1156 31,0 V 46.8844 L 4.88432,73 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,929.5,535.5)"
+         id="path10-5" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 L 4.88432,26.1156 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,929.5,535.5)"
+         id="path11-1" />
+      <path
+         d="M 0,26.1156 26.1157,0 H 31 V 46.8844 L 4.88432,73 H 0 Z m 0,0 H 4.88432 L 31,0 M 4.88432,26.1156 V 73"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,929.5,535.5)"
+         id="path12-7" />
+      <path
+         d="m 924,582 h 15.41 v 4 H 924 Z m 0,8 -6,-6 6,-6 6,6 z m 15.41,-12 6,6 -6.001,6 -5.999,-6 z"
+         fill="#0000ff"
+         id="path13-1" />
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(886.666,527)"
+         id="text13">0</text>
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(912.338,527)"
+         id="text14">1</text>
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(953.896,526)"
+         id="text15">2</text>
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(975.996,527)"
+         id="text16">3</text>
+      <text
+         xml:space="preserve"
+         style="font-size:16.7392px;font-family:'Book Antiqua';-inkscape-font-specification:'Book Antiqua, Normal';writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:#000000;stroke-width:0.313859;stroke-opacity:0"
+         x="959.46106"
+         y="518.81519"
+         id="text1"><tspan
+           sodipodi:role="line"
+           id="tspan1"
+           style="stroke-width:0.313859"></tspan></text>
+    </g>
   </g>
 </svg>

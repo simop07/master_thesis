@@ -15,6 +15,12 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs1">
+    <rect
+       x="-94.091464"
+       y="-25.244051"
+       width="2416.5442"
+       height="1179.5857"
+       id="rect2" />
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath2">
@@ -298,15 +304,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.61623822"
-     inkscape:cx="846.26363"
-     inkscape:cy="453.55836"
-     inkscape:window-width="1920"
-     inkscape:window-height="1171"
-     inkscape:window-x="2091"
+     inkscape:zoom="0.87149245"
+     inkscape:cx="771.09102"
+     inkscape:cy="504.3073"
+     inkscape:window-width="3200"
+     inkscape:window-height="1771"
+     inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g1">
+     inkscape:current-layer="g16">
     <inkscape:page
        x="0"
        y="0"
@@ -324,7 +330,10 @@
     <path
        id="path3"
        d="M 194.98183,112.57373 H 1693.6485 V 893.01818 H 194.98183 Z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.77778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.77778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="canvasZ_pre.pdf"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <g
        id="g5"
        clip-path="url(#clipPath6)">
@@ -830,5 +839,158 @@
          x="1204.0599"
          y="286.8186"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.7777px;font-family:'Book Antiqua';-inkscape-font-specification:'Book Antiqua, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.652082">χ</tspan></text>
+    <g
+       transform="matrix(2.8928286,0,0,2.8928286,-1359.0292,30.514519)"
+       id="g16">
+      <rect
+         x="0"
+         y="26.1157"
+         width="4.8843298"
+         height="45.8843"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,1014.5,201.5)"
+         id="rect1" />
+      <path
+         d="M 4.88433,26.1157 31,0 V 45.8843 L 4.88433,72 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1014.5,201.5)"
+         id="path1" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 L 4.88433,26.1157 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1014.5,201.5)"
+         id="path2-0" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 V 45.8843 L 4.88433,72 H 0 Z m 0,0 H 4.88433 L 31,0 M 4.88433,26.1157 V 72"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1014.5,201.5)"
+         id="path3-9" />
+      <rect
+         x="0"
+         y="26.1157"
+         width="4.8843298"
+         height="45.8843"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,1004.5,201.5)"
+         id="rect3" />
+      <path
+         d="M 4.88433,26.1157 31,0 V 45.8843 L 4.88433,72 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1004.5,201.5)"
+         id="path4-4" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 L 4.88433,26.1157 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1004.5,201.5)"
+         id="path5-8" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 V 45.8843 L 4.88433,72 H 0 Z m 0,0 H 4.88433 L 31,0 M 4.88433,26.1157 V 72"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,1004.5,201.5)"
+         id="path6-8" />
+      <rect
+         x="0"
+         y="26.1157"
+         width="4.8843298"
+         height="45.8843"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,968.5,201.5)"
+         id="rect6" />
+      <path
+         d="M 4.88433,26.1157 31,0 V 45.8843 L 4.88433,72 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,968.5,201.5)"
+         id="path7-2" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 L 4.88433,26.1157 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,968.5,201.5)"
+         id="path8-4" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 V 45.8843 L 4.88433,72 H 0 Z m 0,0 H 4.88433 L 31,0 M 4.88433,26.1157 V 72"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,968.5,201.5)"
+         id="path9-5" />
+      <rect
+         x="0"
+         y="26.1157"
+         width="4.8843298"
+         height="45.8843"
+         fill="#ffff00"
+         transform="matrix(-1,0,0,1,937.5,201.5)"
+         id="rect9" />
+      <path
+         d="M 4.88433,26.1157 31,0 V 45.8843 L 4.88433,72 Z"
+         fill="#cdcd00"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,937.5,201.5)"
+         id="path10-5" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 L 4.88433,26.1157 Z"
+         fill="#ffff32"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,937.5,201.5)"
+         id="path11-1" />
+      <path
+         d="M 0,26.1157 26.1157,0 H 31 V 45.8843 L 4.88433,72 H 0 Z m 0,0 H 4.88433 L 31,0 M 4.88433,26.1157 V 72"
+         stroke="#042433"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         transform="matrix(-1,0,0,1,937.5,201.5)"
+         id="path12-7" />
+      <path
+         d="m 932,248 h 35.89 v 4 H 932 Z m 0,8 -6,-6 6,-6 6,6 z m 35.89,-12 6,6 -6,6 -6,-6 z"
+         fill="#0000ff"
+         id="path13-1" />
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(902.382,193)"
+         id="text13">0</text>
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(933.167,193)"
+         id="text14">1</text>
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(961.863,192)"
+         id="text15">2</text>
+      <text
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="24px"
+         transform="translate(983.963,193)"
+         id="text16">3</text>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.34568242,0,0,0.34568242,469.79251,-10.548333)"
+         id="text1"
+         style="text-orientation:auto;-inkscape-font-specification:'Book Antiqua, Normal';font-family:'Book Antiqua';font-size:53.33330154px;fill:#000000;stroke:#000000;stroke-opacity:0;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect2)" />
+    </g>
   </g>
 </svg>
