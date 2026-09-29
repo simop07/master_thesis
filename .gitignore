@@ -41,10 +41,10 @@
 # Text files, PDFs and images
 main.*
 TableOfContents.docx
+*pdf
 
 # Directories
 main_html
-plots
 
 # Do not igore
 !main.tex
