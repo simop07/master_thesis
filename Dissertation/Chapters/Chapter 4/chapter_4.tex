@@ -193,7 +193,7 @@ Let us consider the pull distributions more in detail viewing \autoref{fig:z_ana
 	\caption[Carbon $x$-coordinate pull distributions before VT1 geometry correction]{Carbon $x$-coordinate pull distributions before VT1 geometry correction for VT0, VT1, VT2 and VT3. From the 8040 CNAO 2025 run.}
 	\label{fig:z_analysis_pre_x}
 \end{figure}
-\subsubsection{\texorpdfstring{$\chi^2$}{χ²} minimization algorithm to estimate VT plane displacement}\label{sssec:chi_squared_min_proc}
+\subsubsection{\texorpdfstring{$\chi^2$}{χ²} minimization algorithm to estimate Vertex Tracker plane displacement}\label{sssec:chi_squared_min_proc}
 The observation on the pull distributions prompted a more in-depth investigation of the alignment issue. To this regard, I decided to develop a $\chi^2$ minimization procedure to estimate the longitudinal ($z$) displacement of VT planes directly from data, measuring the discrepancy between expected and actual planes' position. The \autoref{fig:chi_squared_alignment_algo} illustrates the basic idea of the implemented $\chi^2$ algorithm. Without loss of generality, the picture only shows the $x$-$z$ coordinate plane, however the algorithm was implemented also in the $y$-$z$ plane. The initial assumption is that the detector plane is located at $z_0$ (in other words, this is the position GENFIT uploads from the configuration parameters). If it were perfectly aligned, a particle following the blue track line would hit it exactly at the green dot, producing the transverse measurement $x_0$. However, a hit is recorded at the red dot $x_M$, which is higher than expected ($x_M>x_0$). As the track has a positive slope $t_x=dx/dz>0$, the $x$ coordinate of its position increases with $z$. Having measured a larger $x$ value than expected, the particle must have traveled further along the $z$ axis before hitting the detector plane, meaning that the physical plane is actually shifted to the right of where GENFIT thought it was ($z_\text{ideal}>z_0$). By displacing the detector layer to the right amount $\Delta z\equiv z_\text{ideal}-z_0$, the discrepancy between $x_M$ and $x_0$ would zero.
 \begin{figure}[H]
 	\centering
@@ -251,7 +251,7 @@ Following the $\Delta z$ analysis, the FOOT Bologna group measured that the GENF
 	\caption[Effect of the VT1 displacement correction on $\Delta z$]{Comparison of the estimated longitudinal displacement $\Delta z$ of VT1 for the helium fragment before and after correcting the GENFIT geometry parameters of VT1. The sketches on the figure schematize the VT planes and the VT geometry correction. From the 8040 CNAO 2025 run.}
 	\label{fig:delta_z_improv}
 \end{figure}
-After revising the VT plane geometry, also the pull distributions of the carbon VT $x$ coordinates moved closer to $0$; this can be viewed comparing \autoref{fig:z_analysis_pre_x} with \autoref{fig:z_analysis_post_x}, which respectively show the \ce{C} pulls before and after the VT geometry correction. Although the updated VT1 position slightly shifted the $\mu_\text{mean}$ towards $0$, the discrepancy is still evident. The same behavior can be viewed in \autoref{fig:postZ_pullSummaryVT}, where the spread of the $\mu_\text{mean}$ diminished from that of \autoref{fig:preZ_pullSummaryVT} in all the VT coordinates, but not as much as expected.
+After revising the VT plane geometry, also the pull distributions of the carbon VT $x$ coordinates moved closer to $0$; this can be viewed comparing \autoref{fig:z_analysis_pre_x} with \autoref{fig:z_analysis_post_x}, which respectively show the \ce{C} pulls before and after the VT geometry correction. Although the updated VT1 position slightly shifted the $\mu_\text{mean}$ towards $0$, the discrepancy is still evident. \autoref{fig:postZ_pullSummaryVT} allows to compare more directly the spread of the $\mu_\text{mean}$ before and after the VT1 geometric correction. After the VT1 change, the majority of the pull means diminishes to $0$; however, the new pull means are still not compatible with the reference value $0$.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.49\linewidth}
@@ -287,7 +287,7 @@ After revising the VT plane geometry, also the pull distributions of the carbon 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{postZ_pullSummaryVT.pdf}
-	\caption[Pull means for VT planes after VT1 geometry correction]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, following the VT1 geometry correction. From the 8040 CNAO 2025 run.}
+	\caption[Pull means for VT planes before and after the VT1 geometry correction]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, before and after the VT1 geometry correction. From the 8040 CNAO 2025 run.}
 	\label{fig:postZ_pullSummaryVT}
 \end{figure}
 \subsubsection{Software-based alignment procedure}\label{sssec:software_based_alignment_procedure}
@@ -295,29 +295,17 @@ Previously, it was stated that the VT1 geometric correction effectively reduced 
 
 To perform the software-based alignment, a detector plane is firstly chosen as reference. Then, a coordinate transformation matrix dynamically adjusts the $x$-$y$ position of each detector plane relative to the chosen reference detector, minimizing the residual on the beam position. Momentarily, the software-based alignment procedure takes into account only the translational motion of each detector layer; the FOOT Collaboration is planning to include the rotational alignment to better adjust the detector's $x$-$y$ coordinates and increase the robustness of the alignment procedure.
 
-Applying the software-based alignment on experimental data provided significant benefits to the pull distributions, as illustrated in \autoref{fig:pull_8028_comparison}, plotting data from the 8028 CNAO 2025 run (\num{307068} events with no magnetic field). The figure shows the VT pull means of carbon particles after the VT1 geometry correction, but compares the situation before (\autoref{fig:pull_distribution_before}) and after (\autoref{fig:pull_distribution_after}) the application of the software-based alignment procedure. While in the first subplot the $\mu_\text{pull}$ ranges between $-0.6$--$1$, in the second it spans $-0.1$--$0.1$, improving approximately by a factor $10$. A comprehensive list of the VT $\mu_\text{pull}$ and the respective uncertainties, obtained after fitting all the fragments' pulls following the software-based alignment, is contained in \autoref{tab:vt_pull_means}.
+Applying the software-based alignment on experimental data provided significant benefits to the pull distributions, as illustrated in \autoref{fig:pull_8028_comparison}, plotting data from the 8028 CNAO 2025 run (\num{307068} events with no magnetic field). The figure shows the VT pull means of carbon particles following the VT1 geometry correction, but compares the situation before and after the application of the software-based alignment procedure. While in the first subplot the $\mu_\text{pull}$ ranges between $\left[-0.6,1\right]$, in the second it spans $\left[-0.1,0.1\right]$, improving approximately by a factor $10$. A comprehensive list of the VT $\mu_\text{pull}$ and the respective uncertainties, obtained after fitting all the fragments' pulls following the software-based alignment, is contained in \autoref{tab:vt_pull_means}.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{preAlignmentPull.pdf}
-		\caption{Pull means before applying the software-based alignment procedure.}
-		\label{fig:pull_distribution_before}
-	\end{subfigure}
-	\par
-	\begin{subfigure}[b]{0.98\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{postAlignmentPull.pdf}
-		\caption{Pull means after applying the software-based alignment procedure.}
-		\label{fig:pull_distribution_after}
-	\end{subfigure}
+	\includegraphics[width=0.98\linewidth]{pre_postAlignmentPull.pdf}
 	\caption[Pull means for VT planes before and after the software-based alignment for carbon ions]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, following the VT1 geometry correction. The plots compare the pull means before and after the software-based alignment procedure. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_8028_comparison}
 \end{figure}
 \begin{table}[H]
 	\centering
 	\normalsize{%
-		\begin{tabular}{M{1.8cm} M{2.1cm} M{2.1cm} M{2.1cm}}
+		\begin{tabular}{M{1.8cm} M{2.6cm} M{2.6cm} M{2.6cm}}
 			\hline
 			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
 			\hline
@@ -364,22 +352,10 @@ Applying the software-based alignment on experimental data provided significant 
 \subsection{Vertex Tracker uncertainty model}\label{ssec:vt_uncertainty_model}
 Following the analysis of the VT $\mu_\text{pull}$ presented in \autoref{ssec:vt_plane_misalignment}, this section will focus on the VT $\sigma_\text{pull}$, a quantity which allows to validate the correctness of the VT uncertainty model and the quality of the VT error $\sigma_\text{meas}$ used in \autoref{eq:pull_distributions}.
 
-In \autoref{ssec:pull_distributions} it was stated that the width of the pull distribution $\sigma_\text{pull}$ should ideally be close to $1$. In the 8028 CNAO 2025 run, the VT pull widths for carbon ions possess values around $1$, as shown in \autoref{fig:c_sigma_Z_6}. However, the lower-$Z$ fragmentation products deviate from this behavior, having $\sigma_\text{pull}\gtrsim1$. The dependence of $\sigma_\text{pull}$ on the charge can be viewed comparing \autoref{fig:c_sigma_Z_6} (carbon) with \autoref{fig:c_sigma_Z_2} (helium), where $\sigma_\text{pull}\gtrsim1.4$. The VT $\sigma_\text{pull}$ and the associated uncertainties are reported for all the reconstructed fragments in \autoref{tab:vt_pull_sigmas}. This table shows values extrapolated from the pulls' Gaussian fit after the application of the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}.
+In \autoref{ssec:pull_distributions} it was stated that the width of the pull distribution $\sigma_\text{pull}$ should ideally be close to $1$. In the 8028 CNAO 2025 run, the VT pull widths for carbon ions possess values around $1$, as shown in \autoref{fig:pull_width_charge}. However, the lower-$Z$ fragmentation products deviate from this behavior, having $\sigma_\text{pull}\gtrsim1$. For instance, \autoref{fig:pull_width_charge} displays the $\sigma_\text{pull}$ for helium particles, whose values are approximately $\gtrsim1.4$, well above the carbon case. In general, all the fragments lighter than carbons share the increase of $\sigma_\text{pull}$ similarly to helium. This can be viewed in \autoref{tab:vt_pull_sigmas}, which reports the VT $\sigma_\text{pull}$ values of all the reconstructed fragments and the associated uncertainties. Specifically, this table shows values extrapolated from the pulls' Gaussian fit after the application of the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{c_sigma_Z_6.pdf}
-		\caption{Carbon.}
-		\label{fig:c_sigma_Z_6}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.98\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{c_sigma_Z_2.pdf}
-		\caption{Helium.}
-		\label{fig:c_sigma_Z_2}
-	\end{subfigure}
+	\includegraphics[width=0.98\linewidth]{helium_carbon_sigma_8028.pdf}
 	\caption[Pull width dependence on fragment charge] {Standard deviation of the pull distributions for carbon and helium fragments after the geometry and software-based alignment correction. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_charge}
 \end{figure}
@@ -430,7 +406,9 @@ In \autoref{ssec:pull_distributions} it was stated that the width of the pull di
 	\caption[VT pull widths by fragment charge after the VT1 geometry correction and the software-based alignment procedure]{Standard deviation of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each VT plane after the VT1 geometry correction and the software-based alignment procedure. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
 	\label{tab:vt_pull_sigmas}
 \end{table}
-A pull width larger than one indicates that the uncertainties assigned to the measurements are underestimated. In other words, observing \autoref{eq:pull_distributions}, this means that the actual fluctuations of the residuals are larger than expected from the error model currently used in the reconstruction.
+Finding the root cause of the $\sigma_\text{pull}$ displacement from $0$ represents a difficult challenge. Nonetheless, the following discussion can help us formulating hypothesis that are plausibly correlated to the $\sigma_\text{pull}$ issues.
+
+As stated in \autoref{ssec:pull_distributions}, a pull width larger than one indicates that the uncertainties assigned to the measurements from which it is computed are underestimated. Observing \autoref{eq:pull_distributions}, this means that the actual fluctuations of the residuals are larger than expected from the error model currently used in the reconstruction.
 
 For the VT, the cluster position is reconstructed using a Center-of-Gravity (CoG) computation over the pixels belonging to the cluster. The cluster coordinates $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ are given by:
 \begin{equation}
@@ -491,9 +469,140 @@ which is the uncertainty of a uniform distribution, where $20.7~\mu\mathrm{m}$ c
 
 Returning to the discussion of $\sigma_\text{pull}$, it is important to note that before the geometry and software-based alignment corrections, an even stronger dependence of the pull width on the fragment charge was observed than what shown in \autoref{fig:pull_width_charge} and \autoref{tab:vt_pull_sigmas}. For the lightest fragments, the pull standard deviation could reach values as large as $6$. The higher $\sigma_\text{pull}$ of lighter fragments are probably related to the broader angular distributions of low-charge fragments, which was shown in \autoref{fig:fluka_ekin_angle_dis} (left). As lighter fragments are emitted with larger scattering angles, their trajectories deviate more significantly from the beam direction, making the reconstruction more sensitive to imperfections in the detector geometry and uncertainty modeling. The alignment correction substantially reduced the charge dependence of the pull widths, improving the overall reconstruction performances. Nevertheless, the remaining excess of the pull widths for lighter fragments still indicates that the uncertainty model requires further refinement.
 
-Several approaches can be considered to address the $\sigma_\text{pull}\gtrsim1$ issue. A straightforward solution would be introducing scale factors to the estimated uncertainties, which effectively scale the pull distributions toward the unit width. However, such scale factors should be regarded only as temporary corrections and necessitate a deeper understanding of their physics origin. A Monte Carlo study for the VT uncertainty model presented in \cite{Traini2026Meeting} showed that spatial resolution on the VT clusters degrades sharply as fewer pixels fire. This is exactly what happens for light fragments, since they deposit less charge. On one hand the larger clusters produced by heavier ions contain more geometrical information about the particle crossing point, allowing a more precise centroid estimate. Conversely, lighter fragments rarely activate peripheral pixels, generating narrower clusters that make the position estimate more sensitive to threshold fluctuations and charge diffusion processes. The current VT error model only partly accounts for the cluster size by including the pixel number in the denominator of \autoref{eq:cluster_VT_err}; however, it underestimates the position resolution yielding $\sigma_\text{pull}\gtrsim1$. Current investigation on the cluster size and shape (such as cluster elongation, thoroughly analyzed in \cite{Ma_czewski_2009} for MIMOSA-5 pixel sensors) are ongoing to circumvent the $\sigma_\text{pull}$ issue.
+Several approaches can be considered to address the $\sigma_\text{pull}\gtrsim1$ issue. A straightforward solution would be introducing scale factors to the estimated uncertainties, which effectively scale the pull distributions toward the unit width. However, such scale factors should be regarded only as temporary corrections and necessitate a deeper understanding of their physics origin. A Monte Carlo study for the VT uncertainty model presented in \cite{Traini2026Meeting} showed that spatial resolution on the VT clusters degrades sharply as fewer pixels fire. This is exactly what happens for light fragments, since they deposit less charge. On one hand the larger clusters produced by heavier ions contain more geometrical information about the particle crossing point, allowing a more precise centroid estimate. Conversely, lighter fragments rarely activate peripheral pixels, generating narrower clusters that make the position estimate more sensitive to threshold fluctuations and charge diffusion processes. The current VT error model only partly accounts for the cluster size by including the pixel number in the denominator of \autoref{eq:cluster_VT_err}; however, it underestimates the position resolution yielding $\sigma_\text{pull}\gtrsim1$. Current investigation on the cluster size and shape (such as cluster elongation, thoroughly analyzed in \cite{Ma_czewski_2009} for MIMOSA-5 pixel sensors) are ongoing to solve the $\sigma_\text{pull}$ issue.
+\subsubsection{Vertex Tracker plane rotation}\label{sssec:vt_plane_rotation}
+To further investigate the $\sigma_\text{pull}\gtrsim1$ of lighter fragments, I conducted several studies concerning the VT plane rotation around the $z$ axis, which cannot yet be addressed by the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}. In this analysis, I expressed the VT $x$ and $y$ coordinate residuals (respectively $x_{\text{meas}}-x_{\text{fit}}$ and $y_{\text{meas}}-y_{\text{fit}}$) of each VT plane as a function of the VT cluster position $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ defined in \autoref{eq:cluster_VT}, searching for possible rotations of the VT layers.
+
+First, to motivate this study, let us consider how a plane rotation can be handled mathematically. Suppose that the VT sensor local axes $(x',y')$ are rotated by a small angle $\varphi$ with respect to the true experimental frame $(x,y)$. Then, a position measured from the rotated sensor frame of reference is quantified by:
+\begin{equation}
+	\begin{cases}
+		x' = x\cos\varphi + y\sin\varphi, \\
+		y' = -x\sin\varphi + y\cos\varphi,
+	\end{cases}
+	\label{eq:VT_rotation}
+\end{equation}
+where the expressions stem from the algebra of rotation matrices. Assuming small rotation angles $\varphi\ll1$, \autoref{eq:VT_rotation} becomes:
+\begin{equation}
+	\begin{cases}
+		x' \approx x+\varphi\cdot y, \\
+		y' \approx y- \varphi\cdot x,
+	\end{cases}
+	\label{eq:VT_rotation_small_angles}
+\end{equation}
+where the small angle approximation for the $\sin$ and $\cos$ functions are used. Although the physical hit/cluster position does not change, the axis along which the sensor measures it is tilted, yielding a residual of:
+
+\begin{equation}
+	\begin{cases}
+		\text{residual}_x \equiv x' - x \approx \varphi \cdot y, \\
+		\text{residual}_y \equiv y' - y \approx -\varphi\cdot x.
+	\end{cases}
+	\label{eq:VT_rotation_residuals}
+\end{equation}
+Consequently, one should expect a dependence of $\text{residual}_x$ and $\text{residual}_y$ on the cluster position $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$, as it expressed in the true experimental frame $(x,y)$ (the global FOOT frame of reference). In particular, from \autoref{eq:VT_rotation_residuals}, the ``direct'' plots $\text{residual}_x$ vs $x_{\mathrm{CoG}}$ and $\text{residual}_y$ vs $y_{\mathrm{CoG}}$ should be flat; conversely, the ``cross'' plots $\text{residual}_x$ vs $y_{\mathrm{CoG}}$ and $\text{residual}_y$ vs $x_{\mathrm{CoG}}$ should display a clear trend with slopes of opposite sign and similar magnitude.
+
+The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_clusposx_VT1} and \autoref{fig:resx_clusposx_VT1} precisely confirm the expectations. All these figures show the various combinations between $\text{residual}_x$, $\text{residual}_y$ and $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ for carbon and helium particles reconstructed in the 8028 CNAO 2025 run.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resxVsClusPosxVT1Z6.pdf}
+		\caption{Carbon}
+		\label{fig:resx_clusposx_VT1_C}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resxVsClusPosxVT1Z2.pdf}
+		\caption{Helium}
+		\label{fig:resx_clusposx_VT1_He}
+	\end{subfigure}
+	\caption{Residual in $x$ as a function of the cluster position in $x$ for VT1.}
+	\label{fig:resx_clusposx_VT1}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resyVsClusPosyVT1Z6.pdf}
+		\caption{Carbon}
+		\label{fig:resy_clusposy_VT1_C}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resyVsClusPosyVT1Z2.pdf}
+		\caption{Helium}
+		\label{fig:resy_clusposy_VT1_He}
+	\end{subfigure}
+	\caption{Residual in $y$ as a function of the cluster position in $y$ for VT1.}
+	\label{fig:resy_clusposy_VT1}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resxVsClusPosyVT1Z6.pdf}
+		\caption{Carbon}
+		\label{fig:resx_clusposy_VT1_C}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resxVsClusPosyVT1Z2.pdf}
+		\caption{Helium}
+		\label{fig:resx_clusposy_VT1_He}
+	\end{subfigure}
+	\caption{Residual in $x$ as a function of the cluster position in $y$ for VT1.}
+	\label{fig:resx_clusposy_VT1}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resyVsClusPosxVT1Z6.pdf}
+		\caption{Carbon}
+		\label{fig:resy_clusposx_VT1_C}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{resyVsClusPosxVT1Z2.pdf}
+		\caption{Helium}
+		\label{fig:resy_clusposx_VT1_He}
+	\end{subfigure}
+	\caption{Residual in $y$ as a function of the cluster position in $x$ for VT1.}
+	\label{fig:resy_clusposx_VT1}
+\end{figure}
+
+%
+%Addressing the rotation of the VT planes may ...
+%
+%
+%~10⁻³ rad
+%
+
 \section{Optimization of the Microstrip Silicon Detector}\label{sec:optim_msd}
-\autoref{sec:optim_vt}
+%---
+%This section presents my initial contributions to the SHOE tracking software, conducted under the supervision of the FOOT Bologna group. Specifically, my analysis work started off by studying the alignment issues of the MIMOSA-28 VT detector, the one currently employed in the electronic setup.\footnote{The following analysis does not include the new VT presented in \autoref{sec:new_vertex_tracker}, which will be operated as of November 2026.} To describe my alignment studies, it is essential to introduce the concept of the pulls.
+%---
+%
+%io qui direi subito come viene calcolata la posizione e l'errore in MSD, per poi citare le pull
+%
+%io qui posterei le pul_mean di MSD e le pull_mean di MSD per ORIGINAL msd position (sia plot che tabelle) ok e purel e sigma prima del cambiamento dellerrore di f_eta. faccio notare come le mediie siano buone dopo il software base alignent (anche grazie al fatto che ho tolto le negative energy lossess affecting te individual strips), ma il problema risiede nelle sigma pull
+%
+%
+
+
+
+
+
 
 
 
