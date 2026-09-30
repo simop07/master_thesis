@@ -357,7 +357,7 @@ Following the analysis of the VT $\mu_\text{pull}$ presented in \autoref{ssec:vt
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{helium_carbon_sigma_8028.pdf}
-	\caption[Pull width dependence on fragment charge] {Standard deviation of the pull distributions for carbon and helium fragments after the geometry and software-based alignment correction. From the 8028 CNAO 2025 run.}
+	\caption[Pull width dependence on fragment charge]{Standard deviation of the pull distributions for carbon and helium fragments after the geometry and software-based alignment correction. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_charge}
 \end{figure}
 In \autoref{ssec:pull_distributions} it was stated that the width of the pull distribution $\sigma_\text{pull}$ should ideally be close to $1$. In the 8028 CNAO 2025 run, the VT pull widths for carbon ions possess values around $1$, as shown in \autoref{fig:pull_width_charge}. However, the lower-$Z$ fragmentation products deviate from this behavior, having $\sigma_\text{pull}\gtrsim1$. For instance, \autoref{fig:pull_width_charge} displays the $\sigma_\text{pull}$ for helium particles, whose values are approximately $\gtrsim1.4$, well above the carbon case. In general, all the fragments lighter than carbons share the increase of $\sigma_\text{pull}$ similarly to helium. This can be viewed in \autoref{tab:vt_pull_sigmas}, which reports the VT $\sigma_\text{pull}$ values of all the reconstructed fragments and the associated uncertainties. Specifically, this table shows values extrapolated from the pulls' Gaussian fit after the application of the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}.
@@ -423,7 +423,7 @@ For the VT, the cluster position is reconstructed using a Center-of-Gravity (CoG
 	{\displaystyle\sum_i w_i},
 	\label{eq:cluster_VT}
 \end{equation}
-where $x_i$ and $y_i$ denote the position of pixel $i$, and $w_i$ is the pixel pulse height. Since the VT provides a digital signal, the pulse height is effectively binary, i.e. $w_i \in {0,1}$. Consequently, summing over the weights translates to finding the total number of pixels contributing to the cluster. The reconstructed position can therefore be interpreted as the average position of the pixels forming the cluster. On the other hand, the VT cluster uncertainties are estimated from the spatial spread of the contributing pixels, calculated using the variance of the mean formula:
+where $x_i$ and $y_i$ denote the position of pixel $i$, and $w_i$ is the pixel pulse height. Since the VT provides a digital signal, the pulse height is effectively binary, i.e. $w_i \in \left\{0,1\right\}$. Consequently, summing over the weights translates to finding the total number of pixels contributing to the cluster. The reconstructed position can therefore be interpreted as the average position of the pixels forming the cluster. On the other hand, the VT cluster uncertainties are estimated from the spatial spread of the contributing pixels, calculated using the variance of the mean formula:
 \begin{equation}
 	\sigma_x^2 =
 	\frac{\displaystyle\sum_i w_i
@@ -443,7 +443,7 @@ where the denominator is effectively the square of the number of pixels in the c
 		(x_i-x_{\mathrm{CoG}})
 		(y_i-y_{\mathrm{CoG}})}
 	{\displaystyle\left(\sum_i w_i\right)^2}.
-	\label{eq:eq:cluster_VT_err_cov}
+	\label{eq:cluster_VT_err_cov}
 \end{equation}
 The resulting covariance matrix of the reconstructed cluster position is therefore:
 \begin{equation}
@@ -471,7 +471,7 @@ which is the uncertainty of a uniform distribution, where $20.7~\mu\mathrm{m}$ c
 
 Returning to the discussion of $\sigma_\text{pull}$, it is important to note that before the geometry and software-based alignment corrections, an even stronger dependence of the pull width on the fragment charge was observed than what shown in \autoref{fig:pull_width_charge} and \autoref{tab:vt_pull_sigmas}. For the lightest fragments, the pull standard deviation could reach values as large as $6$. The higher $\sigma_\text{pull}$ of lighter fragments are probably related to the broader angular distributions of low-charge fragments, which was shown in \autoref{fig:fluka_ekin_angle_dis} (left). As lighter fragments are emitted with larger scattering angles, their trajectories deviate more significantly from the beam direction, making the reconstruction more sensitive to imperfections in the detector geometry and uncertainty modeling. The alignment correction substantially reduced the charge dependence of the pull widths, improving the overall reconstruction performances. Nevertheless, the remaining excess of the pull widths for lighter fragments still indicates that the uncertainty model requires further refinement.
 
-Several approaches can be considered to address the $\sigma_\text{pull}\gtrsim1$ issue. A straightforward solution would be introducing scale factors to the estimated uncertainties, which effectively scale the pull distributions toward the unit width. However, such scale factors should be regarded only as temporary corrections and necessitate a deeper understanding of their physics origin. A Monte Carlo study for the VT uncertainty model presented in \cite{Traini2026Meeting} showed that spatial resolution on the VT clusters degrades sharply as fewer pixels fire. This is exactly what happens for light fragments, since they deposit less charge. On one hand the larger clusters produced by heavier ions contain more geometrical information about the particle crossing point, allowing a more precise centroid estimate. Conversely, lighter fragments rarely activate peripheral pixels, generating narrower clusters that make the position estimate more sensitive to threshold fluctuations and charge diffusion processes. The current VT error model only partly accounts for the cluster size by including the pixel number in the denominator of \autoref{eq:cluster_VT_err}; however, it underestimates the position resolution yielding $\sigma_\text{pull}\gtrsim1$. Current investigation on the cluster size and shape (such as cluster elongation, thoroughly analyzed in \cite{Ma_czewski_2009} for MIMOSA-5 pixel sensors) are ongoing to solve the $\sigma_\text{pull}$ issue.
+Several approaches can be considered to address the $\sigma_\text{pull}\gtrsim1$ issue and the associated VT error underestimation for lighter fragments. A straightforward solution would be introducing scale factors to the estimated uncertainties, which effectively scale the pull distributions toward the unit width. However, such scale factors should be regarded only as temporary corrections and necessitate a deeper understanding of their physics origin. A Monte Carlo study for the VT uncertainty model presented in \cite{Traini2026Meeting} showed that spatial resolution on the VT clusters degrades sharply as fewer pixels fire. This is exactly what happens for light fragments, since they deposit less charge. On one hand the larger clusters produced by heavier ions contain more geometrical information about the particle crossing point, allowing a more precise centroid estimate. Conversely, lighter fragments rarely activate peripheral pixels, generating narrower clusters that make the position estimate more sensitive to threshold fluctuations and charge diffusion processes. The current VT error model only partly accounts for the cluster size by including the pixel number in the denominator of \autoref{eq:cluster_VT_err}; however, it underestimates the position resolution yielding $\sigma_\text{pull}\gtrsim1$. Current investigation on the cluster size and shape (such as cluster elongation, thoroughly analyzed in \cite{Ma_czewski_2009} for MIMOSA-5 pixel sensors) are ongoing to solve the $\sigma_\text{pull}$ issue.
 \subsubsection{Vertex Tracker plane rotation}\label{sssec:vt_plane_rotation}
 To further investigate the $\sigma_\text{pull}\gtrsim1$ of lighter fragments, I conducted several studies concerning the VT plane rotation around the $z$ axis, which cannot yet be addressed by the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}. In this analysis, I expressed the VT $x$ and $y$ coordinate residuals (respectively $x_{\text{meas}}-x_{\text{fit}}$ and $y_{\text{meas}}-y_{\text{fit}}$) of each VT plane as a function of the VT cluster position $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ defined in \autoref{eq:cluster_VT}, searching for possible rotations of the VT layers.
 
@@ -579,13 +579,49 @@ Note that all the carbon plots, precisely at $x_\mathrm{CoG}=y_\mathrm{CoG}=-0.4
 
 This study suggests that the geometry of the VT and, more broadly, of the entire electronic setup, requires further investigations to assess the alignment of detection planes and their possible rotation. Future developments should therefore incorporate the rotational alignment into the software-based procedure. Indeed, when projecting the flat distributions (\autoref{fig:resx_clusposx_VT1} and \autoref{fig:resy_clusposy_VT1}) and the inclined distributions (\autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1}) onto the $y$ axis, the latter exhibit a broader residual distribution. Mitigating this orientation issue may benefit the VT $\sigma_\text{pull}$ estimation.
 \section{Optimization of the Microstrip Silicon Detector}\label{sec:optim_msd}
-In this section 
-%---
-%This section presents my initial contributions to the SHOE tracking software, conducted under the supervision of the FOOT Bologna group. Specifically, my analysis work started off by studying the alignment issues of the MIMOSA-28 VT detector, the one currently employed in the electronic setup.\footnote{The following analysis does not include the new VT presented in \autoref{sec:new_vertex_tracker}, which will be operated as of November 2026.} To describe my alignment studies, it is essential to introduce the concept of the pulls.
-%---
-%
-\subsection{Microstrip Silicon Detector clustering algorithm}\label{}
-%io qui direi subito come viene calcolata la posizione e l'errore in MSD, per poi citare le pull
+This section delineates the pull studies for the Microstrip Silicon Detector (MSD, see \autoref{sssec:microstrip_silicon_detector}), which pointed out several issues concerning the position uncertainty assigned to measurements by MSD planes. After outlining the position and error estimators originally employed in the MSD, novel estimators based on the MSD strips charge sharing are examined and compared with the previous ones.
+\subsection{Microstrip Silicon Detector clustering algorithm}\label{ssec:msd_clustering_algorithm}
+To estimate the particles' position, SHOE originally implements a clustering algorithm similar to the VT CoG computation: in both cases adjacent fired channels are grouped and the cluster position is obtained as a weighted average of the positions of its constituents. The key difference between the VT and MSD algorithms lies in the readout, as the VT integrates pixels providing a digital, binary readout, while the MSD strip technology implements an analog readout. Since each MSD readout strip can directly measure the energy deposited by the traversing particles, one can measure the charge sharing among neighboring strips to obtain a position estimate preciser than the binary reading of the VT.
+
+As stated in \autoref{sssec:microstrip_silicon_detector}, each MSD sensor measures a single coordinate ($x$ or $y$), meaning that the cluster position is one-dimensional and can be computed in the local reference frame of each MSD plane as:
+\begin{equation}
+	x_{\mathrm{CoG}} =
+	\frac{\displaystyle\sum_i E_i x_i}
+	{\displaystyle\sum_i E_i},
+	\label{eq:cluster_MSD}
+\end{equation}
+where $x_i$ is the central position of the $i$-th strip and $E_i$ is the energy loss measured in that strip (evaluated in ADC units), which plays the role of the weight $w_i$ of \autoref{eq:cluster_VT}. The sum in \autoref{eq:cluster_MSD} runs over a group of strips defined by a double-threshold clustering algorithm described in the caption of \autoref{fig:msd_clus_algo}, One of my first MSD updates was limiting the sum of \autoref{eq:cluster_MSD} only for strips with $E_i>0$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{msd_clus_algo.pdf}
+	\caption[MSD double-threshold clustering algorithm]{Double-threshold clustering algorithm used to build a MSD cluster. First, a strip exceeding the ``seed'' threshold is selected. Then, strips from the left/right overpassing the ``fire'' threshold are added in the cluster, skipping noisy or dead strips. Finally, the first right (left) strip below the fire threshold is added. At present, only strips with $E_i>0$ are integrated in the cluster. From \cite{Zarrella2024meeting}.}
+	\label{fig:msd_clus_algo}
+\end{figure}
+The original MSD position uncertainty is estimated from the energy-weighted spread of the strips around the cluster position:
+\begin{equation}
+	\sigma_x^2 =
+	\frac{\displaystyle\sum_i E_i
+		(x_i-x_{\mathrm{CoG}})^2}
+	{\displaystyle\sum_i E_i}.
+	\label{eq:cluster_MSD_err}
+\end{equation}
+As in the VT case, a lower bound is imposed to account for the finite strip size. This is especially relevant for clusters made of a single strip, for which the spread in \autoref{eq:cluster_MSD_err} vanishes. The bound is the uncertainty of a uniform distribution over the MSD readout pitch (digital readout limit):
+\begin{equation}
+	\sigma_{\mathrm{digital}} =
+	\frac{150\,\mu\mathrm{m}}{\sqrt{12}},
+\end{equation}
+where $150\,\mu\mathrm{m}$ is the pitch of the MSD strips. The final cluster uncertainty is therefore:
+\begin{equation}
+	\sigma_{\mathrm{MSD}} =
+	\max\left(\sigma_x,\sigma_{\mathrm{digital}}\right).
+	\label{eq:MSD_final_err}
+\end{equation}
+\subsection{Pull studies with the MSD clustering algorithm}\label{ssec:pull_studies_msd_clustering_algorithm}
+
+
+---
+citare le pull
+---
 %
 %io qui posterei le pul_mean di MSD e le pull_mean di MSD per ORIGINAL msd position (sia plot che tabelle) ok e purel e sigma prima del cambiamento dellerrore di f_eta. faccio notare come le mediie siano buone dopo il software base alignent (anche grazie al fatto che ho tolto le negative energy lossess affecting te individual strips), ma il problema risiede nelle sigma pull
 %
