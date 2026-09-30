@@ -118,7 +118,7 @@ To conclude, from \autoref{fig:lsf_vs_kf} it is possible to observe the differen
 	\label{fig:lsf_vs_kf}
 \end{figure}
 \section{Optimization of the Vertex Tracker}\label{sec:optim_vt}
-This section presents my initial contributions to the SHOE tracking software, conducted under the supervision of the FOOT Bologna group. Specifically, my analysis work started off by studying the alignment issues of the MIMOSA-28 VT detector, the one currently employed in the electronic setup.\footnote{The following analysis does not include the new VT presented in \autoref{sec:new_vertex_tracker}, which will be operated as of November 2026.} To describe my alignment studies, it is essential to introduce the concept of the pulls.
+This section presents my initial contributions to the SHOE tracking software, conducted under the supervision of the FOOT Bologna group. Specifically, my analysis work started off by studying the alignment issues of the MIMOSA-28 VT detector (see \autoref{sssec:vertex_tracker}), the one currently employed in the electronic setup.\footnote{The following analysis does not include the new VT presented in \autoref{sec:new_vertex_tracker}, which will be operated as of November 2026.} To describe my alignment studies, it is essential to introduce the concept of the pulls.
 \subsection{Pull distributions}\label{ssec:pull_distributions}
 The pull distribution are useful statistical tools that compare the detector-measured coordinates $\vect{x}_\text{meas}=(x_\text{meas},y_\text{meas})$ with the GENFIT-fitted coordinates $(x_\text{fit},y_\text{fit})$ in the transverse direction of the beam. The $\text{pull}_x$ and $\text{pull}_y$ for a given detector plane are dimensionless quantities defined as:
 \begin{equation}
@@ -502,18 +502,17 @@ where the small angle approximation for the $\sin$ and $\cos$ functions are used
 \end{equation}
 Consequently, one should expect a dependence of $\text{residual}_x$ and $\text{residual}_y$ on the cluster position $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$, as it expressed in the true experimental frame $(x,y)$ (the global FOOT frame of reference). In particular, from \autoref{eq:VT_rotation_residuals}, the ``direct'' plots $\text{residual}_x$ vs $x_{\mathrm{CoG}}$ and $\text{residual}_y$ vs $y_{\mathrm{CoG}}$ should be flat; conversely, the ``cross'' plots $\text{residual}_x$ vs $y_{\mathrm{CoG}}$ and $\text{residual}_y$ vs $x_{\mathrm{CoG}}$ should display a clear trend with slopes of opposite sign and similar magnitude.
 
-The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_clusposy_VT1}, \autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1} precisely confirm the expectations. All these figures show the various combinations between $\text{residual}_x$, $\text{residual}_y$ and $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ for carbon and helium particles reconstructed in the 8028 CNAO 2025 run, where the subscript ``clus'' labels the CoG-derived VT cluster position. Particularly, both \autoref{fig:resx_clusposx_VT1} and \autoref{fig:resy_clusposy_VT1} exhibit a constant behavior for carbon and helium, while
-
+The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_clusposy_VT1}, \autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1} precisely confirm the expectations. All these figures show the various combinations between $\text{residual}_x$, $\text{residual}_y$ and $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ for carbon and helium particles reconstructed in the 8028 CNAO 2025 run, where the subscript ``clus'' labels the CoG-derived VT cluster position. Particularly, for both carbon and helium, \autoref{fig:resx_clusposx_VT1} and \autoref{fig:resy_clusposy_VT1} exhibit a constant behavior. Conversely, \autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1} have opposite slopes with an approximate inclination of $\pm10^{-3}\,\mathrm{rad}$, corresponding to $0.05$--$0.06^\circ$.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resxVsClusPosxVT1Z6.pdf}
 		\caption{Carbon}
 		\label{fig:resx_clusposx_VT1_C}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resxVsClusPosxVT1Z2.pdf}
 		\caption{Helium}
@@ -522,18 +521,16 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_cluspo
 	\caption[VT $x$-position residual vs $x_\mathrm{CoG}$]{Residual in $x$ as a function of the $x_\mathrm{CoG}$ for VT1.}
 	\label{fig:resx_clusposx_VT1}
 \end{figure}
-
-
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resyVsClusPosyVT1Z6.pdf}
 		\caption{Carbon}
 		\label{fig:resy_clusposy_VT1_C}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resyVsClusPosyVT1Z2.pdf}
 		\caption{Helium}
@@ -542,18 +539,16 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_cluspo
 	\caption[VT $y$-position residual vs $y_\mathrm{CoG}$]{Residual in $y$ as a function of the $y_\mathrm{CoG}$ for VT1.}
 	\label{fig:resy_clusposy_VT1}
 \end{figure}
-
-
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resxVsClusPosyVT1Z6.pdf}
 		\caption{Carbon}
 		\label{fig:resx_clusposy_VT1_C}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resxVsClusPosyVT1Z2.pdf}
 		\caption{Helium}
@@ -562,18 +557,16 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_cluspo
 	\caption[VT $x$-position residual vs $y_\mathrm{CoG}$]{Residual in $x$ as a function of the $y_\mathrm{CoG}$ for VT1.}
 	\label{fig:resx_clusposy_VT1}
 \end{figure}
-
-
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resyVsClusPosxVT1Z6.pdf}
 		\caption{Carbon}
 		\label{fig:resy_clusposx_VT1_C}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{resyVsClusPosxVT1Z2.pdf}
 		\caption{Helium}
@@ -582,24 +575,23 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_cluspo
 	\caption[VT $y$-position residual vs $x_\mathrm{CoG}$]{Residual in $y$ as a function of the $x_\mathrm{CoG}$ for VT1.}
 	\label{fig:resy_clusposx_VT1}
 \end{figure}
+Note that all the carbon plots, precisely at $x_\mathrm{CoG}=y_\mathrm{CoG}=-0.4\,\mathrm{cm}$ and $x_\mathrm{CoG}=y_\mathrm{CoG}=0.4\,\mathrm{cm}$, are characterized by an attenuation in the number of entries, which weakly divides the elliptical event blob into three vertical bundles. This behavior is clearly evident in \autoref{fig:resy_clusposy_VT1_C} and \autoref{fig:resx_clusposy_VT1_C}. The event reduction at $-0.4\,\mathrm{cm}$ and $0.4\,\mathrm{cm}$ is caused by the BM drift cells, whose structure was schematized in \autoref{fig:beam_monitor2}. To explain this phenomenon, consider the following discussion. When a beam is extracted from an accelerator, it possesses a certain transverse width, correlated to the emittance and the focusing properties of the accelerator \cite{Holzer:2024ohn}. When the carbon primaries used at CNAO 2025 traverse the BM, some of the particles directly impinge the wires and are consequently absorbed or deflected, reducing the beam intensity. Furthermore, the attenuation happens exactly at $-0.4\,\mathrm{cm}$ and $0.4\,\mathrm{cm}$ because the distance between two parallel wires strung along the transverse direction is $8\,\mathrm{mm}$, precisely as illustrated in \autoref{fig:beam_monitor2}.
 
-%
-%Addressing the rotation of the VT planes may ...
-%
-%
-%~10⁻³ rad
-%
-
+This study suggests that the geometry of the VT and, more broadly, of the entire electronic setup, requires further investigations to assess the alignment of detection planes and their possible rotation. Future developments should therefore incorporate the rotational alignment into the software-based procedure. Indeed, when projecting the flat distributions (\autoref{fig:resx_clusposx_VT1} and \autoref{fig:resy_clusposy_VT1}) and the inclined distributions (\autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1}) onto the $y$ axis, the latter exhibit a broader residual distribution. Mitigating this orientation issue may benefit the VT $\sigma_\text{pull}$ estimation.
 \section{Optimization of the Microstrip Silicon Detector}\label{sec:optim_msd}
+In this section 
 %---
 %This section presents my initial contributions to the SHOE tracking software, conducted under the supervision of the FOOT Bologna group. Specifically, my analysis work started off by studying the alignment issues of the MIMOSA-28 VT detector, the one currently employed in the electronic setup.\footnote{The following analysis does not include the new VT presented in \autoref{sec:new_vertex_tracker}, which will be operated as of November 2026.} To describe my alignment studies, it is essential to introduce the concept of the pulls.
 %---
 %
+\subsection{Microstrip Silicon Detector clustering algorithm}\label{}
 %io qui direi subito come viene calcolata la posizione e l'errore in MSD, per poi citare le pull
 %
 %io qui posterei le pul_mean di MSD e le pull_mean di MSD per ORIGINAL msd position (sia plot che tabelle) ok e purel e sigma prima del cambiamento dellerrore di f_eta. faccio notare come le mediie siano buone dopo il software base alignent (anche grazie al fatto che ho tolto le negative energy lossess affecting te individual strips), ma il problema risiede nelle sigma pull
 %
 %
+
+The problem concerning the MSD cluster error is produced by negative energy loss values affecting the individual strips. These values, which represent the weights of the variance computation, are negative because they are computed with a baseline/noise pedestal removal. This means that if the energy in a strip is slighly lower than the baseline, we have negative values. To address this issue, negative values are removed from the COG computation and its error calculation. Updates will follow $\rightarrow$ With this change, we found out the following: the MSD pulls, after removing the negative-energy events, remained quite similar to the previous ones. The main difference I observe is in the **pull sigma for the lighter fragments**. In practice, before the modification, the sigma values for carbon and protons were noticeably different, around 0.43 (carbon) and 0.54 (protons). After the modification, they become 0.43 (carbon) and 0.47 (protons). Therefore, the sigma becomes slightly more charge-independent, although the effect is not very large. This behavior is observed in all MSD planes. And, of course, now these computations make sense physically - no negative energy losses!
 
 
 
