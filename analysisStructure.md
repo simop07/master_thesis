@@ -323,3 +323,10 @@ The cuts for experimental data are stored in this file:
 ```text
 shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg
 ```
+
+## 9. Update the Dissertation folder
+To update the dissertation folder, simply run this command in bash:
+
+```bash
+cp -r /mnt/d/Simo/UniBo/Magistrale/2\ Anno/Thesis/Dissertation/ ~/desktop/magistrale/master_thesis/
+```
