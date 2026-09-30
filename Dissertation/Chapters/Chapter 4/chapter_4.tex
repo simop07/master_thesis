@@ -36,7 +36,7 @@ In \autoref{sssec:vertex_tracker}, it was stated that one of the critical tasks 
 When all the tracks of a FOOT event are reconstructed, it is possible to build the $\left(x,y,z\right)$ coordinates of the VT point, the first two labeling the transverse position and the latter the parallel one with respect to the beam direction. First, the reconstructed tracks are extrapolated onto the VT planes; then, their centroid is calculated, and the resulting $\left(x,y\right)$ pair defines the VT point transverse coordinates. The $z$ coordinate is instead computed minimizing the average track distances from the centroid position, always employing a binary search algorithm implemented in \cite{RESCIGNO201434}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\linewidth]{vertex_tracking.jpg}
+	\includegraphics[width=0.65\linewidth]{vertex_tracking.jpg}
 	\caption[VT point reconstruction]{Geant4 event display showing a reconstructed VT point belonging to three tracks. The four layers represent the M28 sensors of the VT, while the two red circles label additional VT clusters which have not been associated to the VT point by the clustering algorithm. Adapted from \cite{UbaldiPhDThesis}.}
 	\label{fig:vertex_tracking}
 \end{figure}
@@ -49,7 +49,7 @@ In the measurement phase the SHOE-based observables acquired from every detector
 \subsubsection{Track representation phase}\label{sssec:trk_rep_phase}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\linewidth]{track_param.jpg}
+	\includegraphics[width=0.9\linewidth]{track_param.jpg}
 	\caption[GENFIT track parametrization]{Visualization of a track parametrization in GENFIT. From \cite{ZarrellaPhDThesis}.}
 	\label{fig:track_param}
 \end{figure}
@@ -99,29 +99,28 @@ where the matrix $\matr{H}_k$ converts the state vector into measurable detector
 The prediction and filtering steps proceed iteratively up to the last detection layer, continuously refining the estimate of the track state vector, as illustrated in \autoref{fig:kalman_filter}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{kalman_filter.jpg}
+	\includegraphics[width=\linewidth]{kalman_filter.jpg}
 	\caption[Kalman Filter progressive algorithm]{Schematic illustration of the Kalman Filter track fitting algorithm. The initial track representation starts from a seed (leftmost red star). In the successive steps, the track is extrapolated to the next detector planes and the fit is corrected taking into accounts the real position measurements (blue stars) and their uncertainties. The process is repeated for all the detector planes until the final track representation is obtained. From \cite{Kisel_2014}.}
 	\label{fig:kalman_filter}
 \end{figure}\noindent
 \autoref{fig:kalman_filter} also shows that the precision of the track state vector increases with the traversed path, as downstream detector planes contain the information measured from the previous layers. This introduces a bias in the Kalman Filter: one should prefer running the algorithm from the downstream detectors to the upstream region, guaranteeing that the best position estimates are obtained close to the VT detector, where the cluster and truck densities are the highest. To circumvent this inequality, the the Kalman Filter must foresee a final smoothing stage. In FOOT this is achieved by applying the track fitting in the forward (from the VT to the TW) and backward direction (from the TW to the VT) for $10$ times until a p-value convergence criterion is met. The final Kalman Filter parameters are then given by the weighted average of the forward and backward Kalman Filters, increasing the procedure robustness. A brief description of the forward Kalman Filter is provided in the caption of \autoref{fig:forward_kalman_filter}; a detailed explanation of the backward Filter (also named ``backtracking'' algorithm) is instead reported in \cite{ZarrellaPhDThesis}.
-
-To conclude, from \autoref{fig:lsf_vs_kf} it is possible to observe the difference between a global fitting algorithm (such as the least-squares method) and the Kalman Filter: while the former evaluates the track parameters only once, the latter adjusted them each time an additional measurement is provided, guaranteeing continuous adaptation to the true track points. As mentioned earlier, the progressiveness of the Kalman Filter algorithm does not represent its unique advantage when compared to methods like the least-squares; indeed, \autoref{eq:cov_mat_pred} contains the fundamental $\matr{N}$ term, which allows to include the noisy medium effects at each iteration.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{forward_kalman_filter.jpg}
+	\includegraphics[width=\linewidth]{forward_kalman_filter.jpg}
 	\caption[FOOT forward Kalman Filter]{Steps of the forward Kalman Filter used in FOOT. First, panel (a) shows an event where the FOOT electronic setup contains events from VT, IT, MSD and TW. The initial global track candidates are extrapolated from the VT tracks reconstructed through the vertex tracking (see \autoref{sssec:vertex_tracking}). Then, a linear extrapolation (with a large tolerance) is applied towards the IT, as shown in (b). Successively, the RKN model is used for further extrapolations, although no information on the $p/q$ ratio is available. To circumvent this, GENFIT proceeds with multiple hypothesis: it creates as many track representations as the number of reconstructed charges $Z$ in the TW (see \autoref{sssec:tw_charge_reco}); conversely, GENFIT builds a plausible momentum $p$ using \autoref{eq:a1}, where $A$ is the mass number of the most abundant isotope of the reconstructed $Z$ and $\beta$ is the primary ion beam velocity (this is valid in the projectile fragmentation regime). In this way, all the track candidates can be extrapolated to the MSD (c) and finally to the TW (d). Clearly, all these steps continuously adjust the track representation after comparing predictions with measurements. Once the final $p$ and $q$ can be associated to the track candidates, a p-value convergence criterion further selects the best reconstructed tracks. From \cite{ZarrellaPhDThesis}.}
 	\label{fig:forward_kalman_filter}
 \end{figure}
+To conclude, from \autoref{fig:lsf_vs_kf} it is possible to observe the difference between a global fitting algorithm (such as the least-squares method) and the Kalman Filter: while the former evaluates the track parameters only once, the latter adjusted them each time an additional measurement is provided, guaranteeing continuous adaptation to the true track points. As mentioned earlier, the progressiveness of the Kalman Filter algorithm does not represent its unique advantage when compared to methods like the least-squares; indeed, \autoref{eq:cov_mat_pred} contains the fundamental $\matr{N}$ matrix, which allows to include the noisy medium effects at each iteration.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.56\linewidth]{lsf_vs_kf.jpg}
-	\caption[Comparison between least-squares and Kalman Filter methods]{Comparison between least-squares (left) and Kalman Filter (right) methods. From \cite{ZarrellaPhDThesis}.}
+	\includegraphics[width=0.8\linewidth]{lsf_vs_kf.jpg}
+	\caption[Comparison between least-squares and Kalman Filter methods]{Comparison between least-squares (left) and Kalman Filter (right) methods. IP indicates the Interaction Point. From \cite{ZarrellaPhDThesis}.}
 	\label{fig:lsf_vs_kf}
 \end{figure}
 \section{Optimization of the Vertex Tracker}\label{sec:optim_vt}
 This section presents my initial contributions to the SHOE tracking software, conducted under the supervision of the FOOT Bologna group. Specifically, my analysis work started off by studying the alignment issues of the MIMOSA-28 VT detector, the one currently employed in the electronic setup.\footnote{The following analysis does not include the new VT presented in \autoref{sec:new_vertex_tracker}, which will be operated as of November 2026.} To describe my alignment studies, it is essential to introduce the concept of the pulls.
 \subsection{Pull distributions}\label{ssec:pull_distributions}
-The pull distribution are useful statistical tools that compare the detector-measured coordinates $\vect{x}_\text{meas}=(x_\text{meas},y_\text{meas})$ with the GENFIT-fitted coordinates $\vect{x}_\text{fit}=(x_\text{fit},y_\text{fit})$ in the transverse direction of the beam. The $\text{pull}_x$ and $\text{pull}_y$ for a given detector plane are dimensionless quantities defined as:
+The pull distribution are useful statistical tools that compare the detector-measured coordinates $\vect{x}_\text{meas}=(x_\text{meas},y_\text{meas})$ with the GENFIT-fitted coordinates $(x_\text{fit},y_\text{fit})$ in the transverse direction of the beam. The $\text{pull}_x$ and $\text{pull}_y$ for a given detector plane are dimensionless quantities defined as:
 \begin{equation}
 	\begin{aligned}
 		\text{pull}_x &=
@@ -156,11 +155,11 @@ Despite not being a straightforward relationship, \autoref{eq:pull_chi_squared_d
 Analyzing the \num{237555} events of 8040 run (with no magnetic field) belonging to CNAO 2025 data taking campaign, it was possible to observe potential alignment issues of VT planes (VT0, VT1, VT2 and VT3), which were highlighted by pull distributions. Indeed, all the reconstructed particles (from $Z=1$ to $Z=6$) showed non-zero $\mu_\text{pull}$ in both $x$ and $y$ coordinates, as shown in \autoref{fig:preZ_pullSummaryVT}. For instance, note the extreme $\mu_{\text{pull}_y}=1.88$ value for VT3 plane. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{preZ_pullSummaryVT.pdf}
+	\includegraphics[width=0.85\linewidth]{preZ_pullSummaryVT.pdf}
 	\caption[Pull means for VT planes before VT1 geometry correction for carbon ions]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, before VT1 geometry correction. From the 8040 CNAO 2025 run.}
 	\label{fig:preZ_pullSummaryVT}
 \end{figure}
-Let us consider the pull distributions more in detail viewing \autoref{fig:z_analysis_pre_x}, which illustrates the $x$-coordinate pull distributions in each VT plane for carbon ions and the relative Gaussian fit. Being the primaries, \ce{C} ions have the largest statistics compared to the other fragments. Inspecting the pull means in the subplots of \autoref{fig:z_analysis_pre_x}, one immediately notes their displacement from $0$. In particular, the pull shift in \autoref{fig:z_analysis_pre_VT0x} is so evident that it can be assessed visually. The Gaussian mean for the VT0 pull is indeed $\mu_{\text{pull}_y}=-0.82$.
+\vspace{-0.8cm}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.49\linewidth}
@@ -193,14 +192,16 @@ Let us consider the pull distributions more in detail viewing \autoref{fig:z_ana
 	\caption[Carbon $x$-coordinate pull distributions before VT1 geometry correction]{Carbon $x$-coordinate pull distributions before VT1 geometry correction for VT0, VT1, VT2 and VT3. From the 8040 CNAO 2025 run.}
 	\label{fig:z_analysis_pre_x}
 \end{figure}
+Let us consider the pull distributions more in detail viewing \autoref{fig:z_analysis_pre_x}, which illustrates the $x$-coordinate pull distributions in each VT plane for carbon ions and the relative Gaussian fit. Being the primaries, \ce{C} ions have the largest statistics compared to the other fragments. Inspecting the pull means in the subplots of \autoref{fig:z_analysis_pre_x}, one immediately notes their displacement from $0$. In particular, the pull shift in \autoref{fig:z_analysis_pre_VT0x} is so evident that it can be assessed visually. The Gaussian mean for the VT0 pull is indeed $\mu_{\text{pull}_y}=-0.82$.
 \subsubsection{\texorpdfstring{$\chi^2$}{χ²} minimization algorithm to estimate Vertex Tracker plane displacement}\label{sssec:chi_squared_min_proc}
-The observation on the pull distributions prompted a more in-depth investigation of the alignment issue. To this regard, I decided to develop a $\chi^2$ minimization procedure to estimate the longitudinal ($z$) displacement of VT planes directly from data, measuring the discrepancy between expected and actual planes' position. The \autoref{fig:chi_squared_alignment_algo} illustrates the basic idea of the implemented $\chi^2$ algorithm. Without loss of generality, the picture only shows the $x$-$z$ coordinate plane, however the algorithm was implemented also in the $y$-$z$ plane. The initial assumption is that the detector plane is located at $z_0$ (in other words, this is the position GENFIT uploads from the configuration parameters). If it were perfectly aligned, a particle following the blue track line would hit it exactly at the green dot, producing the transverse measurement $x_0$. However, a hit is recorded at the red dot $x_M$, which is higher than expected ($x_M>x_0$). As the track has a positive slope $t_x=dx/dz>0$, the $x$ coordinate of its position increases with $z$. Having measured a larger $x$ value than expected, the particle must have traveled further along the $z$ axis before hitting the detector plane, meaning that the physical plane is actually shifted to the right of where GENFIT thought it was ($z_\text{ideal}>z_0$). By displacing the detector layer to the right amount $\Delta z\equiv z_\text{ideal}-z_0$, the discrepancy between $x_M$ and $x_0$ would zero.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{chi_squared_alignment_algo.pdf}
+	\includegraphics[width=0.8\linewidth]{chi_squared_alignment_algo.pdf}
 	\caption[$\chi^2$ minimization algorithm for VT displacement]{$\chi^2$ minimization algorithm used to calculate the VT plane displacement between the expected hit position and the real one. The relevant quantities are explained in the text. The red arrow indicates the beam direction along the $z$ axis.}
 	\label{fig:chi_squared_alignment_algo}
 \end{figure}
+The observation on the pull distributions prompted a more in-depth investigation of the alignment issue. To this regard, I decided to develop a $\chi^2$ minimization procedure to estimate the longitudinal ($z$) displacement of VT planes directly from data, measuring the discrepancy between expected and actual planes' position. The \autoref{fig:chi_squared_alignment_algo} illustrates the basic idea of the implemented $\chi^2$ algorithm. Without loss of generality, the picture only shows the $x$-$z$ coordinate plane, however the algorithm was implemented also in the $y$-$z$ plane. The initial assumption is that the detector plane is located at $z_0$ (in other words, this is the position GENFIT uploads from the configuration parameters). If it were perfectly aligned, a particle following the blue track line would hit it exactly at the green dot, producing the transverse measurement $x_0$. However, a hit is recorded at the red dot $x_M$, which is higher than expected ($x_M>x_0$). As the track has a positive slope $t_x=dx/dz>0$, the $x$ coordinate of its position increases with $z$. Having measured a larger $x$ value than expected, the particle must have traveled further along the $z$ axis before hitting the detector plane, meaning that the physical plane is actually shifted to the right of where GENFIT thought it was ($z_\text{ideal}>z_0$). By displacing the detector layer to the right amount $\Delta z\equiv z_\text{ideal}-z_0$, the discrepancy between $x_M$ and $x_0$ would zero.
+
 Ultimately, the aim of the $\chi^2$ minimization algorithm is to estimate the longitudinal displacement $\Delta z$, which induces the non-zero position residuals in the transverse $x$-$y$ coordinates. The track of a particle can be parameterized as a straight line $\mathbf{l}$ in space (no magnetic field can influence the VT tracklets), with $(x_0, y_0)$ being the fitted-track point at $z_0$ and $(t_x, t_y)$ the track inclination:
 \begin{equation}
 	\mathbf{l}:
@@ -224,25 +225,28 @@ The ideal plane position $z_\text{ideal}$ is the value of $z$ that minimizes the
 	\label{eq:chi2_minimization}
 \end{equation}
 Solving \autoref{eq:chi2_minimization} for $z$ yields:
-\begin{align}
-	z_\text{ideal} &= z_0 +
+\begin{equation}
+	z_\text{ideal} = z_0 +
 	\frac{\dfrac{t_x}{\sigma_x^2}\,(x_M - x_0) + \dfrac{t_y}{\sigma_y^2}\,(y_M - y_0)}
 	{\dfrac{t_x^2}{\sigma_x^2} + \dfrac{t_y^2}{\sigma_y^2}},
-	\label{eq:z_ideal} \\[1ex]
-	\Delta z &\equiv z_\text{ideal} - z_0.
+	\label{eq:z_ideal}
+\end{equation}
+which finally gives:
+\begin{equation}
+	\Delta z\equiv z_\text{ideal} - z_0.
 	\label{eq:delta_z}
-\end{align}
-Following the $\Delta z$ analysis, the FOOT Bologna group measured that the GENFIT geometry parameters of VT1 were not matching its real position. The subsequent displacement correction significantly improved the estimated $\Delta z$, as illustrated in \autoref{fig:delta_z_improv}, which shows the $\Delta z$ distributions for the helium fragment. The correction brings the $\Delta z$ from $323\,\mu\mathrm{m}$ to $75.6\,\mu\mathrm{m}$, validating what suggested by the non-zero pull means.
+\end{equation}
+Following the $\Delta z$ analysis, the FOOT Bologna group measured that the GENFIT geometry parameters of VT1 were not matching its real position. The subsequent displacement correction significantly improved the estimated $\Delta z$, as illustrated in \autoref{fig:delta_z_improv}, which shows the $\Delta z$ distributions for the helium fragment and their approximate Gaussian fit. The correction brings the $\Delta z$ from $323\,\mu\mathrm{m}$ to $75.6\,\mu\mathrm{m}$ (extrapolated from the fit), validating the misalignment suggested by the non-zero pull means.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{0.9\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{canvasZ_pre.pdf}
 		\caption{Estimated $\Delta z$ for VT1 before geometry correction.}
 		\label{fig:delta_z_before}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.98\linewidth}
+	\begin{subfigure}[b]{0.9\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{canvasZ_post.pdf}
 		\caption{Estimated $\Delta z$ for VT1 after geometry correction.}
@@ -251,7 +255,6 @@ Following the $\Delta z$ analysis, the FOOT Bologna group measured that the GENF
 	\caption[Effect of the VT1 displacement correction on $\Delta z$]{Comparison of the estimated longitudinal displacement $\Delta z$ of VT1 for the helium fragment before and after correcting the GENFIT geometry parameters of VT1. The sketches on the figure schematize the VT planes and the VT geometry correction. From the 8040 CNAO 2025 run.}
 	\label{fig:delta_z_improv}
 \end{figure}
-After revising the VT plane geometry, also the pull distributions of the carbon VT $x$ coordinates moved closer to $0$; this can be viewed comparing \autoref{fig:z_analysis_pre_x} with \autoref{fig:z_analysis_post_x}, which respectively show the \ce{C} pulls before and after the VT geometry correction. Although the updated VT1 position slightly shifted the $\mu_\text{mean}$ towards $0$, the discrepancy is still evident. \autoref{fig:postZ_pullSummaryVT} allows to compare more directly the spread of the $\mu_\text{mean}$ before and after the VT1 geometric correction. After the VT1 change, the majority of the pull means diminishes to $0$; however, the new pull means are still not compatible with the reference value $0$.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.49\linewidth}
@@ -284,24 +287,23 @@ After revising the VT plane geometry, also the pull distributions of the carbon 
 	\caption[Carbon $x$-coordinate pull distributions post alignment]{Carbon $x$-coordinate pull distributions post alignment for VT0, VT1, VT2 and VT3. From the 8040 CNAO 2025 run.}
 	\label{fig:z_analysis_post_x}
 \end{figure}
+\vspace{-0.8cm}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{postZ_pullSummaryVT.pdf}
+	\includegraphics[width=0.85\linewidth]{postZ_pullSummaryVT.pdf}
 	\caption[Pull means for VT planes before and after the VT1 geometry correction]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, before and after the VT1 geometry correction. From the 8040 CNAO 2025 run.}
 	\label{fig:postZ_pullSummaryVT}
 \end{figure}
+After revising the VT plane geometry, also the pull distributions of the carbon VT $x$ coordinates moved closer to $0$; this can be viewed comparing \autoref{fig:z_analysis_pre_x} with \autoref{fig:z_analysis_post_x}, which respectively show the \ce{C} pulls before and after the VT geometry correction. Although the updated VT1 position slightly shifted the $\mu_\text{mean}$ towards $0$, the discrepancy is still evident. \autoref{fig:postZ_pullSummaryVT} allows to compare more directly the spread of the $\mu_\text{mean}$ before and after the VT1 geometric correction. After the VT1 change, the majority of the pull means diminishes to $0$; however, the new pull means are still not compatible with the reference value $0$.
 \subsubsection{Software-based alignment procedure}\label{sssec:software_based_alignment_procedure}
 Previously, it was stated that the VT1 geometric correction effectively reduced the pull mean displacement. However, \autoref{fig:postZ_pullSummaryVT} showed that the pulls were still not centered in $0$, as expected. To address this issue, it is important to consider that any variation in GENFIT geometry parameters must be followed by a new software-based alignment procedure. In other words, after the change in the VT1 geometric parameters, a new realignment of the whole electronic setup must be performed. This software-based alignment uses an iterative algorithm to minimize the difference between the real beam position and the one measured by each detector plane. Then, the algorithm not only adjusts the position of each subdetector (inter-detector alignment), but calibrates the position of each plane (inter-plane alignment). In practice, the global reconstruction (see \autoref{ssec:global_reconstruction}) requires this procedure to match the electronic setup geometry with the one of its ``digital twin'' built through the GENFIT libraries.
-
-To perform the software-based alignment, a detector plane is firstly chosen as reference. Then, a coordinate transformation matrix dynamically adjusts the $x$-$y$ position of each detector plane relative to the chosen reference detector, minimizing the residual on the beam position. Momentarily, the software-based alignment procedure takes into account only the translational motion of each detector layer; the FOOT Collaboration is planning to include the rotational alignment to better adjust the detector's $x$-$y$ coordinates and increase the robustness of the alignment procedure.
-
-Applying the software-based alignment on experimental data provided significant benefits to the pull distributions, as illustrated in \autoref{fig:pull_8028_comparison}, plotting data from the 8028 CNAO 2025 run (\num{307068} events with no magnetic field). The figure shows the VT pull means of carbon particles following the VT1 geometry correction, but compares the situation before and after the application of the software-based alignment procedure. While in the first subplot the $\mu_\text{pull}$ ranges between $\left[-0.6,1\right]$, in the second it spans $\left[-0.1,0.1\right]$, improving approximately by a factor $10$. A comprehensive list of the VT $\mu_\text{pull}$ and the respective uncertainties, obtained after fitting all the fragments' pulls following the software-based alignment, is contained in \autoref{tab:vt_pull_means}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{pre_postAlignmentPull.pdf}
 	\caption[Pull means for VT planes before and after the software-based alignment for carbon ions]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, following the VT1 geometry correction. The plots compare the pull means before and after the software-based alignment procedure. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_8028_comparison}
 \end{figure}
+To perform the software-based alignment, a detector plane is firstly chosen as reference. Then, a coordinate transformation matrix dynamically adjusts the $x$-$y$ position of each detector plane relative to the chosen reference detector, minimizing the residual on the beam position. Momentarily, the software-based alignment procedure takes into account only the translational motion of each detector layer; the FOOT Collaboration is planning to include the rotational alignment to better adjust the detector's $x$-$y$ coordinates and increase the robustness of the alignment procedure.
 \begin{table}[H]
 	\centering
 	\normalsize{%
@@ -349,16 +351,16 @@ Applying the software-based alignment on experimental data provided significant 
 	\caption[VT pull means by fragment charge after the VT1 geometry correction and the software-based alignment procedure]{Mean of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each VT plane after the VT1 geometry correction and the software-based alignment procedure. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
 	\label{tab:vt_pull_means}
 \end{table}
+Applying the software-based alignment on experimental data provided significant benefits to the pull distributions, as illustrated in \autoref{fig:pull_8028_comparison}, plotting data from the 8028 CNAO 2025 run (\num{307068} events with no magnetic field). The figure shows the VT pull means of carbon particles following the VT1 geometry correction, but compares the situation before and after the application of the software-based alignment procedure. While in the first subplot the $\mu_\text{pull}$ ranges between $\left[-0.6,1\right]$, in the second it spans $\left[-0.1,0.1\right]$, improving approximately by a factor $10$. A comprehensive list of the VT $\mu_\text{pull}$ and the respective uncertainties, obtained after fitting all the fragments' pulls following the software-based alignment, is contained in \autoref{tab:vt_pull_means}.
 \subsection{Vertex Tracker uncertainty model}\label{ssec:vt_uncertainty_model}
 Following the analysis of the VT $\mu_\text{pull}$ presented in \autoref{ssec:vt_plane_misalignment}, this section will focus on the VT $\sigma_\text{pull}$, a quantity which allows to validate the correctness of the VT uncertainty model and the quality of the VT error $\sigma_\text{meas}$ used in \autoref{eq:pull_distributions}.
-
-In \autoref{ssec:pull_distributions} it was stated that the width of the pull distribution $\sigma_\text{pull}$ should ideally be close to $1$. In the 8028 CNAO 2025 run, the VT pull widths for carbon ions possess values around $1$, as shown in \autoref{fig:pull_width_charge}. However, the lower-$Z$ fragmentation products deviate from this behavior, having $\sigma_\text{pull}\gtrsim1$. For instance, \autoref{fig:pull_width_charge} displays the $\sigma_\text{pull}$ for helium particles, whose values are approximately $\gtrsim1.4$, well above the carbon case. In general, all the fragments lighter than carbons share the increase of $\sigma_\text{pull}$ similarly to helium. This can be viewed in \autoref{tab:vt_pull_sigmas}, which reports the VT $\sigma_\text{pull}$ values of all the reconstructed fragments and the associated uncertainties. Specifically, this table shows values extrapolated from the pulls' Gaussian fit after the application of the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{helium_carbon_sigma_8028.pdf}
 	\caption[Pull width dependence on fragment charge] {Standard deviation of the pull distributions for carbon and helium fragments after the geometry and software-based alignment correction. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_charge}
 \end{figure}
+In \autoref{ssec:pull_distributions} it was stated that the width of the pull distribution $\sigma_\text{pull}$ should ideally be close to $1$. In the 8028 CNAO 2025 run, the VT pull widths for carbon ions possess values around $1$, as shown in \autoref{fig:pull_width_charge}. However, the lower-$Z$ fragmentation products deviate from this behavior, having $\sigma_\text{pull}\gtrsim1$. For instance, \autoref{fig:pull_width_charge} displays the $\sigma_\text{pull}$ for helium particles, whose values are approximately $\gtrsim1.4$, well above the carbon case. In general, all the fragments lighter than carbons share the increase of $\sigma_\text{pull}$ similarly to helium. This can be viewed in \autoref{tab:vt_pull_sigmas}, which reports the VT $\sigma_\text{pull}$ values of all the reconstructed fragments and the associated uncertainties. Specifically, this table shows values extrapolated from the pulls' Gaussian fit after the application of the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}.
 \begin{table}[H]
 	\centering
 	{\normalsize%
@@ -500,7 +502,7 @@ where the small angle approximation for the $\sin$ and $\cos$ functions are used
 \end{equation}
 Consequently, one should expect a dependence of $\text{residual}_x$ and $\text{residual}_y$ on the cluster position $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$, as it expressed in the true experimental frame $(x,y)$ (the global FOOT frame of reference). In particular, from \autoref{eq:VT_rotation_residuals}, the ``direct'' plots $\text{residual}_x$ vs $x_{\mathrm{CoG}}$ and $\text{residual}_y$ vs $y_{\mathrm{CoG}}$ should be flat; conversely, the ``cross'' plots $\text{residual}_x$ vs $y_{\mathrm{CoG}}$ and $\text{residual}_y$ vs $x_{\mathrm{CoG}}$ should display a clear trend with slopes of opposite sign and similar magnitude.
 
-The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_clusposx_VT1} and \autoref{fig:resx_clusposx_VT1} precisely confirm the expectations. All these figures show the various combinations between $\text{residual}_x$, $\text{residual}_y$ and $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ for carbon and helium particles reconstructed in the 8028 CNAO 2025 run.
+The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_clusposy_VT1}, \autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1} precisely confirm the expectations. All these figures show the various combinations between $\text{residual}_x$, $\text{residual}_y$ and $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ for carbon and helium particles reconstructed in the 8028 CNAO 2025 run, where the subscript ``clus'' labels the CoG-derived VT cluster position. Particularly, both \autoref{fig:resx_clusposx_VT1} and \autoref{fig:resy_clusposy_VT1} exhibit a constant behavior for carbon and helium, while
 
 \begin{figure}[H]
 	\centering
@@ -517,7 +519,7 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_cluspo
 		\caption{Helium}
 		\label{fig:resx_clusposx_VT1_He}
 	\end{subfigure}
-	\caption{Residual in $x$ as a function of the cluster position in $x$ for VT1.}
+	\caption[VT $x$-position residual vs $x_\mathrm{CoG}$]{Residual in $x$ as a function of the $x_\mathrm{CoG}$ for VT1.}
 	\label{fig:resx_clusposx_VT1}
 \end{figure}
 
@@ -537,7 +539,7 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_cluspo
 		\caption{Helium}
 		\label{fig:resy_clusposy_VT1_He}
 	\end{subfigure}
-	\caption{Residual in $y$ as a function of the cluster position in $y$ for VT1.}
+	\caption[VT $y$-position residual vs $y_\mathrm{CoG}$]{Residual in $y$ as a function of the $y_\mathrm{CoG}$ for VT1.}
 	\label{fig:resy_clusposy_VT1}
 \end{figure}
 
@@ -557,7 +559,7 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_cluspo
 		\caption{Helium}
 		\label{fig:resx_clusposy_VT1_He}
 	\end{subfigure}
-	\caption{Residual in $x$ as a function of the cluster position in $y$ for VT1.}
+	\caption[VT $x$-position residual vs $y_\mathrm{CoG}$]{Residual in $x$ as a function of the $y_\mathrm{CoG}$ for VT1.}
 	\label{fig:resx_clusposy_VT1}
 \end{figure}
 
@@ -577,7 +579,7 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resx_cluspo
 		\caption{Helium}
 		\label{fig:resy_clusposx_VT1_He}
 	\end{subfigure}
-	\caption{Residual in $y$ as a function of the cluster position in $x$ for VT1.}
+	\caption[VT $y$-position residual vs $x_\mathrm{CoG}$]{Residual in $y$ as a function of the $x_\mathrm{CoG}$ for VT1.}
 	\label{fig:resy_clusposx_VT1}
 \end{figure}
 
