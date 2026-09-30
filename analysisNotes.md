@@ -260,7 +260,7 @@ In the meanwhile, I developed code to study the cluster shape of the VT detector
 
 What do we expect from a MIMOSA-28 with binary readout: charges with low Z have a small cluster size. The inferior pixel number is caused by the fact that lighter particles do not have a sufficient energy to fire the peripheral pixels needed to generate the elongated cluster shape. Therefore, the elongated structure is more prone to vanish in smaller clusters. At the same time, lighter particles scatter at larger angles, and from the paper above we expect larger incidence angle to create more elongated clusters.
 
-Other thing I have discovered: the number of clusters processed by each vertex plane is different. For instance, the 4th plane is the least efficient one (indeed the average number of pixels per cluster is 20 and not 40 as in the other planes). But that is not important, as the track reconstruction requires 3 cluster as minimum to generate a VT tracklet.
+Other thing I have discovered: **the number of clusters processed by each vertex plane is different. For instance, the 4th plane is the least efficient one (indeed the average number of pixels per cluster is 20 and not 40 as in the other planes).** But that is not important, as the track reconstruction requires 3 cluster as minimum to generate a VT tracklet.
 
 Another problem which arose during the analysis was an underestimate of the cluster error in the VT. This was corrected by comparing the cluster error (computed from the weighted positional variance) with the intrinsic detector resolution, given by the pixel pitch divided by $\sqrt{12}$. The requirement is that the cluster uncertainty should not be lower than this limit, which is set by the finite size of the VT pixels.
 
