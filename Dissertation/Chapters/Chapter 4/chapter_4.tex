@@ -820,7 +820,7 @@ The $f(\eta)$ function in \autoref{fig:feta_fit} effectively linearizes the non-
 	\label{fig:linearized_feta}
 \end{figure}
 
-At this point, it is important to point out that the construction of the $f(\eta)$ algorithm (for both the position and the uncertainty estimators), will employ only carbon fragments, being the particles with the highest statistics. This may introduce a bias: an $f(\eta)$ that linearizes the $\eta$ distribution of carbon is not guaranteed to linearize the $\eta$ distributions of the other fragments. This is indeed what happens. The $\eta$ distribution and, consequently, the resulting $f(\eta)$, were studied separately for each particle charge from $Z=1$ to $Z=6$, using all MSD planes together. The fit parameters of \autoref{eq:feta_param} are reported in \autoref{tab:fit_feta_charge}, and the corresponding functions are compared in \autoref{fig:feta_vs_charge}. Both the table and the figure show that fragments with different charge have comparable, yet dissimilar, $f(\eta)$ parameters. Such diversity is probably connected to the fact that different fragments have distinct energy deposits, which in turn produce charge diffusion mechanisms that affect the $f(\eta)$ functions in different ways.
+At this point, it is important to point out that the construction of the $f(\eta)$ algorithm (for both the position and the uncertainty estimators), will employ only carbon fragments, being the particles with the highest statistics. This may introduce a bias, which is the main limitation of the non-linear PFA: a $f(\eta)$ that linearizes the $\eta$ distribution of carbon is not guaranteed to linearize the $\eta$ distributions of the other fragments. This is indeed what happens. The $\eta$ distribution and, consequently, the resulting $f(\eta)$, were studied separately for each particle charge from $Z=1$ to $Z=6$, using all MSD planes together. The fit parameters of \autoref{eq:feta_param} are reported in \autoref{tab:fit_feta_charge}, and the corresponding functions are compared in \autoref{fig:feta_vs_charge}. Both the table and the figure show that fragments with different charge have comparable, yet dissimilar, $f(\eta)$ parameters. Such diversity is probably connected to the fact that different fragments have distinct energy deposits, which in turn produce charge diffusion mechanisms that affect the $f(\eta)$ functions in different ways.
 \begin{table}[H]
 	\centering
 	\small
@@ -854,26 +854,144 @@ At this point, it is important to point out that the construction of the $f(\eta
 	\caption[$f(\eta)$ for each fragment charge]{Fitted $f(\eta)$ (in $\mu$m) for each fragment charge $Z=1,\dots,6$, using all MSD planes together. Relative parameters are reported in \autoref{tab:fit_feta_charge}.}
 	\label{fig:feta_vs_charge}
 \end{figure}
+Despite these differences, the carbon $f(\eta)$ parameters (last column of \autoref{tab:fit_feta_charge}) are used in the following for all fragments and all MSD planes, since the carbon specie possesses highest statistics, consequently providing the most precisely determined parameters.
 
-Despite these differences, the carbon $f(\eta)$ parameters (last column of \autoref{tab:fit_feta_charge}) are used in the following for all fragments and all MSD planes. Carbon is the species with the highest statistics and therefore gives the most precisely determined parameters. The residual bias for the other charges is a limitation of the method, and it should be kept in mind when interpreting the position and uncertainty estimates of lighter fragments.
-
-
-
----
-Hereinafter, $f(\eta)$ will be directly scaled by the strip pitch $P$ to simplify the notation. This means that the $f(\eta)$ will be expressed in $\mu\mathrm{m}$, with $f(0)=0$ and $f(1)\simeq P=150,\mu\mathrm{m}$. With this convention, the measured position \autoref{eq:feta_position} directly becomes:
+Hereinafter, $f(\eta)$ will be directly scaled by the strip pitch $P$ to simplify the notation. This means that $f(\eta)$ is expressed in $\mu\mathrm{m}$, with $f(0)=0$ and $f(1)\simeq P=150\,\mu\mathrm{m}$. With this convention, the measured position of \autoref{eq:feta_position} directly becomes
 \begin{equation}
-	x_\text{meas}\left(\eta\right)=x_\text{L}+f(\eta),
+	x_\text{meas}\left(\eta\right)=x_\text{L}+f(\eta)\,,
 	\label{eq:feta_position_new}
 \end{equation}
-as the $f(\eta)$ now incorporates the pitch $P$.
-
- The uncertainty is computed as
+since $f(\eta)$ now incorporates the pitch $P$. With this premise, the position uncertainty is computed as
 \begin{equation}
 	\sigma_{x_\text{meas}(\eta)}=\sqrt{\sigma_\text{dig}^2+\left(\frac{\text{ENC}}{S}\,\alpha(\eta)\,\frac{df}{d\eta}\right)^2}\,,
 	\label{eq:sigma_impl}
 \end{equation}
-where a constant term $\sigma_\text{dig}=10\,\mu$m, accounting for the width of the diffusion cloud, is added in quadrature to the noise term of \autoref{eq:feta_error_prop}. The derivative $df/d\eta$ is capped at $385\,\mu$m to prevent the steep slopes at the $\eta$ peaks from producing unphysically large uncertainties. Note that $\alpha(\eta)$ is symmetric under $\eta\to1-\eta$, so evaluating it at $1-\eta$ is equivalent.
-Along with $\eta$, the code stores $S=S_\text{L}+S_\text{R}$ and the ENC of the pair, taken as the pedestal $\sigma$ of the left and right strips summed in quadrature. 
+where a constant term $\sigma_\text{dig}=10\,\mu\mathrm{m}$ (extracted from \autoref{fig:charge_diffusion_non_unif}), accounting for the width of the diffusion cloud, is added in quadrature to the noise term of \autoref{eq:feta_error_prop} (without the pitch factor). In addition, some attention must be dedicated to the derivative $df/d\eta$ of \autoref{eq:feta_error_prop}. Indeed, as seen in \autoref{fig:etaDistPlaneZ6}, the measured $\eta$ distributions, and hence $df/d\eta$, are asymmetric with respect to $\eta=0.5$. Hence, the cap value is chosen to remove the rightmost peak from the distribution of $df/d\eta$, as shown in \autoref{fig:dfdeta}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{dfdeta.pdf}
+	\caption[Derivative of $f(\eta)$]{Derivative $df/d\eta$ of the carbon $f(\eta)$ (in $\mu\mathrm{m}$) from \autoref{fig:feta_fit}. The horizontal red line shows the cap applied in the uncertainty model. From the 8028 CNAO 2025 run.}
+	\label{fig:dfdeta}
+\end{figure}
+\subsubsection{\texorpdfstring{$f(\eta)$}{f(η)} impact on tracking: pulls, \texorpdfstring{$\chi^2$}{χ²} and p-values}\label{sssec:feta_pulls}
+The position estimate of \autoref{eq:feta_position_new} and its uncertainty of \autoref{eq:sigma_impl} were used as input for the track fit. The results discussed here were obtained with an $f(\eta)$ calibrated on carbon ions only and are preliminary.
+
+The pull distributions of the MSD improve significantly. Their width is $\sigma\simeq0.7$ for carbon ions and reaches $\simeq0.9$ for lighter ions. The means of the pull distributions are still different from zero because the software-based alignment procedure is still ongoing.
+
+% >>> ATTACH: pull distributions (carbon and lighter fragments)
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{pulls_msd.pdf} % <-- replace with your file
+	\caption[MSD pull distributions]{Pull distributions of the MSD hits using the $\eta$-based position and uncertainty, for carbon and lighter fragments. Run: \dots}
+	\label{fig:pulls_msd}
+\end{figure}
+
+Two additional plots are useful to cross-check the method. The pull as a function of $f(\eta)$ (\autoref{fig:pull_vs_feta}) is a different way to see that the $f(\eta)$ distribution is flat. This is valid for carbon, and less so for helium, probably because the calibration was performed on carbon ions. The uncertainty $\sigma_\eta$ as a function of $f(\eta)$ (\autoref{fig:sigma_vs_feta}) shows that the error grows with $df/d\eta$. In other words, the large number of entries of the $\eta$ distribution at the readout and floating strips produces larger errors.
+
+% >>> ATTACH
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{pull_vs_feta.pdf} % <-- replace with your file
+	\caption{Pull as a function of $f(\eta)$.}
+	\label{fig:pull_vs_feta}
+\end{figure}
+
+% >>> ATTACH
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{sigma_vs_feta.pdf} % <-- replace with your file
+	\caption{Uncertainty $\sigma_\eta$ as a function of $f(\eta)$.}
+	\label{fig:sigma_vs_feta}
+\end{figure}
+
+The $\chi^2$ distribution also improves for carbon: its peak moves from $\approx0.8$ to $\approx1.\mathrm{x}$ and the number of events in the tail of the PDF decreases. The $p$-value distribution, again studied for carbon because of the higher statistics, shifts slightly towards lower values, as a consequence of the shift of the $\chi^2$ towards higher values. The reduction in the number of high $p$-values is due to the MSD uncertainties now being smaller than before.
+
+% >>> ATTACH: chi2 and p-value distributions, before and after the eta algorithm
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{chi2_pvalue.pdf} % <-- replace with your file
+	\caption[$\chi^2$ and $p$-value distributions]{$\chi^2$ and $p$-value distributions for carbon fragments, before and after the introduction of the $\eta$ algorithm.}
+	\label{fig:chi2_pvalue}
+\end{figure}
+
+The MSD uncertainties now range from tens to hundreds of micrometers. The majority of the events ($>95\%$) have an associated MSD error of $10\,\mu\mathrm{m}$, which is the lower bound set by $\sigma_\text{dig}$. Since the pulls improve when the typical error is $10\,\mu\mathrm{m}$, the track fit appears to expect an MSD uncertainty of this order, which is very small. Whether this order of magnitude is correct is checked in the next section with the residuals of the inner planes.
+
+The MSD2 plane shows a clear anomaly, with errors reaching $\approx300\,\mu\mathrm{m}$. This is not due to $df/d\eta$, which is capped, but to the noise pedestal of the MSD2 sensor entering the ENC. Indeed, in the 8028 campaign of CNAO 2025, which has a roughly uniform MSD noise pedestal, the errors do not reach such values. This issue has to be addressed.
+
+\subsubsection{Residuals as a function of \texorpdfstring{$f(\eta)$}{f(η)}}\label{sssec:feta_residuals}
+
+To test whether the adopted uncertainty is reasonable, the residuals of the two central planes, MSD2 (measuring $x$) and MSD3 (measuring $y$), were studied as a function of $f(\eta)$. This addresses two questions:
+\begin{itemize}
+	\item whether the intrinsic spatial resolution, represented by the residuals, depends on the position of the cluster inside the strip pitch, namely on $f(\eta)$;
+	\item whether the minimum hit uncertainty of $10\,\mu\mathrm{m}$ is compatible with the residuals of the inner planes for both coordinates. This gives an additional validation of the adopted uncertainty and of the pull distributions.
+\end{itemize}
+ interpolation.}
+For simplicity, the expected position is obtained from a straight-line interpolation of the track between the outer planes, instead of using the GENFIT fit. For the $x$ coordinate of MSD2,
+\begin{equation}
+	x_{\mathrm{exp}}^{\mathrm{MSD2}} =
+	x_{\mathrm{MSD1}}+
+	(z_{\mathrm{MSD2}}-z_{\mathrm{MSD1}})
+	\frac{x_{\mathrm{MSD5}}-x_{\mathrm{MSD1}}}
+	{z_{\mathrm{MSD5}}-z_{\mathrm{MSD1}}}\,,
+\end{equation}
+and for the $y$ coordinate of MSD3,
+\begin{equation}
+	y_{\mathrm{exp}}^{\mathrm{MSD3}} =
+	y_{\mathrm{MSD2}}+
+	(z_{\mathrm{MSD3}}-z_{\mathrm{MSD2}})
+	\frac{y_{\mathrm{MSD6}}-y_{\mathrm{MSD2}}}
+	{z_{\mathrm{MSD6}}-z_{\mathrm{MSD2}}}\,.
+\end{equation}
+The residuals are then
+\begin{equation}
+	\mathrm{Res}_{x}^{\mathrm{MSD2}} = x_{\mathrm{exp}}^{\mathrm{MSD2}}-x_{\mathrm{meas}}^{\mathrm{MSD2}}\,,\qquad
+	\mathrm{Res}_{y}^{\mathrm{MSD3}} = y_{\mathrm{exp}}^{\mathrm{MSD3}}-y_{\mathrm{meas}}^{\mathrm{MSD3}}\,.
+\end{equation}
+This is an unbiased estimate, because the measurement of the plane under study does not enter the interpolation.
+
+% >>> ATTACH: residual vs f(eta), carbon, MSD2 (x) and MSD3 (y), linear interpolation
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{residual_vs_feta_carbon_linear.pdf} % <-- replace with your file
+	\caption[Residuals vs.\ $f(\eta)$, carbon, linear interpolation]{Residuals of MSD2 ($x$, left) and MSD3 ($y$, right) as a function of $f(\eta)$ for carbon fragments, using the linear interpolation of the outer planes.}
+	\label{fig:residual_vs_feta_carbon_linear}
+\end{figure}
+
+For carbon, the residuals show a vertical spread of about $15\,\mu\mathrm{m}$, broadly compatible with the minimum uncertainty of $10\,\mu\mathrm{m}$. No strong dependence of the residual width on $f(\eta)$ is observed, so the intrinsic resolution does not depend significantly on the position of the charge sharing inside the pitch. Only a few points lie beyond about $2\sigma$ from the central value. The residuals of MSD3 ($y$) show a small systematic offset, with a mean of about $-5.4\,\mu\mathrm{m}$, most likely due to a residual misalignment, since the software-based alignment has not been performed yet.
+
+As a cross-check, the residuals were recomputed using the GENFIT fitted position instead of the linear interpolation,
+\begin{equation}
+	\mathrm{Res} = x_{\mathrm{fit,\,GENFIT}}-x_{\mathrm{meas}}\,.
+\end{equation}
+In this case the fit is biased, because the GENFIT position already contains the information of the measurement in the plane under study.
+
+% >>> ATTACH
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{residual_vs_feta_carbon_genfit.pdf} % <-- replace with your file
+	\caption[Residuals vs.\ $f(\eta)$, carbon, GENFIT]{Same as \autoref{fig:residual_vs_feta_carbon_linear}, using the GENFIT fitted position.}
+	\label{fig:residual_vs_feta_carbon_genfit}
+\end{figure}
+
+For carbon, the distributions show a smaller vertical spread in the central region and the same offset in $y$. At the same time, a significant number of isolated points appears, some of them beyond $[-100,\,100]\,\mu\mathrm{m}$. The comparison of the two methods leads to the following considerations.
+\begin{enumerate}
+	\item The vertical spread is compatible between the two methods, which means that they give similar residual distributions. This spread is also compatible with the average MSD error of about $10\,\mu\mathrm{m}$ used in GENFIT.
+	\item The GENFIT band is narrower precisely because the fit is biased.
+	\item The larger number of outliers with GENFIT is probably related to the fact that GENFIT does not fit the MSD alone: it considers all the detectors, from the vertex region to the TOF wall. For some tracks, the extrapolation to the central MSD plane can therefore be significantly farther from the measured point. The linear interpolation instead uses planes that are close to each other compared to the central ones. The origin of these outliers is still under investigation.
+	\item The mean value of the residuals differs from zero in both cases, most likely because of alignment.
+\end{enumerate}
+
+The same study was performed for helium fragments in MSD3, with both methods.
+
+% >>> ATTACH
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{residual_vs_feta_helium.pdf} % <-- replace with your file
+	\caption[Residuals vs.\ $f(\eta)$, helium]{Residuals of MSD3 as a function of $f(\eta)$ for helium fragments, with the linear interpolation (left) and with GENFIT (right).}
+	\label{fig:residual_vs_feta_helium}
+\end{figure}
+
+In both cases, accumulations of entries are visible close to the readout and floating strips, together with a slightly larger vertical spread. Two effects likely contribute. First, the adopted $f(\eta)$ was calibrated on carbon ions, and \autoref{tab:fit_feta_charge} shows that different charges have different $f(\eta)$. Second, the statistics are very different: about $180\,000$ carbon events against about $4\,000$ helium events. The statistics probably play a major role in the accumulations. For carbon no significant accumulation at the strips is observed, with or without GENFIT. This shows that the method makes the probability distribution of the particle crossing uniform over the whole $150\,\mu\mathrm{m}$ pitch. For helium, some bias remains. A calibration with larger helium statistics would be needed to disentangle the two contributions.
 
 
 
