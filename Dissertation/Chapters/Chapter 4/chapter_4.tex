@@ -136,7 +136,7 @@ The pull distribution are useful statistical tools that compare the detector-mea
 \end{equation}
 where $\sigma_\text{meas}$ represents the hit/cluster uncertainty coming from the detector measurement and $\sigma_\text{fit}$ is the position error built from the covariance matrix in \autoref{eq:cov_mat_pred}, which is recursively obtained through the GENFIT Kalman Filter algorithm.
 
-According to \cite{pullArticle}, for unbiased $\vect{x}_\text{meas}$ and $\sigma_\text{meas}$, the pull distributions follow a standard normal distribution, as indicated in \autoref{eq:pull_distributions}, i.e., $(\mu_\text{pull},\sigma_\text{pull})\simeq(0,1)$. This peculiar property renders pull distributions relevant diagnostic tools for the measurement chain. On one hand, a pull mean $\mu_\text{pull}\simeq0$ implies that the position residual $\vect{x}_{\text{meas}}-\vect{x}_{\text{fit}}\simeq0$, meaning that the $z$ coordinate of the detection plane is perfectly aligned, producing no systematic shifts along the reconstructed transverse coordinates. Practically, this means that the real detector position corresponds to the one uploaded in the GENFIT libraries. On the other hand, if the pull width $\sigma_\text{pull}\simeq1$, the uncertainty model correctly estimates the ``true'' measurement error.
+According to \cite{pullArticle}, for unbiased $\vect{x}_\text{meas}$ and $\sigma_\text{meas}$, the pull distributions follow a standard normal distribution, as indicated in \autoref{eq:pull_distributions}, i.e., $(\mu_\text{pull},\sigma_\text{pull})\simeq(0,1)$. This peculiar property renders pull distributions relevant diagnostic tools for the measurement chain. On one hand, a pull mean $\mu_\text{pull}\simeq0$ implies that the position residual $\vect{x}_{\text{meas}}-\vect{x}_{\text{fit}}\simeq0$, meaning that the $z$ coordinate of the detection plane is perfectly aligned, producing no systematic shifts along the reconstructed transverse coordinates. Practically, this means that the real detector position corresponds to the one uploaded in the GENFIT libraries. On the other hand, if the pull width $\sigma_\text{pull}\simeq1$, the uncertainty model correctly estimates the ``true'' measurement error. Conversely, if $\sigma_\text{pull}>1$ ($<1$) the error model underestimates (overestimates) the measurement uncertainty.
 
 Another interesting property of the pull definition is the denominator, which at first glance might look surprising due to the presence of a minus sign. Actually, the pull denominator is simply the residual error computed propagating the $\sigma_\text{meas}$ and $\sigma_\text{fit}$ uncertainties:
 \begin{equation}
@@ -626,7 +626,7 @@ Recall that the MSD structure (see \autoref{fig:msd2}) integrates $50\,\mu\mathr
 \end{equation}
 This means that the current MSD uncertainty evaluation (given by \autoref{eq:MSD_final_err}) is not fully optimized, leaving room for improvement. This consideration motivated the study of a new clustering algorithm, which is be presented in the following sections.
 \subsection{Pull studies with the MSD clustering algorithm}\label{ssec:pull_studies_msd_clustering_algorithm}
-First and foremost, let us visualize and comment the pull distributions of the MSD obtained using the original MSD clustering algorithm, which uses \autoref{eq:cluster_MSD} and \autoref{eq:MSD_final_err} to respectively estimate $x_{\text{meas}}$ and $\sigma_{x,\text{meas}}$ (taken from \autoref{eq:pull_distributions}).
+First and foremost, let us visualize and comment the pull distributions of the MSD obtained using the original MSD clustering algorithm, which uses \autoref{eq:cluster_MSD} and \autoref{eq:MSD_final_err} to respectively estimate $x_{\text{meas}}$ and $\sigma_{x,\text{meas}}$ (from \autoref{eq:pull_distributions}).
 
 Analyzing the 8028 run, we can first compare the carbon ions $\mu_\text{pull}$ for the MSD planes (MSD0 to MSD5) before and after the software-based alignment procedure. \autoref{fig:pull_8028_comparison_msd} shows a great improvement of $\mu_\text{pull}$, which from being scattered across the $[-1.5,1.5]$ interval are then flattened within the $[-0.05,0.05]$ range. A consistent behavior can found for all the reconstructed particles (from $Z=1$ to $Z=6$), which showed close-to-zero $\mu_\text{pull}$ in all MSD planes after the alignment procedure, as reported in \autoref{tab:msd_pull_means}. 
 \begin{figure}[H]
@@ -663,6 +663,8 @@ Analyzing the 8028 run, we can first compare the carbon ions $\mu_\text{pull}$ f
 	\label{tab:msd_pull_means}
 \end{table}
 Despite the excellent MSD $\mu_\text{pull}$, the MSD $\sigma_\text{pull}$ for all fragments (after the software-based alignment procedure) are found approximately in $[0.3,0.6]$, far from the expected reference value of $1$, as summarized in \autoref{tab:msd_pull_sigmas}. This behavior is visually confirmed by \autoref{fig:pull_width_msd}, which displays the $\sigma_\text{pull}$ for all fragments.
+
+As stated in \autoref{ssec:pull_distributions}, the MSD $\sigma_\text{pull}<1$ demonstrate that the detector uncertainty model outlined in \autoref{ssec:msd_clustering_algorithm} currently overestimates the position errors $\sigma_{x,\text{meas}}$. To face this issue, new MSD position and uncertainty estimators are introduced in \autoref{ssec:msd_f_eta_algo}.
 \begin{table}[H]
 	\centering
 	{\normalsize%
@@ -696,15 +698,41 @@ Despite the excellent MSD $\mu_\text{pull}$, the MSD $\sigma_\text{pull}$ for al
 	\caption[MSD pull width by fragment charge using the original MSD clustering method]{Standard deviation of the MSD pull distributions for all fragments using the original MSD clustering position. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_msd}
 \end{figure}
+\subsection{Microstrip Silicon Detector $f(\eta)$ algorithm}\label{ssec:msd_f_eta_algo}
+Several 1D Position-Finding Algorithms (PFA) can be used to reconstruct the spatial position and the associated uncertainty of a silicon strip detector, the technology employed by the FOOT MSD. One of them is the CoG PFA presented in \autoref{ssec:msd_clustering_algorithm}, however it demonstrated to overestimate the MSD spatial uncertainties, as described in \autoref{ssec:pull_studies_msd_clustering_algorithm}. For this reason, in my analysis I explored a novel PFA based on the work of Turchetta in \cite{Turchetta:1993vu}. This PFA is based on the so-called $\eta$ algorithm, which uses the $\eta$ variable to improve the impact position within the readout pitch. To benefit from the advantages of the $\eta$ variable, the AMS-02 experiment currently employs a modified $\eta$ algorithm to estimate the hit position in the double-sided silicon microstrip sensors mounted on the AMS-02 \cite{MiaoMSDPresentation}.
 
 
 
 
 
 
+The spatial resolution of silicon microstrip detectors is studied as a function of the main detector parameters and of the track
+angle. Several algorithms for finding the position of particle hits are presented and analysed
 
 
 
+
+
+%Unlike the Vertex Tracker, the MSD uses floating strips between adjacent readout strips. The particle position is therefore reconstructed from the analog charge sharing between neighbouring strips rather than from a direct hit.
+%
+%Because charge transport is governed by diffusion and capacitive coupling, this charge sharing is intrinsically non-linear. This is described by the η-function, which relates the measured charge distribution to the true particle position. As shown in the η-distribution, the response is clearly non-uniform, so a simple linear interpolation introduces a bias.
+%
+%My current work is to develop a data-driven η-correction, allowing both the hit position and its uncertainty to be reconstructed more accurately, ultimately reducing the σ observed in the MSD.
+%
+%A correctly modeled η-response can push MSD spatial resolution below the digital pitch limit (150 μm / 50 μm) — fully exploiting the analog information the MSD already provides but currently under-uses Critical because the MSD sits before ~1 m of air before the ToF wall, where fragment interactions in air are not rare — an accurate charge (→ isotope) measurement at the MSD is essential before further changes downstream 
+%
+%This is particularly important because the MSD provides the last precise tracking measurement before about one meter of air and the Time-of-Flight detector, where secondary interactions can already occur. Improving the MSD reconstruction therefore directly benefits the downstream track reconstruction and, ultimately, the isotope identification performance of FOOT.«
+%-> May produce out of target fragmentation   FOOT wants to remove it as it is combinatorial background
+%
+%The η-variable (charge sharing variable) is simply the fraction of charge collected by one readout strip with respect to the total charge shared by the two neighbouring strips
+
+
+%How Diffusion Creates the Sharp Non-Linearity
+%The text mentions that the charge cloud created by a particle is tiny (5"–" 10 𝜇"m") compared to the total strip pitch (50 𝜇"m").
+%
+%Near the Readout Strips (The Outer Peaks): If a particle hits anywhere within the central 15 𝜇"m"of a readout strip, the entire 5 𝜇"m"charge cloud is swallowed by that single strip. It doesn't matter if the track was at 2 𝜇"m"or 7 𝜇"m"from the center; the left strip gets 100%of the charge and the right strip gets 0%.
+%
+%The "Pile-Up" Effect: This means a wide physical region (𝑥) maps to a single compressed value of 𝜂≈0(or 𝜂≈1). Because so many different physical positions dump their events into the exact same 𝜂value, a massive statistical peak piles up at the boundaries.
 
 
 
