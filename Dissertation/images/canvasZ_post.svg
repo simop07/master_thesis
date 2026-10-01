@@ -9,12 +9,21 @@
    viewBox="0 0 1891.5555 1045.3333"
    sodipodi:docname="canvasZ_post.svg"
    inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   inkscape:export-filename="canvasZ_post.pdf"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs1">
+    <rect
+       x="1145.6608"
+       y="233.67587"
+       width="225.56212"
+       height="129.81993"
+       id="rect2" />
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath2">
@@ -264,14 +273,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.61623822"
-     inkscape:cx="357.0048"
-     inkscape:cy="713.19822"
-     inkscape:window-width="3200"
-     inkscape:window-height="1771"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:cx="763.50344"
+     inkscape:cy="680.74324"
+     inkscape:window-width="1920"
+     inkscape:window-height="1171"
+     inkscape:window-x="3191"
+     inkscape:window-y="77"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g16">
+     inkscape:current-layer="g1">
     <inkscape:page
        x="0"
        y="0"
@@ -597,7 +606,7 @@
          id="tspan147"
          x="1204.1132"
          y="287.10361"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.7777px;font-family:'Book Antiqua';-inkscape-font-specification:'Book Antiqua, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.652082">χ</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.7777px;font-family:Serif;-inkscape-font-specification:'Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.652082">χ</tspan></text>
     <path
        id="path105"
        d="M 1.2568359,-2.6041667e-4 V -13.605729 h 1.6699219 v 4.8867186 c 0.777832,-0.9008789 1.7600098,-1.3535156 2.9443359,-1.3535156 0.7316895,0 1.364502,0.1450195 1.8984375,0.430664 0.5383301,0.2878418 0.9250489,0.6855469 1.1601563,1.1953125 0.2329102,0.5053711 0.3515625,1.2392578 0.3515625,2.2060547 V -2.6041667e-4 H 7.6113281 V -6.2404948 c 0,-0.8371582 -0.182373,-1.4458008 -0.5449219,-1.828125 -0.364746,-0.3801269 -0.8767089,-0.5712891 -1.5380859,-0.5712891 -0.4921875,0 -0.9580078,0.1296387 -1.3974609,0.3867188 -0.4350586,0.2592773 -0.7448731,0.6064453 -0.9316406,1.0458984 -0.1823731,0.4394532 -0.272461,1.0458985 -0.272461,1.819336 V -2.6041667e-4 Z M 10.274414,3.7790365 V 2.5661458 H 21.348633 V 3.7790365 Z M 21.506836,-2.6041667e-4 V -1.6701823 l 6.969726,-8.7099607 c 0.496583,-0.619629 0.968995,-1.160156 1.41504,-1.617188 h -7.59375 v -1.608398 h 9.738281 v 1.608398 l -7.628906,9.4394534 -0.826172,0.9492187 h 8.683593 V -2.6041667e-4 Z M 32.447021,3.7790365 V 2.5661458 H 43.52124 V 3.7790365 Z M 52.864014,-1.6086589 V -2.6041667e-4 H 43.872803 C 43.859619,-0.40455729 43.927734,-0.79127604 44.074951,-1.1604167 c 0.228516,-0.6086425 0.593262,-1.2084961 1.098633,-1.8017578 0.503174,-0.5976562 1.230469,-1.2854004 2.179687,-2.0654297 1.480958,-1.2128906 2.480713,-2.1730957 2.997071,-2.8828125 0.520752,-0.7075195 0.782226,-1.3798828 0.782226,-2.0126953 0,-0.654785 -0.237304,-1.212891 -0.711914,-1.669922 -0.474609,-0.457031 -1.089843,-0.685547 -1.845703,-0.685547 -0.808594,0 -1.45459,0.243897 -1.933594,0.729492 -0.481201,0.481202 -0.725097,1.14917 -0.729492,2.0039067 l -1.722656,-0.1757812 c 0.116455,-1.2832035 0.558105,-2.2587895 1.327148,-2.9267575 0.766846,-0.672364 1.797364,-1.010743 3.09375,-1.010743 1.305176,0 2.337891,0.364747 3.09375,1.089844 0.760254,0.720703 1.142579,1.617188 1.142579,2.6894533 0,0.5449219 -0.112061,1.0810547 -0.333985,1.6083985 -0.224121,0.5229492 -0.593262,1.0766601 -1.107422,1.6611328 -0.516357,0.5800781 -1.375488,1.3776855 -2.575195,2.390625 -1.001953,0.8393555 -1.647949,1.4106445 -1.933594,1.7138672 -0.28125,0.2988281 -0.516357,0.5976562 -0.703125,0.8964843 z m 0,0"
@@ -802,7 +811,7 @@
        id="text146"><tspan
          sodipodi:role="line"
          id="tspan146"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Serif;-inkscape-font-specification:'Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
          x="1533.5734"
          y="1022.267">Δz [cm]</tspan></text>
     <g
@@ -960,7 +969,11 @@
          id="text1"><tspan
            sodipodi:role="line"
            id="tspan1"
-           style="stroke-width:0.313859"></tspan></text>
+           style="stroke-width:0.313859" /></text>
     </g>
+    <text
+       xml:space="preserve"
+       id="text2"
+       style="text-orientation:auto;-inkscape-font-specification:'Book Antiqua, Normal';font-family:'Book Antiqua';font-size:53.33330154px;fill:#000000;stroke:#000000;stroke-opacity:0;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect2)" />
   </g>
 </svg>

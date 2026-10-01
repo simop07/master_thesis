@@ -211,7 +211,7 @@ Ultimately, the aim of the $\chi^2$ minimization algorithm is to estimate the lo
 	\end{cases}
 	\label{eq:track_parametrization}
 \end{equation}
-Let $(x_M, y_M)$ be the measured hit position and $\sigma_x$, $\sigma_y$ the corresponding spatial resolutions. If the plane was located at a generic longitudinal position $z$, the spatial discrepancy between measured and expected hit is quantified by:
+Let $(x_M, y_M)$ be the measured hit position and $(\sigma_x,\sigma_y)$ the corresponding spatial resolutions. If the plane was located at a generic longitudinal position $z$, the spatial discrepancy between measured and expected hit is quantified by:
 \begin{equation}
 	\chi^2(z) =
 	\frac{\bigl(x_M - x_0 - t_x\,(z - z_0)\bigr)^2}{\sigma_x^2}
@@ -267,21 +267,21 @@ Following the $\Delta z$ analysis, the FOOT Bologna group measured that the GENF
 	\begin{subfigure}[b]{0.49\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{z_analysis_post_VT1x.pdf}
-		\caption{VT0 $x$-coordinate pull.}
+		\caption{VT1 $x$-coordinate pull.}
 		\label{fig:z_analysis_post_VT1x}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.49\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{z_analysis_post_VT2x.pdf}
-		\caption{VT0 $x$-coordinate pull.}
+		\caption{VT2 $x$-coordinate pull.}
 		\label{fig:z_analysis_post_VT2x}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.49\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{z_analysis_post_VT3x.pdf}
-		\caption{VT0 $x$-coordinate pull.}
+		\caption{VT3 $x$-coordinate pull.}
 		\label{fig:z_analysis_post_VT3x}
 	\end{subfigure}
 	\caption[Carbon $x$-coordinate pull distributions post alignment]{Carbon $x$-coordinate pull distributions post alignment for VT0, VT1, VT2 and VT3. From the 8040 CNAO 2025 run.}
@@ -294,7 +294,7 @@ Following the $\Delta z$ analysis, the FOOT Bologna group measured that the GENF
 	\caption[Pull means for VT planes before and after the VT1 geometry correction]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, before and after the VT1 geometry correction. From the 8040 CNAO 2025 run.}
 	\label{fig:postZ_pullSummaryVT}
 \end{figure}
-After revising the VT plane geometry, also the pull distributions of the carbon VT $x$ coordinates moved closer to $0$; this can be viewed comparing \autoref{fig:z_analysis_pre_x} with \autoref{fig:z_analysis_post_x}, which respectively show the \ce{C} pulls before and after the VT geometry correction. Although the updated VT1 position slightly shifted the $\mu_\text{mean}$ towards $0$, the discrepancy is still evident. \autoref{fig:postZ_pullSummaryVT} allows to compare more directly the spread of the $\mu_\text{mean}$ before and after the VT1 geometric correction. After the VT1 change, the majority of the pull means diminishes to $0$; however, the new pull means are still not compatible with the reference value $0$.
+After revising the VT plane geometry, also the pull distributions of the carbon VT $x$ coordinates moved closer to $0$; this can be viewed comparing \autoref{fig:z_analysis_pre_x} with \autoref{fig:z_analysis_post_x}, which respectively show the $x$-coordinate \ce{C} pulls before and after the VT geometry correction. Although the updated VT1 position slightly shifted the $\mu_\text{mean}$ towards $0$, the discrepancy is still evident. \autoref{fig:postZ_pullSummaryVT} allows to compare more directly the spread of the $\mu_\text{mean}$ before and after the VT1 geometric correction in both $x$-$y$ directions. After the VT1 change, the majority of the pull means diminishes to $0$; however, the new pull means are still not compatible with the reference value $0$.
 \subsubsection{Software-based alignment procedure}\label{sssec:software_based_alignment_procedure}
 Previously, it was stated that the VT1 geometric correction effectively reduced the pull mean displacement. However, \autoref{fig:postZ_pullSummaryVT} showed that the pulls were still not centered in $0$, as expected. To address this issue, it is important to consider that any variation in GENFIT geometry parameters must be followed by a new software-based alignment procedure. In other words, after the change in the VT1 geometric parameters, a new realignment of the whole electronic setup must be performed. This software-based alignment uses an iterative algorithm to minimize the difference between the real beam position and the one measured by each detector plane. Then, the algorithm not only adjusts the position of each subdetector (inter-detector alignment), but calibrates the position of each plane (inter-plane alignment). In practice, the global reconstruction (see \autoref{ssec:global_reconstruction}) requires this procedure to match the electronic setup geometry with the one of its ``digital twin'' built through the GENFIT libraries.
 \begin{figure}[H]
@@ -357,7 +357,7 @@ Following the analysis of the VT $\mu_\text{pull}$ presented in \autoref{ssec:vt
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{helium_carbon_sigma_8028.pdf}
-	\caption[Pull width dependence on fragment charge]{Standard deviation of the pull distributions for carbon and helium fragments after the geometry and software-based alignment correction. From the 8028 CNAO 2025 run.}
+	\caption[Pull width dependence on fragment charge for VT]{Standard deviation of the VT pull distributions for carbon and helium fragments after the geometry and software-based alignment correction. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_charge}
 \end{figure}
 In \autoref{ssec:pull_distributions} it was stated that the width of the pull distribution $\sigma_\text{pull}$ should ideally be close to $1$. In the 8028 CNAO 2025 run, the VT pull widths for carbon ions possess values around $1$, as shown in \autoref{fig:pull_width_charge}. However, the lower-$Z$ fragmentation products deviate from this behavior, having $\sigma_\text{pull}\gtrsim1$. For instance, \autoref{fig:pull_width_charge} displays the $\sigma_\text{pull}$ for helium particles, whose values are approximately $\gtrsim1.4$, well above the carbon case. In general, all the fragments lighter than carbons share the increase of $\sigma_\text{pull}$ similarly to helium. This can be viewed in \autoref{tab:vt_pull_sigmas}, which reports the VT $\sigma_\text{pull}$ values of all the reconstructed fragments and the associated uncertainties. Specifically, this table shows values extrapolated from the pulls' Gaussian fit after the application of the software-based alignment procedure described in \autoref{sssec:software_based_alignment_procedure}.
@@ -575,7 +575,7 @@ The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_cluspo
 	\caption[VT $y$-position residual vs $x_\mathrm{CoG}$]{Residual in $y$ as a function of the $x_\mathrm{CoG}$ for VT1.}
 	\label{fig:resy_clusposx_VT1}
 \end{figure}
-Note that all the carbon plots, precisely at $x_\mathrm{CoG}=y_\mathrm{CoG}=-0.4\,\mathrm{cm}$ and $x_\mathrm{CoG}=y_\mathrm{CoG}=0.4\,\mathrm{cm}$, are characterized by an attenuation in the number of entries, which weakly divides the elliptical event blob into three vertical bundles. This behavior is clearly evident in \autoref{fig:resy_clusposy_VT1_C} and \autoref{fig:resx_clusposy_VT1_C}. The event reduction at $-0.4\,\mathrm{cm}$ and $0.4\,\mathrm{cm}$ is caused by the BM drift cells, whose structure was schematized in \autoref{fig:beam_monitor2}. To explain this phenomenon, consider the following discussion. When a beam is extracted from an accelerator, it possesses a certain transverse width, correlated to the emittance and the focusing properties of the accelerator \cite{Holzer:2024ohn}. When the carbon primaries used at CNAO 2025 traverse the BM, some of the particles directly impinge the wires and are consequently absorbed or deflected, reducing the beam intensity. Furthermore, the attenuation happens exactly at $-0.4\,\mathrm{cm}$ and $0.4\,\mathrm{cm}$ because the distance between two parallel wires strung along the transverse direction is $8\,\mathrm{mm}$, precisely as illustrated in \autoref{fig:beam_monitor2}.
+Note that all the carbon plots, precisely at $x_\mathrm{CoG}=y_\mathrm{CoG}=-0.4\,\mathrm{cm}$ and $x_\mathrm{CoG}=y_\mathrm{CoG}=0.4\,\mathrm{cm}$, are characterized by an attenuation in the number of entries, which weakly divides the elliptical event blob into three vertical bundles. This behavior is clearly evident in \autoref{fig:resy_clusposy_VT1_C} and \autoref{fig:resx_clusposy_VT1_C}. The event reduction at $-0.4\,\mathrm{cm}$ and $0.4\,\mathrm{cm}$ is caused by the BM drift cells, whose structure was schematized in \autoref{fig:beam_monitor2}. To explain this phenomenon, consider the following discussion. When a beam is extracted from an accelerator, it possesses a certain transverse width, correlated to the emittance and the focusing properties of the accelerator \cite{Holzer:2024ohn}. When the carbon primaries used at CNAO 2025 traverse the BM, some of the particles directly impinge the wires and are consequently absorbed or deflected, reducing the beam intensity. Furthermore, the attenuation happens exactly at $-0.4\,\mathrm{cm}$ and $0.4\,\mathrm{cm}$ because the distance between two parallel wires strung along the beam transverse direction is $8\,\mathrm{mm}$, precisely as illustrated in \autoref{fig:beam_monitor2}.
 
 This study suggests that the geometry of the VT and, more broadly, of the entire electronic setup, requires further investigations to assess the alignment of detection planes and their possible rotation. Future developments should therefore incorporate the rotational alignment into the software-based procedure. Indeed, when projecting the flat distributions (\autoref{fig:resx_clusposx_VT1} and \autoref{fig:resy_clusposy_VT1}) and the inclined distributions (\autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1}) onto the $y$ axis, the latter exhibit a broader residual distribution. Mitigating this orientation issue may benefit the VT $\sigma_\text{pull}$ estimation.
 \section{Optimization of the Microstrip Silicon Detector}\label{sec:optim_msd}
@@ -593,7 +593,7 @@ As stated in \autoref{sssec:microstrip_silicon_detector}, each MSD sensor measur
 where $x_i$ is the central position of the $i$-th strip and $E_i$ is the energy loss measured in that strip (evaluated in ADC units), which plays the role of the weight $w_i$ of \autoref{eq:cluster_VT}. The sum in \autoref{eq:cluster_MSD} runs over a group of strips defined by a double-threshold clustering algorithm described in the caption of \autoref{fig:msd_clus_algo}, One of my first MSD updates was limiting the sum of \autoref{eq:cluster_MSD} only for strips with $E_i>0$.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{msd_clus_algo.pdf}
+	\includegraphics[width=0.8\linewidth]{msd_clus_algo.pdf}
 	\caption[MSD double-threshold clustering algorithm]{Double-threshold clustering algorithm used to build a MSD cluster. First, a strip exceeding the ``seed'' threshold is selected. Then, strips from the left/right overpassing the ``fire'' threshold are added in the cluster, skipping noisy or dead strips. Finally, the first right (left) strip below the fire threshold is added. At present, only strips with $E_i>0$ are integrated in the cluster. From \cite{Zarrella2024meeting}.}
 	\label{fig:msd_clus_algo}
 \end{figure}
@@ -607,27 +607,95 @@ The original MSD position uncertainty is estimated from the energy-weighted spre
 \end{equation}
 As in the VT case, a lower bound is imposed to account for the finite strip size. This is especially relevant for clusters made of a single strip, for which the spread in \autoref{eq:cluster_MSD_err} vanishes. The bound is the uncertainty of a uniform distribution over the MSD readout pitch (digital readout limit):
 \begin{equation}
-	\sigma_{\mathrm{digital}} =
+	\sigma^{150}_{\mathrm{digital}} =
 	\frac{150\,\mu\mathrm{m}}{\sqrt{12}},
+	\label{eq:MSD_digital_readout_limit}
 \end{equation}
 where $150\,\mu\mathrm{m}$ is the pitch of the MSD strips. The final cluster uncertainty is therefore:
 \begin{equation}
 	\sigma_{\mathrm{MSD}} =
-	\max\left(\sigma_x,\sigma_{\mathrm{digital}}\right).
+	\max\left(\sigma_x,\sigma^{150}_{\mathrm{digital}}\right).
 	\label{eq:MSD_final_err}
 \end{equation}
+
+Recall that the MSD structure (see \autoref{fig:msd2}) integrates $50\,\mu\mathrm{m}$-distant floating strips that separate the neighboring readout strips, being $150\,\mu\mathrm{m}$ apart. Several studies \cite{ADRIANI199776,ALPAT2010207} report that the floating strip solution, combined with the MSD analog readout, can further reduce the position uncertainty. To this regard, \cite{SILVESTRE2023167717} shows that the MSD error can move towards the digital readout limit calculated with the floating strip pitch ($50\,\mu\mathrm{m}$) rather than the readout strip pitch ($150\,\mu\mathrm{m}$) as in \autoref{eq:MSD_digital_readout_limit}:
+\begin{equation}
+	\sigma^{50}_{\mathrm{digital}} =
+	\frac{50\,\mu\mathrm{m}}{\sqrt{12}}.
+	\label{eq:MSD_digital_readout_limit_floating}
+\end{equation}
+This means that the current MSD uncertainty evaluation (given by \autoref{eq:MSD_final_err}) is not fully optimized, leaving room for improvement. This consideration motivated the study of a new clustering algorithm, which is be presented in the following sections.
 \subsection{Pull studies with the MSD clustering algorithm}\label{ssec:pull_studies_msd_clustering_algorithm}
+First and foremost, let us visualize and comment the pull distributions of the MSD obtained using the original MSD clustering algorithm, which uses \autoref{eq:cluster_MSD} and \autoref{eq:MSD_final_err} to respectively estimate $x_{\text{meas}}$ and $\sigma_{x,\text{meas}}$ (taken from \autoref{eq:pull_distributions}).
 
-
----
-citare le pull
----
-%
-%io qui posterei le pul_mean di MSD e le pull_mean di MSD per ORIGINAL msd position (sia plot che tabelle) ok e purel e sigma prima del cambiamento dellerrore di f_eta. faccio notare come le mediie siano buone dopo il software base alignent (anche grazie al fatto che ho tolto le negative energy lossess affecting te individual strips), ma il problema risiede nelle sigma pull
-%
-%
-
-The problem concerning the MSD cluster error is produced by negative energy loss values affecting the individual strips. These values, which represent the weights of the variance computation, are negative because they are computed with a baseline/noise pedestal removal. This means that if the energy in a strip is slighly lower than the baseline, we have negative values. To address this issue, negative values are removed from the COG computation and its error calculation. Updates will follow $\rightarrow$ With this change, we found out the following: the MSD pulls, after removing the negative-energy events, remained quite similar to the previous ones. The main difference I observe is in the **pull sigma for the lighter fragments**. In practice, before the modification, the sigma values for carbon and protons were noticeably different, around 0.43 (carbon) and 0.54 (protons). After the modification, they become 0.43 (carbon) and 0.47 (protons). Therefore, the sigma becomes slightly more charge-independent, although the effect is not very large. This behavior is observed in all MSD planes. And, of course, now these computations make sense physically - no negative energy losses!
+Analyzing the 8028 run, we can first compare the carbon ions $\mu_\text{pull}$ for the MSD planes (MSD0 to MSD5) before and after the software-based alignment procedure. \autoref{fig:pull_8028_comparison_msd} shows a great improvement of $\mu_\text{pull}$, which from being scattered across the $[-1.5,1.5]$ interval are then flattened within the $[-0.05,0.05]$ range. A consistent behavior can found for all the reconstructed particles (from $Z=1$ to $Z=6$), which showed close-to-zero $\mu_\text{pull}$ in all MSD planes after the alignment procedure, as reported in \autoref{tab:msd_pull_means}. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{pre_postAlignmentPull_MSD.pdf}
+	\caption[Pull means for MSD planes before and after the software-based alignment for carbon ions]{Extrapolation of pull means $\mu_\text{pull}$ for the MSD planes (MSD0 to MSD5) using the original MSD clustering method, for carbon ions. The plots compare the pull means before and after the software-based alignment procedure. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_8028_comparison_msd}
+\end{figure}
+\begin{table}[H]
+	\centering
+	\normalsize{%
+		\begin{tabular}{M{1.8cm} M{2.6cm} M{2.6cm} M{2.6cm}}
+			\hline
+			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
+			\hline
+			MSD0 & $0.044 \pm 0.011$ & $0.015 \pm 0.008$ & $-0.004 \pm 0.017$ \\
+			MSD1 & $0.047 \pm 0.011$ & $0.045 \pm 0.007$ & $0.061 \pm 0.014$  \\
+			MSD2 & $-0.058 \pm 0.008$ & $-0.049 \pm 0.005$ & $-0.056 \pm 0.011$ \\
+			MSD3 & $-0.057 \pm 0.008$ & $-0.053 \pm 0.005$ & $-0.045 \pm 0.011$ \\
+			MSD4 & $0.033 \pm 0.015$ & $0.023 \pm 0.009$ & $0.005 \pm 0.019$  \\
+			MSD5 & $0.024 \pm 0.014$ & $0.021 \pm 0.008$ & $0.051 \pm 0.017$  \\
+			\hline\hline
+			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
+			\hline
+			MSD0 & $0.024 \pm 0.017$ & $0.029 \pm 0.011$ & $0.0177 \pm 0.0009$ \\
+			MSD1 & $0.047 \pm 0.015$ & $0.023 \pm 0.010$ & $0.0458 \pm 0.0009$ \\
+			MSD2 & $-0.020 \pm 0.012$ & $-0.044 \pm 0.007$ & $-0.0386 \pm 0.0006$ \\
+			MSD3 & $-0.057 \pm 0.011$ & $-0.054 \pm 0.007$ & $-0.0583 \pm 0.0006$ \\
+			MSD4 & $-0.004 \pm 0.020$ & $0.012 \pm 0.012$ & $0.0210 \pm 0.0011$ \\
+			MSD5 & $0.046 \pm 0.020$ & $0.034 \pm 0.013$ & $0.0249 \pm 0.0011$ \\
+			\hline
+	\end{tabular}}
+	\caption[MSD pull means by fragment charge using the original MSD clustering method]{Mean of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the original MSD clustering method, after the software-based alignment procedure. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
+	\label{tab:msd_pull_means}
+\end{table}
+Despite the excellent MSD $\mu_\text{pull}$, the MSD $\sigma_\text{pull}$ for all fragments (after the software-based alignment procedure) are found approximately in $[0.3,0.6]$, far from the expected reference value of $1$, as summarized in \autoref{tab:msd_pull_sigmas}. This behavior is visually confirmed by \autoref{fig:pull_width_msd}, which displays the $\sigma_\text{pull}$ for all fragments.
+\begin{table}[H]
+	\centering
+	{\normalsize%
+		\begin{tabular}{M{1.8cm} M{2.1cm} M{2.1cm} M{2.1cm}}
+			\hline
+			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
+			\hline
+			MSD0 & $0.488 \pm 0.010$ & $0.519 \pm 0.008$ & $0.522 \pm 0.016$ \\
+			MSD1 & $0.494 \pm 0.010$ & $0.489 \pm 0.006$ & $0.436 \pm 0.012$ \\
+			MSD2 & $0.367 \pm 0.007$ & $0.359 \pm 0.004$ & $0.336 \pm 0.009$ \\
+			MSD3 & $0.401 \pm 0.007$ & $0.370 \pm 0.005$ & $0.332 \pm 0.010$ \\
+			MSD4 & $0.591 \pm 0.016$ & $0.575 \pm 0.009$ & $0.562 \pm 0.016$ \\
+			MSD5 & $0.586 \pm 0.015$ & $0.569 \pm 0.008$ & $0.515 \pm 0.013$ \\
+			\hline\hline
+			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
+			\hline
+			MSD0 & $0.479 \pm 0.016$ & $0.466 \pm 0.010$ & $0.4205 \pm 0.0008$ \\
+			MSD1 & $0.439 \pm 0.014$ & $0.454 \pm 0.010$ & $0.4106 \pm 0.0008$ \\
+			MSD2 & $0.334 \pm 0.009$ & $0.296 \pm 0.006$ & $0.2810 \pm 0.0005$ \\
+			MSD3 & $0.307 \pm 0.010$ & $0.286 \pm 0.006$ & $0.2621 \pm 0.0005$ \\
+			MSD4 & $0.553 \pm 0.016$ & $0.533 \pm 0.011$ & $0.5147 \pm 0.0009$ \\
+			MSD5 & $0.553 \pm 0.018$ & $0.538 \pm 0.012$ & $0.5141 \pm 0.0009$ \\
+			\hline
+	\end{tabular}}
+	\caption[MSD pull widths by fragment charge using the original MSD clustering method]{Standard deviation of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the original MSD clustering method, after the software-based alignment procedure. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
+	\label{tab:msd_pull_sigmas}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{msd_sigma_original.pdf}
+	\caption[MSD pull width by fragment charge using the original MSD clustering method]{Standard deviation of the MSD pull distributions for all fragments using the original MSD clustering position. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_width_msd}
+\end{figure}
 
 
 
