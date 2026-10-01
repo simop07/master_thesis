@@ -136,7 +136,7 @@ void PlotFEtaAllCharges(const char* filename = "Decoded_Analysis_CNAO2025_8028_T
             fClone->Draw("same");
         }
 
-        leg->AddEntry(fClone, TString::Format("Carica %d", q), "l");
+        leg->AddEntry(fClone, TString::Format("Z=%d", q), "l");
 
         std::cout << "Carica " << q << ": funzione '" << fClone->GetName()
                   << "' aggiunta al plot." << std::endl;
