@@ -42,6 +42,7 @@
 main.*
 TableOfContents.docx
 plots/**/*pdf
+plots/**/*txt
 Dissertation/images/Thumbs.db
 
 # Directories
