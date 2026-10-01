@@ -698,7 +698,7 @@ As stated in \autoref{ssec:pull_distributions}, the MSD $\sigma_\text{pull}<1$ d
 	\caption[MSD pull width by fragment charge using the original MSD clustering method]{Standard deviation of the MSD pull distributions for all fragments using the original MSD clustering position. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_msd}
 \end{figure}
-\subsection{Microstrip Silicon Detector $f(\eta)$ algorithm}\label{ssec:msd_f_eta_algo}
+\subsection{Microstrip Silicon Detector \texorpdfstring{$f(\eta)$}{f(η)} algorithm}\label{ssec:msd_f_eta_algo}
 Several 1D Position-Finding Algorithms (PFA) can be used to reconstruct the spatial position and the associated uncertainty of a silicon strip detector, the technology employed by the FOOT MSD. One of them is the CoG PFA presented in \autoref{ssec:msd_clustering_algorithm}, however it demonstrated to overestimate the MSD spatial uncertainties, as described in \autoref{ssec:pull_studies_msd_clustering_algorithm}. For this reason, in my analysis I explored a novel PFA based on the work of Turchetta in \cite{Turchetta:1993vu}. This PFA is based on the so-called $\eta$ algorithm, which uses the $\eta$ variable to improve the impact position within the readout pitch. To benefit from the advantages of the $\eta$ variable, the AMS-02 experiment currently employs a modified $\eta$ algorithm to estimate the hit position in the double-sided silicon microstrip sensors mounted on the AMS-02 \cite{MiaoMSDPresentation}.
 
 The $\eta$ variable measures the charge sharing across the readout strips positioned within the same $150\,\mu\mathrm{m}$ pitch. It is simply defined as the fraction of charge collected by one readout strip with respect to the total charge shared by the two neighboring strips:
@@ -745,63 +745,142 @@ When intermediate strips are introduced (like the $2$ floating strips in the FOO
 \end{figure}
 
 The above discussion thoroughly explains the non-linearities of the $\eta$ distribution, which would degrade the physics assumption that particles have equal probabilities to traverse the MSD pitch at any point. Nonetheless, two methods can be developed to linearize the $\eta$ distribution, namely the laser and the integral approaches, discussed in the following.
-\subsubsection{Laser method for }\label{sssec:laser_method}
-The laser method allows to build a calibration function $f(\eta)$ which provides the particle position $x$ knowing the value of $\eta$. To build the $f(\eta)$ function, the strips of each MSD plane have to be scanned with a laser, whose initial position $x_\text{laser}$ is known. At each spatial position, the laser deposits energy in the silicon, producing electron-hole pairs that drift towards the electrodes producing a signal. From the measured signals, one can calculate $\eta$ through \autoref{eq:eta}. In other words, the laser method allows to collect a series of $(x_\text{laser,i},\eta_i)$ pairs that, once interpolated, provide the function $x=f(\eta)$. Successively, $f(\eta)$ can be employed to directly reconstruct the particles' positions $x$ from the measured $\eta$, accounting for and correcting the non-linear response of \autoref{eq:eta_position}.
+\subsubsection{Laser method for \texorpdfstring{$f(\eta)$}{f(η)}}\label{sssec:laser_method}
+The laser method allows to build a calibration function $f(\eta)$ which provides the particle position $x$ knowing the value of $\eta$. To build the $f(\eta)$ function, the strips of each MSD plane have to be scanned with a laser, whose initial position $x_\text{laser}$ is known. At each spatial position, the laser deposits energy in the silicon, producing electron-hole pairs that drift towards the electrodes producing a signal, as represented in \autoref{fig:laser_method}. From the measured signals, one can calculate $\eta$ through \autoref{eq:eta}. In other words, the laser method allows to collect a series of $(x_\text{laser,i},\eta_i)$ pairs that, once interpolated, provide the function $x=f(\eta)$. Successively, $f(\eta)$ can be employed to directly reconstruct the particles' positions $x$ from the measured $\eta$, accounting for and correcting the non-linear response of \autoref{eq:eta_position}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{laser_method.jpg}
 	\caption[MSD $2$-strip scan with laser method]{Scan of $2$ MSD strips with laser method. Floating and readout strip positions are labeled respectively with ``F'' and ``R'' letters. The seed strip signal (red dots) measures the ADC of the strip exceeding the seed threshold discussed in \autoref{fig:msd_clus_algo}, while the cluster signal (blue dots) sums the ADC values of strips belonging to the same cluster. In correspondence with the strip positions, the ADC diminishes because of the aluminum implants deposited on top of floating and readout strips to form the electrical contacts that route the signals to the readout chips. The higher reflectance of aluminum prevents the laser form penetrating in the silicon bulk and generating electron-hole pairs. Adapted from \cite{SilvestrePresentation}.}
 	\label{fig:laser_method}
 \end{figure}
-As the laser method requires a dedicated experimental setup for the MSD calibration, it was not followed in this analysis, which instead focused on the more viable solution of the integral approach.
-\subsubsection{Integral method for $f(\eta)$}\label{sssec:integral_method}
+The laser method requires a dedicated experimental setup for the MSD calibration and, for this reason, was not implemented in this thesis work.
+\subsubsection{Integral method for \texorpdfstring{$f(\eta)$}{f(η)}}\label{sssec:integral_method}
+To linearize the $\eta$ distribution, my work implements the integral method, a more viable solution than the laser approach. Indeed, the integral method determines the $f(\eta)$ function directly from experimental data, demanding no separated laser-based calibration campaigns.
 
-
-The linear (LIN) $\eta$ PFA defines quantifies the position as:
+The integral method is based on a non-linear PFA where the position is given by:
 \begin{equation}
-	x^{LIN}_\text{meas}=x_\text{L}+P\cdot\eta,
-	\label{eq:eta_position}
+	x_\text{meas}\left(\eta\right)=x_\text{L}+P\cdot f(\eta),
+	\label{eq:feta_position}
 \end{equation}
+where $f(\eta)$ is an arbitrary monotonic growing function with $f(0)=0$ and $f(1)=1$ and the other quantities were already defined for \autoref{eq:eta_position}. The aim of $f(\eta)$ is to linearize \autoref{eq:eta_position}, rendering the hit position $x_\text{meas}\left(\eta\right)$ uniformly distributed over the detector. To build a $f(\eta)$ holding such property, the following integral calculation must be performed:
+\begin{equation}
+	x_\text{meas}\left(\eta\right)=P\,\frac{\int_{0}^{\eta}\frac{dN}{d\eta}\,d\eta}{\int_{0}^{1}\frac{dN}{d\eta}\,d\eta}=P\,f(\eta)\,,
+	\label{eq:feta_integral}
+\end{equation}
+where $dN/d\eta$ is the differential $\eta$ distribution. \autoref{eq:feta_integral} defines the non-linear integral method through which it is possible to calculate $f(\eta)$, given by the integral of the $\eta$ distribution normalized to its total number of events. Such calculation ensures that $f(\eta)$ maps the $\eta$ distribution onto a flat position distribution by construction.
 
+Another advantage of the $f(\eta)$ algorithm over the laser-based method is that the former can also provide an estimator for the position uncertainty simply by propagating the uncertainty on $\eta$ through $f$:
+\begin{equation}
+	\sigma_{x_\text{meas}(\eta)} = P\,\frac{df}{d\eta}\,\sigma_\eta\,,
+	\label{eq:feta_error_prop}
+\end{equation}
+where $\sigma_\eta$ is given by \cite{Turchetta:1993vu}:
+\begin{equation}
+	\sigma_\eta=\frac{\text{ENC}}{S}\,\alpha(\eta)\,,\qquad \alpha(\eta)=\sqrt{1-2\eta+2\eta^2}\,,
+	\label{eq:sigma_eta}
+\end{equation}
+where $S=S_\text{L}+S_\text{R}$ is the total signal on the two strips used to compute $\eta$ and ENC is the equivalent noise charge of a single strip. From \autoref{eq:feta_integral}, the derivative of $f$ is simply the $\eta$ distribution normalized to its total number of entries $N_\text{tot}$:
+\begin{equation}
+	\frac{df}{d\eta}=\frac{1}{N_\text{tot}}\frac{dN}{d\eta}\,.
+	\label{eq:df_deta}
+\end{equation}
+Summarizing, the final spatial resolution of the non-linear PFA is therefore:
+\begin{equation}
+	\sigma_{x_\text{meas}(\eta)} = P\,\frac{\text{ENC}}{S}\,\alpha(\eta)\,\frac{1}{N_\text{tot}}\frac{dN}{d\eta}\bigg|_{\eta=f^{-1}(x/P)}\,.
+	\label{eq:feta_resolution}
+\end{equation}
+The function $\alpha(\eta)$ is rather flat, ranging from $1/\sqrt{2}$ to $1$, whereas the $\eta$ distribution is strongly peaked. The factor $dN/d\eta$ in \autoref{eq:feta_resolution} makes the resolution highly non-uniform along the pitch: it is best where few events populate the $\eta$ distribution and degrades in correspondence with its peaks. \autoref{eq:feta_resolution} is particularly relevant for the MSD pull studies, as it provides an innovative estimate for the position uncertainty which is expected to provide a better description of the spatial resolution of the MSD.
+\subsubsection{Implementation of the \texorpdfstring{$f(\eta)$}{f(η)} algorithm for the MSD}\label{sssec:feta_implementation_MSD}
+During my thesis work, I implemented the integral method for $f(\eta)$ in the SHOE environment. Let us retrace the most significant results obtained in the analysis.
+
+First, the my analysis computes the $\eta$ values cluster-by-cluster using \autoref{eq:eta_position}. \autoref{fig:etaDistPlaneZ6} shows the reconstructed distributions of $\eta$ for carbon fragments in each MSD plane, obtained by aggregating the $\eta$ values from the individual $150\,\mu\mathrm{m}$-pitch elements. From the plots, it is possible to observe the $4$ peaks corresponding to the floating and readout strip positions, as expected. Contrary to \autoref{fig:eta_dist}, this $\eta$ distribution is not symmetric to $\eta=0.5$ due to the larger number of entries in the rightmost peak. Such discrepancy is being investigated by the FOOT Collaboration, as it is probably connected to a different electronic response of the MSD strip.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{etaDistPlaneZ6.pdf}
 	\caption[$\eta$ distributions for carbon in each MSD plane]{Distributions of $\eta$ for carbon fragments in each MSD plane. Bins are normalized to the total number of entries. From the 8028 CNAO 2025 run.}
 	\label{fig:etaDistPlaneZ6}
 \end{figure}
+For each $\eta$ value, the corresponding \autoref{eq:feta_position} is computed using \autoref{eq:feta_integral}, which yields the histogram shown in \autoref{fig:feta_fit}. Note that this histogram is built using the full set of $\eta$ values from all $6$ MSD planes, thereby representing the combined response of the detector rather than treating each plane independently. By fitting the histogram with \autoref{eq:feta_param}, the parameters of the $f(\eta)$ function can be extrapolated. Specifically, the fitting function is implemented as:
+\begin{equation}
+	f(\eta)=p_0\,\eta+\sum_{i=1}^{4}p_{3i-2}\,\frac{1}{2}\left[1+\text{erf}\!\left(\frac{\eta-p_{3i-1}}{p_{3i}}\right)\right],
+	\label{eq:feta_param}
+\end{equation}
+i.e., a linear term plus four smoothed steps formed by a combinations of error functions, which belong to the family of sigmoid functions. Each step accounts for one peak of the $\eta$ distribution, approximately located at $\eta\simeq 0.03,\,0.30,\,0.69$ and $0.99$, as depicted in \autoref{fig:etaDistPlaneZ6}. This particular function was chosen because of its smoothness and differentiability, essential to define $df/d\eta$ analytically in \autoref{eq:feta_error_prop}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{feta_fit.pdf}
+	\caption[$f(\eta)$ function from integral algorithm]{Histogram of $f(\eta)$ values obtained from the full set of $\eta$ measurements across all $6$ MSD planes, for carbon ions. The solid red line represents the fit performed using \autoref{eq:feta_param}, from which the parameters of the $f(\eta)$ function are extracted. From the 8028 CNAO 2025 run.}
+	\label{fig:feta_fit}
+\end{figure}
+The $f(\eta)$ function in \autoref{fig:feta_fit} effectively linearizes the non-uniformities of the $\eta$ distribution, as illustrated in \autoref{fig:linearized_feta}. The figure shows that the distributions of $f(\eta)$ for carbon fragments in each MSD plane are flat up to statistical fluctuations. In this plot, each $f(\eta)$ function is built using the per-plane $\eta$ distributions plotted in \autoref{fig:etaDistPlaneZ6}. Note that the parameters of these $f(\eta)$ functions, obtained independently for each MSD plane, are compatible with the parameters of the $f(\eta)$ function in \autoref{fig:feta_fit}, built using all the points of the MSD. Hereinafter, the position of the non-linear PFA will be estimated with the $f(\eta)$ function in \autoref{fig:feta_fit} to prefer the combined response of the MSD over the plane's individual behavior.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{linearized_feta.pdf}
+	\caption[$f(\eta)$ distributions for carbon in each MSD plane]{Distributions of $f(\eta)$ for carbon fragments in each MSD plane. Bins are normalized to the total number of entries. From the 8028 CNAO 2025 run.}
+	\label{fig:linearized_feta}
+\end{figure}
+
+At this point, it is important to point out that the construction of the $f(\eta)$ algorithm (for both the position and the uncertainty estimators), will employ only carbon fragments, being the particles with the highest statistics. This may introduce a bias: an $f(\eta)$ that linearizes the $\eta$ distribution of carbon is not guaranteed to linearize the $\eta$ distributions of the other fragments. This is indeed what happens. The $\eta$ distribution and, consequently, the resulting $f(\eta)$, were studied separately for each particle charge from $Z=1$ to $Z=6$, using all MSD planes together. The fit parameters of \autoref{eq:feta_param} are reported in \autoref{tab:fit_feta_charge}, and the corresponding functions are compared in \autoref{fig:feta_vs_charge}. Both the table and the figure show that fragments with different charge have comparable, yet dissimilar, $f(\eta)$ parameters. Such diversity is probably connected to the fact that different fragments have distinct energy deposits, which in turn produce charge diffusion mechanisms that affect the $f(\eta)$ functions in different ways.
+\begin{table}[H]
+	\centering
+	\small
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{c *{6}{S[table-format=2.4] @{${}\pm{}$} S[table-format=1.4]}}
+			\toprule
+			Param & \multicolumn{2}{c}{$Z=1$} & \multicolumn{2}{c}{$Z=2$} & \multicolumn{2}{c}{$Z=3$} & \multicolumn{2}{c}{$Z=4$} & \multicolumn{2}{c}{$Z=5$} & \multicolumn{2}{c}{$Z=6$} \\
+			\midrule
+			$p_0$    & 68   & 1       & 63.4 & 0.8       & 70.5 & 1.2       & 76.5 & 1.6       & 78.6 & 1.1       & 80.1 & 0.9       \\
+			$p_1$    & 15.1 & 0.2     & 16.4 & 0.2       & 14.5 & 0.3       & 14.4 & 0.3       & 12.2 & 0.2       & 14.3 & 0.2       \\
+			$p_2$    & 0.033 & 0.001  & 0.0173 & 0.0004  & 0.0199 & 0.0009 & 0.0207 & 0.0009 & 0.0244 & 0.0009 & 0.0280 & 0.0005 \\
+			$p_3$    & 0.037 & 0.002  & 0.0185 & 0.0009  & 0.024 & 0.002   & 0.020 & 0.002   & 0.024 & 0.002   & 0.025 & 0.001   \\
+			$p_4$    & 24.6 & 0.3     & 26.1 & 0.3       & 24.0 & 0.5       & 19.6 & 0.6       & 19.2 & 0.4       & 18.1 & 0.3       \\
+			$p_5$    & 0.3086 & 0.0008 & 0.3109 & 0.0003 & 0.3101 & 0.0005 & 0.3077 & 0.0008 & 0.3069 & 0.0007 & 0.3044 & 0.0006 \\
+			$p_6$    & 0.0600 & 0.0002 & 0.0285 & 0.0008 & 0.029 & 0.001 & 0.030 & 0.002 & 0.036 & 0.002 & 0.043 & 0.002 \\
+			$p_7$    & 25.1 & 0.3     & 26.1 & 0.3       & 22.1 & 0.5       & 20.3 & 0.6       & 19.9 & 0.5       & 18.1 & 0.3       \\
+			$p_8$    & 0.6860 & 0.0008 & 0.6875 & 0.0003 & 0.6896 & 0.0004 & 0.6904 & 0.0008 & 0.6895 & 0.0006 & 0.6924 & 0.0005 \\
+			$p_9$    & 0.06000 & 0.00007 & 0.0281 & 0.0007 & 0.024 & 0.001 & 0.030 & 0.002 & 0.034 & 0.002 & 0.042 & 0.002 \\
+			$p_{10}$ & 27.2 & 1.4     & 25.9 & 0.4       & 25.6 & 0.6       & 27.3 & 0.8       & 29.0 & 0.5       & 32.3 & 0.4       \\
+			$p_{11}$ & 0.987 & 0.003  & 0.9900 & 0.0001  & 0.99000 & 0.00008 & 0.9900 & 0.0001 & 0.99000 & 0.00004 & 0.990000 & 0.000006 \\
+			$p_{12}$ & 0.0600 & 0.0004 & 0.0241 & 0.0008 & 0.021 & 0.001 & 0.027 & 0.002 & 0.026 & 0.001 & 0.0342 & 0.0009 \\
+			\bottomrule
+		\end{tabular}%
+	}
+	\caption[Fit parameters of $f(\eta)$ for all planes by charge]{Fit parameters of $f(\eta)$ for all MSD planes, split by fragment charge $Z$. The $p_i$ are those of \autoref{eq:feta_param}. The parameters $p_0,p_1,p_4,p_7,p_{10}$ are expressed in $\mu$m.}
+	\label{tab:fit_feta_charge}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{feta_vs_charge.pdf}
+	\caption[$f(\eta)$ for each fragment charge]{Fitted $f(\eta)$ (in $\mu$m) for each fragment charge $Z=1,\dots,6$, using all MSD planes together. Relative parameters are reported in \autoref{tab:fit_feta_charge}.}
+	\label{fig:feta_vs_charge}
+\end{figure}
+
+Despite these differences, the carbon $f(\eta)$ parameters (last column of \autoref{tab:fit_feta_charge}) are used in the following for all fragments and all MSD planes. Carbon is the species with the highest statistics and therefore gives the most precisely determined parameters. The residual bias for the other charges is a limitation of the method, and it should be kept in mind when interpreting the position and uncertainty estimates of lighter fragments.
+
+
+
+---
+Hereinafter, $f(\eta)$ will be directly scaled by the strip pitch $P$ to simplify the notation. This means that the $f(\eta)$ will be expressed in $\mu\mathrm{m}$, with $f(0)=0$ and $f(1)\simeq P=150,\mu\mathrm{m}$. With this convention, the measured position \autoref{eq:feta_position} directly becomes:
+\begin{equation}
+	x_\text{meas}\left(\eta\right)=x_\text{L}+f(\eta),
+	\label{eq:feta_position_new}
+\end{equation}
+as the $f(\eta)$ now incorporates the pitch $P$.
+
+ The uncertainty is computed as
+\begin{equation}
+	\sigma_{x_\text{meas}(\eta)}=\sqrt{\sigma_\text{dig}^2+\left(\frac{\text{ENC}}{S}\,\alpha(\eta)\,\frac{df}{d\eta}\right)^2}\,,
+	\label{eq:sigma_impl}
+\end{equation}
+where a constant term $\sigma_\text{dig}=10\,\mu$m, accounting for the width of the diffusion cloud, is added in quadrature to the noise term of \autoref{eq:feta_error_prop}. The derivative $df/d\eta$ is capped at $385\,\mu$m to prevent the steep slopes at the $\eta$ peaks from producing unphysically large uncertainties. Note that $\alpha(\eta)$ is symmetric under $\eta\to1-\eta$, so evaluating it at $1-\eta$ is equivalent.
+Along with $\eta$, the code stores $S=S_\text{L}+S_\text{R}$ and the ENC of the pair, taken as the pedestal $\sigma$ of the left and right strips summed in quadrature. 
 
 
 
 
-So the true position vs. η relation is non-linear, especially near strip boundaries.
-
-The spatial resolution of silicon microstrip detectors is studied as a function of the main detector parameters and of the track
-angle. Several algorithms for finding the position of particle hits are presented and analysed
 
 
 
-
-
-%Unlike the Vertex Tracker, the MSD uses floating strips between adjacent readout strips. The particle position is therefore reconstructed from the analog charge sharing between neighbouring strips rather than from a direct hit.
-%
-%Because charge transport is governed by diffusion and capacitive coupling, this charge sharing is intrinsically non-linear. This is described by the η-function, which relates the measured charge distribution to the true particle position. As shown in the η-distribution, the response is clearly non-uniform, so a simple linear interpolation introduces a bias.
-%
-%My current work is to develop a data-driven η-correction, allowing both the hit position and its uncertainty to be reconstructed more accurately, ultimately reducing the σ observed in the MSD.
-%
-%A correctly modeled η-response can push MSD spatial resolution below the digital pitch limit (150 μm / 50 μm) — fully exploiting the analog information the MSD already provides but currently under-uses Critical because the MSD sits before ~1 m of air before the ToF wall, where fragment interactions in air are not rare — an accurate charge (→ isotope) measurement at the MSD is essential before further changes downstream 
-%
-%This is particularly important because the MSD provides the last precise tracking measurement before about one meter of air and the Time-of-Flight detector, where secondary interactions can already occur. Improving the MSD reconstruction therefore directly benefits the downstream track reconstruction and, ultimately, the isotope identification performance of FOOT.«
-%-> May produce out of target fragmentation   FOOT wants to remove it as it is combinatorial background
-%
-%The η-variable (charge sharing variable) is simply the fraction of charge collected by one readout strip with respect to the total charge shared by the two neighbouring strips
-
-
-%How Diffusion Creates the Sharp Non-Linearity
-%The text mentions that the charge cloud created by a particle is tiny (5"–" 10 𝜇"m") compared to the total strip pitch (50 𝜇"m").
-%
-%Near the Readout Strips (The Outer Peaks): If a particle hits anywhere within the central 15 𝜇"m"of a readout strip, the entire 5 𝜇"m"charge cloud is swallowed by that single strip. It doesn't matter if the track was at 2 𝜇"m"or 7 𝜇"m"from the center; the left strip gets 100%of the charge and the right strip gets 0%.
-%
-%The "Pile-Up" Effect: This means a wide physical region (𝑥) maps to a single compressed value of 𝜂≈0(or 𝜂≈1). Because so many different physical positions dump their events into the exact same 𝜂value, a massive statistical peak piles up at the boundaries.
 
 
 
