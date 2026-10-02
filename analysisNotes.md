@@ -426,38 +426,36 @@ Note that the above results for the pulls are obtained considering the following
    1. $\sigma_{eta}$ is the error directly found in the Turchetta algorithm
    2. $\sigma_{diff} = 10~\mu\mathrm{m}$ is a constant diffusion error due to the fact that charge deposit fluctuations could occur while charge deposit energy in the strips. Instead of setting this value to a fixed number (which is equal to the typical width of the diffusion cloud in silicon strips), it would be more accurate to use a per-fragment error based on the spread of the ADC signal generated in the strips. **The diffusion error would then be the $\sigma$ of the energy deposition distrubution for each fragment**.
 
-So, on one hand, the situation of the pull has **improved a lot**. This **improved also the chi-squared distribution** (by shifting the peak (for carbons!) from $\approx0.8$ to $\approx1.$ something and reducing the events in the tail of the chi-squared PDF (always for carbon!)). The **p-value distribution** (always analyzed for carbons due to the higher statistics) shifted a little bit towards the left (due to the fact that the chi-squared has shifted towards the right); I would say that the fact that the number of high p-values has decreased is given by the fact that now the MSD error have been decreased (reaching from tens to hundreds of micrometers (actually **MSD2 plane has an eviednt problem** that needs to be addressed: the errors reach $\approx300~\mu\mathrm{m}$, something which is completely wrong. The fact that the MSD2 reaches these errors is not due to the $\frac{df}{d\eta}$ values, which by the way is currently fixed at 362, but it is due to the noise pedestal of MSD2 sensor. Indeed, with another campaign (the 8028 of CNAO2025) charachterized by roughly uniform MSD noise pedestal, the errors do not reach such high values)). Note that the majority of events (more than 95%) has an associated MSD error of $10~\mu\mathrm{m}$. **The fact that the pull distribution have improved when the average error is $10~\mu\mathrm{m}$, means that somehow GENFIT expects the right measured error (nor overestimated, neither underestimated) to be $\approx10~\mu\mathrm{m}$**, which is **VERY VERY SMALL**. To understand whether this order of magnitude of $10~\mu\mathrm{m}$ is right or wrong, I have computed the residuals in the middle x and y planes (MSD2 and MSD3, respectively). This residual is shown as a function of $f(\eta)$. The idea is: if the residual spread has an order of magnitude of approximately $10~\mu\mathrm{m}$, then effectively we can trust the $10~\mu\mathrm{m}$ estimate for the MSD error currently used in GENFIT, that is, the $10~\mu\mathrm{m}$ error is physically reasonable. Note that, for simplicity, instead of computing the residual between the measured and the fit position from GENFIT, I have used the difference between the measured and the expected position **obtained from a linear (straight-line) interpolation of the track between the outer MSD planes**. For the **MSD2 x-coordinate**, the expected position is obtained by interpolating the x-coordinate between MSD1 and MSD5:
+So, on one hand, the situation of the pull has **improved a lot**. This **improved also the chi-squared distribution** (by shifting the peak (for carbons!) from $\approx0.8$ to $\approx1.$ something and reducing the events in the tail of the chi-squared PDF (always for carbon!)). The **p-value distribution** (always analyzed for carbons due to the higher statistics) shifted a little bit towards the left (due to the fact that the chi-squared has shifted towards the right); I would say that the fact that the number of high p-values has decreased is given by the fact that now the MSD error have been decreased (reaching from tens to hundreds of micrometers (actually **MSD2 plane has an eviednt problem** that needs to be addressed: the errors reach $\approx300~\mu\mathrm{m}$, something which is completely wrong. The fact that the MSD2 reaches these errors is not due to the $\frac{df}{d\eta}$ values, which by the way is currently fixed at 362, but it is due to the noise pedestal of MSD2 sensor. Indeed, with another campaign (the 8028 of CNAO2025) charachterized by roughly uniform MSD noise pedestal, the errors do not reach such high values)). Note that the majority of events (more than 95%) has an associated MSD error of $10~\mu\mathrm{m}$. **The fact that the pull distribution have improved when the average error is $10~\mu\mathrm{m}$, means that somehow GENFIT expects the right measured error (nor overestimated, neither underestimated) to be $\approx10~\mu\mathrm{m}$**, which is **VERY VERY SMALL**. To understand whether this order of magnitude of $10~\mu\mathrm{m}$ is right or wrong, I have computed the residuals in the middle x and y planes (MSD2 and MSD3, respectively). This residual is shown as a function of $f(\eta)$. The idea is: if the residual spread has an order of magnitude of approximately $10~\mu\mathrm{m}$, then effectively we can trust the $10~\mu\mathrm{m}$ estimate for the MSD error currently used in GENFIT, that is, the $10~\mu\mathrm{m}$ error is physically reasonable. Note that, for simplicity, instead of computing the residual between the measured and the fit position from GENFIT, I have used the difference between the measured and the expected position **obtained from a linear (straight-line) interpolation of the track between the outer MSD planes**. For the **MSD2 x-coordinate**, the expected position is obtained by interpolating the x-coordinate between MSD0 and MSD4:
 
 $$
-x_{\mathrm{exp}}^{\mathrm{MSD2}} =
-x_{\mathrm{MSD1}}+
-(z_{\mathrm{MSD2}}-z_{\mathrm{MSD1}})
-\frac{x_{\mathrm{MSD5}}-x_{\mathrm{MSD1}}}
-{z_{\mathrm{MSD5}}-z_{\mathrm{MSD1}}}
+	x_{\mathrm{ext}}^{\mathrm{MSD2}} =
+	x_{\mathrm{MSD0}}+
+	(z_{\mathrm{MSD2}}-z_{\mathrm{MSD0}})
+	\frac{x_{\mathrm{MSD4}}-x_{\mathrm{MSD0}}}
+	{z_{\mathrm{MSD4}}-z_{\mathrm{MSD0}}}\,.
 $$
 
-Similarly, for the **MSD3 y-coordinate**, the expected position is obtained by interpolating between MSD2 and MSD6:
+Similarly, for the **MSD3 y-coordinate**, the expected position is obtained by interpolating between MSD1 and MSD5:
 
 $$
-y_{\mathrm{exp}}^{\mathrm{MSD3}} =
-y_{\mathrm{MSD2}}+
-(z_{\mathrm{MSD3}}-z_{\mathrm{MSD2}})
-\frac{y_{\mathrm{MSD6}}-y_{\mathrm{MSD2}}}
-{z_{\mathrm{MSD6}}-z_{\mathrm{MSD2}}}
+	y_{\mathrm{ext}}^{\mathrm{MSD3}} =
+	y_{\mathrm{MSD1}}+
+	(z_{\mathrm{MSD3}}-z_{\mathrm{MSD1}})
+	\frac{y_{\mathrm{MSD5}}-y_{\mathrm{MSD1}}}
+	{z_{\mathrm{MSD5}}-z_{\mathrm{MSD1}}}\,.
 $$
 
 The residuals are then computed as:
 
 $$
-\mathrm{Residual}_{x}^{\mathrm{MSD2}} =
-(x_{\mathrm{exp}}^{\mathrm{MSD2}}-x_{\mathrm{meas}}^{\mathrm{MSD2}})
+	\mathrm{Residual}_{x}^{\mathrm{MSD2}} = x_{\mathrm{ext}}^{\mathrm{MSD2}}-x_{\mathrm{meas}}^{\mathrm{MSD2}}\,,\qquad
 $$
 
 and
 
 $$
-\mathrm{Residual}_{y}^{\mathrm{MSD3}} =
-(y_{\mathrm{exp}}^{\mathrm{MSD3}}-y_{\mathrm{meas}}^{\mathrm{MSD3}})
+	\mathrm{Residual}_{y}^{\mathrm{MSD3}} = y_{\mathrm{ext}}^{\mathrm{MSD3}}-y_{\mathrm{meas}}^{\mathrm{MSD3}}\,.
 $$
 
 The obtained residuals are then studied as a function of the cluster position inside the sensor pitch, expressed through the $f(\eta)$. This allows one to **verify whether the intrinsic spatial resolution depends on the position of the charge sharing inside the strip pitch**, and if **the $10~\mu\mathrm{m}$ error is compatible with the residual of the inner plane in each coordinate**. Updates will follow [(here)](#update-04082026).
