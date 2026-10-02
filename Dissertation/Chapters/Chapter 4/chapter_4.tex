@@ -695,7 +695,7 @@ As stated in \autoref{ssec:pull_distributions}, the MSD $\sigma_\text{pull}<1$ d
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{msd_sigma_original.pdf}
-	\caption[MSD pull width by fragment charge using the original MSD clustering method]{Standard deviation of the MSD pull distributions for all fragments using the original MSD clustering position. From the 8028 CNAO 2025 run.}
+	\caption[MSD pull width by fragment charge using the original MSD clustering method]{Standard deviation of the MSD pull distributions for all fragments using the original MSD clustering position (from pull Gaussian fit). From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_msd}
 \end{figure}
 \subsection{Microstrip Silicon Detector \texorpdfstring{$f(\eta)$}{f(η)} algorithm}\label{ssec:msd_f_eta_algo}
@@ -715,12 +715,12 @@ where $S_\text{R}$ and $S_\text{L}$ are respectively the signals on the right an
 \end{figure}
 The linear (LIN) $\eta$ PFA defines quantifies the position as:
 \begin{equation}
-	x^{LIN}_\text{meas}=x_\text{L}+P\cdot\eta,
+	x^\text{LIN}_\text{meas}=x_\text{L}+P\cdot\eta,
 	\label{eq:eta_position}
 \end{equation}
 where $x_\text{L}$ is the position of the left strip in the cluster and $P$ is the readout pitch ($150\,\mu\mathrm{m}$). This method is named linear because the position is proportional to the $\eta$ variable. Nonetheless, defining a position with \autoref{eq:eta_position} introduces non-linearities mainly due to charge diffusion and capacitive coupling effects. To understand this, let us consider the $\eta$ distribution and its physics origin.
 
-A common feature of the $\eta$ variable is the presence of peaks in its distribution, as shown in \autoref{fig:eta_dist}. The distinct peak structures imply that the charge division across the strips is far from being linear, otherwise one would observe a flat $\eta$ distribution. Since $x^{LIN}_\text{meas}\propto\eta$ according to \autoref{eq:eta_position}, also the position measurements distribution would clearly contain non-uniformities: this has no physical meaning, because particles should have an equal probability of passing within the pitch of the readout strips, yielding a flat, uniform distribution.
+A common feature of the $\eta$ variable is the presence of peaks in its distribution, as shown in \autoref{fig:eta_dist}. The distinct peak structures imply that the charge division across the strips is far from being linear, otherwise one would observe a flat $\eta$ distribution. Since $x^\text{LIN}_\text{meas}\propto\eta$ according to \autoref{eq:eta_position}, also the position measurements distribution would clearly contain non-uniformities: this has no physical meaning, because particles should have an equal probability of passing within the pitch of the readout strips, yielding a flat, uniform distribution.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{eta_dist.jpg}
@@ -856,7 +856,7 @@ At this point, it is important to point out that the construction of the $f(\eta
 \end{figure}
 Despite these differences, the carbon $f(\eta)$ parameters (last column of \autoref{tab:fit_feta_charge}) are used in the following for all fragments and all MSD planes, since the carbon specie possesses highest statistics, consequently providing the most precisely determined parameters.
 
-Hereinafter, $f(\eta)$ will be directly scaled by the strip pitch $P$ to simplify the notation. This means that $f(\eta)$ is expressed in $\mu\mathrm{m}$, with $f(0)=0$ and $f(1)\simeq P=150\,\mu\mathrm{m}$. With this convention, the measured position of \autoref{eq:feta_position} directly becomes
+Hereinafter, $f(\eta)$ will be directly scaled by the strip pitch $P$ to simplify the notation. This means that $f(\eta)$ is expressed in $\mu\mathrm{m}$, with $f(0)=0$ and $f(1)\simeq P=150\,\mu\mathrm{m}$. With this convention, the measured position of \autoref{eq:feta_position} directly becomes:
 \begin{equation}
 	x_\text{meas}\left(\eta\right)=x_\text{L}+f(\eta)\,,
 	\label{eq:feta_position_new}
@@ -866,29 +866,148 @@ since $f(\eta)$ now incorporates the pitch $P$. With this premise, the position 
 	\sigma_{x_\text{meas}(\eta)}=\sqrt{\sigma_\text{dig}^2+\left(\frac{\text{ENC}}{S}\,\alpha(\eta)\,\frac{df}{d\eta}\right)^2}\,,
 	\label{eq:sigma_impl}
 \end{equation}
-where a constant term $\sigma_\text{dig}=10\,\mu\mathrm{m}$ (extracted from \autoref{fig:charge_diffusion_non_unif}), accounting for the width of the diffusion cloud, is added in quadrature to the noise term of \autoref{eq:feta_error_prop} (without the pitch factor). In addition, some attention must be dedicated to the derivative $df/d\eta$ of \autoref{eq:feta_error_prop}. Indeed, as seen in \autoref{fig:etaDistPlaneZ6}, the measured $\eta$ distributions, and hence $df/d\eta$, are asymmetric with respect to $\eta=0.5$. Hence, the cap value is chosen to remove the rightmost peak from the distribution of $df/d\eta$, as shown in \autoref{fig:dfdeta}.
+where a constant term $\sigma_\text{dig}=10\,\mu\mathrm{m}$ (extracted from \autoref{fig:charge_diffusion_non_unif}), accounting for the width and the fluctuations of the diffusion cloud, is added in quadrature to the noise term of \autoref{eq:feta_error_prop} (without the pitch factor). In addition, some attention must be dedicated to the derivative $df/d\eta$ of \autoref{eq:feta_error_prop}. Indeed, as seen in \autoref{fig:etaDistPlaneZ6}, the measured $\eta$ distributions, and hence $df/d\eta$, are asymmetric with respect to $\eta=0.5$. Hence, the cap value is chosen to remove the rightmost peak from the distribution of $df/d\eta$, as shown in \autoref{fig:dfdeta}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{dfdeta.pdf}
 	\caption[Derivative of $f(\eta)$]{Derivative $df/d\eta$ of the carbon $f(\eta)$ (in $\mu\mathrm{m}$) from \autoref{fig:feta_fit}. The horizontal red line shows the cap applied in the uncertainty model. From the 8028 CNAO 2025 run.}
 	\label{fig:dfdeta}
 \end{figure}
-\subsubsection{\texorpdfstring{$f(\eta)$}{f(η)} impact on tracking: pulls, \texorpdfstring{$\chi^2$}{χ²} and p-values}\label{sssec:feta_pulls}
-The position estimate of \autoref{eq:feta_position_new} and its uncertainty of \autoref{eq:sigma_impl} were used as input for the track fit. The results discussed here were obtained with an $f(\eta)$ calibrated on carbon ions only and are preliminary.
-
-The pull distributions of the MSD improve significantly. Their width is $\sigma\simeq0.7$ for carbon ions and reaches $\simeq0.9$ for lighter ions. The means of the pull distributions are still different from zero because the software-based alignment procedure is still ongoing.
-
-% >>> ATTACH: pull distributions (carbon and lighter fragments)
+As expected, the proportionality of $\sigma_{x_\text{meas}(\eta)}$ with $df/d\eta$ degrades the resolution in correspondence with the four peaks of the derivative. This can be viewed in \autoref{fig:sigma_MSD_vs_feta}, which plots the carbon $\sigma_{x_\text{meas}(\eta)}$ as a function of $f(\eta)$ in the MSD3 plane. The figures shows a degradation of the resolution in correspondence with the strip positions, where the derivative has the highest values. Note that out of the \num{233182} events shown in the plot, \num{228169} ($\simeq97.9\%$) have a $\sigma_{x_\text{meas}(\eta)}\simeq10$. This means that the lower bound $\sigma_\text{dig}$ dominates (in terms of event abundance) over the non-linear PFA error. In addition, \autoref{fig:sigma_MSD_vs_feta} shows a clear anomaly, which can be also viewed in the other MSD planes (not reported here): some MSD uncertainties range from tens to hundreds of micrometers, even reaching the readout pitch of $150\,\mu\mathrm{m}$. This non-physical behavior will be addressed in the following.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{pulls_msd.pdf} % <-- replace with your file
-	\caption[MSD pull distributions]{Pull distributions of the MSD hits using the $\eta$-based position and uncertainty, for carbon and lighter fragments. Run: \dots}
-	\label{fig:pulls_msd}
+	\includegraphics[width=0.8\linewidth]{sigma_MSD_vs_feta.pdf}
+	\caption[Carbon $\sigma_{x_\text{meas}(\eta)}$ as a function of $f(\eta)$ in MSD3]{Carbon $\sigma_{x_\text{meas}(\eta)}$ as a function of $f(\eta)$ in MSD3. The features of this plot are described in the text. From the 8028 CNAO 2025 run.}
+	\label{fig:sigma_MSD_vs_feta}
+\end{figure}
+\subsubsection{\texorpdfstring{$f(\eta)$}{f(η)} impact on the pull distributions}\label{sssec:feta_pulls}
+The position estimate of \autoref{eq:feta_position_new} and its uncertainty of \autoref{eq:sigma_impl} were finally used as input for the SHOE global track reconstruction (see \autoref{sec:shoe}), substituting the original MSD clustering algorithm of \autoref{ssec:pull_studies_msd_clustering_algorithm}. The results discussed here are obtained with the $f(\eta)$ illustrated in \autoref{fig:feta_fit}, calibrated considering only carbon ion data, using all $6$ MSD planes. The performance is assessed through the pull distributions of each MSD plane, which are fitted with a Gaussian function to extract their mean $\mu_\text{pull}$ and standard deviation $\sigma_\text{pull}$. The two methods are compared first for carbon and helium, the two species with the highest statistics, and then for all fragments.
+
+\autoref{fig:pull_mean_comp} compares the means of the pull distributions obtained with the original MSD clustering algorithm and with the $f(\eta)$ algorithm, for carbon and helium fragments. With the original clustering algorithm the means are contained in a narrow band around zero, approximately $\left|\mu\right|\lesssim0.06$ for all planes and charges (from \autoref{tab:msd_pull_means}). Conversely, with the $f(\eta)$ algorithm the pull means do not improve, as they are shifted to values between $-0.36$ and $0.33$, depending on plane and charge. The displacement is not random, but rather follows a fixed pattern similarly to the original clustering algorithm (positive shift for MSD0, MSD1, MSD4 and MSD5, negative shift for MSD2 and MSD3). The $\mu_\text{pull}$ displacement from the reference value $1$ for the $f(\eta)$ algorithm originates from the software-based alignment procedure. As described in \autoref{sssec:software_based_alignment_procedure}, the detectors' alignment constants are retrieved using a residual minimization algorithm which, for the MSD, employs the old clustering algorithm. This means that the software-based alignment procedure is biased towards the position estimates of that algorithm. Therefore, the $f(\eta)$ algorithm introduces an additional offset which appears as a non-zero pull mean. A new software-based procedure, performed this time with the $f(\eta)$ positions, is expected to recenter the distributions. Only after this future implementation, the comparison of the pull means in \autoref{fig:pull_mean_comp} will assume greater significance.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.8\linewidth}
+		\includegraphics[width=\linewidth]{pullMeanCompCarbonOrigFeta.pdf}
+		\caption{Carbon}
+		\label{fig:pull_mean_comp_carbon}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.8\linewidth}
+		\includegraphics[width=\linewidth]{pullMeanCompHeliumOrigFeta.pdf}
+		\caption{Helium}
+		\label{fig:pull_mean_comp_helium}
+	\end{subfigure}
+	\caption[Pull mean: original clustering vs. $f(\eta)$ algorithm]{Mean of the pull distributions for each MSD plane, for the original MSD clustering algorithm and for the $f(\eta)$ algorithm. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_mean_comp}
 \end{figure}
 
-Two additional plots are useful to cross-check the method. The pull as a function of $f(\eta)$ (\autoref{fig:pull_vs_feta}) is a different way to see that the $f(\eta)$ distribution is flat. This is valid for carbon, and less so for helium, probably because the calibration was performed on carbon ions. The uncertainty $\sigma_\eta$ as a function of $f(\eta)$ (\autoref{fig:sigma_vs_feta}) shows that the error grows with $df/d\eta$. In other words, the large number of entries of the $\eta$ distribution at the readout and floating strips produces larger errors.
+\autoref{fig:pull_sigma_comp} shows the same comparison for the standard deviation of the pull distributions, always considering carbon and helium, the most abundant particles. In this case, the improvement given by the $f(\eta)$ algorithm is particularly evident. With the original clustering algorithm the pull widths lie in the range $\simeq0.26$--$0.59$ for all planes and charges (from \autoref{tab:msd_pull_sigmas}), which means that the position uncertainties are strongly overestimated. Conversely, the $f(\eta)$ algorithm moves the pull widths towards $1$. Indeed, for carbon ions they lie within $\simeq0.7$--$0.8$, while for lighter fragments they reach values close to $1$. Since the ideal pull has $\sigma_\text{pull}=1$, this plot shows that the uncertainty model of \autoref{eq:sigma_impl} describes the actual MSD resolution much better than the clustering one, which employs \autoref{eq:cluster_MSD_err}. The remaining discrepancy in the pull width values between carbon and lighter fragments is correlated to the ENC$/$S factor in \autoref{eq:sigma_impl}. Indeed, lighter fragments generally produce lower signals in the strips, ionizing less the silicon bulk. Lower signals imply greater errors, resulting in higher $\mu_\text{pull}$.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.8\linewidth}
+		\includegraphics[width=\linewidth]{pullSigmaCompCarbonOrigFeta.pdf}
+		\caption{Carbon}
+		\label{fig:pull_sigma_comp_carbon}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.8\linewidth}
+		\includegraphics[width=\linewidth]{pullSigmaCompHeliumOrigFeta.pdf}
+		\caption{Helium}
+		\label{fig:pull_sigma_comp_helium}
+	\end{subfigure}
+	\caption[Pull width: original clustering vs.\ $f(\eta)$ algorithm]{Standard deviation of the pull distributions for each MSD plane, for the original MSD clustering algorithm and for the $f(\eta)$ algorithm. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_sigma_comp}
+\end{figure}
+
+The $\mu_{\text{pull}}$ and $\sigma_{\text{pull}}$ quantities computed with the $f(\eta)$ algorithm are now reported for all fragment charges (from $Z=1$ to $Z=6$), in \autoref{tab:msd_pull_mean_feta} and \autoref{fig:pull_mean_msd_feta} for the pull mean, and in \autoref{tab:msd_pull_sigmas_feta} and \autoref{fig:pull_width_msd_feta} for the pull width.
+\begin{table}[H]
+	\centering
+	{\normalsize%
+		\begin{tabular}{M{1.8cm} M{2.1cm} M{2.1cm} M{2.1cm}}
+			\hline
+			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
+			\hline
+			MSD0 & $0.120 \pm 0.016$ & $0.164 \pm 0.023$ & $0.20 \pm 0.04$ \\
+			MSD1 & $0.136 \pm 0.018$ & $0.264 \pm 0.020$ & $0.329 \pm 0.036$ \\
+			MSD2 & $-0.112 \pm 0.016$ & $-0.195 \pm 0.019$ & $-0.20 \pm 0.04$ \\
+			MSD3 & $-0.144 \pm 0.018$ & $-0.263 \pm 0.020$ & $-0.314 \pm 0.037$ \\
+			MSD4 & $0.076 \pm 0.020$ & $0.160 \pm 0.018$ & $0.18 \pm 0.05$ \\
+			MSD5 & $0.111 \pm 0.019$ & $0.235 \pm 0.017$ & $0.29 \pm 0.04$ \\
+			\hline\hline
+			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
+			\hline
+			MSD0 & $0.14 \pm 0.05$ & $0.211 \pm 0.025$ & $0.1630 \pm 0.0024$ \\
+			MSD1 & $0.305 \pm 0.038$ & $0.316 \pm 0.022$ & $0.2956 \pm 0.0020$ \\
+			MSD2 & $-0.16 \pm 0.04$ & $-0.202 \pm 0.023$ & $-0.1811 \pm 0.0024$ \\
+			MSD3 & $-0.319 \pm 0.032$ & $-0.361 \pm 0.023$ & $-0.3116 \pm 0.0021$ \\
+			MSD4 & $0.14 \pm 0.04$ & $0.154 \pm 0.025$ & $0.1583 \pm 0.0024$ \\
+			MSD5 & $0.314 \pm 0.036$ & $0.287 \pm 0.023$ & $0.2580 \pm 0.0022$ \\
+			\hline
+	\end{tabular}}
+	\caption[MSD pull mean by fragment charge using the $f(\eta)$ algorithm]{Mean of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the $f(\eta)$ algorithm position and uncertainty estimators. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
+	\label{tab:msd_pull_mean_feta}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{msd_mean_feta.pdf}
+	\caption[MSD pull mean by fragment charge using the $f(\eta)$ algorithm]{Mean of the MSD pull distributions for all fragments using the $f(\eta)$ algorithm position and uncertainty (from pull Gaussian fit). From the 8028 CNAO 2025 run.}
+	\label{fig:pull_mean_msd_feta}
+\end{figure}
+\begin{table}[H]
+	\centering
+	{\normalsize%
+		\begin{tabular}{M{1.8cm} M{2.1cm} M{2.1cm} M{2.1cm}}
+			\hline
+			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
+			\hline
+			MSD0 & $0.663 \pm 0.016$ & $1.066 \pm 0.032$ & $1.009 \pm 0.052$ \\
+			MSD1 & $0.731 \pm 0.018$ & $1.017 \pm 0.025$ & $0.891 \pm 0.039$ \\
+			MSD2 & $0.652 \pm 0.017$ & $0.882 \pm 0.025$ & $0.835 \pm 0.065$ \\
+			MSD3 & $0.740 \pm 0.019$ & $1.008 \pm 0.027$ & $0.863 \pm 0.042$ \\
+			MSD4 & $0.735 \pm 0.023$ & $0.896 \pm 0.023$ & $0.938 \pm 0.066$ \\
+			MSD5 & $0.767 \pm 0.019$ & $0.914 \pm 0.020$ & $0.925 \pm 0.046$ \\
+			\hline\hline
+			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
+			\hline
+			MSD0 & $0.923 \pm 0.056$ & $0.866 \pm 0.027$ & $0.7940 \pm 0.0031$ \\
+			MSD1 & $0.869 \pm 0.040$ & $0.824 \pm 0.022$ & $0.7376 \pm 0.0022$ \\
+			MSD2 & $0.845 \pm 0.051$ & $0.784 \pm 0.026$ & $0.7019 \pm 0.0034$ \\
+			MSD3 & $0.738 \pm 0.037$ & $0.756 \pm 0.026$ & $0.6891 \pm 0.0025$ \\
+			MSD4 & $0.865 \pm 0.047$ & $0.802 \pm 0.029$ & $0.7318 \pm 0.0032$ \\
+			MSD5 & $0.816 \pm 0.038$ & $0.765 \pm 0.025$ & $0.7268 \pm 0.0026$ \\
+			\hline
+	\end{tabular}}
+	\caption[MSD pull widths by fragment charge using the $f(\eta)$ algorithm]{Standard deviation of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the $f(\eta)$ algorithm position and uncertainty estimators. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
+	\label{tab:msd_pull_sigmas_feta}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{msd_sigma_feta.pdf}
+	\caption[MSD pull width by fragment charge using the $f(\eta)$ algorithm]{Standard deviation of the MSD pull distributions for all fragments using the $f(\eta)$ algorithm position and uncertainty (from pull Gaussian fit). From the 8028 CNAO 2025 run.}
+	\label{fig:pull_width_msd_feta}
+\end{figure}
+
+To further cross-check the validity of the pull sigmas with the new $f(\eta)$ method, \autoref{fig:pull_vs_feta}. The pull as a function of $f(\eta)$ (\autoref{fig:pull_vs_feta}) is a different way to see that the $f(\eta)$ distribution is flat. This is valid for carbon, and less so for helium, probably because the calibration was performed on carbon ions. The uncertainty $\sigma_\eta$ as a function of $f(\eta)$ (\autoref{fig:sigma_vs_feta}) shows that the error grows with $df/d\eta$. In other words, the large number of entries of the $\eta$ distribution at the readout and floating strips produces larger errors.
 
 % >>> ATTACH
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.8\linewidth}
+		\includegraphics[width=\linewidth]{.pdf}
+		\caption{Carbon}
+		\label{fig:pull_sigma_comp_carbon}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.8\linewidth}
+		\includegraphics[width=\linewidth]{.pdf}
+		\caption{Helium}
+		\label{fig:pull_sigma_comp_helium}
+	\end{subfigure}
+	\caption[Pull width: original clustering vs.\ $f(\eta)$ algorithm]{Standard deviation of the pull distributions for each MSD plane, for the original MSD clustering algorithm and for the $f(\eta)$ algorithm. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_sigma_comp}
+\end{figure}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{pull_vs_feta.pdf} % <-- replace with your file
@@ -914,9 +1033,7 @@ The $\chi^2$ distribution also improves for carbon: its peak moves from $\approx
 	\label{fig:chi2_pvalue}
 \end{figure}
 
-The MSD uncertainties now range from tens to hundreds of micrometers. The majority of the events ($>95\%$) have an associated MSD error of $10\,\mu\mathrm{m}$, which is the lower bound set by $\sigma_\text{dig}$. Since the pulls improve when the typical error is $10\,\mu\mathrm{m}$, the track fit appears to expect an MSD uncertainty of this order, which is very small. Whether this order of magnitude is correct is checked in the next section with the residuals of the inner planes.
 
-The MSD2 plane shows a clear anomaly, with errors reaching $\approx300\,\mu\mathrm{m}$. This is not due to $df/d\eta$, which is capped, but to the noise pedestal of the MSD2 sensor entering the ENC. Indeed, in the 8028 campaign of CNAO 2025, which has a roughly uniform MSD noise pedestal, the errors do not reach such values. This issue has to be addressed.
 
 \subsubsection{Residuals as a function of \texorpdfstring{$f(\eta)$}{f(η)}}\label{sssec:feta_residuals}
 
