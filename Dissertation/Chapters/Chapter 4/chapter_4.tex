@@ -1205,7 +1205,7 @@ The above analysis on $\chi^2$ and $p$-value distributions enhances the potentia
 \section{Momentum reconstruction and analysis}\label{sec:momentum_reco}
 In this section, a preliminary phase of the FOOT workflow is addressed, namely the reconstruction of fragments' momentum and its resolution. The following analysis will take advantage of the VT and MSD upgrades described respectively in \autoref{sec:optim_vt} and \autoref{sec:optim_msd}.
 
-The momentum reconstruction is a key step in the FOOT analysis, providing the isotopic identification of particles through \autoref{eq:a1} and \autoref{eq:a3}. As detailed in \autoref{sec:shoe}, the SHOE global reconstruction provides the momentum in the Kalman-filter track fitting phase, yielding the GENFIT-generated quantity $p_{\text{fit}}$. This section will address a specific question concerning the momentum resolution, namely whether the uncertainty on $p_{\text{fit}}$ can be directly determined from experimental data. In Monte Carlo simulations, the momentum resolution can be evaluated straightforwardly, because the true momentum is known. Conversely, the true experimental momentum is not known, and an independent momentum estimate is needed to evaluate the error on $p_{\text{fit}}$.
+The reconstruction of momentum is a key step in the FOOT analysis, providing the isotopic identification of particles through \autoref{eq:a1} and \autoref{eq:a3}. As detailed in \autoref{sec:shoe}, the SHOE global reconstruction provides the momentum in the Kalman-filter track fitting phase, yielding the GENFIT-generated quantity $p_{\text{fit}}$. This section will address a specific question concerning the momentum resolution, namely whether the uncertainty on $p_{\text{fit}}$ can be directly determined from experimental data. In Monte Carlo simulations, the momentum resolution can be evaluated straightforwardly, because the true momentum is known. Conversely, the true experimental momentum is not known, and an independent momentum estimate is needed to evaluate the error on $p_{\text{fit}}$.
 
 After presenting some useful statistical tools, the following paragraphs discuss the particle momentum and its resolution, building upon the work presented in \cite{UbaldiPhysicsMeeting26}. Clearly, in order to reconstruct the momentum, this section comprises experimental data collected from CNAO 2025 runs endowed with the magnetic field.
 \subsection{Resolution, bias and error propagation}\label{ssec:resolution_bias_error_propagation}
@@ -1232,7 +1232,7 @@ where $p_\text{fit}$ is the momentum obtained from fitting the simulated data. $
 	\sigma^2(\epsilon_\text{MC})=\frac{\sigma^2(p_\text{fit})}{p_\text{MC}^2}+\frac{p_\text{fit}^2\,\sigma^2(p_\text{MC})}{p_\text{MC}^4}\,,
 	\label{eq:sigma_eps_mc_full}
 \end{equation}
-where, by definition, the true momentum $p_\text{MC})$ has no uncertainty ($\sigma(p_\text{MC})=0$), yielding the reduced expression:
+where, by definition, the true momentum $p_\text{MC}$ has no uncertainty ($\sigma(p_\text{MC})=0$), yielding the reduced expression:
 \begin{equation}
 	\sigma(\epsilon_\text{MC})=\frac{\sigma(p_\text{fit})}{p_\text{MC}}\,.
 	\label{eq:sigma_eps_mc}
@@ -1247,7 +1247,7 @@ The standard deviation of the $\epsilon_\text{MC}$ distribution can therefore be
 
 That being said, the question that motivates the rest of the discussion is whether a momentum resolution can be obtained with a similar procedure for experimental data.
 \subsection{Momentum resolution in experimental data}\label{ssec:exp_resolution}
-As shown in \autoref{ssec:mc_resolution}, a $p_\text{true}$ variable can be defined in Monte Carlo simulations (it corresponds to $p_\text{MC}$ in \autoref{eq:eps_mc}), however, for experimental data, $p_\text{true}$ is unknown. Nonetheless, in the latter case, it is possible to replace $p_\text{MC}$ with the another independent estimate of the momentum. In the FOOT electronic setup, one can obtain this secondary momentum estimate from the ToF measured by the SC and TW, which is indeed independent of the magnetic field (employed instead by GENFIT to reconstruct $p_{\text{fit}}$). Thus, combining \autoref{eq:beta} and \autoref{eq:a1}, one obtains:
+As shown in \autoref{ssec:mc_resolution}, a $p_\text{true}$ variable can be defined in Monte Carlo simulations (it corresponds to $p_\text{MC}$ in \autoref{eq:eps_mc}), however, for experimental data, $p_\text{true}$ is unknown. Nonetheless, in the latter case, it is possible to replace $p_\text{MC}$ with another independent estimate of the momentum. In the FOOT electronic setup, one can obtain this secondary momentum estimate from the ToF measured by the SC and TW, which is indeed independent of the magnetic field (employed instead by GENFIT to reconstruct $p_{\text{fit}}$). Thus, combining \autoref{eq:beta} and \autoref{eq:a1}, one obtains:
 \begin{equation}
 	p_\beta=m\,c\,\beta\gamma=m\,\frac{L/\,\text{ToF}}{\sqrt{1-\left(L/(c\cdot\text{ToF})\right)^2}}\,,
 	\label{eq:p_beta}
@@ -1256,18 +1256,19 @@ where $L$ is the track length extracted from GENFIT. Since the TW alone cannot p
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.98\linewidth}
-		\includegraphics[width=\linewidth]{.pdf}
+		\includegraphics[width=\linewidth]{figs/fig_pbeta_vs_pfit_C.pdf}
 		\caption{Carbon.}
-	\end{subfigure}\hfill
+	\end{subfigure}
+	\hfill
 	\begin{subfigure}[b]{0.98\linewidth}
-		\includegraphics[width=\linewidth]{.pdf}
+		\includegraphics[width=\linewidth]{figs/fig_pbeta_vs_pfit_He.pdf}
 		\caption{Helium.}
 	\end{subfigure}
 	\caption[$p_\beta$ vs. $p_\text{fit}$ distribution for helium and carbon ions]{$p_\beta$ estimated from \autoref{eq:p_beta} as a function of the momentum from the global track fit $p_\text{fit}$ for carbon (top) and helium (bottom) ions. From the 8127 CNAO 2025 run.}
 	\label{fig:ptw_vs_pfit}
 \end{figure}
 
-With $p_\beta$ in place of $p_MC$, one can finally build the experimental analogue of \autoref{eq:eps_mc}:
+With $p_\beta$ in place of $p_\text{MC}$, one can finally build the experimental analogue of \autoref{eq:eps_mc}:
 \begin{equation}
 	\epsilon_\text{data}=\frac{p_\text{fit}-p_\beta}{p_\beta}\,.
 	\label{eq:eps_data}
@@ -1310,15 +1311,16 @@ one can obtain the $\beta\gamma=\sqrt{\gamma^2-1}\simeq0.69$ and, with $A=12$ nu
 	\frac{\sigma(p_\text{fit})}{p}\simeq\sqrt{0.03478^2-\left(\frac{0.076}{7.217}\right)^2}\simeq3.3\%\,,
 	\label{eq:carbon_computation}
 \end{equation}
-which is compatible with the $\simeq3\%$ of the Monte Carlo simulation shown in \autoref{fig:mc_momentum_resolution}. Note that the $p_\beta$ term in \autoref{eq:carbon_computation} is small, changing the width of $\epsilon_\text{data}$ by only $0.1\%$. In addition, note that the mean of $\epsilon_\text{data}$ is $\simeq4.4\%$ (??), making $p_\text{fit}$ larger than $p_\beta$ on average. This shift is stronger than the $\simeq2\%$ observed in simulations (see \autoref{fig:mc_momentum_resolution}). The wider displacement is probably due to the fact that $p_\beta$ measurement does not take into account the possible energy losses (and, consequently, the slowing down) suffered from the particle inside the subdetectors. On the contrary, velocity and energy loss corrections are included in the Kalman Filter when computing $p_\text{fit}$.
+which is compatible with the $\simeq3\%$ of the Monte Carlo simulation shown in \autoref{fig:mc_momentum_resolution}. Note that the $p_\beta$ term in \autoref{eq:carbon_computation} is small, changing the width of $\epsilon_\text{data}$ by only $\simeq0.2\%$ (in absolute terms). Note also that the fitted $\langle p_\beta\rangle=7.217\,\mathrm{GeV}/c$ is $\simeq6\%$ below the nominal $7.7\,\mathrm{GeV}/c$ of \autoref{eq:carbon_momentum} (the ToF-based $p_\beta$ is an average over the path, during which the ion slows down). The mean of $\epsilon_\text{data}$ is $\simeq4.4\%$, making $p_\text{fit}$ larger than $p_\beta$ on average. This shift is stronger than the $\simeq2\%$ observed in simulations (see \autoref{fig:mc_momentum_resolution}). The wider displacement is probably due to the fact that $p_\beta$ measurement does not take into account the possible energy losses (and, consequently, the slowing down) suffered from the particle inside the subdetectors. On the contrary, velocity and energy loss corrections are included in the Kalman Filter when computing $p_\text{fit}$.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.98\linewidth}
-		\includegraphics[width=\linewidth]{.pdf}
+		\includegraphics[width=\linewidth]{figs/fig_eps_data_C.pdf}
 		\caption{$\epsilon_\text{data}$.}
-	\end{subfigure}\hfill
+	\end{subfigure}
+	\hfill
 	\begin{subfigure}[b]{0.98\linewidth}
-		\includegraphics[width=\linewidth]{.pdf}
+		\includegraphics[width=\linewidth]{figs/fig_pbeta_C.pdf}
 		\caption{$p_\beta$.}
 	\end{subfigure}
 	\caption[Distributions of $\epsilon_\text{data}$ and $p_\beta$ for \ce{^{12}C}]{Distributions of $\epsilon_\text{data}$ (top) and $p_\beta$ (bottom) for \ce{^{12}C}, with relative Gaussian fits. From the 8127 CNAO 2025 run.}
@@ -1328,7 +1330,7 @@ which is compatible with the $\simeq3\%$ of the Monte Carlo simulation shown in 
 	\centering
 	\begin{tabular}{ccc}
 		\toprule
-		\textbf{Quantity ??} & \textbf{Value ??} & \textbf{Source ??} \\
+		\textbf{Quantity} & \textbf{Value} & \textbf{Source} \\
 		\midrule
 		$\langle\epsilon_\text{data}\rangle$ & $0.0444\pm0.0001$ & Gaussian fit \\
 		$\sigma(\epsilon_\text{data})$ & $0.03478\pm0.00007$ & Gaussian fit \\
@@ -1354,17 +1356,17 @@ As lighter fragments are produced by nuclear interactions (and not from an accel
 	\sigma^2_{\beta\gamma,\text{fragment}}\simeq\sigma^2_{\beta\gamma,\text{TW resolution}}+\sigma^2_{\beta\gamma,\text{physical spread}}.
 	\label{eq:beta_gamma_fragment}
 \end{equation}
-As a consequence, the $\sigma(p_\beta)$ of fragments lighter than the primary cannot be simply extrapolated from the $p_\beta$ distribution, but it has to be computed from the resolution of the ToF using \autoref{eq:sigma_pbeta}.
+As a consequence, the $\sigma(p_\beta)$ of fragments lighter than the primary cannot be simply extrapolated from the $p_\beta$ distribution, but it has to be computed from the resolution of the ToF using \autoref{eq:sigma_pbeta}. Note that the physical spread is a ``genuine'' spread of the true momentum, seen identically by $p_\text{fit}$ and $p_\beta$, so it cancels in $\epsilon_\text{data}$.
 
-In addition to the $\beta\gamma$ physical spread of lighter ions, there is another issue that prevents us from extracting the $\sigma(p_\beta)$ from the $p_\beta$ distribution, namely the isotope contamination. While this effect is negligible for the primaries, it cannot be ignored for lighter fragments. In particular, for helium particles, the mass employed in \autoref{eq:p_beta} is that of \ce{^{4}He}. However, about $10\%$ of the fragments with $Z=2$ are \ce{^{3}He}, whose momentum is computed with a wrong mass. At fixed velocity $p_\beta\propto m$, so the relative isotopic shift is:
+In addition to the $\beta\gamma$ physical spread of lighter ions, there is another issue. The mass employed in \autoref{eq:p_beta} is that of \ce{^{4}He}, however about $10\%$ of the fragments with $Z=2$ are \ce{^{3}He}, whose momentum is computed with a wrong mass. At fixed velocity $p_\beta\propto m$, so the relative shift is:
 \begin{equation}
 	\frac{p_\beta(\ce{^{3}He})-p_\beta(\ce{^{4}He})}{p_\beta(\ce{^{4}He})}=\frac{m_3-m_4}{m_4}\simeq\frac{2.808-3.727}{3.727}\simeq-25\%\,
 	\label{eq:helium_shift}
 \end{equation}
-\autoref{fig:helium_eps_data} shows that the \ce{^{3}He} contamination is visible in the $\epsilon_\text{data}$ distribution precisely at about $-0.25$, as predicted from \autoref{eq:helium_shift}. This peak must be excluded from the fit, as the current aim is to reconstruct the momentum of \ce{^{4}He}. Fitting the \ce{^{4}He} peak with a Gaussian function, one obtains $\sigma(\epsilon_\text{data})=0.0407\pm0.0010$ with a mean of $0.0208\pm0.0009$ (??).
+\autoref{fig:helium_eps_data} shows that the \ce{^{3}He} contamination is visible in the $\epsilon_\text{data}$ distribution precisely at about $-0.25$, as predicted from \autoref{eq:helium_shift}. This peak must be excluded from the fit, as the current aim is to reconstruct the momentum of \ce{^{4}He}. Fitting the \ce{^{4}He} peak with a Gaussian function, one obtains $\sigma(\epsilon_\text{data})=0.0407\pm0.0010$ with a mean of $0.0208\pm0.0009$.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\linewidth]{.pdf}
+	\includegraphics[width=0.6\linewidth]{figs/fig_eps_data_He.pdf}
 	\caption[Distribution of $\epsilon_\text{data}$ for \ce{He}]{Distribution of $\epsilon_\text{data}$ for helium fragments, with a Gaussian fit of the \ce{^{4}He} peak. The smaller peak at $\epsilon_\text{data}\simeq-0.25$ is due to \ce{^{3}He}. From the 8127 CNAO 2025 run.}
 	\label{fig:helium_eps_data}
 \end{figure}
@@ -1375,32 +1377,31 @@ The term $\sigma(p_\beta)/p$ for \ce{^{4}He} is obtained by propagating the unce
 	\frac{\sigma(p_\beta)}{p}=\gamma^2\,\frac{\sigma(\beta)}{\beta}=\gamma^2\,\frac{\sigma_\text{ToF}}{\text{ToF}}\,,
 	\label{eq:sigma_pbeta}
 \end{equation}
-where the uncertainty on $L$ has been neglected and $\sigma(\beta)/\beta=\sigma_{\text{ToF}}/\text{ToF}$ follows from \autoref{eq:beta}. \autoref{eq:sigma_pbeta} proves that the relative uncertainty on $p_\beta$ can be determined from the ToF resolution, which, in turn, can be extrapolated from \autoref{fig:sigma_tof}. The figure shows that the ToF uncertainty is not constant, but rather a decreasing function of the energy deposited in the TW.\footnote{This occurs because larger energy depositions produce more photons, which reduce the Poissonian fluctuations and improve the scintillator timing performances.} A preciser determination of $\sigma(p_\beta)/p$ could be obtained not only expressing $\sigma_\text{ToF}$ as a function of the deposited energy in the TW, but also finding a better relationship between $\sigma_\text{ToF}$ and the fragment charge $Z$, a point that is still open.
+where the uncertainty on $L$ has been neglected and $\sigma(\beta)/\beta=\sigma_{\text{ToF}}/\text{ToF}$ follows from \autoref{eq:beta}. \autoref{eq:sigma_pbeta} proves that the relative uncertainty on $p_\beta$ can be determined from the ToF resolution, which, in turn, can be extrapolated from \autoref{fig:sigma_tof}. The figure shows that the ToF uncertainty is not constant, but rather a decreasing function of the energy deposited in the TW.\footnote{This occurs because larger energy depositions produce more photons, which reduce the Poissonian fluctuations and improve the scintillator timing performances.} A more precise determination of $\sigma(p_\beta)/p$ could be obtained not only expressing $\sigma_\text{ToF}$ as a function of the deposited energy in the TW, but also finding a better relationship between $\sigma_\text{ToF}$ and the fragment charge $Z$, a point that is still open.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.55\linewidth]{.jpg}
-	\caption[ToF vs. deposited energy in the TW]{ToF resolution $\sigma_\text{ToF}$ as a function of the energy deposited in the TW scintillating bars $\mu(\Delta E)$. Experimental data is correctly interpolated by the parametrization $\sigma_\text{ToF}=\sqrt{A/x+B}$, where $y\equiv\sigma_\text{ToF}$ and $x\equiv\mu(\Delta E)$. Adapted from \cite{Morrocchi2024}.}
+	\includegraphics[width=0.55\linewidth]{figs/fig_sigma_tof.pdf}
+	\caption[ToF vs. deposited energy in the TW]{ToF resolution $\sigma_\text{ToF}$ as a function of the energy deposited in the TW scintillating bars $\mu(\Delta E)$. The curve is the parametrization (M.~Morrocchi, GM Torino, 16/12/2024) of the measured TW time resolution, $\sigma_\text{ToF}=\sqrt{A/x+B}$, where $y\equiv\sigma_\text{ToF}$, $x\equiv\mu(\Delta E)$, $A=0.38\,\mathrm{MeV}\cdot\mathrm{ns}$ and $A=5.2\cdot10^{-4}\,\mathrm{ns}$. Adapted from \cite{Morrocchi2024}.}
 	\label{fig:sigma_tof}
 \end{figure}
 To estimate the quantities contained in the right-hand side of \autoref{eq:sigma_pbeta} in an approximate way, consider \autoref{fig:helium_genfit}, which shows the distribution of $p_\text{fit}$ for \ce{He}. This distribution is centered approximately at $2.5\,\mathrm{GeV}/c$, meaning that the corresponding total energy of a \ce{^{4}He} nucleus with mass $m_4$ is:
 \begin{equation}
 	E=\sqrt{p^2c^2+m_{4}^2c^4}
-	\simeq 2.57\,\mathrm{GeV},
+	\simeq 4.49\,\mathrm{GeV},
 	\label{eq:total_h4_energy}
 \end{equation}
 which corresponds to a Lorentz factor of:
 \begin{equation}
 	\gamma=\frac{E}{m_{4}c^2}
-	\simeq 1.21.
+	\simeq 1.20.
 	\label{eq:lorentz_helium}
 \end{equation}
 The kinetic energy can therefore be quantified as:
 \begin{equation}
-	T=E-m_{4}c^2
-	\simeq 0.8\,\mathrm{GeV}.
+	T=E-m_{4}c^2\simeq 4.49-3.73\simeq 0.76\,\mathrm{GeV},
 	\label{eq:total_h4_kin_energy}
 \end{equation}
-Thus, the \ce{^{4}He} nuclei considered here are expected to release an energy of approximately $800\,\mathrm{MeV}$. This value can be used to calculate the stopping power of \ce{^{4}He} in the two $0.3,\mathrm{cm}$-thick TW scintillation bars, employing the ASTAR software \cite{Berger2017ASTAR}. A direct calculation finally provides a total energy deposition in both bars of $\Delta E_{TW}\simeq11\,\mathrm{MeV}$, which corresponds to a $\sigma_{\text{ToF}}\simeq190\,\mathrm{ps}$ (from \autoref{fig:sigma_tof}). Furthermore, a \ce{^{4}He} generated from a $200\,\mathrm{MeV}/u$ carbon beam collision with a \ce{C} target has an average ToF of $\simeq13\,\mathrm{ns}$ \cite{amslaurea32339}. Combining the $\sigma_{\text{ToF}}$ and ToF values with \autoref{eq:lorentz_helium}, it is possible to obtain the $\sigma(p_\beta)/p$ for \ce{^{4}He}:
+Thus, the \ce{^{4}He} nuclei considered here are have a kinetic energy of approximately $760\,\mathrm{MeV}$ ($\simeq190\,\mathrm{MeV}/u$). This value can be used to calculate the stopping power of \ce{^{4}He} in the two $0.3\,\mathrm{cm}$-thick TW scintillation bars, employing the ASTAR software \cite{Berger2017ASTAR}. A direct calculation finally provides a total energy deposition in both the TW bars of $\Delta E_{TW}\simeq11\,\mathrm{MeV}$, which corresponds to a $\sigma_{\text{ToF}}\simeq190\,\mathrm{ps}$ (from \autoref{fig:sigma_tof}). Furthermore, a \ce{^{4}He} generated from a $200\,\mathrm{MeV}/u$ carbon beam collision with a \ce{C} target has an average ToF of $\simeq13\,\mathrm{ns}$ \cite{amslaurea32339}. Combining the $\sigma_{\text{ToF}}$ and ToF values with \autoref{eq:lorentz_helium}, it is possible to obtain the $\sigma(p_\beta)/p$ for \ce{^{4}He}:
 \begin{equation}
 	\frac{\sigma(p_\beta)}{p}
 	=
@@ -1415,9 +1416,9 @@ Substituting this value and the $\sigma(\epsilon_\text{data})=0.0407$ from \auto
 \end{equation}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.55\linewidth]{.jpg}
+	\includegraphics[width=0.55\linewidth]{figs/fig_pfit_He.pdf}
 	\caption[Distribution of $p_\text{fit}$ for \ce{He}]{Distribution of $p_\text{fit}$ for \ce{He}, with a Gaussian fit of the \ce{^{4}He} peak. From the 8127 CNAO 2025 run.}
 	\label{fig:helium_genfit}
 \end{figure}
 
-In conclusion, several points should be emphasized concerning the above momentum analysis. The momentum resolution of the global fit can be not only defined for Monte Carlo simulations (\autoref{ssec:mc_resolution}), but also for experimental data (\autoref{ssec:exp_resolution}), comparing $p_\text{fit}$ with the independent estimate $p_\beta$ from the ToF, and subtracting the ToF contribution in quadrature (\autoref{eq:sigma_pfit_data}). For the primary carbon this method gives $\simeq3.3\%$, in agreement with the $\simeq3\%$ of the simulation. For lighter fragments, this approach requires the ToF resolution as a function of the fragment charge and the deposited energy. In the particular case of helium, the removal of \ce{^{3}He} contamination is also needed. An approximate estimate for the \ce{^{4}He} $p_\text{fit}$ resolution is obtained in \autoref{eq:sigma_pfit_data_helium}, providing the value of $3.5\%$. In addition to this, the bias of the mean value ($\simeq2\%$ in the simulation, $\simeq4.4\%$ in carbon data) is yet to be fully understood. Nonetheless, this reconstruction analysis demonstrates that the most abundant particles in the 8127 CNAO 2025 run (carbon and helium) achieve a GENFIT momentum resolution compatible with the $3$--$5\%$ precision aimed by the FOOT electronic setup (see \autoref{sec:electronic_setup}).
+In conclusion, let us point out some remarks concerning the above momentum analysis. The momentum resolution of the global fit can be not only defined for Monte Carlo simulations (\autoref{ssec:mc_resolution}), but also for experimental data (\autoref{ssec:exp_resolution}), comparing $p_\text{fit}$ with the independent estimate $p_\beta$ from the ToF, and subtracting the ToF contribution in quadrature (\autoref{eq:sigma_pfit_data}). For the primary carbon this method gives $\simeq3.3\%$, in agreement with the $\simeq3\%$ of the simulation. For lighter fragments, this approach requires the ToF resolution as a function of the fragment charge and the deposited energy. In the particular case of helium, the removal of \ce{^{3}He} contamination is also needed. An approximate estimate for the \ce{^{4}He} $p_\text{fit}$ resolution is obtained in \autoref{eq:sigma_pfit_data_helium}, providing the value of $3.5\%$. In addition to this, the bias of the mean value ($\simeq2\%$ in the simulation, $\simeq4.4\%$ in carbon data) is yet to be fully understood. Nonetheless, this reconstruction analysis shows that the most abundant particles in the 8127 CNAO 2025 run (carbon and helium) achieve a GENFIT momentum resolution compatible with the $3$--$5\%$ precision aimed by the FOOT electronic setup (see \autoref{sec:electronic_setup}).
