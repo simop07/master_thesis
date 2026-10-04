@@ -5,7 +5,7 @@ The next sections are organized according to the following structure, which divi
 \begin{itemize}
 	\item in \autoref{sec:shoe}, the general principles of the FOOT data processing and global track reconstruction techniques are outlined, introducing the SHOE framework and its Kalman Filter algorithm.
 	\item \autoref{sec:optim_vt} and \autoref{sec:optim_msd} are respectively devoted to the upgrade of Vertex Tracker (VT) and Microstrip Silicon Detector (MSD), the central tracking stations employed for my data analysis. These sections address the alignment challenges of both detectors and review their uncertainty models.
-	\item Following the detector optimization, \autoref{sec:momentum_reco} presents the momentum reconstruction and analysis, which provides a preliminary mass identification of the produced nuclear fragments (?? maybe not).
+	\item Following the detector optimization, \autoref{sec:momentum_reco} presents the momentum reconstruction and a detailed analysis of its resolution.
 \end{itemize}
 \section{Global track reconstruction with SHOE}\label{sec:shoe}
 To process, reconstruct and analyze the experimental data acquired by FOOT, the Collaboration has developed the SHOE (Software for Hadrontherapy Optimization Experiment) framework \cite{shoeFramework}, a \texttt{C++} object-oriented software based on the ROOT libraries \cite{ROOT_framework} partly inherited from the FIRST \cite{PhysRevC.93.064601} experiment. The SHOE workflow comprises all the reconstruction steps, from the collection of subdetector raw data to the evaluation of cross sections, as schematized in \autoref{fig:shoe_workflow}. The picture shows that the raw experimental data acquired by the TDAQ system and packed according to \autoref{fig:data_fragment} is firstly processed by detector-specific libraries during the local reconstruction phase (see \autoref{ssec:local_reconstruction}), and is successively assembled in the global reconstruction stage (see \autoref{ssec:global_reconstruction}), which saves the data structures using the ROOT format. From the globally reconstructed tracks it is finally possible to extrapolate all the relevant physics quantities (charge, momentum, kinetic energy, etc.) in order to perform the identification of fragments and, consequently, the cross section measurements.
@@ -103,7 +103,9 @@ The prediction and filtering steps proceed iteratively up to the last detection 
 	\caption[Kalman Filter progressive algorithm]{Schematic illustration of the Kalman Filter track fitting algorithm. The initial track representation starts from a seed (leftmost red star). In the successive steps, the track is extrapolated to the next detector planes and the fit is corrected taking into accounts the real position measurements (blue stars) and their uncertainties. The process is repeated for all the detector planes until the final track representation is obtained. From \cite{Kisel_2014}.}
 	\label{fig:kalman_filter}
 \end{figure}\noindent
-\autoref{fig:kalman_filter} also shows that the precision of the track state vector increases with the traversed path, as downstream detector planes contain the information measured from the previous layers. This introduces a bias in the Kalman Filter: one should prefer running the algorithm from the downstream detectors to the upstream region, guaranteeing that the best position estimates are obtained close to the VT detector, where the cluster and truck densities are the highest. To circumvent this inequality, the the Kalman Filter must foresee a final smoothing stage. In FOOT this is achieved by applying the track fitting in the forward (from the VT to the TW) and backward direction (from the TW to the VT) for $10$ times until a $p$-value convergence criterion is met. The final Kalman Filter parameters are then given by the weighted average of the forward and backward Kalman Filters, increasing the procedure robustness. A brief description of the forward Kalman Filter is provided in the caption of \autoref{fig:forward_kalman_filter}; a detailed explanation of the backward Filter (also named ``backtracking'' algorithm) is instead reported in \cite{ZarrellaPhDThesis}.
+\autoref{fig:kalman_filter} also shows that the precision of the track state vector increases with the traversed path, as downstream detector planes contain the information measured from the previous layers. This introduces a bias in the Kalman Filter: one should prefer running the algorithm from the downstream detectors to the upstream region, guaranteeing that the best position estimates are obtained close to the VT detector, where the cluster and truck densities are the highest. To circumvent this inequality, the the Kalman Filter must foresee a final smoothing stage. In FOOT this is achieved by applying the track fitting in the forward (from the VT to the TW) and backward direction (from the TW to the VT) for $10$ times until a $p$-value convergence criterion is met. The final Kalman Filter parameters are then given by the weighted average of the forward and backward Kalman Filters, increasing the procedure robustness. Note that before both the forward and backward passes the covariance matrix is artificially enlarged with a ``blow-up'' scaling factor $\alpha$, set by default at $1000$. This factor allows the fit to potentially escape from local minima, guaranteeing a better fitting generalization.
+
+A brief description of the forward Kalman Filter is provided in the caption of \autoref{fig:forward_kalman_filter}; a detailed explanation of the backward Filter (also named ``backtracking'' algorithm) is instead reported in \cite{ZarrellaPhDThesis}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{forward_kalman_filter.jpg}
@@ -150,16 +152,21 @@ The study of pull distributions is not merely a technical detail specific to the
 	\chi^2\approx\sum\text{pull}.
 	\label{eq:pull_chi_squared_dist}
 \end{equation}
-Despite not being a straightforward relationship, \autoref{eq:pull_chi_squared_dist} unveils that the validity of $\chi^2$ tests is based on pull distributions. Specifically, $\chi^2$ selection cuts are fundamental to improve the track reconstruction performances (which aim for a momentum accuracy of $2$--$3\%$) and to reduce the background contamination. This reasoning profoundly motivates the study of pull distributions, which will be extensively treated in this section and also in \autoref{sec:optim_msd}. The expected result of this study is that the VT and MSD optimization will improve the momentum reconstruction analysis carried out in \autoref{sec:momentum_reco} (??).
+Despite not being a straightforward relationship, \autoref{eq:pull_chi_squared_dist} unveils that the validity of $\chi^2$ tests is based on pull distributions. Specifically, $\chi^2$ selection cuts are fundamental to improve the track reconstruction performances (which aim for a momentum accuracy of $2$--$3\%$) and to reduce the background contamination. This reasoning profoundly motivates the study of pull distributions, which will be extensively treated in this section and also in \autoref{sec:optim_msd}. It is expected that the VT and MSD optimizations will improve the momentum resolution (see \autoref{sec:momentum_reco}).
+\vspace*{\fill}
 \subsection{Vertex Tracker plane misalignment}\label{ssec:vt_plane_misalignment}
 Analyzing the \num{237555} events of 8040 run (with no magnetic field) belonging to CNAO 2025 data taking campaign, it was possible to observe potential alignment issues of VT planes (VT0, VT1, VT2 and VT3), which were highlighted by pull distributions. Indeed, all the reconstructed particles (from $Z=1$ to $Z=6$) showed non-zero $\mu_\text{pull}$ in both $x$ and $y$ coordinates, as shown in \autoref{fig:preZ_pullSummaryVT}. For instance, note the extreme $\mu_{\text{pull}_y}=1.88$ value for VT3 plane. 
+
+Let us consider the pull distributions more in detail viewing \autoref{fig:z_analysis_pre_x}, which illustrates the $x$-coordinate pull distributions in each VT plane for carbon ions and the relative Gaussian fit. Being the primaries, \ce{C} ions have the largest statistics compared to the other fragments. Inspecting the pull means in the subplots of \autoref{fig:z_analysis_pre_x}, one immediately notes their displacement from $0$. In particular, the pull shift in \autoref{fig:z_analysis_pre_VT0x} is so evident that it can be assessed visually. The Gaussian mean for the VT0 pull is indeed $\mu_{\text{pull}_y}=-0.82$.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\linewidth]{preZ_pullSummaryVT.pdf}
+	\includegraphics[width=\linewidth]{preZ_pullSummaryVT.pdf}
 	\caption[Pull means for VT planes before VT1 geometry correction for carbon ions]{Extrapolation of pull means $\mu_\text{pull}$ for the $4$ VT planes (VT0, VT1, VT2 and VT3) in both $x$ and $y$ coordinates for carbon ions, before VT1 geometry correction. From the 8040 CNAO 2025 run.}
 	\label{fig:preZ_pullSummaryVT}
 \end{figure}
-\vspace{-0.8cm}
+\vspace*{\fill}
+\clearpage
+\vspace*{\fill}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.49\linewidth}
@@ -192,7 +199,8 @@ Analyzing the \num{237555} events of 8040 run (with no magnetic field) belonging
 	\caption[$x$-coordinate of the carbon pull distributions before VT1 geometry correction]{Carbon $x$-coordinate pull distributions before VT1 geometry correction for VT0, VT1, VT2 and VT3. From the 8040 CNAO 2025 run.}
 	\label{fig:z_analysis_pre_x}
 \end{figure}
-Let us consider the pull distributions more in detail viewing \autoref{fig:z_analysis_pre_x}, which illustrates the $x$-coordinate pull distributions in each VT plane for carbon ions and the relative Gaussian fit. Being the primaries, \ce{C} ions have the largest statistics compared to the other fragments. Inspecting the pull means in the subplots of \autoref{fig:z_analysis_pre_x}, one immediately notes their displacement from $0$. In particular, the pull shift in \autoref{fig:z_analysis_pre_VT0x} is so evident that it can be assessed visually. The Gaussian mean for the VT0 pull is indeed $\mu_{\text{pull}_y}=-0.82$.
+\vspace*{\fill}
+\clearpage
 \subsubsection{\texorpdfstring{$\chi^2$}{χ²} minimization algorithm to estimate Vertex Tracker plane displacement}\label{sssec:chi_squared_min_proc}
 \begin{figure}[H]
 	\centering
@@ -761,7 +769,7 @@ When intermediate strips are introduced (like the $2$ floating strips in the FOO
 \end{figure}
 
 The above discussion thoroughly explains the non-linearities of the $\eta$ distribution, which would degrade the physics assumption that particles have equal probabilities to traverse the MSD pitch at any point. Nonetheless, two methods can be developed to linearize the $\eta$ distribution, namely the laser and the integral approaches, discussed in the following.
-\subsubsection{Laser method for \texorpdfstring{$f(\eta)$}{f(η)}}\label{sssec:laser_method}
+\subsection{Laser method for \texorpdfstring{$f(\eta)$}{f(η)}}\label{ssec:laser_method}
 The laser method allows to build a calibration function $f(\eta)$ which provides the particle position $x$ knowing the value of $\eta$. To build the $f(\eta)$ function, the strips of each MSD plane have to be scanned with a laser, whose initial position $x_\text{laser}$ is known. At each spatial position, the laser deposits energy in the silicon, producing electron-hole pairs that drift towards the electrodes producing a signal, as represented in \autoref{fig:laser_method}. From the measured signals, one can calculate $\eta$ through \autoref{eq:eta}. In other words, the laser method allows to collect a series of $(x_\text{laser,i},\eta_i)$ pairs that, once interpolated, provide the function $x=f(\eta)$. Successively, $f(\eta)$ can be employed to directly reconstruct the particles' positions $x$ from the measured $\eta$, accounting for and correcting the non-linear response of \autoref{eq:eta_position}.
 \begin{figure}[H]
 	\centering
@@ -770,7 +778,7 @@ The laser method allows to build a calibration function $f(\eta)$ which provides
 	\label{fig:laser_method}
 \end{figure}
 The laser method requires a dedicated experimental setup for the MSD calibration and, for this reason, was not implemented in this thesis work.
-\subsubsection{Integral method for \texorpdfstring{$f(\eta)$}{f(η)}}\label{sssec:integral_method}
+\subsection{Integral method for \texorpdfstring{$f(\eta)$}{f(η)}}\label{ssec:integral_method}
 To linearize the $\eta$ distribution, my work implements the integral method, a more viable solution than the laser approach. Indeed, the integral method determines the $f(\eta)$ function directly from experimental data, demanding no separated laser-based calibration campaigns.
 
 The integral method is based on a non-linear PFA where the position is given by:
@@ -899,7 +907,7 @@ As expected, the proportionality of $\sigma_{x_\text{meas}(\eta)}$ with $df/d\et
 	\caption[Carbon $\sigma_{x_\text{meas}(\eta)}$ as a function of $f(\eta)$ in MSD3]{Carbon $\sigma_{x_\text{meas}(\eta)}$ as a function of $f(\eta)$ in MSD3. The features of this plot are described in the text. From the 8028 CNAO 2025 run.}
 	\label{fig:sigma_MSD_vs_feta}
 \end{figure}
-\subsubsection{\texorpdfstring{$f(\eta)$}{f(η)} impact on the pull distributions}\label{sssec:feta_pulls}
+\subsection{\texorpdfstring{$f(\eta)$}{f(η)} impact on the pull distributions}\label{ssec:feta_pulls}
 The position estimate of \autoref{eq:feta_position_new} and its uncertainty of \autoref{eq:sigma_impl} were finally used as input for the SHOE global track reconstruction (see \autoref{sec:shoe}), substituting the original MSD clustering algorithm of \autoref{ssec:pull_studies_msd_clustering_algorithm}. The results discussed here are obtained with the $f(\eta)$ illustrated in \autoref{fig:feta_fit}, calibrated considering only carbon ion data, using all $6$ MSD planes. The performance is assessed through the pull distributions of each MSD plane, which are fitted with a Gaussian function to extract their mean $\mu_\text{pull}$ and standard deviation $\sigma_\text{pull}$. The two methods are compared first for carbon and helium, the two species with the highest statistics, and then for all fragments.
 
 \autoref{fig:pull_mean_comp} compares the means of the pull distributions obtained with the original MSD clustering algorithm and with the $f(\eta)$ algorithm, for carbon and helium fragments. With the original clustering algorithm the means are contained in a narrow band around zero, approximately $\left|\mu\right|\lesssim0.06$ for all planes and charges (from \autoref{tab:msd_pull_means}). Conversely, with the $f(\eta)$ algorithm the pull means do not improve, as they are shifted to values between $-0.36$ and $0.33$, depending on plane and charge. The displacement is not random, but rather follows a fixed pattern similarly to the original clustering algorithm (positive shift for MSD0, MSD1, MSD4 and MSD5, negative shift for MSD2 and MSD3). The $\mu_\text{pull}$ displacement from the reference value $1$ for the $f(\eta)$ algorithm originates from the software-based alignment procedure. As described in \autoref{sssec:software_based_alignment_procedure}, the detectors' alignment constants are retrieved using a residual minimization algorithm which, for the MSD, employs the old clustering algorithm. This means that the software-based alignment procedure is biased towards the position estimates of that algorithm. Therefore, the $f(\eta)$ algorithm introduces an additional offset which appears as a non-zero pull mean. A new software-based procedure, performed this time with the $f(\eta)$ positions, is expected to recenter the distributions. Only after this future implementation, the comparison of the pull means in \autoref{fig:pull_mean_comp} will assume greater significance.
@@ -1025,7 +1033,7 @@ To further assess the validity of the MSD pull obtained with the new $f(\eta)$ m
 	\caption[MSD3 pulls as a function of $f(\eta)$ for \ce{C} and \ce{He}]{MSD3 pulls as a function of $f(\eta)$ for carbon and helium. The bottom plot projects the entries onto the $y$ axis to better appreciate the uniformity of $f(\eta)$. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_vs_feta_comp}
 \end{figure}
-\subsubsection{Residual analysis for \texorpdfstring{$f(\eta)$}{f(η)} algorithm}\label{sssec:feta_residuals}
+\subsection{Residual analysis for \texorpdfstring{$f(\eta)$}{f(η)} algorithm}\label{ssec:feta_residuals}
 From \autoref{fig:sigma_MSD_vs_feta}, we understood that the majority of the globally reconstructed MSD positions possesses an uncertainty of the order of $\simeq10\,\mu\mathrm{m}$, therefore dominated by $\sigma_\text{dig}$. To test whether this value is reasonable and trustworthy, the residuals of the two central planes, MSD2 (measuring $x$) and MSD3 (measuring $y$), were studied as a function of $f(\eta)$. This addresses two questions:
 \begin{itemize}
 	\item whether the intrinsic spatial resolution, represented by the residuals, depends on the cluster position inside the strip pitch, i.e., on $f(\eta)$;
@@ -1128,7 +1136,7 @@ The same residual study was also performed for helium fragments. \autoref{fig:re
 	\caption[Residuals vs. $f(\eta)$ for helium using linear interpolation and GENFIT]{Residuals of MSD2 ($x$) as a function of $f(\eta)$ for helium fragments, using the linear interpolation of the outer planes and the GENFIT fitted position.}
 	\label{fig:residual_vs_feta_helium_linear_genfit_msd2}
 \end{figure}
-\subsubsection{Investigation of \texorpdfstring{$f(\eta)$}{f(η)} errors}\label{sssec:feta_errors}
+\subsection{Investigation of \texorpdfstring{$f(\eta)$}{f(η)} errors}\label{ssec:feta_errors}
 In \autoref{fig:sigma_MSD_vs_feta} and \autoref{fig:residual_vs_feta_carbon_genfit} it was shown that the $f(\eta)$ algorithm assigns very large position uncertainties ($\mathcal{O}(100\,\mu\mathrm{m})$) to a small fraction of the MSD clusters. Such values are unphysical, as position errors cannot be comparable to the inter-strip distance ($50\,\mu\mathrm{m}$). To better understand their origin, recall that the uncertainty computation is obtained through \autoref{eq:sigma_impl}. In this equation, the derivative $df/d\eta$ is capped to account for the $\eta$ distribution asymmetry (see \autoref{fig:dfdeta}), $\alpha(\eta)\in[1/\sqrt{2},1]$ and the ENC is a property of the sensor assuming values around $\simeq10\,\mathrm{ADC}$. Hence, the only quantity that can vary by orders of magnitude from cluster to cluster is the remaining signal $S=S_\text{L}+S_\text{R}$ at the denominator, suggesting that the large MSD position errors are caused by clusters with small signals.
 
 To test this hypothesis, the uncertainty of each MSD point $\sigma_\text{meas}$ was plotted against the signal $S=S_\text{L}+S_\text{R}$. This investigation was carried out for all fragments, however we report as always the mostly reconstructed one, namely carbon and helium. The resulting distributions are illustrated in \autoref{fig:err_vs_signal}. As expected from the $1/S$ dependence of \autoref{eq:sigma_impl}, both \autoref{fig:err_vs_signal_carbon} and \autoref{fig:err_vs_signal_helium} show that $\sigma_\text{meas}$ increases at low $S$. In addition, both plots confirm that the mostly assigned error is compatible with $\simeq\sigma_\text{dig}$, as $97.8\%$ of the carbon events lie within the $\left[9.8,10.4\right]\,\mu\mathrm{m}$ error range and $83.5\%$ of the helium entries populate the $\left[9.8,13.6\right]\,\mu\mathrm{m}$ error interval. These low-error events generate a horizontal, high-populated line at $\simeq10\,\mu\mathrm{m}$. On the other hand, within the signal interval $\left[0,200\right]$, a long tail reaching high error values is visible in both plots, particularly evident and elongated for carbons in \autoref{fig:err_vs_signal_carbon}. This suggests that the high-error population is due to noisy clusters with a very small signal, for which $\text{ENC}/S$ surges. The large uncertainties assigned by the $f(\eta)$ algorithm are therefore not a flaw of the position model, but rather the expected behavior of the background events with huge $\text{ENC}/S$. The identification of such noisy events is sufficiently straightforward for fragment charges $Z\geq2$, whose signals are adequately separated from the noise distribution. However, the discrimination might become more challenging for protons, which generate little signals due to their lower ionization.\footnote{Nonetheless, as described in \autoref{ch:foot_experiment}, the proton detection is not the primary goal of the FOOT electronic setup.}
@@ -1174,7 +1182,7 @@ Let us more carefully analyze the signal distributions, reported in the bottom p
 To interpret the physical reason of the carbon and helium peaks, the signal $S$ as a function of $f(\eta)$ was inspected in \autoref{fig:signal_vs_feta}. When a given particle passes through the MSD pitch, it ionizes the silicon strips by generating a signal $S$ which should be uniform across the $150\,\mu\mathrm{m}$-pitch, therefore independent of the traversing position $f(\eta)$. However, \autoref{fig:signal_vs_feta} does not exhibit the expected horizontal bands at a fixed ADC value, but rather $2$ bands at different ADC values. This behavior can be attributed to the presence of floating strips: when a particle crosses the detector far from the readout strips, a fraction of the charge may not be read out due to charge diffusion fluctuations, which depend on how electron-hole pairs are shared among the strips. As a consequence, lower ADC signals are measured when particles pass close to the floating strips (at $f(\eta)\simeq0.3$ and $0.7$). By projecting the signal distribution along the ADC ($y$) axis, two distinct peaks emerge for each fragment species, rather than a single characteristic ADC value. For carbon ions, the two peaks are located at ADC values of $S\simeq1400\,\mathrm{ADC}$ and $S\simeq2300\,\mathrm{ADC}$, while for helium ions they are positioned at $S\simeq130\,\mathrm{ADC}$ and $S\simeq250\,\mathrm{ADC}$. As expected, the helium peaks occur at lower ADC values than the carbon peaks, as helium ions produce less ionization and, consequently, generate smaller ADC signals.
 
 At this point, we can comment the most remarkable aspect of this $S$ analysis. As mentioned above, the bottom panel of \autoref{fig:err_vs_signal_helium} illustrates that the helium distribution possesses two carbon-like peaks, whose ADC values are precisely compatible with the $2$ peaks observed for carbon ions. This is a clear event of out-of-target fragmentation occurred in the air separating MSD and TW. Indeed, when the MSD measures a signal of $\simeq1400\,\mathrm{ADC}$ or $\simeq2300\,\mathrm{ADC}$, it clearly means that a carbon ion crossed the sensor. However, if the SHOE tracking system assigns this particle a lower charge, it means that a fragmentation event occurred before reaching the TW, where the charge is effectively measured (see \autoref{sssec:tw_charge_reco}). This kind of out-of-target fragmentation cannot be identified by the TW alone, enhancing the essential role of the MSD in identifying such background events. This interpretation can be further tested by comparing the charges measured by MSD and TW, and by checking that the carbon-like population is discarded when an appropriate cut on the MSD signal is applied.
-\subsubsection{\texorpdfstring{$\chi^2$}{χ²} and $p$-value distributions with the \texorpdfstring{$f(\eta)$}{f(η)} algorithm}\label{sssec:feta_chi_pvalue}
+\subsection{\texorpdfstring{$\chi^2$}{χ²} and $p$-value distributions with the \texorpdfstring{$f(\eta)$}{f(η)} algorithm}\label{ssec:feta_chi_pvalue}
 To conclude the MSD optimization, it is necessary to asses whether the $f(\eta)$ method provides an overall improvement to the global tracking reconstruction described in \autoref{sec:shoe}. Given the inherent correlation between pull distributions and $\chi^2$ (see \autoref{eq:pull_chi_squared_dist}), the role of $\chi^2$ in assessing the goodness-of-fit performed by the SHOE Kalman Filter and the fact that $\chi^2$ selection cuts are fundamental to enhance the track reconstruction performances, this section addresses the $\chi^2$ and $p$-value distributions. These quantities are extrapolated from the track fitting phase (see \autoref{sssec:trk_fit_phase}) and compare the fit performances after the application of the software-based alignment procedure and the $f(\eta)$-driven method. In particular, reduced $\chi^2$ distributions\footnote{Defined as the $\chi^2$ divided by the number of degrees of freedom.} will be considered. Under the (null) hypothesis that the Kalman Filter well describes the electronic setup's data, the reduced $\chi^2$ distribution is expected to have a maximum around $1$. As to the $p$-value, assuming the null hypothesis, we expect it to be uniformly distributed between $0$ and $1$ \cite{10.1093/oso/9780198501565.002.0001}.
 
 \autoref{fig:chi2_comp} and \autoref{fig:pvalue_comp} show the reduced $\chi^2$ and the $p$-value distributions for carbon fragments, chosen for their higher statistics, in three configurations: the original MSD clustering position before and after the software-based alignment and the $f(\eta)$ position after the alignment.
@@ -1193,5 +1201,223 @@ Let us firstly consider \autoref{fig:chi2_comp}. With the original clustering al
 \end{figure}
 Under the null hypothesis the $p$-value distribution is uniform. However, \autoref{fig:pvalue_comp} shows that none of the three distributions is completely flat across the whole range $\left[0,1\right]$. Particularly, all the three $p$-value distributions exhibit a peak at $\simeq0$, which characterizes tracks that are poorly described by the reconstruction model. Nonetheless, the $f(\eta)$ method significantly reduces the tracks with $p$-values close to zero. Indeed, the leftmost bin ($\left[0,0.01\right]$) contains \num{65422} and \num{54901} entries using the MSD cluster before and after alignment, respectively, reaching \num{49553} with the $f(\eta)$ method. Larger differences arise among the three methods when observing $p$-values towards $\simeq1$. Indeed, with the original clustering algorithm, a clear rise in $p$-values occurs towards $1$, even more pronounced after the software-based alignment. A peak at high $p$-values suggests that some reconstructed $\chi^2$ are too small (coherent with what observed in \autoref{fig:chi2_comp}), which is explained by the uncertainty overestimation provided by the MSD clustering model. Conversely, the $f(\eta)$ algorithm largely removes the rise at high $p$-values, rendering the distribution closer to a uniform one.
 
-The above analysis on $\chi^2$ and $p$-value distributions enhances the potentialities of the $f(\eta)$ algorithm over the original clustering method. Indeed, the former performs better in limiting the MSD uncertainty overestimation and reducing the badly-reconstructed tracks, while still retaining a good position estimation. Nonetheless, future developments should be devoted to improve the main limitations of the $f(\eta)$ method and better asses its performance capabilities on fragments' identification and cross section measurements. Indeed, the pull widths for carbon ($\approx0.7$) are still slightly overestimated (see \autoref{fig:pull_width_msd_feta} and \autoref{tab:msd_pull_sigmas_feta}). In addition, a $f(\eta)$-based software alignment procedure must be performed to remove the residual offset that penalizes the $\mu_{\text{pull}}$ (see \autoref{fig:pull_mean_comp}). In the successive section, a preliminary phase of the FOOT workflow will be addressed, namely the reconstruction of the fragments' momentum. The following analysis will take advantage of the VT and MSD studies described respectively in \autoref{sec:optim_vt} and \autoref{sec:optim_msd}.
+The above analysis on $\chi^2$ and $p$-value distributions enhances the potentialities of the $f(\eta)$ algorithm over the original clustering method. Indeed, the former performs better in limiting the MSD uncertainty overestimation and reducing the badly-reconstructed tracks, while still retaining a good position estimation. Nonetheless, future developments should be devoted to improve the main limitations of the $f(\eta)$ method and better asses its performance capabilities on fragments' identification and cross section measurements. Indeed, the pull widths for carbon ($\approx0.7$) are still slightly overestimated (see \autoref{fig:pull_width_msd_feta} and \autoref{tab:msd_pull_sigmas_feta}). In addition, a $f(\eta)$-based software alignment procedure must be performed to remove the residual offset that penalizes the $\mu_{\text{pull}}$ (see \autoref{fig:pull_mean_comp}).
 \section{Momentum reconstruction and analysis}\label{sec:momentum_reco}
+In this section, a preliminary phase of the FOOT workflow is addressed, namely the reconstruction of fragments' momentum and its resolution. The following analysis will take advantage of the VT and MSD upgrades described respectively in \autoref{sec:optim_vt} and \autoref{sec:optim_msd}.
+
+The momentum reconstruction is a key step in the FOOT analysis, providing the isotopic identification of particles through \autoref{eq:a1} and \autoref{eq:a3}. As detailed in \autoref{sec:shoe}, the SHOE global reconstruction provides the momentum in the Kalman-filter track fitting phase, yielding the GENFIT-generated quantity $p_{\text{fit}}$. This section will address a specific question concerning the momentum resolution, namely whether the uncertainty on $p_{\text{fit}}$ can be directly determined from experimental data. In Monte Carlo simulations, the momentum resolution can be evaluated straightforwardly, because the true momentum is known. Conversely, the true experimental momentum is not known, and an independent momentum estimate is needed to evaluate the error on $p_{\text{fit}}$.
+
+After presenting some useful statistical tools, the following paragraphs discuss the particle momentum and its resolution, building upon the work presented in \cite{UbaldiPhysicsMeeting26}. Clearly, in order to reconstruct the momentum, this section comprises experimental data collected from CNAO 2025 runs endowed with the magnetic field.
+\subsection{Resolution, bias and error propagation}\label{ssec:resolution_bias_error_propagation}
+If many particles with the same true momentum $p_\text{true}$ are measured, the reconstructed momentum $p_\text{reco}$ is not always the same, but rather follows a distribution around some mean $\mu_{p_\text{reco}}$. Two distinct quantities characterize the $p_\text{reco}$ distribution:
+\begin{itemize}
+	\item the resolution, namely the width $\sigma_{p_\text{reco}}$ of the distribution, measuring the spread of the reconstructed $p_\text{reco}$;
+	\item the bias, defined as the displacement between the centers of the true and reconstructed distributions $\mu_{p_\text{reco}}-\mu_{p_\text{true}}$. Ideally, the bias should be compatible with zero.
+\end{itemize}
+In addition to this, let us recall the standard error propagation formula \cite{10.1093/oso/9780198501565.002.0001}. For a function $f(x_1,\dots,x_n)$ of random variables with covariance matrix $V_{ij}$, the uncertainty on $f$ is quantified by:
+\begin{equation}
+	\sigma^2(f)=\sum_{i,j}\frac{\partial f}{\partial x_i}\frac{\partial f}{\partial x_j}V_{ij}
+	=\sum_i\left(\frac{\partial f}{\partial x_i}\right)^2\sigma^2(x_i)+2\sum_{i<j}\frac{\partial f}{\partial x_i}\frac{\partial f}{\partial x_j}\,\mathrm{Cov}(x_i,x_j)\,,
+	\label{eq:error_propagation}
+\end{equation}
+where the covariance term vanishes if variables are uncorrelated.
+\subsection{Momentum resolution in Monte Carlo data}\label{ssec:mc_resolution}
+In the Monte Carlo (MC) simulation the true momentum $p_\text{MC}$ of every particle is known. A relative momentum residual can be therefore defined as:
+\begin{equation}
+	\epsilon_\text{MC}=\frac{p_\text{fit}-p_\text{MC}}{p_\text{MC}}\,,
+	\label{eq:eps_mc}
+\end{equation}
+where $p_\text{fit}$ is the momentum obtained from fitting the simulated data. $\epsilon_\text{MC}$ vanishes for a perfect reconstruction and it is positive (negative) when the reconstructed momentum is overestimated (underestimated). Applying \autoref{eq:error_propagation} to \autoref{eq:eps_mc} without the covariance term (fit and Monte Carlo momenta are independent), one obtains the following propagation formula:
+\begin{equation}
+	\sigma^2(\epsilon_\text{MC})=\frac{\sigma^2(p_\text{fit})}{p_\text{MC}^2}+\frac{p_\text{fit}^2\,\sigma^2(p_\text{MC})}{p_\text{MC}^4}\,,
+	\label{eq:sigma_eps_mc_full}
+\end{equation}
+where, by definition, the true momentum $p_\text{MC})$ has no uncertainty ($\sigma(p_\text{MC})=0$), yielding the reduced expression:
+\begin{equation}
+	\sigma(\epsilon_\text{MC})=\frac{\sigma(p_\text{fit})}{p_\text{MC}}\,.
+	\label{eq:sigma_eps_mc}
+\end{equation}
+The standard deviation of the $\epsilon_\text{MC}$ distribution can therefore be used to compute the resolution of $p_\text{fit}$. Moreover, its mean directly corresponds to the bias between $p_\text{fit}$ and $p_\text{MC}$. \autoref{fig:mc_momentum_resolution} illustrates this distribution for carbon ions obtained from CNAO 2025 simulations. The plot shows a resolution of $\simeq3\%$ (valid also for the other reconstructed fragments, not shown here). However, $\epsilon_\text{MC}$ is shifted by $\simeq3\%$ ($\simeq2\%$ for lighter fragments). The origin of this shift might be attributed to the blow-up factor discussed in \autoref{sssec:trk_fit_phase}, however further investigations are required to better understand this behavior \cite{UbaldiPhysicsMeeting26}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{mc_eps_carbon.jpg}
+	\caption[$\epsilon_\text{MC}$ distribution for Monte Carlo simulated carbon data]{$\epsilon_\text{MC}$ distribution for Monte Carlo simulated data, using the same configuration of CNAO 2025 data taking campaign. The Gaussian curve shows a distribution of $\epsilon_\text{MC}$ for carbon ions at $p_\text{MC}=7.50\,\mathrm{GeV}/c$. From \cite{UbaldiPhysicsMeeting26}.}
+	\label{fig:mc_momentum_resolution}
+\end{figure}
+
+That being said, the question that motivates the rest of the discussion is whether a momentum resolution can be obtained with a similar procedure for experimental data.
+\subsection{Momentum resolution in experimental data}\label{ssec:exp_resolution}
+As shown in \autoref{ssec:mc_resolution}, a $p_\text{true}$ variable can be defined in Monte Carlo simulations (it corresponds to $p_\text{MC}$ in \autoref{eq:eps_mc}), however, for experimental data, $p_\text{true}$ is unknown. Nonetheless, in the latter case, it is possible to replace $p_\text{MC}$ with the another independent estimate of the momentum. In the FOOT electronic setup, one can obtain this secondary momentum estimate from the ToF measured by the SC and TW, which is indeed independent of the magnetic field (employed instead by GENFIT to reconstruct $p_{\text{fit}}$). Thus, combining \autoref{eq:beta} and \autoref{eq:a1}, one obtains:
+\begin{equation}
+	p_\beta=m\,c\,\beta\gamma=m\,\frac{L/\,\text{ToF}}{\sqrt{1-\left(L/(c\cdot\text{ToF})\right)^2}}\,,
+	\label{eq:p_beta}
+\end{equation}
+where $L$ is the track length extracted from GENFIT. Since the TW alone cannot provide the mass identification of fragments, $m$ in \autoref{eq:p_beta} is the mass of the main isotope of a given element (e.g., for helium it would be the mass of \ce{^{4}He}, for carbon the mass of \ce{^{12}C}, and so forth). Clearly, the mass assumption is not exact, and will be further discussed in the following. The correlation between $p_\beta$ and $p_\text{fit}$ can be viewed in \autoref{fig:ptw_vs_pfit}, extracted from analyzing the \num{281685} events of 8127 CNAO 2025 run (with magnetic field).
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.98\linewidth}
+		\includegraphics[width=\linewidth]{.pdf}
+		\caption{Carbon.}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.98\linewidth}
+		\includegraphics[width=\linewidth]{.pdf}
+		\caption{Helium.}
+	\end{subfigure}
+	\caption[$p_\beta$ vs. $p_\text{fit}$ distribution for helium and carbon ions]{$p_\beta$ estimated from \autoref{eq:p_beta} as a function of the momentum from the global track fit $p_\text{fit}$ for carbon (top) and helium (bottom) ions. From the 8127 CNAO 2025 run.}
+	\label{fig:ptw_vs_pfit}
+\end{figure}
+
+With $p_\beta$ in place of $p_MC$, one can finally build the experimental analogue of \autoref{eq:eps_mc}:
+\begin{equation}
+	\epsilon_\text{data}=\frac{p_\text{fit}-p_\beta}{p_\beta}\,.
+	\label{eq:eps_data}
+\end{equation}
+Now both $p_\text{fit}$ and $p_\beta$ have an uncertainty. Since $\partial\epsilon_\text{data}/\partial p_\text{fit}=1/p_\beta$ and $\partial\epsilon_\text{data}/\partial p_\beta=-p_\text{fit}/p_\beta^2$, \autoref{eq:error_propagation} gives:
+\begin{equation}
+	\sigma^2(\epsilon_\text{data})=\frac{\sigma^2(p_\text{fit})}{p_\beta^2}+\frac{p_\text{fit}^2\,\sigma^2(p_\beta)}{p_\beta^4}-2\,\frac{p_\text{fit}^3}{p_\beta}\,\text{Cov}\,(p_\text{fit},p_\beta)\,.
+	\label{eq:sigma_eps_data_squared}
+\end{equation}
+Close to the peak of the distribution, where $p_\text{fit}\simeq p_\beta\equiv p$, and neglecting the covariance, \autoref{eq:sigma_eps_data_squared} becomes:
+\begin{equation}
+	\sigma^2(\epsilon_\text{data})\simeq\left(\frac{\sigma(p_\text{fit})}{p}\right)^2+\left(\frac{\sigma(p_\beta)}{p}\right)^2\,.
+	\label{eq:sigma_eps_data}
+\end{equation}
+Hence, the width of the $\epsilon_\text{data}$ distribution contains the resolution of both experimental measurements ($p_\text{fit}$ and $p_\beta$), rather than just the resolution of $p_\text{fit}$ alone as in the Monte Carlo case. To isolate the resolution on the $p_\text{fit}$, one can subtract the contribution given by $p_\beta$:
+\begin{equation}
+	\frac{\sigma(p_\text{fit})}{p}\simeq\sqrt{\sigma^2(\epsilon_\text{data})-\left(\frac{\sigma(p_\beta)}{p}\right)^2}\,,
+	\label{eq:sigma_pfit_data}
+\end{equation}
+where $\sigma(p_\beta)/p$ is effectively computed as $\sigma(p_\beta)/p_\beta$. Essentially, \autoref{eq:sigma_pfit_data} provides a direct method to isolate the performance of the GENFIT momentum reconstruction by deconvolving the $p_\beta$ contribution from $\epsilon_\text{data}$. This approach is valid if the following assumptions hold:
+\begin{enumerate}
+	\item the distribution of $\epsilon_\text{data}$ is Gaussian, so that its width can be extracted with a Gaussian fit;
+	\item the covariance between $p_\text{fit}$ and $p_\beta$ is negligible (indeed it was not employed in \autoref{eq:sigma_eps_data}). The independence between the two variables is actually not guaranteed, because the path length $L$ entering \autoref{eq:p_beta} is determined from GENFIT. Neglecting a positive covariance term leads to an underestimate of $\sigma(p_\text{fit})$, as the covariance term has a negative sign in the right-hand side of \autoref{eq:error_propagation};
+	\item the contribution $\sigma(p_\beta)/p$ needs to be known. For fragments lighter than the primary, this requires the resolution of the ToF as a function of the fragment energy (see \autoref{ssec:helium}).
+\end{enumerate}
+\subsection{Momentum resolution for $200\,\mathrm{MeV}/u$ \ce{^{12}C}}\label{ssec:primary_carbon}
+The method enclosed by \autoref{eq:sigma_pfit_data} is first tested on the primary \ce{^{12}C} beam. For the CNAO 2025 campaign, the carbon beam possesses an energy of $T=200\,\mathrm{MeV}/u$, which precisely fixes the carbon momentum $p_\beta$. Indeed, from the computation of the Lorentz factor:
+\begin{equation}
+	\gamma=1/\sqrt{1-\beta^2}=1+T/(m_u c^2)=1+200/931.5\simeq1.215,
+	\label{eq:lorentz_factor}
+\end{equation}
+one can obtain the $\beta\gamma=\sqrt{\gamma^2-1}\simeq0.69$ and, with $A=12$ nucleons of mass $m_u c^2=0.9315\,\mathrm{GeV}$, finally quantify the carbon momentum:
+\begin{equation}
+	p_\beta=A\,m_u\,c\,\beta\gamma\simeq7.7\,\mathrm{GeV}/c\,.
+	\label{eq:carbon_momentum}
+\end{equation}
+
+\autoref{fig:carbon_eps_data} illustrates the distributions of $\epsilon_\text{data}$ and $p_\beta$ for carbons, both fitted with a Gaussian function to extrapolate the relevant parameters, summarized in \autoref{tab:carbon_resolution}. Substituting \autoref{eq:carbon_momentum} into \autoref{eq:sigma_pfit_data}:
+\begin{equation}
+	\frac{\sigma(p_\text{fit})}{p}\simeq\sqrt{0.03478^2-\left(\frac{0.076}{7.217}\right)^2}\simeq3.3\%\,,
+	\label{eq:carbon_computation}
+\end{equation}
+which is compatible with the $\simeq3\%$ of the Monte Carlo simulation shown in \autoref{fig:mc_momentum_resolution}. Note that the $p_\beta$ term in \autoref{eq:carbon_computation} is small, changing the width of $\epsilon_\text{data}$ by only $0.1\%$. In addition, note that the mean of $\epsilon_\text{data}$ is $\simeq4.4\%$ (??), making $p_\text{fit}$ larger than $p_\beta$ on average. This shift is stronger than the $\simeq2\%$ observed in simulations (see \autoref{fig:mc_momentum_resolution}). The wider displacement is probably due to the fact that $p_\beta$ measurement does not take into account the possible energy losses (and, consequently, the slowing down) suffered from the particle inside the subdetectors. On the contrary, velocity and energy loss corrections are included in the Kalman Filter when computing $p_\text{fit}$.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.98\linewidth}
+		\includegraphics[width=\linewidth]{.pdf}
+		\caption{$\epsilon_\text{data}$.}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.98\linewidth}
+		\includegraphics[width=\linewidth]{.pdf}
+		\caption{$p_\beta$.}
+	\end{subfigure}
+	\caption[Distributions of $\epsilon_\text{data}$ and $p_\beta$ for \ce{^{12}C}]{Distributions of $\epsilon_\text{data}$ (top) and $p_\beta$ (bottom) for \ce{^{12}C}, with relative Gaussian fits. From the 8127 CNAO 2025 run.}
+	\label{fig:carbon_eps_data}
+\end{figure}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccc}
+		\toprule
+		\textbf{Quantity ??} & \textbf{Value ??} & \textbf{Source ??} \\
+		\midrule
+		$\langle\epsilon_\text{data}\rangle$ & $0.0444\pm0.0001$ & Gaussian fit \\
+		$\sigma(\epsilon_\text{data})$ & $0.03478\pm0.00007$ & Gaussian fit \\
+		$\langle p_\beta\rangle$ & $7.217\,\mathrm{GeV}/c$ & Gaussian fit \\
+		$\sigma(p_\beta)$ & $0.0769\pm0.0002\,\mathrm{GeV}/c$ & Gaussian fit \\
+		$\sigma(p_\beta)/p$ & $\simeq1.1\%$ & \autoref{eq:carbon_computation} \\
+		$\sigma(p_\text{fit})/p$ & $\simeq3.3\%$ & \autoref{eq:sigma_pfit_data} \\
+		\bottomrule
+	\end{tabular}
+	\caption[Momentum resolution for $200\,\mathrm{MeV}/u$ \ce{^{12}C}]{Inputs and result of the resolution estimate for the primary \ce{^{12}C} beam at $200\,\mathrm{MeV}/u$.}
+	\label{tab:carbon_resolution}
+\end{table}
+\subsection{Momentum resolution for \ce{^{4}He}}\label{ssec:helium}
+The momentum resolution study described above becomes more challenging for lighter fragments. In this analysis, we will consider the most abundant particles after carbons, i.e., helium fragments.
+
+For primary ions the momentum is fixed by the beam source, limiting the spread of $\beta\gamma$ factors and, consequently, narrowing the $p_\beta$ distribution.\footnote{This stems from $p_\beta$ definition in \autoref{eq:p_beta}, where the mass is treated as a constant.} Clearly, carbons' $\beta\gamma$ are still affected by fluctuations $\sigma_{\beta\gamma}$, however they mainly depend on the TW's limited resolution on the ToF. Hence, for carbons:
+\begin{equation}
+	\sigma^2_{\beta\gamma,\text{carbon}}\simeq\sigma^2_{\beta\gamma,\text{TW resolution}}.
+	\label{eq:beta_gamma_carbon}
+\end{equation}
+As lighter fragments are produced by nuclear interactions (and not from an accelerator source like carbons), their $\beta\gamma$ factors have more fluctuations, influenced not merely by the limited TW resolution, but also by a physical spread that makes their momentum spectrum non-monochromatic. Hence, the width of $p_\beta$ distribution is a convolution of the ToF resolution (from TW) and of the physical spread:
+\begin{equation}
+	\sigma^2_{\beta\gamma,\text{fragment}}\simeq\sigma^2_{\beta\gamma,\text{TW resolution}}+\sigma^2_{\beta\gamma,\text{physical spread}}.
+	\label{eq:beta_gamma_fragment}
+\end{equation}
+As a consequence, the $\sigma(p_\beta)$ of fragments lighter than the primary cannot be simply extrapolated from the $p_\beta$ distribution, but it has to be computed from the resolution of the ToF using \autoref{eq:sigma_pbeta}.
+
+In addition to the $\beta\gamma$ physical spread of lighter ions, there is another issue that prevents us from extracting the $\sigma(p_\beta)$ from the $p_\beta$ distribution, namely the isotope contamination. While this effect is negligible for the primaries, it cannot be ignored for lighter fragments. In particular, for helium particles, the mass employed in \autoref{eq:p_beta} is that of \ce{^{4}He}. However, about $10\%$ of the fragments with $Z=2$ are \ce{^{3}He}, whose momentum is computed with a wrong mass. At fixed velocity $p_\beta\propto m$, so the relative isotopic shift is:
+\begin{equation}
+	\frac{p_\beta(\ce{^{3}He})-p_\beta(\ce{^{4}He})}{p_\beta(\ce{^{4}He})}=\frac{m_3-m_4}{m_4}\simeq\frac{2.808-3.727}{3.727}\simeq-25\%\,
+	\label{eq:helium_shift}
+\end{equation}
+\autoref{fig:helium_eps_data} shows that the \ce{^{3}He} contamination is visible in the $\epsilon_\text{data}$ distribution precisely at about $-0.25$, as predicted from \autoref{eq:helium_shift}. This peak must be excluded from the fit, as the current aim is to reconstruct the momentum of \ce{^{4}He}. Fitting the \ce{^{4}He} peak with a Gaussian function, one obtains $\sigma(\epsilon_\text{data})=0.0407\pm0.0010$ with a mean of $0.0208\pm0.0009$ (??).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{.pdf}
+	\caption[Distribution of $\epsilon_\text{data}$ for \ce{He}]{Distribution of $\epsilon_\text{data}$ for helium fragments, with a Gaussian fit of the \ce{^{4}He} peak. The smaller peak at $\epsilon_\text{data}\simeq-0.25$ is due to \ce{^{3}He}. From the 8127 CNAO 2025 run.}
+	\label{fig:helium_eps_data}
+\end{figure}
+The sigma of the $\epsilon_\text{data}$ distribution in \autoref{fig:helium_eps_data} provides the first term of \autoref{eq:sigma_pfit_data} for \ce{^{4}He} particles. To estimate the second term, it is possible to employ the resolution on the ToF, as explained in the following.
+\subsubsection{Propagation of the ToF uncertainty}\label{sssec:tof_propagation_momentum}
+The term $\sigma(p_\beta)/p$ for \ce{^{4}He} is obtained by propagating the uncertainty on the ToF. Combining \autoref{eq:p_beta} and $d(\beta\gamma)/d\beta=\gamma^3$ for error propagation yields:
+\begin{equation}
+	\frac{\sigma(p_\beta)}{p}=\gamma^2\,\frac{\sigma(\beta)}{\beta}=\gamma^2\,\frac{\sigma_\text{ToF}}{\text{ToF}}\,,
+	\label{eq:sigma_pbeta}
+\end{equation}
+where the uncertainty on $L$ has been neglected and $\sigma(\beta)/\beta=\sigma_{\text{ToF}}/\text{ToF}$ follows from \autoref{eq:beta}. \autoref{eq:sigma_pbeta} proves that the relative uncertainty on $p_\beta$ can be determined from the ToF resolution, which, in turn, can be extrapolated from \autoref{fig:sigma_tof}. The figure shows that the ToF uncertainty is not constant, but rather a decreasing function of the energy deposited in the TW.\footnote{This occurs because larger energy depositions produce more photons, which reduce the Poissonian fluctuations and improve the scintillator timing performances.} A preciser determination of $\sigma(p_\beta)/p$ could be obtained not only expressing $\sigma_\text{ToF}$ as a function of the deposited energy in the TW, but also finding a better relationship between $\sigma_\text{ToF}$ and the fragment charge $Z$, a point that is still open.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.55\linewidth]{.jpg}
+	\caption[ToF vs. deposited energy in the TW]{ToF resolution $\sigma_\text{ToF}$ as a function of the energy deposited in the TW scintillating bars $\mu(\Delta E)$. Experimental data is correctly interpolated by the parametrization $\sigma_\text{ToF}=\sqrt{A/x+B}$, where $y\equiv\sigma_\text{ToF}$ and $x\equiv\mu(\Delta E)$. Adapted from \cite{Morrocchi2024}.}
+	\label{fig:sigma_tof}
+\end{figure}
+To estimate the quantities contained in the right-hand side of \autoref{eq:sigma_pbeta} in an approximate way, consider \autoref{fig:helium_genfit}, which shows the distribution of $p_\text{fit}$ for \ce{He}. This distribution is centered approximately at $2.5\,\mathrm{GeV}/c$, meaning that the corresponding total energy of a \ce{^{4}He} nucleus with mass $m_4$ is:
+\begin{equation}
+	E=\sqrt{p^2c^2+m_{4}^2c^4}
+	\simeq 2.57\,\mathrm{GeV},
+	\label{eq:total_h4_energy}
+\end{equation}
+which corresponds to a Lorentz factor of:
+\begin{equation}
+	\gamma=\frac{E}{m_{4}c^2}
+	\simeq 1.21.
+	\label{eq:lorentz_helium}
+\end{equation}
+The kinetic energy can therefore be quantified as:
+\begin{equation}
+	T=E-m_{4}c^2
+	\simeq 0.8\,\mathrm{GeV}.
+	\label{eq:total_h4_kin_energy}
+\end{equation}
+Thus, the \ce{^{4}He} nuclei considered here are expected to release an energy of approximately $800\,\mathrm{MeV}$. This value can be used to calculate the stopping power of \ce{^{4}He} in the two $0.3,\mathrm{cm}$-thick TW scintillation bars, employing the ASTAR software \cite{Berger2017ASTAR}. A direct calculation finally provides a total energy deposition in both bars of $\Delta E_{TW}\simeq11\,\mathrm{MeV}$, which corresponds to a $\sigma_{\text{ToF}}\simeq190\,\mathrm{ps}$ (from \autoref{fig:sigma_tof}). Furthermore, a \ce{^{4}He} generated from a $200\,\mathrm{MeV}/u$ carbon beam collision with a \ce{C} target has an average ToF of $\simeq13\,\mathrm{ns}$ \cite{amslaurea32339}. Combining the $\sigma_{\text{ToF}}$ and ToF values with \autoref{eq:lorentz_helium}, it is possible to obtain the $\sigma(p_\beta)/p$ for \ce{^{4}He}:
+\begin{equation}
+	\frac{\sigma(p_\beta)}{p}
+	=
+	\gamma^2\frac{\sigma_\mathrm{ToF}}{\mathrm{ToF}}
+	\simeq 0.021.
+	\label{eq:sigma_pbeta_data_helium}
+\end{equation}
+Substituting this value and the $\sigma(\epsilon_\text{data})=0.0407$ from \autoref{fig:helium_eps_data} in \autoref{eq:sigma_pfit_data} provides the final $p_\text{fit}$ resolution:
+\begin{equation}
+	\frac{\sigma(p_\text{fit})}{p}\simeq\sqrt{\sigma^2(\epsilon_\text{data})-\left(\frac{\sigma(p_\beta)}{p}\right)^2}\simeq3.5\%.
+	\label{eq:sigma_pfit_data_helium}
+\end{equation}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.55\linewidth]{.jpg}
+	\caption[Distribution of $p_\text{fit}$ for \ce{He}]{Distribution of $p_\text{fit}$ for \ce{He}, with a Gaussian fit of the \ce{^{4}He} peak. From the 8127 CNAO 2025 run.}
+	\label{fig:helium_genfit}
+\end{figure}
+
+In conclusion, several points should be emphasized concerning the above momentum analysis. The momentum resolution of the global fit can be not only defined for Monte Carlo simulations (\autoref{ssec:mc_resolution}), but also for experimental data (\autoref{ssec:exp_resolution}), comparing $p_\text{fit}$ with the independent estimate $p_\beta$ from the ToF, and subtracting the ToF contribution in quadrature (\autoref{eq:sigma_pfit_data}). For the primary carbon this method gives $\simeq3.3\%$, in agreement with the $\simeq3\%$ of the simulation. For lighter fragments, this approach requires the ToF resolution as a function of the fragment charge and the deposited energy. In the particular case of helium, the removal of \ce{^{3}He} contamination is also needed. An approximate estimate for the \ce{^{4}He} $p_\text{fit}$ resolution is obtained in \autoref{eq:sigma_pfit_data_helium}, providing the value of $3.5\%$. In addition to this, the bias of the mean value ($\simeq2\%$ in the simulation, $\simeq4.4\%$ in carbon data) is yet to be fully understood. Nonetheless, this reconstruction analysis demonstrates that the most abundant particles in the 8127 CNAO 2025 run (carbon and helium) achieve a GENFIT momentum resolution compatible with the $3$--$5\%$ precision aimed by the FOOT electronic setup (see \autoref{sec:electronic_setup}).
