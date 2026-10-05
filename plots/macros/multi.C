@@ -4,9 +4,8 @@
         gROOT->ProcessLine(".L PullComparePlots.C");
     
 
-    std::vector<ComparisonSpec> specs = {{"./8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "1", "Z=1"},{"./8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "2", "Z=2"},{"./8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "3", "Z=3"},{"./8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "4", "Z=4"},{"./8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "5", "Z=5"},{"./8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "6", "Z=6"}};
-
-    PullComparePlotsMulti(specs,"comparisonALLSFTWPOST.root", ".", false,"VT", true);
+    std::vector<ComparisonSpec> specs = {{"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "1", "Z=1"},{"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "2", "Z=2"},{"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "3", "Z=3"},{"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "4", "Z=4"},{"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "5", "Z=5"},{"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root", "6", "Z=6"}};
+    PullComparePlotsMulti(specs,"comparisonALLSFTWPOSTALLFRAGALLDET.root", ".", false,"", true);
 }
 // This macro can be used as follows:
 // root [0] .L PullComparePlots.C

@@ -54,9 +54,8 @@
 // VT0x VT0y VT1x VT1y VT2x VT2y VT3x VT3y MSD0 MSD1 MSD2 MSD3 MSD4 MSD5 TWx TWy
 // -----------------------------------------------------------------------
 static const std::vector<TString> kPlanes = {
-	//"VT0x", "VT0y", "VT1x", "VT1y", "VT2x", "VT2y", "VT3x", "VT3y"
-	"MSD0", "MSD1", "MSD2", "MSD3", "MSD4", "MSD5"
-	//,"TWx", "TWy"
+	"VT0x", "VT0y", "VT1x", "VT1y", "VT2x", "VT2y", "VT3x", "VT3y",
+	"MSD0", "MSD1", "MSD2", "MSD3", "MSD4", "MSD5","TWx", "TWy"
 };
 
 // Charges present in the file: h_Z_0 ... h_Z_6, h_Z_All
