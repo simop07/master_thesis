@@ -714,49 +714,35 @@ Recall that the MSD structure (see \autoref{fig:msd2}) integrates $50\,\mu\mathr
 \end{equation}
 This means that the current MSD uncertainty evaluation (given by \autoref{eq:MSD_final_err}) is not fully optimized, leaving room for improvement. This consideration motivated the study of a new clustering algorithm, which is be presented in the following sections.
 \subsection{Pull studies with the MSD clustering algorithm}\label{ssec:pull_studies_msd_clustering_algorithm}
-First and foremost, let us visualize and comment the pull distributions of the MSD obtained using the original MSD clustering algorithm, which uses \autoref{eq:cluster_MSD} and \autoref{eq:MSD_final_err} to respectively estimate $x_{\text{meas}}$ and $\sigma_{x,\text{meas}}$ (from \autoref{eq:pull_distributions}).
+First and foremost, let us visualize and comment the pull distributions of the MSD obtained using the original MSD clustering algorithm, which uses \autoref{eq:cluster_MSD} and \autoref{eq:MSD_final_err} to respectively estimate $x_{\text{meas}}$ and $\sigma_{x,\text{meas}}$ (from \autoref{eq:pull_distributions}). \autoref{fig:pre_pull_overview_msd} shows $\mu_\text{pull}$ and $\sigma_\text{pull}$ as a function of the fragment charge $Z$ for the $6$ MSD planes, before the changing the VT1 geometry change and applying the software-based alignment procedure.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.98\linewidth]{pre_postAlignmentPull_MSD.pdf}
-	\caption[Pull means for MSD planes before and after the software-based alignment for carbon ions]{Extrapolation of pull means $\mu_\text{pull}$ for the MSD planes (MSD0 to MSD5) using the original MSD clustering method, for carbon ions. The plots compare the pull means before and after the software-based alignment procedure. From the 8028 CNAO 2025 run.}
-	\label{fig:pull_8028_comparison_msd}
+	\begin{subfigure}[b]{0.49\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{preAlignmentPullMeanMSD.pdf}
+		\caption{Pull means $\mu_\text{pull}$.}
+		\label{fig:pre_pull_overview_msd_mean}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{preAlignmentPullSigmaMSD.pdf}
+		\caption{Pull widths $\sigma_\text{pull}$.}
+		\label{fig:pre_pull_overview_msd_sigma}
+	\end{subfigure}
+	\caption[MSD pull means and widths as a function of the fragment charge before the software-based alignment]{Mean (a) and width (b) of the pull distributions for the $6$ MSD planes (MSD0 to MSD5) as a function of the fragment charge $Z$, using the original MSD clustering method, before the VT geometry change and the software-based alignment. From the 8028 CNAO 2025 run.}
+	\label{fig:pre_pull_overview_msd}
 \end{figure}
-Analyzing the 8028 run, we can first compare the carbon ions $\mu_\text{pull}$ for the MSD planes (MSD0 to MSD5) before and after the software-based alignment procedure. \autoref{fig:pull_8028_comparison_msd} shows a great improvement of $\mu_\text{pull}$, which from being scattered across the $[-1.5,1.5]$ interval are then flattened within the $[-0.05,0.05]$ range. A consistent behavior can found for all the reconstructed particles (from $Z=1$ to $Z=6$), which showed close-to-zero $\mu_\text{pull}$ in all MSD planes after the alignment procedure, as reported in \autoref{tab:msd_pull_means}. 
-\begin{table}[H]
-	\centering
-	\normalsize{%
-		\begin{tabular}{M{1.8cm} M{2.9cm} M{2.9cm} M{3.3cm}}
-			\hline
-			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
-			\hline
-			MSD0 & $0.044 \pm 0.011$ & $0.015 \pm 0.008$ & $-0.004 \pm 0.017$ \\
-			MSD1 & $0.047 \pm 0.011$ & $0.045 \pm 0.007$ & $0.061 \pm 0.014$  \\
-			MSD2 & $-0.058 \pm 0.008$ & $-0.049 \pm 0.005$ & $-0.056 \pm 0.011$ \\
-			MSD3 & $-0.057 \pm 0.008$ & $-0.053 \pm 0.005$ & $-0.045 \pm 0.011$ \\
-			MSD4 & $0.033 \pm 0.015$ & $0.023 \pm 0.009$ & $0.005 \pm 0.019$  \\
-			MSD5 & $0.024 \pm 0.014$ & $0.021 \pm 0.008$ & $0.051 \pm 0.017$  \\
-			\hline\hline
-			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
-			\hline
-			MSD0 & $0.024 \pm 0.017$ & $0.029 \pm 0.011$ & $0.0177 \pm 0.0009$ \\
-			MSD1 & $0.047 \pm 0.015$ & $0.023 \pm 0.010$ & $0.0458 \pm 0.0009$ \\
-			MSD2 & $-0.020 \pm 0.012$ & $-0.044 \pm 0.007$ & $-0.0386 \pm 0.0006$ \\
-			MSD3 & $-0.057 \pm 0.011$ & $-0.054 \pm 0.007$ & $-0.0583 \pm 0.0006$ \\
-			MSD4 & $-0.004 \pm 0.020$ & $0.012 \pm 0.012$ & $0.0210 \pm 0.0011$ \\
-			MSD5 & $0.046 \pm 0.020$ & $0.034 \pm 0.013$ & $0.0249 \pm 0.0011$ \\
-			\hline
-	\end{tabular}}
-	\caption[MSD pull means by fragment charge using the original MSD clustering method]{Mean of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the original MSD clustering method, after the software-based alignment procedure. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
-	\label{tab:msd_pull_means}
-\end{table}
-Despite the excellent MSD $\mu_\text{pull}$, the MSD $\sigma_\text{pull}$ for all fragments (after the software-based alignment procedure) are found approximately in $[0.3,0.6]$, far from the expected reference value of $1$, as summarized in \autoref{tab:msd_pull_sigmas}. This behavior is visually confirmed by \autoref{fig:pull_width_msd}, which displays the $\sigma_\text{pull}$ for all fragments.
+Two issues emerge from \autoref{fig:pre_pull_overview_msd}. First, despite most of the pull means are really close to $0$, the MSD1 and MSD5 planes exhibit a $\mu_\text{pull}$ of $\simeq-6$ and $\simeq6$, respectively. Such large values point to a residual misalignment of the MSD planes; this is corrected by the software-based alignment procedure presented in \autoref{ssec:software_based_alignment_procedure}, as will be discussed in \autoref{ssec:pull_mean_improvement_msd}. The second issue is that the pull widths alternate between $\simeq0.5$ and $\simeq1.5$ from one MSD plane to the next. This alternating pattern is particularly puzzling, ad suggests that some severe systematic effect is occurring.
+
+After the VT geometry correction and the software-based alignment procedure, the MSD $\sigma_\text{pull}$ for all fragments are found approximately in $[0.3,0.6]$, as summarized in \autoref{tab:msd_pull_sigmas} and visually confirmed by \autoref{fig:pull_width_msd}, to be compared with \autoref{fig:pre_pull_overview_msd_sigma}. The alignment removes the alternating $\sigma_\text{pull}$, however it does not solve the fact that they remain far from $1$.
 
 As stated in \autoref{ssec:pull_distributions}, the MSD $\sigma_\text{pull}<1$ demonstrate that the detector uncertainty model outlined in \autoref{ssec:msd_clustering_algorithm} currently overestimates the position errors $\sigma_{x,\text{meas}}$. To face this issue, new MSD position and uncertainty estimators are introduced in \autoref{ssec:msd_f_eta_algo}.
 \vspace*{\fill}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{msd_sigma_original.pdf}
-	\caption[MSD pull width by fragment charge using the original MSD clustering method]{Standard deviation of the MSD pull distributions for all fragments using the original MSD clustering position (from pull Gaussian fit). From the 8028 CNAO 2025 run.}
+	\caption[MSD pull width by fragment charge using the original MSD clustering method]{Standard deviation of the MSD pull distributions for all fragments using the original MSD clustering position (from pull Gaussian fit), after the VT geometry correction and the software-based alignment. To be compared with \autoref{fig:pre_pull_overview_msd_sigma}. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_width_msd}
 \end{figure}
 \vspace*{\fill}
@@ -974,31 +960,13 @@ As expected, the proportionality of $\sigma_{x_\text{meas}(\eta)}$ with $df/d\et
 	\label{fig:sigma_MSD_vs_feta}
 \end{figure}
 \subsection{\texorpdfstring{$f(\eta)$}{f(η)} impact on the pull distributions}\label{ssec:feta_pulls}
-The position estimate of \autoref{eq:feta_position_new} and its uncertainty of \autoref{eq:sigma_impl} were finally used as input for the SHOE global track reconstruction (see \autoref{sec:shoe}), substituting the original MSD clustering algorithm of \autoref{ssec:pull_studies_msd_clustering_algorithm}. The results discussed here are obtained with the $f(\eta)$ illustrated in \autoref{fig:feta_fit}, calibrated considering only carbon ion data, using all $6$ MSD planes. The performance is assessed through the pull distributions of each MSD plane, which are fitted with a Gaussian function to extract their mean $\mu_\text{pull}$ and standard deviation $\sigma_\text{pull}$. The two methods are compared first for carbon and helium, the two species with the highest statistics, and then for all fragments.
-
-\autoref{fig:pull_mean_comp} compares the means of the pull distributions obtained with the original MSD clustering algorithm and with the $f(\eta)$ algorithm, for carbon and helium fragments. With the original clustering algorithm the means are contained in a narrow band around zero, approximately $\left|\mu\right|\lesssim0.06$ for all planes and charges (from \autoref{tab:msd_pull_means}). Conversely, with the $f(\eta)$ algorithm the pull means do not improve, as they are shifted to values between $-0.36$ and $0.33$, depending on plane and charge. The displacement is not random, but rather follows a fixed pattern similarly to the original clustering algorithm (positive shift for MSD0, MSD1, MSD4 and MSD5, negative shift for MSD2 and MSD3). The $\mu_\text{pull}$ displacement from the reference value $1$ for the $f(\eta)$ algorithm originates from the software-based alignment procedure. As described in \autoref{ssec:software_based_alignment_procedure}, the detectors' alignment constants are retrieved using a residual minimization algorithm which, for the MSD, employs the old clustering algorithm. This means that the software-based alignment procedure is biased towards the position estimates of that algorithm. Therefore, the $f(\eta)$ algorithm introduces an additional offset which appears as a non-zero pull mean. A new software-based procedure, performed this time with the $f(\eta)$ positions, is expected to recenter the distributions. Only after this future implementation, the comparison of the pull means in \autoref{fig:pull_mean_comp} will assume greater significance.
+The position estimate of \autoref{eq:feta_position_new} and its uncertainty of \autoref{eq:sigma_impl} were finally used as input for the SHOE global track reconstruction (see \autoref{sec:shoe}), substituting the original MSD clustering algorithm of \autoref{ssec:pull_studies_msd_clustering_algorithm}. The results discussed here are obtained with the $f(\eta)$ illustrated in \autoref{fig:feta_fit}, calibrated considering only carbon ion data, using all $6$ MSD planes. The performance is assessed through the pull distributions of each MSD plane, which are fitted with a Gaussian function to extract their mean $\mu_\text{pull}$ and standard deviation $\sigma_\text{pull}$. This section compares the two methods in terms of $\sigma_\text{pull}$, first for carbon and helium, the two species with the highest statistics, and then for all fragments. The pull means are instead discussed in \autoref{ssec:pull_mean_improvement_msd}.
 
 \autoref{fig:pull_sigma_comp} shows the same comparison for the standard deviation of the pull distributions, always considering carbon and helium, the most abundant particles. In this case, the improvement given by the $f(\eta)$ algorithm is particularly evident. With the original clustering algorithm the pull widths lie in the range $\simeq0.26$--$0.59$ for all planes and charges (from \autoref{tab:msd_pull_sigmas}), which means that the position uncertainties are strongly overestimated. Conversely, the $f(\eta)$ algorithm moves the pull widths towards $1$. Indeed, for carbon ions they lie within $\simeq0.7$--$0.8$, while for lighter fragments they reach values close to $1$. Since the ideal pull has $\sigma_\text{pull}=1$, this plot shows that the uncertainty model of \autoref{eq:sigma_impl} describes the actual MSD resolution much better than the clustering one, which employs \autoref{eq:cluster_MSD_err}. The remaining discrepancy in the pull width values between carbon and lighter fragments is correlated to the ENC$/$S factor in \autoref{eq:sigma_impl}. Indeed, lighter fragments generally produce lower signals in the strips, ionizing less the silicon bulk. Lower signals imply greater errors, resulting in higher $\mu_\text{pull}$.
 
-The $\mu_{\text{pull}}$ and $\sigma_{\text{pull}}$ quantities computed with the $f(\eta)$ algorithm are now reported for all fragment charges (from $Z=1$ to $Z=6$), in \autoref{tab:msd_pull_mean_feta} and \autoref{fig:pull_mean_msd_feta} for the pull mean, and in \autoref{tab:msd_pull_sigmas_feta} and \autoref{fig:pull_width_msd_feta} for the pull width.
+The $\sigma_{\text{pull}}$ computed with the $f(\eta)$ algorithm is now reported for all fragment charges (from $Z=1$ to $Z=6$) in \autoref{tab:msd_pull_sigmas_feta} and \autoref{fig:pull_width_msd_feta}.
 
 To further assess the validity of the MSD pull obtained with the new $f(\eta)$ method, \autoref{fig:pull_vs_feta_comp} illustrates the pull as a function of $f(\eta)$ for carbon and helium fragments in the MSD3 plane (the planes show similar behaviors). For carbon, the pull distributions show no dependencies on $f(\eta)$, and the $f(\eta)$ profile is flat up to statistical fluctuations. Similarly, the helium pulls are approximately independent of the $f(\eta)$, however the $f(\eta)$ profile is non-uniform, showing the similar peaked structure of the original $\eta$ distribution. The helium $f(\eta)$ distribution is non-linear due to the fact that the helium $\eta$ values are linearized using the carbon-calibrated $f(\eta)$ rather than a helium-calibrated function. This issue has been already commented when analyzing the various $f(\eta)$ parameters in \autoref{tab:fit_feta_charge}.
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[t]{0.88\linewidth}
-		\includegraphics[width=\linewidth]{pullMeanCompCarbonOrigFeta.pdf}
-		\caption{Carbon.}
-		\label{fig:pull_mean_comp_carbon}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.88\linewidth}
-		\includegraphics[width=\linewidth]{pullMeanCompHeliumOrigFeta.pdf}
-		\caption{Helium.}
-		\label{fig:pull_mean_comp_helium}
-	\end{subfigure}
-	\caption[Pull mean: original clustering vs. $f(\eta)$ algorithm for \ce{C} and \ce{He}]{Mean of the pull distributions for each MSD plane, for the original MSD clustering algorithm and for the $f(\eta)$ algorithm. From the 8028 CNAO 2025 run.}
-	\label{fig:pull_mean_comp}
-\end{figure}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.88\linewidth}
@@ -1014,40 +982,6 @@ To further assess the validity of the MSD pull obtained with the new $f(\eta)$ m
 	\end{subfigure}
 	\caption[Pull width: original clustering vs. $f(\eta)$ algorithm for \ce{C} and \ce{He}]{Standard deviation of the pull distributions for each MSD plane, for the original MSD clustering algorithm and for the $f(\eta)$ algorithm. From the 8028 CNAO 2025 run.}
 	\label{fig:pull_sigma_comp}
-\end{figure}
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.1}
-	{\footnotesize%
-		\begin{tabular}{M{1.8cm} M{2.8cm} M{2.8cm} M{2.8cm}}
-			\hline
-			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
-			\hline
-			MSD0 & $0.120 \pm 0.016$ & $0.164 \pm 0.023$ & $0.20 \pm 0.04$ \\
-			MSD1 & $0.136 \pm 0.018$ & $0.264 \pm 0.020$ & $0.329 \pm 0.036$ \\
-			MSD2 & $-0.112 \pm 0.016$ & $-0.195 \pm 0.019$ & $-0.20 \pm 0.04$ \\
-			MSD3 & $-0.144 \pm 0.018$ & $-0.263 \pm 0.020$ & $-0.314 \pm 0.037$ \\
-			MSD4 & $0.076 \pm 0.020$ & $0.160 \pm 0.018$ & $0.18 \pm 0.05$ \\
-			MSD5 & $0.111 \pm 0.019$ & $0.235 \pm 0.017$ & $0.29 \pm 0.04$ \\
-			\hline\hline
-			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
-			\hline
-			MSD0 & $0.14 \pm 0.05$ & $0.211 \pm 0.025$ & $0.1630 \pm 0.0024$ \\
-			MSD1 & $0.305 \pm 0.038$ & $0.316 \pm 0.022$ & $0.2956 \pm 0.0020$ \\
-			MSD2 & $-0.16 \pm 0.04$ & $-0.202 \pm 0.023$ & $-0.1811 \pm 0.0024$ \\
-			MSD3 & $-0.319 \pm 0.032$ & $-0.361 \pm 0.023$ & $-0.3116 \pm 0.0021$ \\
-			MSD4 & $0.14 \pm 0.04$ & $0.154 \pm 0.025$ & $0.1583 \pm 0.0024$ \\
-			MSD5 & $0.314 \pm 0.036$ & $0.287 \pm 0.023$ & $0.2580 \pm 0.0022$ \\
-			\hline
-	\end{tabular}}
-	\caption[MSD pull mean by fragment charge using the $f(\eta)$ algorithm]{Mean of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the $f(\eta)$ algorithm position and uncertainty estimators. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
-	\label{tab:msd_pull_mean_feta}
-\end{table}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\linewidth]{msd_mean_feta.pdf}
-	\caption[MSD pull mean by fragment charge using the $f(\eta)$ algorithm]{Mean of the MSD pull distributions for all fragments using the $f(\eta)$ algorithm position and uncertainty (from pull Gaussian fit). From the 8028 CNAO 2025 run.}
-	\label{fig:pull_mean_msd_feta}
 \end{figure}
 \begin{table}[H]
 	\centering
@@ -1248,6 +1182,103 @@ Let us more carefully analyze the signal distributions, reported in the bottom p
 To interpret the physical reason of the carbon and helium peaks, the signal $S$ as a function of $f(\eta)$ was inspected in \autoref{fig:signal_vs_feta}. When a given particle passes through the MSD pitch, it ionizes the silicon strips by generating a signal $S$ which should be uniform across the $150\,\mu\mathrm{m}$-pitch, therefore independent of the traversing position $f(\eta)$. However, \autoref{fig:signal_vs_feta} does not exhibit the expected horizontal bands at a fixed ADC value, but rather $2$ bands at different ADC values. This behavior can be attributed to the presence of floating strips: when a particle crosses the detector far from the readout strips, a fraction of the charge may not be read out due to charge diffusion fluctuations, which depend on how electron-hole pairs are shared among the strips. As a consequence, lower ADC signals are measured when particles pass close to the floating strips (at $f(\eta)\simeq0.3$ and $0.7$). By projecting the signal distribution along the ADC ($y$) axis, two distinct peaks emerge for each fragment species, rather than a single characteristic ADC value. For carbon ions, the two peaks are located at ADC values of $S\simeq1400\,\mathrm{ADC}$ and $S\simeq2300\,\mathrm{ADC}$, while for helium ions they are positioned at $S\simeq130\,\mathrm{ADC}$ and $S\simeq250\,\mathrm{ADC}$. As expected, the helium peaks occur at lower ADC values than the carbon peaks, as helium ions produce less ionization and, consequently, generate smaller ADC signals.
 
 At this point, we can comment the most remarkable aspect of this $S$ analysis. As mentioned above, the bottom panel of \autoref{fig:err_vs_signal_helium} illustrates that the helium distribution possesses two carbon-like peaks, whose ADC values are precisely compatible with the $2$ peaks observed for carbon ions. This is a clear event of out-of-target fragmentation occurred in the air separating MSD and TW. Indeed, when the MSD measures a signal of $\simeq1400\,\mathrm{ADC}$ or $\simeq2300\,\mathrm{ADC}$, it clearly means that a carbon ion crossed the sensor. However, if the SHOE tracking system assigns this particle a lower charge, it means that a fragmentation event occurred before reaching the TW, where the charge is effectively measured (see \autoref{sssec:tw_charge_reco}). This kind of out-of-target fragmentation cannot be identified by the TW alone, enhancing the essential role of the MSD in identifying such background events. This interpretation can be further tested by comparing the charges measured by MSD and TW, and by checking that the carbon-like population is discarded when an appropriate cut on the MSD signal is applied.
+\subsection{Pull mean improvement after alignment}\label{ssec:pull_mean_improvement_msd}
+Having completed the discussion on the MSD uncertainty model, this section concludes with the pull means, which are strongly affected by the software-based alignment procedure (\autoref{ssec:software_based_alignment_procedure}) rather than depending on the uncertainty estimators detailed above.
+
+Let us begin by considering the pull means obtained for the MSD clustering algorithm. Analyzing the 8028 run, we can first compare the carbon ions $\mu_\text{pull}$ for the MSD planes (MSD0 to MSD5) before and after the software-based alignment procedure, in both cases following the VT geometry correction. \autoref{fig:pull_8028_comparison_msd} shows a great improvement of $\mu_\text{pull}$ when compared to \autoref{fig:pre_pull_overview_msd_mean}, by removing the outliers of MSD1 and MSD6. Moreover, before the software-based alignment the $\mu_\text{pull}$ values are scattered over the relatively broad interval $[-1.5,1.5]$, whereas after the alignment they are confined to the much narrower range $[-0.05,0.05]$, demonstrating further enhancement. A consistent behavior can be found for all the reconstructed particles (from $Z=1$ to $Z=6$), which showed close-to-zero $\mu_\text{pull}$ in all MSD planes after the alignment procedure, as reported in \autoref{tab:msd_pull_means} and \autoref{fig:pull_mean_msd_original}, to be compared with \autoref{fig:pre_pull_overview_msd_mean}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{pre_postAlignmentPull_MSD.pdf}
+	\caption[Pull means for MSD planes before and after the software-based alignment for carbon ions]{Extrapolation of pull means $\mu_\text{pull}$ for the MSD planes (MSD0 to MSD5) using the original MSD clustering method, for carbon ions. The plots compare the pull means before and after the software-based alignment procedure. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_8028_comparison_msd}
+\end{figure}
+\begin{table}[H]
+	\centering
+	\normalsize{%
+		\begin{tabular}{M{1.8cm} M{2.9cm} M{2.9cm} M{3.3cm}}
+			\hline
+			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
+			\hline
+			MSD0 & $0.044 \pm 0.011$ & $0.015 \pm 0.008$ & $-0.004 \pm 0.017$ \\
+			MSD1 & $0.047 \pm 0.011$ & $0.045 \pm 0.007$ & $0.061 \pm 0.014$  \\
+			MSD2 & $-0.058 \pm 0.008$ & $-0.049 \pm 0.005$ & $-0.056 \pm 0.011$ \\
+			MSD3 & $-0.057 \pm 0.008$ & $-0.053 \pm 0.005$ & $-0.045 \pm 0.011$ \\
+			MSD4 & $0.033 \pm 0.015$ & $0.023 \pm 0.009$ & $0.005 \pm 0.019$  \\
+			MSD5 & $0.024 \pm 0.014$ & $0.021 \pm 0.008$ & $0.051 \pm 0.017$  \\
+			\hline\hline
+			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
+			\hline
+			MSD0 & $0.024 \pm 0.017$ & $0.029 \pm 0.011$ & $0.0177 \pm 0.0009$ \\
+			MSD1 & $0.047 \pm 0.015$ & $0.023 \pm 0.010$ & $0.0458 \pm 0.0009$ \\
+			MSD2 & $-0.020 \pm 0.012$ & $-0.044 \pm 0.007$ & $-0.0386 \pm 0.0006$ \\
+			MSD3 & $-0.057 \pm 0.011$ & $-0.054 \pm 0.007$ & $-0.0583 \pm 0.0006$ \\
+			MSD4 & $-0.004 \pm 0.020$ & $0.012 \pm 0.012$ & $0.0210 \pm 0.0011$ \\
+			MSD5 & $0.046 \pm 0.020$ & $0.034 \pm 0.013$ & $0.0249 \pm 0.0011$ \\
+			\hline
+	\end{tabular}}
+	\caption[MSD pull means by fragment charge using the original MSD clustering method]{Mean of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the original MSD clustering method, after the software-based alignment procedure. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
+	\label{tab:msd_pull_means}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{msd_mean_original.pdf}% TODO: actual file name
+	\caption[MSD pull mean by fragment charge using the original MSD clustering method]{Mean of the MSD pull distributions for all fragments using the original MSD clustering position (from pull Gaussian fit), after the software-based alignment. To be compared with \autoref{fig:pre_pull_overview_msd_mean}. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_mean_msd_original}
+\end{figure}
+
+The same comparison is now repeated for the $f(\eta)$ algorithm. \autoref{fig:pull_mean_comp} compares the means of the pull distributions obtained with the original MSD clustering algorithm and with the $f(\eta)$ algorithm, for carbon and helium fragments. With the original clustering algorithm the means are contained in a narrow band around zero, approximately $\left|\mu\right|\lesssim0.06$ for all planes and charges (from \autoref{tab:msd_pull_means}). Conversely, with the $f(\eta)$ algorithm the pull means do not improve, as they are shifted to values between $-0.36$ and $0.33$, depending on plane and charge. The displacement is not random, but rather follows a fixed pattern similarly to the original clustering algorithm (positive shift for MSD0, MSD1, MSD4 and MSD5, negative shift for MSD2 and MSD3). The $\mu_\text{pull}$ displacement from the reference value $0$ for the $f(\eta)$ algorithm originates from the software-based alignment procedure. As described in \autoref{sssec:software_based_alignment_procedure}, the detectors' alignment constants are retrieved using a residual minimization algorithm which, for the MSD, employs the old clustering algorithm. This means that the software-based alignment procedure is biased towards the position estimates of that algorithm. Therefore, the $f(\eta)$ algorithm introduces an additional offset which appears as a non-zero pull mean. A new software-based procedure, performed this time with the $f(\eta)$ positions, is expected to recenter the distributions. Only after this future implementation, the comparison of the pull means in \autoref{fig:pull_mean_comp} will assume greater significance.
+
+The $\mu_{\text{pull}}$ for all fragment charges (from $Z=1$ to $Z=6$) is reported in \autoref{tab:msd_pull_mean_feta} and \autoref{fig:pull_mean_msd_feta}.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.88\linewidth}
+		\includegraphics[width=\linewidth]{pullMeanCompCarbonOrigFeta.pdf}
+		\caption{Carbon.}
+		\label{fig:pull_mean_comp_carbon}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.88\linewidth}
+		\includegraphics[width=\linewidth]{pullMeanCompHeliumOrigFeta.pdf}
+		\caption{Helium.}
+		\label{fig:pull_mean_comp_helium}
+	\end{subfigure}
+	\caption[Pull mean: original clustering vs. $f(\eta)$ algorithm for \ce{C} and \ce{He}]{Mean of the pull distributions for each MSD plane, for the original MSD clustering algorithm and for the $f(\eta)$ algorithm. From the 8028 CNAO 2025 run.}
+	\label{fig:pull_mean_comp}
+\end{figure}
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.1}
+	{\footnotesize%
+		\begin{tabular}{M{1.8cm} M{2.8cm} M{2.8cm} M{2.8cm}}
+			\hline
+			\textbf{Plane} & \textbf{$Z=1$} & \textbf{$Z=2$} & \textbf{$Z=3$} \\
+			\hline
+			MSD0 & $0.120 \pm 0.016$ & $0.164 \pm 0.023$ & $0.20 \pm 0.04$ \\
+			MSD1 & $0.136 \pm 0.018$ & $0.264 \pm 0.020$ & $0.329 \pm 0.036$ \\
+			MSD2 & $-0.112 \pm 0.016$ & $-0.195 \pm 0.019$ & $-0.20 \pm 0.04$ \\
+			MSD3 & $-0.144 \pm 0.018$ & $-0.263 \pm 0.020$ & $-0.314 \pm 0.037$ \\
+			MSD4 & $0.076 \pm 0.020$ & $0.160 \pm 0.018$ & $0.18 \pm 0.05$ \\
+			MSD5 & $0.111 \pm 0.019$ & $0.235 \pm 0.017$ & $0.29 \pm 0.04$ \\
+			\hline\hline
+			\textbf{Plane} & \textbf{$Z=4$} & \textbf{$Z=5$} & \textbf{$Z=6$} \\
+			\hline
+			MSD0 & $0.14 \pm 0.05$ & $0.211 \pm 0.025$ & $0.1630 \pm 0.0024$ \\
+			MSD1 & $0.305 \pm 0.038$ & $0.316 \pm 0.022$ & $0.2956 \pm 0.0020$ \\
+			MSD2 & $-0.16 \pm 0.04$ & $-0.202 \pm 0.023$ & $-0.1811 \pm 0.0024$ \\
+			MSD3 & $-0.319 \pm 0.032$ & $-0.361 \pm 0.023$ & $-0.3116 \pm 0.0021$ \\
+			MSD4 & $0.14 \pm 0.04$ & $0.154 \pm 0.025$ & $0.1583 \pm 0.0024$ \\
+			MSD5 & $0.314 \pm 0.036$ & $0.287 \pm 0.023$ & $0.2580 \pm 0.0022$ \\
+			\hline
+	\end{tabular}}
+	\caption[MSD pull mean by fragment charge using the $f(\eta)$ algorithm]{Mean of the pull distributions and relative uncertainty (extrapolated from Gaussian fit) for each MSD plane using the $f(\eta)$ algorithm position and uncertainty estimators. The values are expressed as a function of the fragment charge $Z$, which ranges from $1$ to $6$. From the 8028 CNAO 2025 run.}
+	\label{tab:msd_pull_mean_feta}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{msd_mean_feta.pdf}
+	\caption[MSD pull mean by fragment charge using the $f(\eta)$ algorithm]{Mean of the MSD pull distributions for all fragments using the $f(\eta)$ algorithm position and uncertainty (from pull Gaussian fit). From the 8028 CNAO 2025 run.}
+	\label{fig:pull_mean_msd_feta}
+\end{figure}
 \section{Performance studies}\label{sec:performance_studies}
 Before investigating the performances of the upgraded tracking system, \autoref{fig:pull_all}, \autoref{tab:pull_all_means} and \autoref{tab:pull_all_sigmas} summarize means $\mu_{\text{pull}}$ and widths $\sigma_\text{pull}$ of the pull distributions for all the FOOT subdetectors considered in the performance study presented in \autoref{ssec:feta_chi_pvalue}.
 \begin{figure}[H]
@@ -1298,7 +1329,7 @@ Before investigating the performances of the upgraded tracking system, \autoref{
 			TWx  & $ 0.1504 \pm 0.0805 $& $-0.0307 \pm 0.0652 $& $-0.2052 \pm 0.1300 $& $ 0.0331 \pm 0.1128 $& $-0.1724 \pm 0.2351 $& $-0.1249 \pm 0.0120$\\
 			TWy  & $ 0.0117 \pm 0.0514 $& $ 0.0796 \pm 0.1273 $& $-0.3445 \pm 0.3703 $& $ 0.0673 \pm 0.1887 $& $ 0.0948 \pm 0.2368 $& $-0.0525 \pm 0.0143$\\
 			\hline
-		\end{tabular}}
+	\end{tabular}}
 	\caption[Pull means for all the FOOT subdetectors]{Pull means $\mu_{\text{pull}}$ and associated uncertainties, extrapolated from a Gaussian fit, for all the considered FOOT subdetectors. From the 8028 CNAO 2025 run.}
 	\label{tab:pull_all_means}
 \end{sidewaystable}
@@ -1332,7 +1363,7 @@ Before investigating the performances of the upgraded tracking system, \autoref{
 			TWx      &  $1.6146 \pm 0.1641$    &  $1.9303 \pm 0.1473$    &  $1.7646 \pm 0.2604$    &  $1.5306 \pm 0.2139$    &  $2.4118 \pm 0.7304$    &  $1.6626 \pm 0.0326$\\
 			TWy      &  $1.3259 \pm 0.0870$    &  $2.5530 \pm 0.4306$    &  $2.6518 \pm 0.8174$    &  $1.9727 \pm 0.4802$    &  $2.6990 \pm 0.8227$    &  $2.0405 \pm 0.0448$\\
 			\hline
-		\end{tabular}}
+	\end{tabular}}
 	\caption[Pull widths for all the FOOT subdetectors]{Pull widths $\sigma_{\text{pull}}$ and associated uncertainties, extrapolated from a Gaussian fit, for all the considered FOOT subdetectors. From the 8028 CNAO 2025 run.}
 	\label{tab:pull_all_sigmas}
 \end{sidewaystable}
