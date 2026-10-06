@@ -1,3 +1,45 @@
 \chapter*{Introduction}\label{ch:introduction}
 \addcontentsline{toc}{chapter}{Introduction}
-TO BE DECIDED
+
+The interaction of energetic charged particles with matter is governed by electromagnetic energy loss mechanisms and nuclear interaction processes. In high-energy regimes, nuclear fragmentation reactions alter both the beam composition and the spatial energy deposition profile. Understanding these fragmentation reactions is essential for two major applied physics disciplines: Particle Therapy (PT) in radiation oncology and Space Radiation Protection (SRP) in deep-space exploration.
+
+In Particle Therapy, heavy ions such as protons and $^{12}\text{C}$ offer distinct radiobiological advantages over conventional photon radiotherapy. Charged particles deposit the majority of their kinetic energy in a narrow region at the end of their range, known as the Bragg peak, while sparing superficial healthy tissues in the entry channel. Moreover, adjusting the beam energy allows clinicians to conform the Bragg peak precisely to the tumor volume. However, as the primary ions traverse human tissue, nuclear interactions between the beam and atomic nuclei ($^1\text{H}$, $^{12}\text{C}$, $^{16}\text{O}$) generate secondary nuclear fragments. In carbon-ion therapy, projectile fragments travel beyond the Bragg peak, producing an unwanted "fragmentation tail" that irradiates healthy tissues downstream of the tumor. Conversely, in proton therapy, target nuclei undergo target fragmentation, producing low-energy, high-Linear Energy Transfer (LET) recoils that deliver localized radiation doses in healthy tissues surrounding the entrance channel. Current Treatment Planning Systems (TPS) rely on deterministic transport codes and Monte Carlo simulations that suffer from a paucity of experimental double-differential cross section data, leading to systematic uncertainties in biological dose calculations.
+
+In Space Radiation Protection, astronaut crews on long-duration interplanetary missions are exposed to Galactic Cosmic Rays (GCR) and Solar Particle Events (SPE). GCR spectra consist of high-energy protons, alpha particles, and fully ionized heavy nuclei (HZE ions such as $^{12}\text{C}$, $^{16}\text{O}$, and $^{56}\text{Fe}$) capable of penetrating spacecraft structures. When these primary ions collide with passive shielding materials—such as Polyethylene ($\text{C}_2\text{H}_4$), Aluminum, or PMMA—they undergo nuclear fragmentation, altering the radiation field inside the habitat. Designing optimal, lightweight shielding requires accurate nuclear interaction models calibrated against experimental cross sections measured across relevant energy ranges (50–250 MeV for protons and 50–400 MeV/u for carbon ions).
+
+To address these data gaps, the FOOT (FragmentatiOn Of Target) experiment was approved by the INFN in 2017. The primary goal of FOOT is to measure differential cross sections with respect to kinetic energy and emission angle:
+
+$$\frac{d\sigma}{dE_{\text{kin}}}(Z, E_{\text{kin}}) = \frac{Y(Z, E_{\text{kin}}) - \text{Bkg}}{N_p N_t \Delta E_{\text{kin}} \varepsilon(Z, E_{\text{kin}})}$$
+
+$$\frac{d\sigma}{d\Omega}(Z, \theta) = \frac{Y(Z, \theta) - \text{Bkg}}{N_p N_t \Delta \Omega \varepsilon(Z, \theta)}$$
+
+where $Y$ is the yield of reconstructed tracks of charge $Z$, $N_p$ is the number of primary ions, $N_t$ is the target areal density, $\Delta E_{\text{kin}}$ and $\Delta\Omega$ are phase-space intervals, and $\varepsilon$ is the overall efficiency convolution.
+
+Measuring target fragmentation in direct kinematics presents a fundamental experimental obstacle: target recoils possess very low kinetic energies (few MeV) and extremely short ranges (10–100 $\mu\text{m}$) in solid materials, causing them to stop inside the target before reaching external detectors. To circumvent this constraint, FOOT employs an inverse kinematics approach for target fragmentation studies. Instead of firing protons at heavy targets, heavy-ion beams ($^{12}\text{C}$, $^{16}\text{O}$) are directed onto hydrogenated targets ($\text{C}$, $\text{C}_2\text{H}_4$). In this reference frame, target fragments are emitted with high forward velocity, enabling them to escape the target and be detected by tracking and identification detectors. Lorentz transformations are subsequently applied to convert measured observables back to the direct kinematics frame.
+
+Overview of the FOOT Experimental Setup
+
+The FOOT apparatus is a hybrid magnetic spectrometer designed to optimize particle tracking, time-of-flight, energy loss, and total kinetic energy measurements. The electronic setup consists of three distinct functional regions:
+
+1. **Upstream Region**: Measures the properties of the incoming primary beam. It comprises the Start Counter (SC)—a 250 $\mu\text{m}$ thick plastic scintillator providing the initial time reference for Time-of-Flight measurements ($\sigma_{\text{ToF}} \approx 50\text{ ps}$) and triggering—and the Beam Monitor (BM), a drift chamber containing 12 alternating wire layers operating with an $\text{Ar/CO}_2$ gas mixture that determines the direction and profile of the incident beam with an angular resolution of approximately 2 mrad.
+2. **Magnetic Spectrometer Region**: Located immediately downstream of the target, this region tracks charged fragments and measures their magnetic rigidity. It includes two permanent Dipole Halbach Magnets providing maximum magnetic field intensities of 1.4 T and 0.9 T along the transverse axes. The tracking detectors positioned inside and around the magnetic field gap are:
+- **Vertex Tracker (VT)**: Located immediately after the target, consisting of 4 layers of Monolithic Active Pixel Sensors (MAPS) to reconstruct interaction vertices with high spatial resolution ($\approx 5\ \mu\text{m}$).
+- **Inner Tracker (IT)**: Positioned between the two magnets, comprising 2 planes of MAPS sensors to track particles within the magnetic field region.
+- **Microstrip Silicon Detector (MSD)**: Positioned downstream of the second magnet, consisting of 3 modules (each containing 2 orthogonal layers of 150 $\mu\text{m}$ thick single-sided silicon microstrips with a 150 $\mu\text{m}$ readout pitch) to measure track coordinates and specific energy loss ($dE/dx$).
+3. **Downstream Region**: Dedicated to particle identification and energy measurements. It consists of:
+- **Time-of-Flight Wall (TW)**: Two orthogonal layers of 20 plastic scintillator bars (x-y geometry) that measure the hit position, secondary ToF timestamp, and specific energy loss for charge $Z$ identification.
+- **Calorimeter (CALO)**: A dense matrix of 320 BGO ($\text{Bi}_4\text{Ge}_3\text{O}_{12}$) scintillating crystals that measures the total kinetic energy ($E_{\text{kin}}$) of stopping fragments.
+
+```
+Upstream Region              Magnetic Spectrometer Region                 Downstream Region
+[ SC ] -> [ BM ] -> [Target] -> [ VT ] -> [ Mag 1 ] -> [ IT ] -> [ Mag 2 ] -> [ MSD ] -> [ TW ] -> [ CALO ]
+```
+
+Objectives and Structure of the Thesis
+
+Achieving the ambitious goal of 3–5\% accuracy on momentum and isotopic mass reconstruction requires continuous optimization across all experimental subsystems. This thesis addresses two pivotal pillars of the FOOT experiment:
+
+1. **Hardware and Firmware Development**: Contributing to the upgrade of the Vertex Tracker Trigger and Data Acquisition (TDAQ) system. This involves developing and validating the VHDL firmware for the DE10-Nano Trigger Box (TrgBox) board to manage signal synchronization, trigger distribution, and readout control for the fast MIMOSIS-2.1 MAPS sensors.
+2. **Software Optimization and Tracking Analysis**: Refining detector alignment and position reconstruction algorithms within the SHOE software environment. This includes developing a $\chi^2$ minimization alignment code for the VT, implementing a non-linear $f(\eta)$ position-finding algorithm for the MSD, and conducting global track fitting performance studies on CNAO 2025 experimental data to evaluate final momentum resolutions.
+
+This document is organized as follows: Chapter 1 reviews the physics of charged particle interactions with matter and radiobiological principles. Chapter 2 details the FOOT experimental setup, TDAQ architecture, and subdetector characteristics. Chapter 3 presents the design, VHDL firmware implementation, and experimental validation of the Trigger Box for the MIMOSIS-2.1 Vertex Tracker. Chapter 4 describes the SHOE tracking software framework, the VT alignment procedure, the MSD $f(\eta)$ algorithm implementation, and the global tracking momentum resolution analysis. Finally, the Conclusion summarizes the main achievements and outlines future prospects.

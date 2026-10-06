@@ -1,3 +1,36 @@
 \chapter*{Conclusions}\label{ch:conclusions}
 \addcontentsline{toc}{chapter}{Conclusions}
-TO BE DECIDED
+The upcoming operational phase of the FOOT experiment requires a major increase in data acquisition rate capabilities to collect the high statistics necessary for precise cross section measurements. A primary bottleneck in the original electronic setup was the readout time of the MIMOSA-28 pixel sensors in the Vertex Tracker (VT), which operated on a rolling-shutter mechanism requiring 185.6 $\mu\text{s}$ per frame and limiting the DAQ rate to approximately 1 kHz.
+
+To overcome this limitation, the FOOT Collaboration initiated the upgrade of the VT using MIMOSIS-2.1 Monolithic Active Pixel Sensors (MAPS). MIMOSIS-2.1 incorporates a $1024 \times 504$ pixel matrix with an asymmetric pitch of $27 \times 30\ \mu\text{m}^2$ and a global shutter architecture that reduces the frame readout time to 5 $\mu\text{s}$. In the framework of this thesis, a new dedicated Trigger Box (TrgBox) firmware was designed, implemented, and tested to support the TDAQ architecture of the upgraded VT:
+
+- **Firmware Architecture**: Developed in VHDL for the Altera/Intel Cyclone V SoC FPGA on a Terasic DE10-Nano board, the firmware implements a Finite State Machine (FSM) with IDLE, CONFIG, and RUN states.
+- **Readout Optimization**: Integrated a configurable First-Word Fall-Through (FWFT) show-ahead FIFO into the event readout logic, eliminating latency delays inherent in standard FIFOs where data appears only after read request assertion.
+- **Signal Handling and Driver Integration**: Enhanced trigger/busy synchronization logic to prevent data corruption during event building. Developed C++ software running on the dual-core ARM Cortex-A9 Hard Processor System (HPS) to configure FPGA registers, monitor trigger counters, and route event data to the central DAQ.
+- **Experimental Validation**: The TrgBox firmware was validated through an FPGA-based detector emulator generating muon-like signals and tested under beam conditions at the Beam Test Facility (BTF) in Frascati. The system operated reliably at trigger rates up to 20 kHz with stable clock distribution and zero event loss, demonstrating full readiness for the upcoming CNAO November 2026 physics campaign.
+
+Summary of Software Optimizations and Tracking Performance
+
+In parallel with the hardware development, offline tracking algorithms in the SHOE software framework were systematically optimized using experimental data collected during the CNAO 2025 campaign ($200\text{ MeV/u}\ ^{12}\text{C}$ beam on a 5 mm carbon target). Tracking performance relies on global track reconstruction executed via GENFIT, employing Runge-Kutta-Nyström numerical integration in non-uniform magnetic fields and a 10-iteration forward-backward Kalman Filter with smoothing.
+
+The main software achievements and physics results include:
+
+1. **Vertex Tracker Alignment**: Analyzing pull distributions ($\text{pull}_x, \text{pull}_y$) revealed non-zero mean values, indicating physical sensor misalignments. A $\chi^2$ minimization algorithm was developed to measure the longitudinal ($z$-axis) displacement $\Delta z$ of VT planes directly from track residuals and slopes. Physical measurements confirmed a systematic displacement in layer 1 (VT1), and updating the SHOE geometry parameters successfully restored pull means toward zero.
+2. **Microstrip Silicon Detector $f(\eta)$ Algorithm**: The default Center-of-Gravity (CoG) clustering method in the MSD resulted in overestimated position uncertainties ($\sigma_{\text{pull}} \approx 0.3$--$0.6$). To improve spatial resolution, Turchetta’s integral $f(\eta)$ position-finding algorithm was implemented:
+$$\eta = \frac{S_R}{S_R + S_L}$$
+$$f(\eta) = p_0 \eta + \sum_{i=1}^{4} p_{3i-2} \frac{1}{2} \left[ 1 + \text{erf}\left( \frac{\eta - p_{3i-1}}{p_{3i}} \right) \right]$$
+The non-linear $f(\eta)$ function, fitted to experimental charge-sharing distributions using a combination of four error functions, linearized the spatial position mapping across the 150 $\mu\text{m}$ strip pitch.
+3. **Tracking Fit Quality and Momentum Resolution**:
+- Applying the $f(\eta)$ algorithm eliminated unphysical position uncertainties ($O(100\ \mu\text{m})$) caused by derivative capping artifacts.
+- The reduced $\chi^2$ distribution peak shifted from over-estimated pre-alignment values to 0.86, while the standard deviation decreased from 1.69 to 1.01.
+- The $p$-value distribution showed a marked reduction in poorly fitted track entries near 0 (dropping from 65,422 to 49,553) and flattened significantly near 1.
+- Evaluating the reconstructed track momentum ($p_{\text{fit}}$) against time-of-flight expectations ($p_\beta$) yielded experimental momentum resolutions of **3.34% for $^{12}\text{C}$ primary ions** and **2.96% for $^4\text{He}$ fragments**, fully satisfying the FOOT requirement of 3–5% precision.
+
+Limitations and Future Outlook
+
+While the firmware upgrade and tracking software optimizations have significantly advanced the operational readiness of the FOOT experiment, several avenues for further development remain:
+
+- **Rotational Alignment**: Residual dependencies observed in transverse residual plots ($x_{\text{meas}} - x_{\text{fit}}$ vs. $y_{\text{CoG}}$) indicate minor rotations ($\phi$ angle around the $z$-axis) of the VT planes. Expanding the software alignment framework to incorporate rotational degrees of freedom will further refine track residuals.
+- **Fragment-Specific $f(\eta)$ Calibration**: The current $f(\eta)$ implementation utilizes parameter sets calibrated on high-statistics $^{12}\text{C}$ data across all fragment species. Dedicated $f(\eta)$ calibrations for lighter fragments ($Z=1$ to $5$) should be generated to account for charge-dependent delta-electron emission and ionization density variations.
+- **Inner Tracker Integration**: The CNAO 2025 performance analysis excluded the Inner Tracker (IT). Integrating the IT planes into the global GENFIT Kalman Filter will provide additional tracking points inside the magnetic field region, further improving momentum resolution for high-rigidity fragments.
+- **Full System Deployment**: The final milestone consists of deploying the complete 4-plane MIMOSIS-2.1 VT assembly together with the DE10-Nano Trigger Box at the CNAO beamline in November 2026, enabling high-rate, high-precision nuclear fragmentation cross section measurements.
