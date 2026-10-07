@@ -41,10 +41,12 @@
 # Text files, PDFs and images
 main.*
 TableOfContents.docx
+Abstract.docx
 plots/**/*pdf
 plots/**/*svg
 plots/**/*txt
 Dissertation/images/Thumbs.db
+/**/*tmp
 
 # Directories
 main_html

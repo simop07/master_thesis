@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,twoside]{report}
+\documentclass[12pt,a4paper,twoside,openright]{report}
 
 % ==========================================
 % 1. GRAPHICAL LAYOUT (FIXED HEADERS & MARGINS)
@@ -10,6 +10,7 @@
 %\usepackage{parskip}
 %\setlength{\parskip}{0.4em} % Aggiungi piccolo spazio tra un paragrafo e l'altro
 \usepackage{fancyhdr}
+\usepackage{emptypage}
 
 \pagestyle{fancy}
 \fancyhf{} % Clear header and footer fields
@@ -153,7 +154,7 @@ giveninits=true]{biblatex}
 	pdftitle={Optimization of the tracking system for the FOOT experiment}, % Titolo della tesi
 	pdfauthor={Simone Pasquini}, % Nome e cognome
 	pdfsubject={Master's Thesis}, % Oggetto del documento (es. Tesi di Laurea Triennale/Magistrale)
-	pdfkeywords={FOOT,Hadrontherapy,Particle Therapy,Charged Particle,Nuclear Physics,Kalman Filter,Tracking Algorithm,Vertex Tracker,Microstrip Silicon Detector,Data Analysis,C++,ROOT,Nuclear Fragmentation,Projectile Fragmentation,Target Fragmentation,VHDL,FPGA,SOC,Intel,Physics,Tumor,Cancer,} % Parole chiave separate da virgola (utile per l'indicizzazione)
+	pdfkeywords={FOOT,Hadrontherapy,Particle Therapy,Charged Particle,Nuclear Physics,Kalman Filter,Tracking Algorithm,Vertex Tracker,Microstrip Silicon Detector,Data Analysis,C++,ROOT,Nuclear Fragmentation,Projectile Fragmentation,Target Fragmentation,VHDL,FPGA,SOC,Intel,Physics,Tumor,Cancer} % Parole chiave separate da virgola (utile per l'indicizzazione)
 }
 
 % ==========================================
@@ -194,13 +195,12 @@ giveninits=true]{biblatex}
 
 	\listoftables
 	\addcontentsline{toc}{chapter}{List of Tables}
-	\clearpage
+	\cleardoublepage
 
 	\pagenumbering{arabic}
 	\setcounter{page}{1}
 	\pagestyle{fancy} % REQUIRED: Re-activate fancy style after \pagenumbering resets it!
-
-	\newpage
+	
 	\input{Chapters/Introduction/introduction}
 
 	\input{Chapters/Chapter 1/chapter_1}
