@@ -1,4 +1,4 @@
-<p align="center"> <img src="./FOOT_logo.png" width="20%"> </p>
+<p align="center"> <img src="./FOOT_logo.jpg" width="20%"> </p>
 
 # Optimization of the tracking system for the FOOT experiment
 
