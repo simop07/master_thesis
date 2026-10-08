@@ -1,9 +1,9 @@
-<p align="center"> <img src="./FOOT_logo.png" width="90%"> </p>
+<p align="center"> <img src="./FOOT_logo.png" width="20%"> </p>
 
 # Optimization of the tracking system for the FOOT experiment
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19881390.svg)](https://doi.org/10.5281/zenodo.19881390)
-[![GitHub license](https://img.shields.io/github/license/simop07/data_trigger_gen_FPGA?cache=1)](https://github.com/simop07/data_trigger_gen_FPGA/blob/main/LICENSE)
+[![DOI](https://zenodo.org/badge/1269136858.svg)](https://doi.org/10.5281/zenodo.23236202)
+[![GitHub license](https://img.shields.io/github/license/simop07/master_thesis?cache=1)](https://github.com/simop07/master_thesis/blob/main/LICENSE)
 
 ## Abstract
 
