@@ -1,0 +1,14 @@
+abstract: Material for my Master's thesis at University of Bologna within FOOT experiment.
+authors:
+- affiliation: DIFA UniBo
+  family-names: Simone Pasquini
+cff-version: 1.2.0
+date-released: '2026-10-08'
+doi: 10.5281/zenodo.23236203
+license:
+- mit
+message: If you use this software, please cite it using the metadata from this file.
+repository-code: https://github.com/simop07/master_thesis/tree/v1.0.0
+title: 'simop07/master_thesis: First public release'
+type: software
+version: v1.0.0
