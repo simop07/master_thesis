@@ -2,7 +2,7 @@
 
 # Optimization of the tracking system for the FOOT experiment
 
-[![DOI](https://zenodo.org/badge/1269136858.svg)](https://doi.org/10.5281/zenodo.23236202)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23236203.svg)](https://doi.org/10.5281/zenodo.23236203)
 [![GitHub license](https://img.shields.io/github/license/simop07/master_thesis?cache=1)](https://github.com/simop07/master_thesis/blob/main/LICENSE)
 
 ## Abstract
