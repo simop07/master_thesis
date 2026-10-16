@@ -117,12 +117,12 @@ void CompareChi2AndPValue(int Z = 6, bool normalize = false)
 
     // Order matches the thesis panels (a), (b), (c)
     std::vector<Config> cfg = {
-        {"8028_preAlig_qualityPlots_OriginalMSDPos/Decoded_Analysis_CNAO2025_8028_TWBarCalib_ALL_POINTS.root",
+        {"/home/simone/desktop/magistrale/master_thesis/plots/8028_preAlig_qualityPlots_OriginalMSDPos/Decoded_Analysis_CNAO2025_8028_TWBarCalib_ALL_POINTS.root",
          "Original, pre-alignment",  "pre",  kBlue + 1},
-        {"8028_postAlig_qualityPlots_OriginalMSDPos/Decoded_Analysis_CNAO2025_8028.root",
+        {"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots_OriginalMSDPos/Decoded_Analysis_CNAO2025_8028.root",
          "Original, post-alignment", "orig", kRed + 1},
         // CHECK: your screenshot of the f(eta) panel came from the ..._SIGNAL_FETA_ALL_events_new.root file
-        {"8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root",
+        {"/home/simone/desktop/magistrale/master_thesis/plots/8028_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8028_TWBarCalib_SIGNAL_FETA_ALL_events_new.root",
          "f(#eta), post-alignment",  "feta", kGreen + 2}
     };
 
