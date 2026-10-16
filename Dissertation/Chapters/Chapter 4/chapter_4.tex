@@ -465,7 +465,7 @@ where the small angle approximation for the $\sin$ and $\cos$ functions are used
 	\end{cases}
 	\label{eq:VT_rotation_residuals}
 \end{equation}
-Consequently, one should expect a dependence of $\text{residual}_x$ and $\text{residual}_y$ on the cluster position $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$, as it expressed in the true experimental frame $(x,y)$ (the global FOOT frame of reference). In particular, from \autoref{eq:VT_rotation_residuals}, the ``direct'' plots $\text{residual}_x$ vs. $x_{\mathrm{CoG}}$ and $\text{residual}_y$ vs. $y_{\mathrm{CoG}}$ should be flat; conversely, the ``cross'' plots $\text{residual}_x$ vs. $y_{\mathrm{CoG}}$ and $\text{residual}_y$ vs. $x_{\mathrm{CoG}}$ should display a clear trend with slopes of opposite sign and similar magnitude.
+Consequently, one should expect a dependence of $\text{residual}_x$ and $\text{residual}_y$ on the cluster position $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$, as the latter is expressed in the true experimental frame $(x,y)$ (the global FOOT frame of reference). In particular, from \autoref{eq:VT_rotation_residuals}, the ``direct'' plots $\text{residual}_x$ vs. $x_{\mathrm{CoG}}$ and $\text{residual}_y$ vs. $y_{\mathrm{CoG}}$ should be flat; conversely, the ``cross'' plots $\text{residual}_x$ vs. $y_{\mathrm{CoG}}$ and $\text{residual}_y$ vs. $x_{\mathrm{CoG}}$ should display a clear trend with slopes of opposite sign and similar magnitude.
 
 The plots contained in \autoref{fig:resx_clusposx_VT1}, \autoref{fig:resy_clusposy_VT1}, \autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1} precisely confirm the expectations. All these figures show the various combinations between $\text{residual}_x$, $\text{residual}_y$ and $(x_{\mathrm{CoG}},y_{\mathrm{CoG}})$ for carbon and helium particles reconstructed in the 8028 CNAO 2025 run, where the subscript ``clus'' labels the CoG-derived VT cluster position. Particularly, for both carbon and helium, \autoref{fig:resx_clusposx_VT1} and \autoref{fig:resy_clusposy_VT1} exhibit a constant behavior. Conversely, \autoref{fig:resx_clusposy_VT1} and \autoref{fig:resy_clusposx_VT1} have opposite slopes with an approximate inclination of $\pm10^{-3}\,\mathrm{rad}$, corresponding to $0.05$--$0.06^\circ$.
 
@@ -815,7 +815,7 @@ During my thesis work, I implemented the integral method for $f(\eta)$ in the SH
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\linewidth]{etaDistPlaneZ6.pdf}
-	\caption[$\eta$ distributions for carbon in each MSD plane]{Distributions of $\eta$ for carbon fragments in each MSD plane. Bins are normalized to the total number of entries. From the 8028 CNAO 2025 run.}
+	\caption[$\eta$ distributions for carbon in each MSD plane]{Distributions of $\eta$ for carbon fragments in each MSD plane. Bins are normalized to the total number of entries in each plane. From the 8028 CNAO 2025 run.}
 	\label{fig:etaDistPlaneZ6}
 \end{figure}
 For each $\eta$ value, the corresponding \autoref{eq:feta_position} is computed using \autoref{eq:feta_integral}, which yields the histogram shown in \autoref{fig:feta_fit}. Note that this histogram is built using the full set of $\eta$ values from all $6$ MSD planes, thereby representing the combined response of the detector rather than treating each plane independently. By fitting the histogram with \autoref{eq:feta_param}, the parameters of the $f(\eta)$ function can be extrapolated. Specifically, the fitting function is implemented as:
