@@ -208,63 +208,177 @@ Always edit the source version. The build copy is regenerated during compilation
 
 ---
 
-## 7. Where to edit code and what to recompile
+# 7. SHOE Build and Development Workflow
 
-The SHOE source is split into modules with different roles. Which executables need to be rerun depends on which module was modified.
+## 7.1 Environment setup
 
-### 7.1 Modifying `Analysis/`
-
-Example files:
+The SHOE source directory is:
 
 ```text
-Analysis/TANAbase/TANAactQualityPlots.cxx
-Analysis/TANAbase/TANAactQualityPlots.hxx
+$MYSWDIR/shoe/
 ```
 
-Analysis code is only used by `DecodeGlbAnalysis`. The reconstruction output files remain valid, so only recompile and re-run the analysis step:
-
-```bash
-source setupFOOT.sh
-make -j8
-cd Reconstruction
-./../bin/DecodeGlbAnalysis ...
-```
-
-### 7.2 Modifying `Libraries/`
-
-Example files:
+The current build directory is:
 
 ```text
-Libraries/TAGfoot/TAGactKFitter.cxx
-Libraries/TAVTbase/TAVTactBaseNtuCluster.cxx
+$MYSWDIR/shoe/build/
 ```
 
-Library changes affect the reconstruction itself. The existing ROOT reconstruction files are no longer valid and must be regenerated:
+The build uses GCC 14.2.0 and ROOT 6.30.02. Load the FOOT/ROOT environment before configuring or compiling:
 
 ```bash
-source setupFOOT.sh
-make -j8
-cd Reconstruction
-./../bin/DecodeGlb ... # Or use Condor to gain computational power
-./../bin/DecodeGlbAnalysis ...
+source /opt/exp_software/foot/root_shoe_foot.sh
 ```
 
-### 7.3 Modifying cofiguration files
-If a config file needs to be changed, then it is necessary to run a command to copy the changes into the `build` directory. For instance, if we need to change a line of code in `/opt/exp_software/foot/spasquin/shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`, then after hte change we have to run in the folder `build/Reconstruction`:
+Alternatively, if the `SetupROOT` alias is available in the current shell:
+
 ```bash
-cmake3 .. -D FILECOPY=ON
+SetupROOT
 ```
-so that this config file is copied into `/opt/exp_software/foot/spasquin/shoe/build/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`.
 
-If, in general, we want to REBUILD everything, also the cpp and hpp files then run this more general command in the folder `build/Reconstruction`:
+Check that the correct compiler and CMake versions are available:
+
 ```bash
-cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON
+which gcc
+which g++
+g++ --version
+which cmake
+root-config --version
 ```
 
-Once `cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON` command is executed, we need to use again the command `make` and then set again the FOOT global parameters. For instance, these needs to be changed in the build directory, where git is disabled. The path to FOOT configuration file is `/opt/exp_software/foot/spasquin/shoe/build/Reconstruction/config/CNAO2025/FootGlobal.par`, and the current modification I had for the 8040 run without magnetic field is:
-- IncludeDI: n
-- IncludeKalman: y
-- Tracking Systems Considered: VT MSD TW
+**Important:** CMake remembers the compiler selected when a build directory is first configured. Loading a different compiler environment afterward does not automatically change that cached selection. The current ROOT installation requires using the GCC 14.2.0 toolchain rather than the system default GCC 11.5.0.
+
+## 7.2 Compiling the entire project from scratch
+
+Use this procedure when creating a new build directory or rebuilding the project from scratch.
+
+### Step 1: Load the environment and enter the source directory
+
+```bash
+source /opt/exp_software/foot/root_shoe_foot.sh
+cd "$MYSWDIR/shoe"
+```
+
+### Step 2: Configure a new build directory
+
+Create a separate build directory using the correct compilers:
+
+```bash
+cmake -S . -B build \
+  -DCMAKE_C_COMPILER="$(which gcc)" \
+  -DCMAKE_CXX_COMPILER="$(which g++)" \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DFILECOPY=ON
+```
+
+The options mean:
+
+- `CMAKE_C_COMPILER` and `CMAKE_CXX_COMPILER`: explicitly select GCC 14.2.0 for C and C++.
+- `CMAKE_BUILD_TYPE=Debug`: configure a debug build.
+- `FILECOPY=ON`: enable copying the configuration files into the build tree.
+
+### Step 3: Verify the selected compilers
+
+```bash
+grep -E '^CMAKE_(C|CXX)_COMPILER(:[^=]+)?=' \
+  build/CMakeCache.txt
+```
+
+Both compiler paths must point to the GCC 14.2.0 installation.
+
+### Step 4: Compile the project
+
+```bash
+cmake --build build --parallel 4
+```
+
+Increase the number of parallel jobs, for example to `8`, if sufficient CPU and memory resources are available.
+
+### Step 5: Check the build results
+
+If the build finishes successfully, check that the expected executables exist in the generated `bin/` directory and that the configuration files are present.
+
+For example:
+
+```text
+shoe/build/bin/
+shoe/build/Reconstruction/config/
+```
+
+**Important:** A new build directory does not automatically inherit local edits made only to generated files in an older build directory. Reapply or copy any required run-specific settings, and verify them before running reconstruction.
+
+## 7.3 Modifying configuration and geometry files
+
+Configuration files are maintained in two locations:
+
+```text
+shoe/Reconstruction/config/          # Source configuration files
+shoe/build/Reconstruction/config/  # Generated/copied runtime files
+```
+
+Always edit the source configuration files first. Files in the build directory may be overwritten when CMake copies the source configurations.
+
+### Step 1: Edit the source file
+
+For example, to modify a configuration file:
+
+```text
+shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg
+```
+
+Edit that source file, not the generated copy.
+
+Geometry files must likewise be edited in their original source location. The exact location depends on which geometry file is being modified.
+
+### Step 2: Copy the updated configuration into the build tree
+
+From the main source directory, rerun CMake with `FILECOPY=ON`:
+
+```bash
+cd "$MYSWDIR/shoe"
+source /opt/exp_software/foot/root_shoe_foot.sh
+
+cmake -S . -B build \
+  -DFILECOPY=ON
+```
+
+This reuses the existing `build` configuration and its cached compiler selection. Do not specify a different compiler when reconfiguring an existing build. This command, practically, copies just the geo and config parameters from the Reconstruction to the build/Reconstruction folder.
+
+### Step 3: Verify the generated file
+
+For example:
+
+```text
+shoe/build/Reconstruction/config/CNAO2025/TANAcrossSection.cfg
+```
+
+Check that the generated file contains the intended changes before running reconstruction.
+
+If a geometry change also affects compiled geometry code or requires regenerating geometry libraries, rebuild the affected targets or the whole project as appropriate.
+
+## 7.4 Modifying C++ source files
+
+For ordinary changes to an existing C++ source file, there is usually no need to rerun the full CMake configuration. A simple `make` command either in the `build` or `build/Reconstruction` folders is sufficient.
+
+## 7.5 Run-specific reconstruction parameters
+
+The generated parameter file for the CNAO2025 run is:
+
+```text
+shoe/build/Reconstruction/config/CNAO2025/FootGlobal.par
+```
+
+For run 8040 without a magnetic field, the settings currently used in this setup are:
+
+```text
+IncludeDI: n
+IncludeKalman: y
+Tracking Systems Considered: VT MSD TW
+```
+
+These settings are run-specific, not universal defaults.
+
+Verify them before reconstruction, particularly after configuring a new build directory or regenerating copied configuration files.
 
 ---
 
