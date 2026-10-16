@@ -63,7 +63,7 @@ HTC_SHOEreco/       ← HTCondor job submission files
 ### Software area (`$MYSWDIR`)
 
 ```text
-/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/
+/opt/exp_software/foot/spasquin/shoe/
 ├── Analysis/
 ├── Ancillary/
 ├── G4Simulation/
@@ -103,7 +103,7 @@ shoe/build/
 Every new session requires sourcing the environment before running any SHOE executable:
 
 ```bash
-cd $MYSWDIR/shoe_glbAnalysis/shoe/build
+cd $MYSWDIR/shoe/build
 source setupFOOT.sh
 ```
 
@@ -151,7 +151,7 @@ This step performs custom analysis and extracts the information of interest from
 Navigate to the scripts folder:
 
 ```bash
-cd $MYSWDIR/shoe_glbAnalysis/shoe/Reconstruction/scripts
+cd $MYSWDIR/shoe/Reconstruction/scripts
 ```
 
 or directly do:
@@ -250,18 +250,18 @@ cd Reconstruction
 ```
 
 ### 7.3 Modifying cofiguration files
-If a config file needs to be changed, then it is necessary to run a command to copy the changes into the `build` directory. For instance, if we need to change a line of code in `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`, then after hte change we have to run in the folder `build/Reconstruction`:
+If a config file needs to be changed, then it is necessary to run a command to copy the changes into the `build` directory. For instance, if we need to change a line of code in `/opt/exp_software/foot/spasquin/shoe/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`, then after hte change we have to run in the folder `build/Reconstruction`:
 ```bash
 cmake3 .. -D FILECOPY=ON
 ```
-so that this config file is copied into `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/build/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`.
+so that this config file is copied into `/opt/exp_software/foot/spasquin/shoe/build/Reconstruction/config/CNAO2025/TANAcrossSection.cfg`.
 
 If, in general, we want to REBUILD everything, also the cpp and hpp files then run this more general command in the folder `build/Reconstruction`:
 ```bash
 cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON
 ```
 
-Once `cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON` command is executed, we need to use again the command `make` and then set again the FOOT global parameters. For instance, these needs to be changed in the build directory, where git is disabled. The path to FOOT configuration file is `/opt/exp_software/foot/spasquin/shoe_glbAnalysis/shoe/build/Reconstruction/config/CNAO2025/FootGlobal.par`, and the current modification I had for the 8040 run without magnetic field is:
+Once `cmake3 .. -DCMAKE_BUILD_TYPE=Debug -D FILECOPY=ON` command is executed, we need to use again the command `make` and then set again the FOOT global parameters. For instance, these needs to be changed in the build directory, where git is disabled. The path to FOOT configuration file is `/opt/exp_software/foot/spasquin/shoe/build/Reconstruction/config/CNAO2025/FootGlobal.par`, and the current modification I had for the 8040 run without magnetic field is:
 - IncludeDI: n
 - IncludeKalman: y
 - Tracking Systems Considered: VT MSD TW
