@@ -1,4 +1,4 @@
-// Usage: root -l -b -q 'plot_pt_reso.C("output.root","CUTNAME","figs/")'
+// Usage: root -l -b -q 'plot_pt_reso.C()'
 // Needs the file produced by the PATCHED TANAactPtReso. Writes the PDFs and SVGs used in the thesis and
 // momentum_numbers.txt with the values to copy into the LaTeX. CUTNAME = name of the cut-set directory.
 #include "TFile.h"
@@ -56,7 +56,7 @@ Fit GFit(TH1 *h, const char *nm, double lowLim = -1e30) {
 
 void SaveBoth(TCanvas &c, const char *out) {   // writes <name>.pdf and <name>.svg
   c.SaveAs(out);
-  TString s(out); s.ReplaceAll(".pdf", ".svg"); c.SaveAs(s.Data());
+  TString s(out); s.ReplaceAll(".pdf", ".root"); c.SaveAs(s.Data());
 }
 
 void Draw(TH1 *h, const Fit &f, const char *out, const char *xt, double x1, double x2, const char *extra = "") {
@@ -84,7 +84,7 @@ void Draw2D(TH2 *h, const char *out, double lo, double hi, const char *xt, const
   SaveBoth(c, out);
 }
 
-void plot_pt_reso(const char *file = "output.root", const char *cut = "CUTNAME", const char *od = "figs/") {
+void plot_pt_reso(const char *file = "/home/simone/desktop/magistrale/master_thesis/plots/8127_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8127_after_latex_revision_ALL_POINTS.root", const char *cut = "Exp_All", const char *od = "/home/simone/desktop/magistrale/master_thesis/plots/pdf/figsmomentum2/") {
   TFile *F = TFile::Open(file); if (!F || F->IsZombie()) { printf("cannot open %s\n", file); return; }
   TDirectory *cd = FindDir(F, cut); if (!cd) { printf("cut dir %s not found\n", cut); return; }
   TDirectory *dr = FindDir(cd, "Data_reso");
