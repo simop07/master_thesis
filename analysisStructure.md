@@ -289,10 +289,10 @@ Both compiler paths must point to the GCC 14.2.0 installation.
 ### Step 4: Compile the project
 
 ```bash
-cmake --build build --parallel 4
+cmake --build build --parallel 8
 ```
 
-Increase the number of parallel jobs, for example to `8`, if sufficient CPU and memory resources are available.
+Where 8 is the number of parallel jobs. If 8 is too much, select `4`.
 
 ### Step 5: Check the build results
 

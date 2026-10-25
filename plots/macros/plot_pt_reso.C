@@ -84,7 +84,7 @@ void Draw2D(TH2 *h, const char *out, double lo, double hi, const char *xt, const
   SaveBoth(c, out);
 }
 
-void plot_pt_reso(const char *file = "/home/simone/desktop/magistrale/master_thesis/plots/8127_postAlig_qualityPlots/Decoded_Analysis_CNAO2025_8127_after_latex_revision_ALL_POINTS.root", const char *cut = "Exp_All", const char *od = "/home/simone/desktop/magistrale/master_thesis/plots/pdf/figsmomentum2/") {
+void plot_pt_reso(const char *file = "/home/simone/desktop/magistrale/master_thesis/plots/8127_preChanges_qualityPlots/Decoded_Analysis_CNAO2025_8127_ALL_EVENTS_TWBarCalib.root", const char *cut = "Exp_All", const char *od = "/home/simone/desktop/magistrale/master_thesis/plots/8127_preChanges_qualityPlots/figs/") {
   TFile *F = TFile::Open(file); if (!F || F->IsZombie()) { printf("cannot open %s\n", file); return; }
   TDirectory *cd = FindDir(F, cut); if (!cd) { printf("cut dir %s not found\n", cut); return; }
   TDirectory *dr = FindDir(cd, "Data_reso");
