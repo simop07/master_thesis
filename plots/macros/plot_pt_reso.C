@@ -63,7 +63,7 @@ void Draw(TH1 *h, const Fit &f, const char *out, const char *xt, double x1, doub
   TCanvas c("c", "c", 900, 650); c.SetLeftMargin(0.13); c.SetBottomMargin(0.13);
   gStyle->SetOptStat(0);
   h->SetTitle(""); h->GetXaxis()->SetTitle(xt); h->GetXaxis()->SetRangeUser(x1, x2);
-  h->GetYaxis()->SetTitle("Entries"); h->SetLineColor(kBlack); h->SetMarkerStyle(20); h->SetMarkerSize(0.5);
+  h->GetYaxis()->SetTitle("Entries"); h->SetLineColor(kBlack); h->SetMarkerStyle(20); h->SetMarkerSize(0.8);
   h->Draw("E");
   TF1 *fn = (TF1 *)h->GetListOfFunctions()->First(); if (fn) fn->Draw("same");
   TPaveText t(0.58, 0.62, 0.88, 0.88, "NDC"); t.SetFillColor(0); t.SetBorderSize(1); t.SetTextAlign(12);
@@ -84,7 +84,7 @@ void Draw2D(TH2 *h, const char *out, double lo, double hi, const char *xt, const
   SaveBoth(c, out);
 }
 
-void plot_pt_reso(const char *file = "/home/simone/desktop/magistrale/master_thesis/plots/8127_preChanges_qualityPlots/Decoded_Analysis_CNAO2025_8127_ALL_EVENTS_TWBarCalib.root", const char *cut = "Exp_All", const char *od = "/home/simone/desktop/magistrale/master_thesis/plots/8127_preChanges_qualityPlots/figs/") {
+void plot_pt_reso(const char *file = "/home/simone/desktop/magistrale/master_thesis/plots/8127_postAlig_qualityPlots_OriginalMSDPos/Decoded_Analysis_CNAO2025_8127_ALL_EVENTS_NEW_3.root", const char *cut = "Exp_All", const char *od = "/home/simone/desktop/magistrale/master_thesis/plots/8127_postAlig_qualityPlots_OriginalMSDPos/figsmomentum3/") {
   TFile *F = TFile::Open(file); if (!F || F->IsZombie()) { printf("cannot open %s\n", file); return; }
   TDirectory *cd = FindDir(F, cut); if (!cd) { printf("cut dir %s not found\n", cut); return; }
   TDirectory *dr = FindDir(cd, "Data_reso");
@@ -96,6 +96,7 @@ void plot_pt_reso(const char *file = "/home/simone/desktop/magistrale/master_the
   // ---- Carbon (Z=6) and helium (Z=2)
   TH1 *eC = G(6, "h_RelMomentumResidual"), *pC = G(6, "h_TwMomentum"), *kC = G(6, "h_TrkMomentum");
   TH1 *eH = G(2, "h_RelMomentumResidual"), *kH = G(2, "h_TrkMomentum");
+  eH->Rebin(4);
   Fit fe_C = GFit(eC, "fEC"), fp_C = GFit(pC, "fPC"), fe_H = GFit(eH, "fEH", -0.12), fk_H = GFit(kH, "fKH");
   Fit fk_C = GFit(kC, "fKC");
   if (eC) Draw(eC, fe_C, (o + "fig_eps_data_C.pdf").Data(), "#epsilon_{data} = (p_{fit}-p_{#beta})/p_{#beta}", fe_C.mu - 10 * fe_C.sg, fe_C.mu + 10 * fe_C.sg);
