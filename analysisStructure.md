@@ -4,7 +4,7 @@
 
 ## 1. Server access
 
-From your local machine:
+To access the Tier1 (where FOOT data and software are host) from your local machine:
 
 ```bash
 ssh foot-ui01
