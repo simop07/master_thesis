@@ -292,7 +292,13 @@ Both compiler paths must point to the GCC 14.2.0 installation.
 cmake --build build --parallel 8
 ```
 
-Where 8 is the number of parallel jobs. If 8 is too much, select `4`.
+Where 8 is the number of parallel jobs. If 8 is too much, select `4`. It is also possible to use `make` instead of `cmake`. The former can be used inside the `build` directory in this way:
+
+```bash
+make -j8
+```
+
+Where, again, 8 is the number of parallel jobs. They both work because `make` only works if `CMake` generated a Makefile (which is the default on Linux).
 
 ### Step 5: Check the build results
 
