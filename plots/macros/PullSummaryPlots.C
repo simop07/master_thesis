@@ -43,6 +43,7 @@
 #include "TStyle.h"
 #include "TLatex.h"
 #include "TLine.h"
+#include "TGraphErrors.h"
 #include <vector>
 #include <iostream>
 #include <cstdio>
@@ -270,128 +271,285 @@ void PullSummaryPlots(const char *inputFile,
                        const char *outDir = ".",
                        Bool_t savePNG = false)
 {
-	gStyle->SetOptStat(0);
-	gStyle->SetOptFit(0);
+    gStyle->SetOptStat(0);
+    gStyle->SetOptFit(0);
 
-	// ------------------------------------------------------------------
-	// Plot cosmetics copied from PullComparePlots.C
-	// ------------------------------------------------------------------
-	gStyle->SetGridStyle(3);       // dotted
-	gStyle->SetGridColor(kBlack);
-	gStyle->SetGridWidth(2);
+    // Plot cosmetics copied from PullComparePlots.C
+    gStyle->SetGridStyle(3);
+    gStyle->SetGridColor(kBlack);
+    gStyle->SetGridWidth(2);
 
-	TFile *fin = TFile::Open(inputFile, "READ");
-	if (!fin || fin->IsZombie())
-	{
-		std::cerr << "[PullSummaryPlots] ERROR: cannot open input file "
-		          << inputFile << std::endl;
-		return;
-	}
+    TFile *fin = TFile::Open(inputFile, "READ");
+    if (!fin || fin->IsZombie())
+    {
+        std::cerr << "[PullSummaryPlots] ERROR: cannot open input file "
+                  << inputFile << std::endl;
+        return;
+    }
 
-	TString outName = outputFile;
-	if (outName.IsNull())
-	{
-		outName = inputFile;
-		outName.ReplaceAll(".root", "_pullsummary.root");
-	}
+    TString outName = outputFile;
+    if (outName.IsNull())
+    {
+        outName = inputFile;
+        outName.ReplaceAll(".root", "_pullsummary.root");
+    }
 
-	TFile *fout = TFile::Open(outName, "RECREATE");
+    TFile *fout = TFile::Open(outName, "RECREATE");
+    if (!fout || fout->IsZombie())
+    {
+        std::cerr << "[PullSummaryPlots] ERROR: cannot create output file "
+                  << outName << std::endl;
+        fin->Close();
+        return;
+    }
 
-	const TString basePath = "QualityPlots/Exp_All/Pull";
+    const TString basePath = "QualityPlots/Exp_All/Pull";
 
-	for (const auto &charge : kCharges)
-	{
-		std::vector<Double_t> means, meanErrs, sigmas, sigmaErrs;
-		std::vector<TString> planeNamesFilled;
+    // ------------------------------------------------------------------
+    // Average-vs-plane accumulators. Only charges 0-6 are included;
+    // the "All" histogram is deliberately excluded.
+    // ------------------------------------------------------------------
+    const size_t nPlanes = kPlanes.size();
+    std::vector<Double_t> planeMeanSum(nPlanes, 0.);
+    std::vector<Double_t> planeSigmaSum(nPlanes, 0.);
+    std::vector<Double_t> planeMeanErr2Sum(nPlanes, 0.);
+    std::vector<Double_t> planeSigmaErr2Sum(nPlanes, 0.);
+    std::vector<Int_t> planeCount(nPlanes, 0);
 
-		for (const auto &plane : kPlanes)
-		{
-			TString histName = "h_Z_" + charge;
-			TString fullPath = basePath + "/" + plane + "/" + histName;
+    // ------------------------------------------------------------------
+    // Subdetector accumulators, indexed as [charge][VT/MSD/TW].
+    // ------------------------------------------------------------------
+    const Int_t nSubdetectors = 3;
+    const TString subdetectorNames[nSubdetectors] = {"VT", "MSD", "TW"};
 
-			TH1D *h = (TH1D *)fin->Get(fullPath);
-			if (!h)
-			{
-				std::cout << "[PullSummaryPlots] Missing histogram: "
-				          << fullPath << " -> skipped" << std::endl;
-				continue;
-			}
+    std::vector<std::vector<Double_t>> subdetMeanSum(
+        kCharges.size(), std::vector<Double_t>(nSubdetectors, 0.));
+    std::vector<std::vector<Double_t>> subdetSigmaSum(
+        kCharges.size(), std::vector<Double_t>(nSubdetectors, 0.));
+    std::vector<std::vector<Int_t>> subdetCount(
+        kCharges.size(), std::vector<Int_t>(nSubdetectors, 0));
 
-			FitResult r = FitPullHisto(h, plane + "_Z" + charge);
+    // ==================================================================
+    // Original per-charge fits, tables and plots
+    // ==================================================================
+    for (size_t chargeIdx = 0; chargeIdx < kCharges.size(); ++chargeIdx)
+    {
+        const TString &charge = kCharges[chargeIdx];
 
-			if (!r.valid)
-			{
-				std::cout << "[PullSummaryPlots] Fit failed / not enough stats: "
-				          << fullPath << std::endl;
-				continue;
-			}
+        std::vector<Double_t> means, meanErrs, sigmas, sigmaErrs;
+        std::vector<TString> planeNamesFilled;
 
-			planeNamesFilled.push_back(plane);
-			means.push_back(r.mean);
-			meanErrs.push_back(r.meanErr);
-			sigmas.push_back(r.sigma);
-			sigmaErrs.push_back(r.sigmaErr);
-		}
+        for (size_t planeIdx = 0; planeIdx < kPlanes.size(); ++planeIdx)
+        {
+            const TString &plane = kPlanes[planeIdx];
 
-		if (planeNamesFilled.empty())
-			continue;
+            TString histName = "h_Z_" + charge;
+            TString fullPath = basePath + "/" + plane + "/" + histName;
 
-		// ---- Print mean/sigma table for this charge ----
-		printf("\n=====================================================================\n");
+            TH1D *h = (TH1D *)fin->Get(fullPath);
+            if (!h)
+            {
+                std::cout << "[PullSummaryPlots] Missing histogram: "
+                          << fullPath << " -> skipped" << std::endl;
+                continue;
+            }
 
-		if (charge == "All")
-			printf(" Pull fit summary (Exp_All) -- Charge: All charges combined\n");
-		else
-			printf(" Pull fit summary (Exp_All) -- Charge: Z = %s\n",
-			       charge.Data());
+            FitResult r = FitPullHisto(h, plane + "_Z" + charge);
+            if (!r.valid)
+            {
+                std::cout << "[PullSummaryPlots] Fit failed / not enough stats: "
+                          << fullPath << std::endl;
+                continue;
+            }
 
-		printf("=====================================================================\n");
-		printf(" %-8s | %10s | %10s | %10s | %10s\n",
-		       "Plane", "Mean", "MeanErr", "Sigma", "SigmaErr");
-		printf("---------------------------------------------------------------------\n");
+            planeNamesFilled.push_back(plane);
+            means.push_back(r.mean);
+            meanErrs.push_back(r.meanErr);
+            sigmas.push_back(r.sigma);
+            sigmaErrs.push_back(r.sigmaErr);
 
-		for (size_t i = 0; i < planeNamesFilled.size(); ++i)
-		{
-			printf(" %-8s | %10.4f | %10.4f | %10.4f | %10.4f\n",
-			       planeNamesFilled[i].Data(),
-			       means[i], meanErrs[i],
-			       sigmas[i], sigmaErrs[i]);
-		}
+            // Determine the subdetector: VT=0, MSD=1, TW=2.
+            Int_t subIdx = -1;
+            if (plane.BeginsWith("VT"))       subIdx = 0;
+            else if (plane.BeginsWith("MSD")) subIdx = 1;
+            else if (plane.BeginsWith("TW"))  subIdx = 2;
 
-		printf("=====================================================================\n");
+            if (subIdx >= 0)
+            {
+                subdetMeanSum[chargeIdx][subIdx] += r.mean;
+                subdetSigmaSum[chargeIdx][subIdx] += r.sigma;
+                subdetCount[chargeIdx][subIdx]++;
+            }
 
-		TCanvas *cMean = MakeSummaryPlot(
-			means,
-			meanErrs,
-			planeNamesFilled,
-			"mean",
-			charge,
-			outDir,
-			savePNG
-		);
+            // For the average-vs-plane plots, average charges 0-6 only.
+            if (chargeIdx < 7)
+            {
+                planeMeanSum[planeIdx] += r.mean;
+                planeSigmaSum[planeIdx] += r.sigma;
+                planeMeanErr2Sum[planeIdx] += r.meanErr * r.meanErr;
+                planeSigmaErr2Sum[planeIdx] += r.sigmaErr * r.sigmaErr;
+                planeCount[planeIdx]++;
+            }
+        }
 
-		TCanvas *cSigma = MakeSummaryPlot(
-			sigmas,
-			sigmaErrs,
-			planeNamesFilled,
-			"sigma",
-			charge,
-			outDir,
-			savePNG
-		);
+        if (planeNamesFilled.empty())
+            continue;
 
-		fout->cd();
+        // Original per-charge table (unchanged).
+        printf("\n=====================================================================\n");
+        if (charge == "All")
+            printf(" Pull fit summary (Exp_All) -- Charge: All charges combined\n");
+        else
+            printf(" Pull fit summary (Exp_All) -- Charge: Z = %s\n",
+                   charge.Data());
 
-		if (cMean)
-			cMean->Write();
+        printf("=====================================================================\n");
+        printf(" %-8s | %10s | %10s | %10s | %10s\n",
+               "Plane", "Mean", "MeanErr", "Sigma", "SigmaErr");
+        printf("---------------------------------------------------------------------\n");
 
-		if (cSigma)
-			cSigma->Write();
-	}
+        for (size_t i = 0; i < planeNamesFilled.size(); ++i)
+        {
+            printf(" %-8s | %10.4f | %10.4f | %10.4f | %10.4f\n",
+                   planeNamesFilled[i].Data(),
+                   means[i], meanErrs[i], sigmas[i], sigmaErrs[i]);
+        }
+        printf("=====================================================================\n");
 
-	fout->Close();
-	fin->Close();
+        TCanvas *cMean = MakeSummaryPlot(
+            means, meanErrs, planeNamesFilled,
+            "mean", charge, outDir, savePNG);
 
-	std::cout << "[PullSummaryPlots] Done. Summary saved to: "
-	          << outName << std::endl;
+        TCanvas *cSigma = MakeSummaryPlot(
+            sigmas, sigmaErrs, planeNamesFilled,
+            "sigma", charge, outDir, savePNG);
+
+        fout->cd();
+        if (cMean)  cMean->Write();
+        if (cSigma) cSigma->Write();
+    }
+
+    // ==================================================================
+    // Additional plots: average pull mean/sigma vs plane.
+    // Each plane is averaged over the available valid fits for charges 0-6.
+    // Errors on the average are propagated in quadrature and divided by N.
+    // ==================================================================
+    std::vector<Double_t> avgPlaneMeans, avgPlaneMeanErrs;
+    std::vector<Double_t> avgPlaneSigmas, avgPlaneSigmaErrs;
+    std::vector<TString> avgPlaneNames;
+
+    for (size_t i = 0; i < kPlanes.size(); ++i)
+    {
+        if (planeCount[i] == 0)
+            continue;
+
+        const Double_t n = (Double_t)planeCount[i];
+        avgPlaneNames.push_back(kPlanes[i]);
+        avgPlaneMeans.push_back(planeMeanSum[i] / n);
+        avgPlaneSigmas.push_back(planeSigmaSum[i] / n);
+        avgPlaneMeanErrs.push_back(std::sqrt(planeMeanErr2Sum[i]) / n);
+        avgPlaneSigmaErrs.push_back(std::sqrt(planeSigmaErr2Sum[i]) / n);
+    }
+
+    TCanvas *cAvgMean = MakeSummaryPlot(
+        avgPlaneMeans, avgPlaneMeanErrs, avgPlaneNames,
+        "mean", "AvgCharges0to6", outDir, savePNG);
+
+    TCanvas *cAvgSigma = MakeSummaryPlot(
+        avgPlaneSigmas, avgPlaneSigmaErrs, avgPlaneNames,
+        "sigma", "AvgCharges0to6", outDir, savePNG);
+
+    fout->cd();
+    if (cAvgMean)  cAvgMean->Write();
+    if (cAvgSigma) cAvgSigma->Write();
+
+    // ==================================================================
+    // TABLE 1: average mean and sigma by subdetector, for each charge.
+    // Each value is the arithmetic average over valid planes belonging
+    // to that subdetector.
+    // ==================================================================
+    printf("\n\n");
+    printf("================================================================================\n");
+    printf("             GLOBAL PULL AVERAGES BY SUBDETECTOR\n");
+    printf("================================================================================\n");
+    printf(" %-10s | %-15s | %15s | %15s\n",
+           "Charge", "Subdetector", "Average Mean", "Average Sigma");
+    printf("--------------------------------------------------------------------------------\n");
+
+    for (size_t c = 0; c < kCharges.size(); ++c)
+    {
+        for (Int_t d = 0; d < nSubdetectors; ++d)
+        {
+            if (subdetCount[c][d] == 0)
+                continue;
+
+            Double_t avgMean =
+                subdetMeanSum[c][d] / subdetCount[c][d];
+            Double_t avgSigma =
+                subdetSigmaSum[c][d] / subdetCount[c][d];
+
+            printf(" %-10s | %-15s | %15.4f | %15.4f\n",
+                   (d == 0 ? kCharges[c].Data() : ""),
+                   subdetectorNames[d].Data(),
+                   avgMean, avgSigma);
+        }
+
+        if (c + 1 < kCharges.size())
+            printf("--------------------------------------------------------------------------------\n");
+    }
+    printf("================================================================================\n");
+
+    // ==================================================================
+    // TABLE 2: average of the subdetector averages over charges 0-6.
+    // "All" is excluded. Each charge with a valid subdetector average
+    // contributes equally (not weighted by its number of valid planes).
+    // ==================================================================
+    Double_t finalMeanSum[nSubdetectors] = {0., 0., 0.};
+    Double_t finalSigmaSum[nSubdetectors] = {0., 0., 0.};
+    Int_t finalChargeCount[nSubdetectors] = {0, 0, 0};
+
+    for (size_t c = 0; c < 7; ++c)
+    {
+        for (Int_t d = 0; d < nSubdetectors; ++d)
+        {
+            if (subdetCount[c][d] == 0)
+                continue;
+
+            finalMeanSum[d] +=
+                subdetMeanSum[c][d] / subdetCount[c][d];
+            finalSigmaSum[d] +=
+                subdetSigmaSum[c][d] / subdetCount[c][d];
+            finalChargeCount[d]++;
+        }
+    }
+
+    printf("\n\n");
+    printf("=====================================================================\n");
+    printf("       AVERAGE PULL PARAMETERS OVER CHARGES 0-6\n");
+    printf("=====================================================================\n");
+    printf(" %-15s | %15s | %15s\n",
+           "Subdetector", "Average Mean", "Average Sigma");
+    printf("---------------------------------------------------------------------\n");
+
+    for (Int_t d = 0; d < nSubdetectors; ++d)
+    {
+        if (finalChargeCount[d] == 0)
+        {
+            printf(" %-15s | %15s | %15s\n",
+                   subdetectorNames[d].Data(), "N/A", "N/A");
+            continue;
+        }
+
+        printf(" %-15s | %15.4f | %15.4f\n",
+               subdetectorNames[d].Data(),
+               finalMeanSum[d] / finalChargeCount[d],
+               finalSigmaSum[d] / finalChargeCount[d]);
+    }
+    printf("=====================================================================\n");
+
+    fout->Close();
+    fin->Close();
+
+    std::cout << "\n[PullSummaryPlots] Done. Summary saved to: "
+              << outName << std::endl;
 }
