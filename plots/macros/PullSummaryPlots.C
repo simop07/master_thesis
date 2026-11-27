@@ -40,6 +40,7 @@
 #include "TF1.h"
 #include "TCanvas.h"
 #include "TString.h"
+#include "TPad.h"
 #include "TStyle.h"
 #include "TLatex.h"
 #include "TLine.h"
@@ -546,6 +547,148 @@ void PullSummaryPlots(const char *inputFile,
                finalSigmaSum[d] / finalChargeCount[d]);
     }
     printf("=====================================================================\n");
+
+
+    // ==================================================================
+    // FINAL GRAPH: AVERAGE PULL PARAMETERS OVER CHARGES 0-6
+    // ==================================================================
+
+    TCanvas *cFinal = new TCanvas(
+        "c_FinalPullAverages",
+        "Average pull parameters over charges 0-6",
+        900, 750);
+
+    cFinal->Divide(1, 2, 0.01, 0.01);
+
+    const Double_t *finalSums[2] = {
+        finalMeanSum, finalSigmaSum
+    };
+
+    const Double_t references[2] = {0., 1.};
+
+    const TString yTitles[2] = {
+        "Average #mu_{pull}",
+        "Average #sigma_{pull}"
+    };
+
+    const TString graphNames[2] = {
+        "g_FinalAverageMean",
+        "g_FinalAverageSigma"
+    };
+
+    for (Int_t q = 0; q < 2; ++q)
+    {
+        cFinal->cd(q + 1);
+        gPad->SetGridy();
+
+        Double_t ymin = references[q];
+        Double_t ymax = references[q];
+        Int_t nValid = 0;
+
+        for (Int_t d = 0; d < nSubdetectors; ++d)
+        {
+            if (finalChargeCount[d] == 0)
+                continue;
+
+            Double_t value =
+                finalSums[q][d] / finalChargeCount[d];
+
+            ymin = std::min(ymin, value);
+            ymax = std::max(ymax, value);
+            ++nValid;
+        }
+
+        if (nValid == 0)
+            continue;
+
+        Double_t range = ymax - ymin;
+        if (range <= 0.)
+            range = 1.;
+
+        Double_t lo = ymin - 0.15 * range;
+        Double_t hi = ymax + 0.25 * range;
+
+        TH1D *frame = new TH1D(
+            Form("h_FinalPullFrame_%d", q),
+            q == 0 ?
+            "Average pull mean by subdetector" :
+            "Average pull sigma by subdetector",
+            nSubdetectors, 0., nSubdetectors);
+
+        frame->SetStats(0);
+        frame->SetMinimum(lo);
+        frame->SetMaximum(hi);
+
+        frame->GetYaxis()->SetTitle(yTitles[q]);
+        frame->GetYaxis()->SetTitleSize(0.05);
+        frame->GetYaxis()->SetTitleOffset(0.85);
+
+        frame->GetXaxis()->SetTitle("Subdetector");
+        frame->GetXaxis()->SetTitleSize(0.045);
+        frame->GetXaxis()->SetLabelSize(0.045);
+
+        for (Int_t d = 0; d < nSubdetectors; ++d)
+            frame->GetXaxis()->SetBinLabel(
+                d + 1, subdetectorNames[d]);
+
+        frame->Draw("AXIS");
+
+        // Ideal reference: 0 for mean, 1 for sigma
+        TLine *referenceLine = new TLine(
+            0., references[q],
+            (Double_t)nSubdetectors, references[q]);
+
+        referenceLine->SetLineColor(kBlack);
+        referenceLine->SetLineStyle(2);
+        referenceLine->SetLineWidth(2);
+        referenceLine->Draw();
+
+        TGraphErrors *graph = new TGraphErrors(nValid);
+
+        graph->SetName(graphNames[q]);
+        graph->SetMarkerStyle(20);
+        graph->SetMarkerSize(1.5);
+
+        Int_t color = (q == 0) ? kBlue + 1 : kRed + 1;
+
+        graph->SetMarkerColor(color);
+        graph->SetLineColor(color);
+        graph->SetLineWidth(2);
+
+        Int_t point = 0;
+
+        for (Int_t d = 0; d < nSubdetectors; ++d)
+        {
+            if (finalChargeCount[d] == 0)
+                continue;
+
+            Double_t value =
+                finalSums[q][d] / finalChargeCount[d];
+
+            graph->SetPoint(point, d + 0.5, value);
+            graph->SetPointError(point, 0., 0.);
+
+            ++point;
+        }
+
+        graph->Draw("P SAME");
+    }
+
+    cFinal->Modified();
+    cFinal->Update();
+
+    // Save canvas in ROOT output file
+    fout->cd();
+    cFinal->Write();
+
+    // Optional SVG export
+    if (savePNG)
+    {
+        TString finalImageName =
+            TString(outDir) + "/c_FinalPullAverages.svg";
+
+        cFinal->SaveAs(finalImageName);
+    }
 
     fout->Close();
     fin->Close();
