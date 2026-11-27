@@ -225,7 +225,7 @@ TCanvas *MakeSummaryPlot(const std::vector<Double_t> &values,
 	// Same marker cosmetics as the "Before" series in PullComparePlots:
 	// blue filled circles, marker size 1.6.
 	// ------------------------------------------------------------------
-	const Int_t color = kBlue + 1;
+	const Int_t color = (isMean ? (kBlue + 1) : (kRed + 1));
 
 	// Use a TGraphErrors so that the fit uncertainties can be displayed
 	// vertically, consistently with the comparison plots.
